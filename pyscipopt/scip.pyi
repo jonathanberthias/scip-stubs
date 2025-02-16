@@ -5716,10 +5716,9 @@ class NLRow:
 class Node:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
-    @classmethod
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def getAddedConss(self, *args, **kwargs):
+    def getAddedConss(self):
         """
         Retrieve all constraints added at this node.
 
@@ -5728,7 +5727,7 @@ class Node:
         list of Constraint
 
         """
-    def getDepth(self, *args, **kwargs):
+    def getDepth(self):
         """
         Retrieve depth of node.
 
@@ -5737,7 +5736,7 @@ class Node:
         int
 
         """
-    def getDomchg(self, *args, **kwargs):
+    def getDomchg(self):
         """
         Retrieve domain changes for this node.
 
@@ -5746,7 +5745,7 @@ class Node:
         DomainChanges
 
         """
-    def getEstimate(self, *args, **kwargs):
+    def getEstimate(self):
         """
         Retrieve the estimated value of the best feasible solution in subtree of the node.
 
@@ -5755,7 +5754,7 @@ class Node:
         float
 
         """
-    def getLowerbound(self, *args, **kwargs):
+    def getLowerbound(self):
         """
         Retrieve lower bound of node.
 
@@ -5764,7 +5763,7 @@ class Node:
         float
 
         """
-    def getNAddedConss(self, *args, **kwargs):
+    def getNAddedConss(self):
         """
         Retrieve number of added constraints at this node.
 
@@ -5773,7 +5772,7 @@ class Node:
         int
 
         """
-    def getNDomchg(self, *args, **kwargs):
+    def getNDomchg(self):
         """
         Retrieve the number of bound changes due to branching, constraint propagation, and propagation.
 
@@ -5784,7 +5783,7 @@ class Node:
         nprop : int
 
         """
-    def getNParentBranchings(self, *args, **kwargs):
+    def getNParentBranchings(self):
         """
         Retrieve the number of variable branchings that were performed in the parent node to create this node.
 
@@ -5793,7 +5792,7 @@ class Node:
         int
 
         """
-    def getNumber(self, *args, **kwargs):
+    def getNumber(self):
         """
         Retrieve number of node.
 
@@ -5802,7 +5801,7 @@ class Node:
         int
 
         """
-    def getParent(self, *args, **kwargs):
+    def getParent(self):
         """
         Retrieve parent node (or None if the node has no parent node).
 
@@ -5811,7 +5810,7 @@ class Node:
         Node
 
         """
-    def getParentBranchings(self, *args, **kwargs):
+    def getParentBranchings(self):
         """
         Retrieve the set of variable branchings that were performed in the parent node to create this node.
 
@@ -5822,7 +5821,7 @@ class Node:
         list of int
 
         """
-    def getType(self, *args, **kwargs):
+    def getType(self):
         """
         Retrieve type of node.
 
@@ -5831,7 +5830,7 @@ class Node:
         PY_SCIP_NODETYPE
 
         """
-    def isActive(self, *args, **kwargs):
+    def isActive(self):
         """
         Is the node in the path to the current node?
 
@@ -5840,7 +5839,7 @@ class Node:
         bool
 
         """
-    def isPropagatedAgain(self, *args, **kwargs):
+    def isPropagatedAgain(self):
         """
         Is the node marked to be propagated again?
 
