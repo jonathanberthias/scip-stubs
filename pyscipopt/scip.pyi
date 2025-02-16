@@ -1,6 +1,6 @@
 import dataclasses
 from _typeshed import Incomplete
-from typing import Callable, ClassVar
+from typing import ClassVar
 from typing_extensions import CapsuleType as PyCapsule
 
 CONST: Term
@@ -11,6 +11,7 @@ Operator: Op
 PATCH: int
 StageNames: dict
 __test__: dict
+
 def buildGenExprObj(expr): ...
 def cos(expr): ...
 def exp(expr): ...
@@ -34,7 +35,7 @@ class Benders:
     def __init__(cls, *args, **kwargs) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def benderscreatesub(self, *args, **kwargs):
-        """creates the subproblems and registers it with the Benders decomposition struct """
+        """creates the subproblems and registers it with the Benders decomposition struct"""
     def bendersexit(self, *args, **kwargs):
         """calls exit method of Benders decomposition"""
     def bendersexitpre(self, *args, **kwargs):
@@ -42,23 +43,23 @@ class Benders:
     def bendersexitsol(self, *args, **kwargs):
         """informs Benders decomposition that the branch and bound process data is being freed"""
     def bendersfree(self, *args, **kwargs):
-        """calls destructor and frees memory of Benders decomposition """
+        """calls destructor and frees memory of Benders decomposition"""
     def bendersfreesub(self, *args, **kwargs):
         """frees the subproblems"""
     def bendersgetvar(self, *args, **kwargs):
-        """Returns the corresponding master or subproblem variable for the given variable. This provides a call back for the variable mapping between the master and subproblems. """
+        """Returns the corresponding master or subproblem variable for the given variable. This provides a call back for the variable mapping between the master and subproblems."""
     def bendersinit(self, *args, **kwargs):
         """initializes Benders deconposition"""
     def bendersinitpre(self, *args, **kwargs):
-        """informs the Benders decomposition that the presolving process is being started """
+        """informs the Benders decomposition that the presolving process is being started"""
     def bendersinitsol(self, *args, **kwargs):
-        """informs Benders decomposition that the branch and bound process is being started """
+        """informs Benders decomposition that the branch and bound process is being started"""
     def benderspostsolve(self, *args, **kwargs):
-        """sets post-solve callback of Benders decomposition """
+        """sets post-solve callback of Benders decomposition"""
     def benderspresubsolve(self, *args, **kwargs):
-        """sets the pre subproblem solve callback of Benders decomposition """
+        """sets the pre subproblem solve callback of Benders decomposition"""
     def benderssolvesub(self, *args, **kwargs):
-        """sets solve callback of Benders decomposition """
+        """sets solve callback of Benders decomposition"""
     def benderssolvesubconvex(self, *args, **kwargs):
         """sets convex solve callback of Benders decomposition"""
     def __reduce__(self): ...
@@ -140,11 +141,11 @@ class Branchrule:
     def __init__(cls, *args, **kwargs) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def branchexecext(self, *args, **kwargs):
-        """executes branching rule for external branching candidates """
+        """executes branching rule for external branching candidates"""
     def branchexeclp(self, *args, **kwargs):
         """executes branching rule for fractional LP solution"""
     def branchexecps(self, *args, **kwargs):
-        """executes branching rule for not completely fixed pseudo solution """
+        """executes branching rule for not completely fixed pseudo solution"""
     def branchexit(self, *args, **kwargs):
         """deinitializes branching rule"""
     def branchexitsol(self, *args, **kwargs):
@@ -154,7 +155,7 @@ class Branchrule:
     def branchinit(self, *args, **kwargs):
         """initializes branching rule"""
     def branchinitsol(self, *args, **kwargs):
-        """informs branching rule that the branch and bound process is being started """
+        """informs branching rule that the branch and bound process is being started"""
     def __reduce__(self): ...
     def __reduce_cython__(self, *args, **kwargs): ...
     def __setstate_cython__(self, *args, **kwargs): ...
@@ -176,7 +177,7 @@ class Column:
 
         """
     def getBasisStatus(self, *args, **kwargs):
-        '''
+        """
         Gets the basis status of a column in the LP solution
 
         Returns
@@ -193,7 +194,7 @@ class Column:
         -----
         Returns basis status "zero" for columns not in the current SCIP LP.
 
-        '''
+        """
     def getLPPos(self, *args, **kwargs):
         """
         Gets position of column in current LP, or -1 if it is not in LP.
@@ -280,21 +281,21 @@ class Conshdlr:
     def __init__(cls, *args, **kwargs) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def consactive(self, *args, **kwargs):
-        """sets activation notification method of constraint handler """
+        """sets activation notification method of constraint handler"""
     def conscheck(self, *args, **kwargs):
-        """calls feasibility check method of constraint handler """
+        """calls feasibility check method of constraint handler"""
     def conscopy(self, *args, **kwargs):
         """sets copy method of both the constraint handler and each associated constraint"""
     def consdeactive(self, *args, **kwargs):
-        """sets deactivation notification method of constraint handler """
+        """sets deactivation notification method of constraint handler"""
     def consdelete(self, *args, **kwargs):
-        """sets method of constraint handler to free specific constraint data """
+        """sets method of constraint handler to free specific constraint data"""
     def consdelvars(self, *args, **kwargs):
         """calls variable deletion method of constraint handler"""
     def consdisable(self, *args, **kwargs):
-        """sets disabling notification method of constraint handler """
+        """sets disabling notification method of constraint handler"""
     def consenable(self, *args, **kwargs):
-        """sets enabling notification method of constraint handler """
+        """sets enabling notification method of constraint handler"""
     def consenfolp(self, *args, **kwargs):
         """calls enforcing method of constraint handler for LP solution for all constraints added"""
     def consenfops(self, *args, **kwargs):
@@ -302,49 +303,49 @@ class Conshdlr:
     def consenforelax(self, *args, **kwargs):
         """calls enforcing method of constraint handler for a relaxation solution for all constraints added"""
     def consexit(self, *args, **kwargs):
-        """calls exit method of constraint handler """
+        """calls exit method of constraint handler"""
     def consexitpre(self, *args, **kwargs):
-        """informs constraint handler that the presolving is finished """
+        """informs constraint handler that the presolving is finished"""
     def consexitsol(self, *args, **kwargs):
-        """informs constraint handler that the branch and bound process data is being freed """
+        """informs constraint handler that the branch and bound process data is being freed"""
     def consfree(self, *args, **kwargs):
-        """calls destructor and frees memory of constraint handler """
+        """calls destructor and frees memory of constraint handler"""
     def consgetdivebdchgs(self, *args, **kwargs):
-        """calls diving solution enforcement callback of constraint handler, if it exists """
+        """calls diving solution enforcement callback of constraint handler, if it exists"""
     def consgetnvars(self, *args, **kwargs):
-        """sets constraint variable number getter method of constraint handler """
+        """sets constraint variable number getter method of constraint handler"""
     def consgetpermsymgraph(self, *args, **kwargs):
-        """permutation symmetry detection graph getter callback, if it exists """
+        """permutation symmetry detection graph getter callback, if it exists"""
     def consgetsignedpermsymgraph(self, *args, **kwargs):
-        """signed permutation symmetry detection graph getter callback, if it exists """
+        """signed permutation symmetry detection graph getter callback, if it exists"""
     def consgetvars(self, *args, **kwargs):
         """sets constraint variable getter method of constraint handler"""
     def consinit(self, *args, **kwargs):
-        """calls initialization method of constraint handler """
+        """calls initialization method of constraint handler"""
     def consinitlp(self, *args, **kwargs):
-        """calls LP initialization method of constraint handler to separate all initial active constraints """
+        """calls LP initialization method of constraint handler to separate all initial active constraints"""
     def consinitpre(self, *args, **kwargs):
-        """informs constraint handler that the presolving process is being started """
+        """informs constraint handler that the presolving process is being started"""
     def consinitsol(self, *args, **kwargs):
-        """informs constraint handler that the branch and bound process is being started """
+        """informs constraint handler that the branch and bound process is being started"""
     def conslock(self, *args, **kwargs):
         """variable rounding lock method of constraint handler"""
     def consparse(self, *args, **kwargs):
-        """sets constraint parsing method of constraint handler """
+        """sets constraint parsing method of constraint handler"""
     def conspresol(self, *args, **kwargs):
-        """calls presolving method of constraint handler """
+        """calls presolving method of constraint handler"""
     def consprint(self, *args, **kwargs):
-        """sets constraint display method of constraint handler """
+        """sets constraint display method of constraint handler"""
     def consprop(self, *args, **kwargs):
-        """calls propagation method of constraint handler """
+        """calls propagation method of constraint handler"""
     def consresprop(self, *args, **kwargs):
-        """sets propagation conflict resolving method of constraint handler """
+        """sets propagation conflict resolving method of constraint handler"""
     def conssepalp(self, *args, **kwargs):
-        """calls separator method of constraint handler to separate LP solution """
+        """calls separator method of constraint handler to separate LP solution"""
     def conssepasol(self, *args, **kwargs):
-        """calls separator method of constraint handler to separate given primal solution """
+        """calls separator method of constraint handler to separate given primal solution"""
     def constrans(self, *args, **kwargs):
-        """sets method of constraint handler to transform constraint data into data belonging to the transformed problem """
+        """sets method of constraint handler to transform constraint data into data belonging to the transformed problem"""
     def __reduce__(self): ...
     def __reduce_cython__(self, *args, **kwargs): ...
     def __setstate_cython__(self, *args, **kwargs): ...
@@ -527,11 +528,11 @@ class Cutsel:
     def cutselfree(self, *args, **kwargs):
         """frees memory of cut selector"""
     def cutselinit(self, *args, **kwargs):
-        """ executed after the problem is transformed. use this call to initialize cut selector data."""
+        """executed after the problem is transformed. use this call to initialize cut selector data."""
     def cutselinitsol(self, *args, **kwargs):
         """executed when the presolving is finished and the branch-and-bound process is about to begin"""
     def cutselselect(self, *args, **kwargs):
-        """first method called in each iteration in the main solving loop. """
+        """first method called in each iteration in the main solving loop."""
     def __reduce__(self): ...
     def __reduce_cython__(self, *args, **kwargs): ...
     def __setstate_cython__(self, *args, **kwargs): ...
@@ -645,21 +646,21 @@ class Eventhdlr:
     def __init__(cls, *args, **kwargs) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def eventcopy(self, *args, **kwargs):
-        """sets copy callback for all events of this event handler """
+        """sets copy callback for all events of this event handler"""
     def eventdelete(self, *args, **kwargs):
         """sets callback to free specific event data"""
     def eventexec(self, *args, **kwargs):
-        """calls execution method of event handler """
+        """calls execution method of event handler"""
     def eventexit(self, *args, **kwargs):
         """calls exit method of event handler"""
     def eventexitsol(self, *args, **kwargs):
-        """informs event handler that the branch and bound process data is being freed """
+        """informs event handler that the branch and bound process data is being freed"""
     def eventfree(self, *args, **kwargs):
-        """calls destructor and frees memory of event handler """
+        """calls destructor and frees memory of event handler"""
     def eventinit(self, *args, **kwargs):
         """initializes event handler"""
     def eventinitsol(self, *args, **kwargs):
-        """informs event handler that the branch and bound process is being started """
+        """informs event handler that the branch and bound process is being started"""
     def __reduce__(self): ...
     def __reduce_cython__(self, *args, **kwargs): ...
     def __setstate_cython__(self, *args, **kwargs): ...
@@ -669,7 +670,7 @@ class Expr:
     def __init__(self, *args, **kwargs) -> None:
         """terms is a dict of variables to coefficients.
 
-                CONST is used as key for the constant term."""
+        CONST is used as key for the constant term."""
     def degree(self, *args, **kwargs):
         """computes highest degree of terms"""
     def normalize(self, *args, **kwargs):
@@ -711,7 +712,7 @@ class Expr:
         """Return pow(value, self, mod)."""
     def __rsub__(self, other): ...
     def __rtruediv__(self, other):
-        """ other / self """
+        """other / self"""
     def __setstate_cython__(self, *args, **kwargs): ...
     def __sub__(self, other):
         """Return self-value."""
@@ -780,7 +781,7 @@ class GenExpr:
         """Return pow(value, self, mod)."""
     def __rsub__(self, other): ...
     def __rtruediv__(self, other):
-        """ other / self """
+        """other / self"""
     def __setstate_cython__(self, *args, **kwargs): ...
     def __sub__(self, other):
         """Return self-value."""
@@ -820,92 +821,92 @@ class LP:
     def addCol(self, *args, **kwargs):
         """Adds a single column to the LP.
 
-                Keyword arguments:
-                entries -- list of tuples, each tuple consists of a row index and a coefficient
-                obj     -- objective coefficient (default 0.0)
-                lb      -- lower bound (default 0.0)
-                ub      -- upper bound (default infinity)
+        Keyword arguments:
+        entries -- list of tuples, each tuple consists of a row index and a coefficient
+        obj     -- objective coefficient (default 0.0)
+        lb      -- lower bound (default 0.0)
+        ub      -- upper bound (default infinity)
         """
     def addCols(self, *args, **kwargs):
         """Adds multiple columns to the LP.
 
-                Keyword arguments:
-                entrieslist -- list containing lists of tuples, each tuple contains a coefficient and a row index
-                objs  -- objective coefficient (default 0.0)
-                lbs   -- lower bounds (default 0.0)
-                ubs   -- upper bounds (default infinity)
+        Keyword arguments:
+        entrieslist -- list containing lists of tuples, each tuple contains a coefficient and a row index
+        objs  -- objective coefficient (default 0.0)
+        lbs   -- lower bounds (default 0.0)
+        ubs   -- upper bounds (default infinity)
         """
     def addRow(self, *args, **kwargs):
         """Adds a single row to the LP.
 
-                Keyword arguments:
-                entries -- list of tuples, each tuple contains a coefficient and a column index
-                lhs     -- left-hand side of the row (default 0.0)
-                rhs     -- right-hand side of the row (default infinity)
+        Keyword arguments:
+        entries -- list of tuples, each tuple contains a coefficient and a column index
+        lhs     -- left-hand side of the row (default 0.0)
+        rhs     -- right-hand side of the row (default infinity)
         """
     def addRows(self, *args, **kwargs):
         """Adds multiple rows to the LP.
 
-                Keyword arguments:
-                entrieslist -- list containing lists of tuples, each tuple contains a coefficient and a column index
-                lhss        -- left-hand side of the row (default 0.0)
-                rhss        -- right-hand side of the row (default infinity)
+        Keyword arguments:
+        entrieslist -- list containing lists of tuples, each tuple contains a coefficient and a column index
+        lhss        -- left-hand side of the row (default 0.0)
+        rhss        -- right-hand side of the row (default infinity)
         """
     def chgBound(self, *args, **kwargs):
         """Changes the lower and upper bound of a single column.
 
-                Keyword arguments:
-                col -- column to change
-                lb  -- new lower bound
-                ub  -- new upper bound
+        Keyword arguments:
+        col -- column to change
+        lb  -- new lower bound
+        ub  -- new upper bound
         """
     def chgCoef(self, *args, **kwargs):
         """Changes a single coefficient in the LP.
 
-                Keyword arguments:
-                row -- row to change
-                col -- column to change
-                newval -- new coefficient
+        Keyword arguments:
+        row -- row to change
+        col -- column to change
+        newval -- new coefficient
         """
     def chgObj(self, *args, **kwargs):
         """Changes objective coefficient of a single column.
 
-                Keyword arguments:
-                col -- column to change
-                obj -- new objective coefficient
+        Keyword arguments:
+        col -- column to change
+        obj -- new objective coefficient
         """
     def chgSide(self, *args, **kwargs):
         """Changes the left- and right-hand side of a single row.
 
-                Keyword arguments:
-                row -- row to change
-                lhs -- new left-hand side
-                rhs -- new right-hand side
+        Keyword arguments:
+        row -- row to change
+        lhs -- new left-hand side
+        rhs -- new right-hand side
         """
     def clear(self, *args, **kwargs):
         """Clears the whole LP."""
     def delCols(self, *args, **kwargs):
         """Deletes a range of columns from the LP.
 
-                Keyword arguments:
-                firstcol -- first column to delete
-                lastcol  -- last column to delete
+        Keyword arguments:
+        firstcol -- first column to delete
+        lastcol  -- last column to delete
         """
     def delRows(self, *args, **kwargs):
         """Deletes a range of rows from the LP.
 
-                Keyword arguments:
-                firstrow -- first row to delete
-                lastrow  -- last row to delete
+        Keyword arguments:
+        firstrow -- first row to delete
+        lastrow  -- last row to delete
         """
     def getBasisInds(self, *args, **kwargs):
         """Returns the indices of the basic columns and rows; index i >= 0 corresponds to column i, index i < 0 to row -i-1"""
     def getBounds(self, *args, **kwargs):
         """Returns all lower and upper bounds for a range of columns.
 
-                Keyword arguments:
-                firstcol -- first column (default 0)
-                lastcol  -- last column (default ncols - 1)
+        Keyword arguments:
+        firstcol -- first column (default 0)
+        lastcol  -- last column (default ncols - 1)
         """
     def getDual(self, *args, **kwargs):
         """Returns the dual solution of the last LP solve."""
@@ -922,20 +923,19 @@ class LP:
     def getSides(self, *args, **kwargs):
         """Returns all left- and right-hand sides for a range of rows.
 
-                Keyword arguments:
-                firstrow -- first row (default 0)
-                lastrow  -- last row (default nrows - 1)
+        Keyword arguments:
+        firstrow -- first row (default 0)
+        lastrow  -- last row (default nrows - 1)
         """
     def infinity(self, *args, **kwargs):
-        """Returns infinity value of the LP.
-        """
+        """Returns infinity value of the LP."""
     def isDualFeasible(self, *args, **kwargs):
         """Returns True iff LP is proven to be dual feasible."""
     def isInfinity(self, *args, **kwargs):
         """Checks if a given value is equal to the infinity value of the LP.
 
-                Keyword arguments:
-                val -- value that should be checked
+        Keyword arguments:
+        val -- value that should be checked
         """
     def isPrimalFeasible(self, *args, **kwargs):
         """Returns True iff LP is proven to be primal feasible."""
@@ -946,20 +946,20 @@ class LP:
     def readLP(self, *args, **kwargs):
         """Reads LP from a file.
 
-                Keyword arguments:
-                filename -- the name of the file to be used
+        Keyword arguments:
+        filename -- the name of the file to be used
         """
     def solve(self, *args, **kwargs):
         """Solves the current LP.
 
-                Keyword arguments:
-                dual -- use the dual or primal Simplex method (default: dual)
+        Keyword arguments:
+        dual -- use the dual or primal Simplex method (default: dual)
         """
     def writeLP(self, *args, **kwargs):
         """Writes LP to a file.
 
-                Keyword arguments:
-                filename -- the name of the file to be used
+        Keyword arguments:
+        filename -- the name of the file to be used
         """
     def __reduce__(self): ...
 
@@ -1030,7 +1030,7 @@ class Model:
 
         """
     def addCons(self, *args, **kwargs):
-        '''
+        """
         Add a linear or nonlinear constraint.
 
         Parameters
@@ -1066,9 +1066,9 @@ class Model:
         Constraint
             The created and added Constraint object.
 
-        '''
+        """
     def addConsAnd(self, *args, **kwargs):
-        '''
+        """
         Add an AND-constraint.
 
         Parameters
@@ -1104,9 +1104,9 @@ class Model:
         Constraint
             The newly created AND constraint
 
-        '''
+        """
     def addConsCardinality(self, *args, **kwargs):
-        '''
+        """
         Add a cardinality constraint that allows at most \'cardval\' many nonzero variables.
 
         Parameters
@@ -1149,7 +1149,7 @@ class Model:
         Constraint
             The newly created Cardinality constraint
 
-        '''
+        """
     def addConsCoeff(self, *args, **kwargs):
         """
         Add coefficient to the linear constraint (if non-zero).
@@ -1215,47 +1215,47 @@ class Model:
 
         """
     def addConsIndicator(self, *args, **kwargs):
-        '''Add an indicator constraint for the linear inequality `cons`.
+        """Add an indicator constraint for the linear inequality `cons`.
 
-                The `binvar` argument models the redundancy of the linear constraint. A solution for which
-                `binvar` is 1 must satisfy the constraint.
+        The `binvar` argument models the redundancy of the linear constraint. A solution for which
+        `binvar` is 1 must satisfy the constraint.
 
-                Parameters
-                ----------
-                cons : ExprCons
-                    a linear inequality of the form "<="
-                binvar : Variable, optional
-                    binary indicator variable, or None if it should be created (Default value = None)
-                activeone : bool, optional
-                    constraint should active if binvar is 1 (0 if activeone = False)
-                name : str, optional
-                    name of the constraint (Default value = "")
-                initial : bool, optional
-                    should the LP relaxation of constraint be in the initial LP? (Default value = True)
-                separate : bool, optional
-                    should the constraint be separated during LP processing? (Default value = True)
-                enforce : bool, optional
-                    should the constraint be enforced during node processing? (Default value = True)
-                check : bool, optional
-                    should the constraint be checked for feasibility? (Default value = True)
-                propagate : bool, optional
-                    should the constraint be propagated during node processing? (Default value = True)
-                local : bool, optional
-                    is the constraint only valid locally? (Default value = False)
-                dynamic : bool, optional
-                    is the constraint subject to aging? (Default value = False)
-                removable : bool, optional
-                    should the relaxation be removed from the LP due to aging or cleanup? (Default value = False)
-                stickingatnode : bool, optional
-                    should the constraint always be kept at the node where it was added,
-                    even if it may be moved to a more global node? (Default value = False)
+        Parameters
+        ----------
+        cons : ExprCons
+            a linear inequality of the form "<="
+        binvar : Variable, optional
+            binary indicator variable, or None if it should be created (Default value = None)
+        activeone : bool, optional
+            constraint should active if binvar is 1 (0 if activeone = False)
+        name : str, optional
+            name of the constraint (Default value = "")
+        initial : bool, optional
+            should the LP relaxation of constraint be in the initial LP? (Default value = True)
+        separate : bool, optional
+            should the constraint be separated during LP processing? (Default value = True)
+        enforce : bool, optional
+            should the constraint be enforced during node processing? (Default value = True)
+        check : bool, optional
+            should the constraint be checked for feasibility? (Default value = True)
+        propagate : bool, optional
+            should the constraint be propagated during node processing? (Default value = True)
+        local : bool, optional
+            is the constraint only valid locally? (Default value = False)
+        dynamic : bool, optional
+            is the constraint subject to aging? (Default value = False)
+        removable : bool, optional
+            should the relaxation be removed from the LP due to aging or cleanup? (Default value = False)
+        stickingatnode : bool, optional
+            should the constraint always be kept at the node where it was added,
+            even if it may be moved to a more global node? (Default value = False)
 
-                Returns
-                -------
-                Constraint
-                    The newly created Indicator constraint
+        Returns
+        -------
+        Constraint
+            The newly created Indicator constraint
 
-        '''
+        """
     def addConsLocal(self, *args, **kwargs):
         """
         Add a constraint to the current node.
@@ -1283,7 +1283,7 @@ class Model:
 
         """
     def addConsOr(self, *args, **kwargs):
-        '''
+        """
         Add an OR-constraint.
 
         Parameters
@@ -1319,9 +1319,9 @@ class Model:
         Constraint
             The newly created OR constraint
 
-        '''
+        """
     def addConsSOS1(self, *args, **kwargs):
-        '''
+        """
         Add an SOS1 constraint.
 
         :param vars: list of variables to be included
@@ -1371,9 +1371,9 @@ class Model:
         Constraint
             The newly created SOS1 constraint
 
-        '''
+        """
     def addConsSOS2(self, *args, **kwargs):
-        '''
+        """
         Add an SOS2 constraint.
 
         Parameters
@@ -1409,9 +1409,9 @@ class Model:
         Constraint
             The newly created SOS2 constraint
 
-        '''
+        """
     def addConsXor(self, *args, **kwargs):
-        '''
+        """
         Add a XOR-constraint.
 
         Parameters
@@ -1447,50 +1447,50 @@ class Model:
         Constraint
             The newly created XOR constraint
 
-        '''
+        """
     def addConss(self, *args, **kwargs):
         """Adds multiple linear or quadratic constraints.
 
-                Each of the constraints is added to the model using Model.addCons().
+        Each of the constraints is added to the model using Model.addCons().
 
-                For all parameters, except `conss`, this method behaves differently depending on the
-                type of the passed argument:
-                1. If the value is iterable, it must be of the same length as `conss`. For each
-                constraint, Model.addCons() will be called with the value at the corresponding index.
-                2. Else, the (default) value will be applied to all of the constraints.
+        For all parameters, except `conss`, this method behaves differently depending on the
+        type of the passed argument:
+        1. If the value is iterable, it must be of the same length as `conss`. For each
+        constraint, Model.addCons() will be called with the value at the corresponding index.
+        2. Else, the (default) value will be applied to all of the constraints.
 
-                Parameters
-                ----------
-                conss : iterable of ExprCons
-                    An iterable of constraint objects. Any iterable will be converted into a list before further processing.
-                name : str or iterable of str, optional
-                    the name of the constraint, generic name if empty (Default value = '')
-                initial : bool or iterable of bool, optional
-                    should the LP relaxation of constraint be in the initial LP? (Default value = True)
-                separate : bool or iterable of bool, optional
-                    should the constraint be separated during LP processing? (Default value = True)
-                enforce : bool or iterable of bool, optional
-                    should the constraint be enforced during node processing? (Default value = True)
-                check : bool or iterable of bool, optional
-                    should the constraint be checked for feasibility? (Default value = True)
-                propagate : bool or iterable of bool, optional
-                    should the constraint be propagated during node processing? (Default value = True)
-                local : bool or iterable of bool, optional
-                    is the constraint only valid locally? (Default value = False)
-                modifiable : bool or iterable of bool, optional
-                    is the constraint modifiable (subject to column generation)? (Default value = False)
-                dynamic : bool or iterable of bool, optional
-                    is the constraint subject to aging? (Default value = False)
-                removable : bool or iterable of bool, optional
-                    should the relaxation be removed from the LP due to aging or cleanup? (Default value = False)
-                stickingatnode : bool or iterable of bool, optional
-                    should the constraints always be kept at the node where it was added,
-                    even if it may be moved to a more global node? (Default value = False)
+        Parameters
+        ----------
+        conss : iterable of ExprCons
+            An iterable of constraint objects. Any iterable will be converted into a list before further processing.
+        name : str or iterable of str, optional
+            the name of the constraint, generic name if empty (Default value = '')
+        initial : bool or iterable of bool, optional
+            should the LP relaxation of constraint be in the initial LP? (Default value = True)
+        separate : bool or iterable of bool, optional
+            should the constraint be separated during LP processing? (Default value = True)
+        enforce : bool or iterable of bool, optional
+            should the constraint be enforced during node processing? (Default value = True)
+        check : bool or iterable of bool, optional
+            should the constraint be checked for feasibility? (Default value = True)
+        propagate : bool or iterable of bool, optional
+            should the constraint be propagated during node processing? (Default value = True)
+        local : bool or iterable of bool, optional
+            is the constraint only valid locally? (Default value = False)
+        modifiable : bool or iterable of bool, optional
+            is the constraint modifiable (subject to column generation)? (Default value = False)
+        dynamic : bool or iterable of bool, optional
+            is the constraint subject to aging? (Default value = False)
+        removable : bool or iterable of bool, optional
+            should the relaxation be removed from the LP due to aging or cleanup? (Default value = False)
+        stickingatnode : bool or iterable of bool, optional
+            should the constraints always be kept at the node where it was added,
+            even if it may be moved to a more global node? (Default value = False)
 
-                Returns
-                -------
-                list of Constraint
-                    The created and added Constraint objects.
+        Returns
+        -------
+        list of Constraint
+            The created and added Constraint objects.
 
         """
     def addCut(self, *args, **kwargs):
@@ -1715,7 +1715,7 @@ class Model:
         Parameters
         ----------
         callback : callable
-            The callback function to be called when an event occurs. 
+            The callback function to be called when an event occurs.
             The callback function should have the following signature:
             callback(model, event)
         events : list of SCIP_EVENTTYPE
@@ -2034,25 +2034,25 @@ class Model:
     def chgVarLbGlobal(self, *args, **kwargs):
         """Changes the global lower bound of the specified variable.
 
-                Parameters
-                ----------
-                var : Variable
-                    variable to change bound of
-                lb : float or None
-                    new lower bound (set to None for -infinity)
+        Parameters
+        ----------
+        var : Variable
+            variable to change bound of
+        lb : float or None
+            new lower bound (set to None for -infinity)
 
         """
     def chgVarLbNode(self, *args, **kwargs):
         """Changes the lower bound of the specified variable at the given node.
 
-                Parameters
-                ----------
-                node : Node
-                    Node at which the variable bound will be changed
-                var : Variable
-                    variable to change bound of
-                lb : float or None
-                    new lower bound (set to None for -infinity)
+        Parameters
+        ----------
+        node : Node
+            Node at which the variable bound will be changed
+        var : Variable
+            variable to change bound of
+        lb : float or None
+            new lower bound (set to None for -infinity)
 
         """
     def chgVarLbProbing(self, *args, **kwargs):
@@ -2080,7 +2080,7 @@ class Model:
     def chgVarObjProbing(self, *args, **kwargs):
         """Changes (column) variable's objective value during probing mode."""
     def chgVarType(self, *args, **kwargs):
-        '''
+        """
         Changes the type of a variable.
 
         Parameters
@@ -2091,16 +2091,16 @@ class Model:
             new variable type. \'C\' or "CONTINUOUS", \'I\' or "INTEGER",
             \'B\' or "BINARY", and \'M\' "IMPLINT".
 
-        '''
+        """
     def chgVarUb(self, *args, **kwargs):
         """Changes the upper bound of the specified variable.
 
-                Parameters
-                ----------
-                var : Variable
-                    variable to change bound of
-                lb : float or None
-                    new upper bound (set to None for +infinity)
+        Parameters
+        ----------
+        var : Variable
+            variable to change bound of
+        lb : float or None
+            new upper bound (set to None for +infinity)
 
         """
     def chgVarUbDive(self, *args, **kwargs):
@@ -2116,25 +2116,25 @@ class Model:
     def chgVarUbGlobal(self, *args, **kwargs):
         """Changes the global upper bound of the specified variable.
 
-                Parameters
-                ----------
-                var : Variable
-                    variable to change bound of
-                lb : float or None
-                    new upper bound (set to None for +infinity)
+        Parameters
+        ----------
+        var : Variable
+            variable to change bound of
+        lb : float or None
+            new upper bound (set to None for +infinity)
 
         """
     def chgVarUbNode(self, *args, **kwargs):
         """Changes the upper bound of the specified variable at the given node.
 
-                Parameters
-                ----------
-                node : Node
-                    Node at which the variable bound will be changed
-                var : Variable
-                    variable to change bound of
-                lb : float or None
-                    new upper bound (set to None for +infinity)
+        Parameters
+        ----------
+        node : Node
+            Node at which the variable bound will be changed
+        var : Variable
+            variable to change bound of
+        lb : float or None
+            new upper bound (set to None for +infinity)
 
         """
     def chgVarUbProbing(self, *args, **kwargs):
@@ -2151,10 +2151,10 @@ class Model:
         """
     def computeBestSolSubproblems(self, *args, **kwargs):
         """Solves the subproblems with the best solution to the master problem.
-                Afterwards, the best solution from each subproblem can be queried to get
-                the solution to the original problem.
-                If the user wants to resolve the subproblems, they must free them by
-                calling freeBendersSubproblems()
+        Afterwards, the best solution from each subproblem can be queried to get
+        the solution to the original problem.
+        If the user wants to resolve the subproblems, they must free them by
+        calling freeBendersSubproblems()
         """
     def constructLP(self, *args, **kwargs):
         """
@@ -2171,14 +2171,14 @@ class Model:
     def copyLargeNeighborhoodSearch(self, *args, **kwargs):
         """
         Creates a configured copy of the transformed problem and applies provided fixings intended for LNS heuristics.
-        
+
         Parameters
-        ----------  
+        ----------
         to_fix : List[Variable]
             A list of variables to fix in the copy
         fix_vals : List[Real]
             A list of the values to which to fix the variables in the copy (care their order)
-        
+
         Returns
         -------
         model : Model
@@ -2281,7 +2281,7 @@ class Model:
 
         """
     def createEmptyRowSepa(self, *args, **kwargs):
-        '''
+        """
         Creates and captures an LP row without any coefficients from a separator.
 
         Parameters
@@ -2305,9 +2305,9 @@ class Model:
         -------
         Row
 
-        '''
+        """
     def createEmptyRowUnspec(self, *args, **kwargs):
-        '''
+        """
         Creates and captures an LP row without any coefficients from an unspecified source.
 
         Parameters
@@ -2329,7 +2329,7 @@ class Model:
         -------
         Row
 
-        '''
+        """
     def createOrigSol(self, *args, **kwargs):
         """
         Create a new primal solution in the original space.
@@ -2491,7 +2491,7 @@ class Model:
         """Quits probing and resets bounds and constraints to the focus node's environment."""
     def endStrongbranch(self, *args, **kwargs):
         """End strong branching. Needs to be called if startStrongBranching was called previously.
-                Between these calls the user can access all strong branching functionality."""
+        Between these calls the user can access all strong branching functionality."""
     def epsilon(self, *args, **kwargs):
         """
         Retrieve epsilon for e.g. equality checks.
@@ -2616,7 +2616,7 @@ class Model:
         """
     def freeBendersSubproblems(self, *args, **kwargs):
         """Calls the free subproblem function for the Benders' decomposition.
-                This will free all subproblems for all decompositions. """
+        This will free all subproblems for all decompositions."""
     def freeProb(self, *args, **kwargs):
         """Frees problem and solution process data."""
     def freeReoptSolve(self, *args, **kwargs):
@@ -2633,10 +2633,10 @@ class Model:
         """
     def freeTransform(self, *args, **kwargs):
         """Frees all solution process data including presolving and
-                transformed problem, only original problem is kept."""
+        transformed problem, only original problem is kept."""
     @staticmethod
     def from_ptr(*args, **kwargs):
-        '''
+        """
         Create a Model from a given pointer.
 
         Parameters
@@ -2651,7 +2651,7 @@ class Model:
         -------
         Model
 
-        '''
+        """
     def getActivity(self, *args, **kwargs):
         """
         Retrieve activity of given constraint.
@@ -2734,17 +2734,17 @@ class Model:
     def getBestLeaf(self, *args, **kwargs):
         """Gets the best leaf from the node queue w.r.t. the node selection strategy.
 
-                Returns
-                -------
-                Node
+        Returns
+        -------
+        Node
 
         """
     def getBestNode(self, *args, **kwargs):
         """Gets the best node from the tree (child, sibling, or leaf) w.r.t. the node selection strategy.
 
-                Returns
-                -------
-                Node
+        Returns
+        -------
+        Node
 
         """
     def getBestSibling(self, *args, **kwargs):
@@ -2768,9 +2768,9 @@ class Model:
     def getBestboundNode(self, *args, **kwargs):
         """Gets the node with smallest lower bound from the tree (child, sibling, or leaf).
 
-                Returns
-                -------
-                Node
+        Returns
+        -------
+        Node
 
         """
     def getBipartiteGraphRepresentation(self, *args, **kwargs):
@@ -3520,11 +3520,11 @@ class Model:
     def getObjlimit(self, *args, **kwargs):
         """
         Returns current limit on objective function.
-        
+
         Returns
         -------
         float
-        
+
         """
     def getObjoffset(self, *args, **kwargs):
         """
@@ -3632,11 +3632,11 @@ class Model:
         """
     def getPrioSibling(self, *args, **kwargs):
         """Gets the best sibling of the focus node w.r.t.
-                the node selection priority assigned by the branching rule.
+        the node selection priority assigned by the branching rule.
 
-                Returns
-                -------
-                Node
+        Returns
+        -------
+        Node
 
         """
     def getProbName(self, *args, **kwargs):
@@ -4749,7 +4749,7 @@ class Model:
         """
     def newProbingNode(self, *args, **kwargs):
         """Creates a new probing sub node, whose changes can be undone by backtracking to a higher node in the
-                probing path with a call to backtrackProbing().
+        probing path with a call to backtrackProbing().
         """
     def optimize(self, *args, **kwargs):
         """Optimize the problem."""
@@ -4927,7 +4927,7 @@ class Model:
     def restartSolve(self, *args, **kwargs):
         """Restarts the solving process as soon as possible."""
     def separateSol(self, *args, **kwargs):
-        '''
+        """
         Separates the given primal solution or the current LP solution by calling
         the separators and constraint handlers\' separation methods;
         the generated cuts are stored in the separation storage and can be accessed
@@ -4954,7 +4954,7 @@ class Model:
         cutoff : bool
             whether the node can be cut off
 
-        '''
+        """
     def setBendersSubproblemIsConvex(self, *args, **kwargs):
         """
         Sets a flag indicating whether the subproblem is convex.
@@ -4994,7 +4994,7 @@ class Model:
 
         """
     def setCheck(self, *args, **kwargs):
-        '''
+        """
         Set "check" flag of a constraint.
 
         Parameters
@@ -5002,7 +5002,7 @@ class Model:
         cons : Constraint
         newCheck : bool
 
-        '''
+        """
     def setEmphasis(self, *args, **kwargs):
         """
         Set emphasis settings
@@ -5016,7 +5016,7 @@ class Model:
 
         """
     def setEnforced(self, *args, **kwargs):
-        '''
+        """
         Set "enforced" flag of a constraint.
 
         Parameters
@@ -5024,7 +5024,7 @@ class Model:
         cons : Constraint
         newEnf : bool
 
-        '''
+        """
     def setHeurTiming(self, *args, **kwargs):
         """
                 Set the timing of a heuristic
@@ -5046,7 +5046,7 @@ class Model:
 
         """
     def setInitial(self, *args, **kwargs):
-        '''
+        """
         Set "initial" flag of a constraint.
 
         Parameters
@@ -5054,7 +5054,7 @@ class Model:
         cons : Constraint
         newInit : bool
 
-        '''
+        """
     def setIntParam(self, *args, **kwargs):
         """
         Set an int-valued parameter.
@@ -5096,16 +5096,16 @@ class Model:
     def setObjIntegral(self, *args, **kwargs):
         """Informs SCIP that the objective value is always integral in every feasible solution.
 
-                Notes
-                -----
-                This function should be used to inform SCIP that the objective function is integral,
-                helping to improve the performance. This is useful when using column generation.
-                If no column generation (pricing) is used, SCIP automatically detects whether the objective
-                function is integral or can be scaled to be integral. However, in any case, the user has to
-                make sure that no variable is added during the solving process that destroys this property.
+        Notes
+        -----
+        This function should be used to inform SCIP that the objective function is integral,
+        helping to improve the performance. This is useful when using column generation.
+        If no column generation (pricing) is used, SCIP automatically detects whether the objective
+        function is integral or can be scaled to be integral. However, in any case, the user has to
+        make sure that no variable is added during the solving process that destroys this property.
         """
     def setObjective(self, *args, **kwargs):
-        '''
+        """
         Establish the objective function as a linear expression.
 
         Parameters
@@ -5117,7 +5117,7 @@ class Model:
         clear : bool, optional
             set all other variables objective coefficient to zero (Default value = \'true\')
 
-        '''
+        """
     def setObjlimit(self, *args, **kwargs):
         """
         Set a limit on the objective function.
@@ -5132,12 +5132,12 @@ class Model:
     def setParam(self, *args, **kwargs):
         """Set a parameter with value in int, bool, real, long, char or str.
 
-                Parameters
-                ----------
-                name : str
-                    name of parameter
-                value : object
-                    value of parameter
+        Parameters
+        ----------
+        name : str
+            name of parameter
+        value : object
+            value of parameter
 
         """
     def setParams(self, *args, **kwargs):
@@ -5195,7 +5195,7 @@ class Model:
 
         """
     def setRemovable(self, *args, **kwargs):
-        '''
+        """
         Set "removable" flag of a constraint.
 
         Parameters
@@ -5203,7 +5203,7 @@ class Model:
         cons : Constraint
         newRem : bool
 
-        '''
+        """
     def setSeparating(self, *args, **kwargs):
         """
         Set separating parameter settings.
@@ -5283,8 +5283,8 @@ class Model:
         """
     def solveConcurrent(self, *args, **kwargs):
         """Transforms, presolves, and solves problem using additional solvers which emphasize on
-                finding solutions.
-                WARNING: This feature is still experimental and prone to some errors."""
+        finding solutions.
+        WARNING: This feature is still experimental and prone to some errors."""
     def solveDiveLP(self, *args, **kwargs):
         """
         Solves the LP of the current dive. No separation or pricing is applied.
@@ -5322,18 +5322,18 @@ class Model:
         """
     def startDive(self, *args, **kwargs):
         """Initiates LP diving.
-                It allows the user to change the LP in several ways, solve, change again, etc,
-                without affecting the actual LP. When endDive() is called,
-                SCIP will undo all changes done and recover the LP it had before startDive."""
+        It allows the user to change the LP in several ways, solve, change again, etc,
+        without affecting the actual LP. When endDive() is called,
+        SCIP will undo all changes done and recover the LP it had before startDive."""
     def startProbing(self, *args, **kwargs):
         """Initiates probing, making methods SCIPnewProbingNode(), SCIPbacktrackProbing(), SCIPchgVarLbProbing(),
-                   SCIPchgVarUbProbing(), SCIPfixVarProbing(), SCIPpropagateProbing(), SCIPsolveProbingLP(), etc available.
+        SCIPchgVarUbProbing(), SCIPfixVarProbing(), SCIPpropagateProbing(), SCIPsolveProbingLP(), etc available.
         """
     def startStrongbranch(self, *args, **kwargs):
         """Start strong branching. Needs to be called before any strong branching. Must also later end strong branching.
-                TODO: Propagation option has currently been disabled via Python.
-                If propagation is enabled then strong branching is not done on the LP, but on additionally created nodes
-                (has some overhead). """
+        TODO: Propagation option has currently been disabled via Python.
+        If propagation is enabled then strong branching is not done on the LP, but on additionally created nodes
+        (has some overhead)."""
     def tightenVarLb(self, *args, **kwargs):
         """
         Tighten the lower bound in preprocessing or current node, if the bound is tighter.
@@ -5358,21 +5358,21 @@ class Model:
     def tightenVarLbGlobal(self, *args, **kwargs):
         """Tighten the global lower bound, if the bound is tighter.
 
-                Parameters
-                ----------
-                var : Variable
-                    SCIP variable
-                lb : float
-                    possible new lower bound
-                force : bool, optional
-                    force tightening even if below bound strengthening tolerance
+        Parameters
+        ----------
+        var : Variable
+            SCIP variable
+        lb : float
+            possible new lower bound
+        force : bool, optional
+            force tightening even if below bound strengthening tolerance
 
-                Returns
-                -------
-                infeasible : bool
-                    Whether new domain is empty
-                tightened : bool
-                    Whether the bound was tightened
+        Returns
+        -------
+        infeasible : bool
+            Whether new domain is empty
+        tightened : bool
+            Whether the bound was tightened
 
         """
     def tightenVarUb(self, *args, **kwargs):
@@ -5418,7 +5418,7 @@ class Model:
 
         """
     def to_ptr(self, *args, **kwargs):
-        '''
+        """
         Return the underlying Scip pointer to the current Model.
 
         Parameters
@@ -5433,24 +5433,24 @@ class Model:
             The underlying pointer to the current Model, wrapped in a
             PyCapsule under the name "scip".
 
-        '''
+        """
     def translateSubSol(self, *args, **kwargs):
         """
-        \t\tTranslates a solution of a model copy into a solution of the main model
-\t\t
-        \t\tParameters
-        \t\t----------
-        \t\tsub_model : Model
-        \t\t\tThe python-wrapper of the subscip
-        \t\tsol : Solution
-        \t\t\tThe python-wrapper of the solution of the subscip
-        \t\theur : Heur
-        \t\t\tThe python-wrapper of the heuristic that found the solution
-\t\t
-        \t\tReturns
-        \t\t-------   \t\t
-        \t\tsolution : Solution
-        \t\t\tThe corresponding solution in the main model
+                \t\tTranslates a solution of a model copy into a solution of the main model
+        \t\t
+                \t\tParameters
+                \t\t----------
+                \t\tsub_model : Model
+                \t\t\tThe python-wrapper of the subscip
+                \t\tsol : Solution
+                \t\t\tThe python-wrapper of the solution of the subscip
+                \t\theur : Heur
+                \t\t\tThe python-wrapper of the heuristic that found the solution
+        \t\t
+                \t\tReturns
+                \t\t-------   \t\t
+                \t\tsolution : Solution
+                \t\t\tThe corresponding solution in the main model
         """
     def trySol(self, *args, **kwargs):
         """
@@ -5533,7 +5533,7 @@ class Model:
 
         """
     def writeBestSol(self, *args, **kwargs):
-        '''
+        """
         Write the best feasible primal solution to a file.
 
         Parameters
@@ -5543,9 +5543,9 @@ class Model:
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
 
-        '''
+        """
     def writeBestTransSol(self, *args, **kwargs):
-        '''
+        """
         Write the best feasible primal solution for the transformed problem to a file.
 
         Parameters
@@ -5555,9 +5555,9 @@ class Model:
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
 
-        '''
+        """
     def writeLP(self, *args, **kwargs):
-        '''
+        """
         Writes current LP to a file.
 
         Parameters
@@ -5565,7 +5565,7 @@ class Model:
         filename : str, optional
             file name (Default value = "LP.lp")
 
-        '''
+        """
     def writeName(self, *args, **kwargs):
         """
         Write the name of the variable to the std out.
@@ -5611,7 +5611,7 @@ class Model:
 
         """
     def writeSol(self, *args, **kwargs):
-        '''
+        """
         Write the given primal solution to a file.
 
         Parameters
@@ -5623,9 +5623,9 @@ class Model:
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
 
-        '''
+        """
     def writeStatistics(self, *args, **kwargs):
-        '''
+        """
         Write statistics to a file.
 
         Parameters
@@ -5633,9 +5633,9 @@ class Model:
         filename : str, optional
             name of the output file (Default = "origprob.stats")
 
-        '''
+        """
     def writeTransSol(self, *args, **kwargs):
-        '''
+        """
         Write the given transformed primal solution to a file.
 
         Parameters
@@ -5647,7 +5647,7 @@ class Model:
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
 
-        '''
+        """
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
@@ -5891,14 +5891,14 @@ class Nodesel:
         """Create and return a new object.  See help(type) for accurate signature."""
     def nodecomp(self, *args, **kwargs):
         """
-            compare two leaves of the current branching tree
+        compare two leaves of the current branching tree
 
-            It should return the following values:
+        It should return the following values:
 
-              value < 0, if node 1 comes before (is better than) node 2
-              value = 0, if both nodes are equally good
-              value > 0, if node 1 comes after (is worse than) node 2.
-    """
+          value < 0, if node 1 comes before (is better than) node 2
+          value = 0, if both nodes are equally good
+          value > 0, if node 1 comes after (is worse than) node 2.
+        """
     def nodeexit(self, *args, **kwargs):
         """executed before the transformed problem is freed"""
     def nodeexitsol(self, *args, **kwargs):
@@ -5906,11 +5906,11 @@ class Nodesel:
     def nodefree(self, *args, **kwargs):
         """frees memory of node selector"""
     def nodeinit(self, *args, **kwargs):
-        """ executed after the problem is transformed. use this call to initialize node selector data."""
+        """executed after the problem is transformed. use this call to initialize node selector data."""
     def nodeinitsol(self, *args, **kwargs):
         """executed when the presolving is finished and the branch-and-bound process is about to begin"""
     def nodeselect(self, *args, **kwargs):
-        """first method called in each iteration in the main solving loop. """
+        """first method called in each iteration in the main solving loop."""
     def __reduce__(self): ...
     def __reduce_cython__(self, *args, **kwargs): ...
     def __setstate_cython__(self, *args, **kwargs): ...
@@ -6269,11 +6269,11 @@ class Pricer:
     def pricerfarkas(self, *args, **kwargs):
         """calls Farkas pricing method of variable pricer"""
     def pricerfree(self, *args, **kwargs):
-        """calls destructor and frees memory of variable pricer """
+        """calls destructor and frees memory of variable pricer"""
     def pricerinit(self, *args, **kwargs):
         """initializes variable pricer"""
     def pricerinitsol(self, *args, **kwargs):
-        """informs variable pricer that the branch and bound process is being started """
+        """informs variable pricer that the branch and bound process is being started"""
     def pricerredcost(self, *args, **kwargs):
         """calls reduced cost pricing method of variable pricer"""
     def __reduce__(self): ...
@@ -6372,7 +6372,7 @@ class Row:
 
         """
     def getBasisStatus(self, *args, **kwargs):
-        '''
+        """
         Gets the basis status of a row in the LP solution.
 
         Returns
@@ -6389,7 +6389,7 @@ class Row:
         -----
         Returns basis status "basic" for rows not in the current SCIP LP.
 
-        '''
+        """
     def getCols(self, *args, **kwargs):
         """
         Gets list with columns of nonzero entries
@@ -6589,7 +6589,7 @@ class Solution:
         PY_SCIP_SOLORIGIN
         """
     def retransform(self, *args, **kwargs):
-        """ retransforms solution to original problem space """
+        """retransforms solution to original problem space"""
     def translate(self, *args, **kwargs):
         """
         translate solution to a target model solution
@@ -6811,7 +6811,7 @@ class Variable(Expr):
     def ptr(self, *args, **kwargs):
         """ """
     def varMayRound(self, *args, **kwargs):
-        '''
+        """
         Checks whether it is possible to round variable up / down and stay feasible for the relaxation.
 
         Parameters
@@ -6823,9 +6823,9 @@ class Variable(Expr):
         -------
         bool
 
-        '''
+        """
     def vtype(self, *args, **kwargs):
-        '''
+        """
         Retrieve the variables type (BINARY, INTEGER, IMPLINT or CONTINUOUS)
 
         Returns
@@ -6833,5 +6833,5 @@ class Variable(Expr):
         str
             "BINARY", "INTEGER", "CONTINUOUS", or "IMPLINT"
 
-        '''
+        """
     def __reduce__(self): ...
