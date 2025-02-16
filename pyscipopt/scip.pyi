@@ -3,33 +3,6 @@ from _typeshed import Incomplete
 from typing import ClassVar
 from typing_extensions import CapsuleType as PyCapsule
 
-from pyscipopt.benders import Benders as Benders
-from pyscipopt.benderscut import Benderscut as Benderscut
-from pyscipopt.branchrule import Branchrule as Branchrule
-from pyscipopt.conshdlr import Conshdlr as Conshdlr
-from pyscipopt.cutsel import Cutsel as Cutsel
-from pyscipopt.event import Eventhdlr as Eventhdlr
-from pyscipopt.expr import (
-    Expr,
-    Constant as Constant,
-    ExprCons as ExprCons,
-    GenExpr as GenExpr,
-    PowExpr as PowExpr,
-    ProdExpr as ProdExpr,
-    SumExpr as SumExpr,
-    UnaryExpr as UnaryExpr,
-    VarExpr as VarExpr,
-)
-from pyscipopt.heuristic import Heur as Heur
-from pyscipopt.lp import LP as LP
-from pyscipopt.nodesel import Nodesel as Nodesel
-from pyscipopt.presol import Presol as Presol
-from pyscipopt.pricer import Pricer as Pricer
-from pyscipopt.propagator import Prop as Prop
-from pyscipopt.reader import Reader as Reader
-from pyscipopt.sepa import Sepa as Sepa
-from pyscipopt.relax import Relax as Relax
-
 CONST: Term
 EventNames: dict
 MAJOR: int
@@ -57,6 +30,59 @@ def value_to_array(val, nodes): ...
 def PY_SCIP_CALL(): ...
 def __reduce_cython__(): ...
 def __setstate_cython__(): ...
+
+class Benders:
+    model: Incomplete
+    name: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def benderscreatesub(self, *args, **kwargs):
+        """creates the subproblems and registers it with the Benders decomposition struct"""
+    def bendersexit(self, *args, **kwargs):
+        """calls exit method of Benders decomposition"""
+    def bendersexitpre(self, *args, **kwargs):
+        """informs the Benders decomposition that the presolving process has been completed"""
+    def bendersexitsol(self, *args, **kwargs):
+        """informs Benders decomposition that the branch and bound process data is being freed"""
+    def bendersfree(self, *args, **kwargs):
+        """calls destructor and frees memory of Benders decomposition"""
+    def bendersfreesub(self, *args, **kwargs):
+        """frees the subproblems"""
+    def bendersgetvar(self, *args, **kwargs):
+        """Returns the corresponding master or subproblem variable for the given variable. This provides a call back for the variable mapping between the master and subproblems."""
+    def bendersinit(self, *args, **kwargs):
+        """initializes Benders deconposition"""
+    def bendersinitpre(self, *args, **kwargs):
+        """informs the Benders decomposition that the presolving process is being started"""
+    def bendersinitsol(self, *args, **kwargs):
+        """informs Benders decomposition that the branch and bound process is being started"""
+    def benderspostsolve(self, *args, **kwargs):
+        """sets post-solve callback of Benders decomposition"""
+    def benderspresubsolve(self, *args, **kwargs):
+        """sets the pre subproblem solve callback of Benders decomposition"""
+    def benderssolvesub(self, *args, **kwargs):
+        """sets solve callback of Benders decomposition"""
+    def benderssolvesubconvex(self, *args, **kwargs):
+        """sets convex solve callback of Benders decomposition"""
+    def __reduce__(self): ...
+
+class Benderscut:
+    benders: Incomplete
+    model: Incomplete
+    name: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def benderscutexec(self, *args, **kwargs): ...
+    def benderscutexit(self, *args, **kwargs): ...
+    def benderscutexitsol(self, *args, **kwargs): ...
+    def benderscutfree(self, *args, **kwargs): ...
+    def benderscutinit(self, *args, **kwargs): ...
+    def benderscutinitsol(self, *args, **kwargs): ...
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
 
 class BoundChange:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
@@ -111,6 +137,31 @@ class BoundChange:
 
         """
     def __reduce__(self): ...
+
+class Branchrule:
+    model: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def branchexecext(self, *args, **kwargs):
+        """executes branching rule for external branching candidates"""
+    def branchexeclp(self, *args, **kwargs):
+        """executes branching rule for fractional LP solution"""
+    def branchexecps(self, *args, **kwargs):
+        """executes branching rule for not completely fixed pseudo solution"""
+    def branchexit(self, *args, **kwargs):
+        """deinitializes branching rule"""
+    def branchexitsol(self, *args, **kwargs):
+        """informs branching rule that the branch and bound process data is being freed"""
+    def branchfree(self, *args, **kwargs):
+        """frees memory of branching rule"""
+    def branchinit(self, *args, **kwargs):
+        """initializes branching rule"""
+    def branchinitsol(self, *args, **kwargs):
+        """informs branching rule that the branch and bound process is being started"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
 
 class Column:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
@@ -225,6 +276,90 @@ class Column:
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
     def __reduce__(self): ...
+
+class Conshdlr:
+    model: Incomplete
+    name: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def consactive(self, *args, **kwargs):
+        """sets activation notification method of constraint handler"""
+    def conscheck(self, *args, **kwargs):
+        """calls feasibility check method of constraint handler"""
+    def conscopy(self, *args, **kwargs):
+        """sets copy method of both the constraint handler and each associated constraint"""
+    def consdeactive(self, *args, **kwargs):
+        """sets deactivation notification method of constraint handler"""
+    def consdelete(self, *args, **kwargs):
+        """sets method of constraint handler to free specific constraint data"""
+    def consdelvars(self, *args, **kwargs):
+        """calls variable deletion method of constraint handler"""
+    def consdisable(self, *args, **kwargs):
+        """sets disabling notification method of constraint handler"""
+    def consenable(self, *args, **kwargs):
+        """sets enabling notification method of constraint handler"""
+    def consenfolp(self, *args, **kwargs):
+        """calls enforcing method of constraint handler for LP solution for all constraints added"""
+    def consenfops(self, *args, **kwargs):
+        """calls enforcing method of constraint handler for pseudo solution for all constraints added"""
+    def consenforelax(self, *args, **kwargs):
+        """calls enforcing method of constraint handler for a relaxation solution for all constraints added"""
+    def consexit(self, *args, **kwargs):
+        """calls exit method of constraint handler"""
+    def consexitpre(self, *args, **kwargs):
+        """informs constraint handler that the presolving is finished"""
+    def consexitsol(self, *args, **kwargs):
+        """informs constraint handler that the branch and bound process data is being freed"""
+    def consfree(self, *args, **kwargs):
+        """calls destructor and frees memory of constraint handler"""
+    def consgetdivebdchgs(self, *args, **kwargs):
+        """calls diving solution enforcement callback of constraint handler, if it exists"""
+    def consgetnvars(self, *args, **kwargs):
+        """sets constraint variable number getter method of constraint handler"""
+    def consgetpermsymgraph(self, *args, **kwargs):
+        """permutation symmetry detection graph getter callback, if it exists"""
+    def consgetsignedpermsymgraph(self, *args, **kwargs):
+        """signed permutation symmetry detection graph getter callback, if it exists"""
+    def consgetvars(self, *args, **kwargs):
+        """sets constraint variable getter method of constraint handler"""
+    def consinit(self, *args, **kwargs):
+        """calls initialization method of constraint handler"""
+    def consinitlp(self, *args, **kwargs):
+        """calls LP initialization method of constraint handler to separate all initial active constraints"""
+    def consinitpre(self, *args, **kwargs):
+        """informs constraint handler that the presolving process is being started"""
+    def consinitsol(self, *args, **kwargs):
+        """informs constraint handler that the branch and bound process is being started"""
+    def conslock(self, *args, **kwargs):
+        """variable rounding lock method of constraint handler"""
+    def consparse(self, *args, **kwargs):
+        """sets constraint parsing method of constraint handler"""
+    def conspresol(self, *args, **kwargs):
+        """calls presolving method of constraint handler"""
+    def consprint(self, *args, **kwargs):
+        """sets constraint display method of constraint handler"""
+    def consprop(self, *args, **kwargs):
+        """calls propagation method of constraint handler"""
+    def consresprop(self, *args, **kwargs):
+        """sets propagation conflict resolving method of constraint handler"""
+    def conssepalp(self, *args, **kwargs):
+        """calls separator method of constraint handler to separate LP solution"""
+    def conssepasol(self, *args, **kwargs):
+        """calls separator method of constraint handler to separate given primal solution"""
+    def constrans(self, *args, **kwargs):
+        """sets method of constraint handler to transform constraint data into data belonging to the transformed problem"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class Constant(GenExpr):
+    number: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
 
 class Constraint:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
@@ -384,6 +519,27 @@ class Constraint:
         """Return self!=value."""
     def __reduce__(self): ...
 
+class Cutsel:
+    model: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def cutselexit(self, *args, **kwargs):
+        """executed before the transformed problem is freed"""
+    def cutselexitsol(self, *args, **kwargs):
+        """executed before the branch-and-bound process is freed"""
+    def cutselfree(self, *args, **kwargs):
+        """frees memory of cut selector"""
+    def cutselinit(self, *args, **kwargs):
+        """executed after the problem is transformed. use this call to initialize cut selector data."""
+    def cutselinitsol(self, *args, **kwargs):
+        """executed when the presolving is finished and the branch-and-bound process is about to begin"""
+    def cutselselect(self, *args, **kwargs):
+        """first method called in each iteration in the main solving loop."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
 class DomainChanges:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     @classmethod
@@ -484,6 +640,330 @@ class Event:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
+    def __reduce__(self): ...
+
+class Eventhdlr:
+    model: Incomplete
+    name: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def eventcopy(self, *args, **kwargs):
+        """sets copy callback for all events of this event handler"""
+    def eventdelete(self, *args, **kwargs):
+        """sets callback to free specific event data"""
+    def eventexec(self, *args, **kwargs):
+        """calls execution method of event handler"""
+    def eventexit(self, *args, **kwargs):
+        """calls exit method of event handler"""
+    def eventexitsol(self, *args, **kwargs):
+        """informs event handler that the branch and bound process data is being freed"""
+    def eventfree(self, *args, **kwargs):
+        """calls destructor and frees memory of event handler"""
+    def eventinit(self, *args, **kwargs):
+        """initializes event handler"""
+    def eventinitsol(self, *args, **kwargs):
+        """informs event handler that the branch and bound process is being started"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class Expr:
+    terms: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """terms is a dict of variables to coefficients.
+
+        CONST is used as key for the constant term."""
+    def degree(self, *args, **kwargs):
+        """computes highest degree of terms"""
+    def normalize(self, *args, **kwargs):
+        """remove terms with coefficient of 0"""
+    def __abs__(self):
+        """abs(self)"""
+    def __add__(self, other):
+        """Return self+value."""
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __getitem__(self, index):
+        """Return self[key]."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    def __iadd__(self, other):
+        """Return self+=value."""
+    def __iter__(self):
+        """Implement iter(self)."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    def __mul__(self, other):
+        """Return self*value."""
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+    def __neg__(self):
+        """-self"""
+    def __next__(self): ...
+    def __pow__(self, other):
+        """Return pow(self, value, mod)."""
+    def __radd__(self, other): ...
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __rmul__(self, other): ...
+    def __rpow__(self, other):
+        """Return pow(value, self, mod)."""
+    def __rsub__(self, other): ...
+    def __rtruediv__(self, other):
+        """other / self"""
+    def __setstate_cython__(self, *args, **kwargs): ...
+    def __sub__(self, other):
+        """Return self-value."""
+    def __truediv__(self, other):
+        """Return self/value."""
+
+class ExprCons:
+    expr: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def normalize(self, *args, **kwargs):
+        """move constant terms in expression to bounds"""
+    def __bool__(self) -> bool:
+        """True if self else False"""
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class GenExpr:
+    children: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """ """
+    def degree(self, *args, **kwargs):
+        """Note: none of these expressions should be polynomial"""
+    def getOp(self, *args, **kwargs):
+        """returns operator of GenExpr"""
+    def __abs__(self):
+        """abs(self)"""
+    def __add__(self, other):
+        """Return self+value."""
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    def __mul__(self, other):
+        """Return self*value."""
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+    def __neg__(self):
+        """-self"""
+    def __pow__(self, other):
+        """Return pow(self, value, mod)."""
+    def __radd__(self, other): ...
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __rmul__(self, other): ...
+    def __rpow__(self, other):
+        """Return pow(value, self, mod)."""
+    def __rsub__(self, other): ...
+    def __rtruediv__(self, other):
+        """other / self"""
+    def __setstate_cython__(self, *args, **kwargs): ...
+    def __sub__(self, other):
+        """Return self-value."""
+    def __truediv__(self, other):
+        """Return self/value."""
+
+class Heur:
+    model: Incomplete
+    name: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def heurexec(self, *args, **kwargs):
+        """should the heuristic the executed at the given depth, frequency, timing,..."""
+    def heurexit(self, *args, **kwargs):
+        """calls exit method of primal heuristic"""
+    def heurexitsol(self, *args, **kwargs):
+        """informs primal heuristic that the branch and bound process data is being freed"""
+    def heurfree(self, *args, **kwargs):
+        """calls destructor and frees memory of primal heuristic"""
+    def heurinit(self, *args, **kwargs):
+        """initializes primal heuristic"""
+    def heurinitsol(self, *args, **kwargs):
+        """informs primal heuristic that the branch and bound process is being started"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class LP:
+    name: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """
+        Keyword arguments:
+        name -- the name of the problem (default 'LP')
+        sense -- objective sense (default minimize)
+        """
+    def addCol(self, *args, **kwargs):
+        """Adds a single column to the LP.
+
+        Keyword arguments:
+        entries -- list of tuples, each tuple consists of a row index and a coefficient
+        obj     -- objective coefficient (default 0.0)
+        lb      -- lower bound (default 0.0)
+        ub      -- upper bound (default infinity)
+        """
+    def addCols(self, *args, **kwargs):
+        """Adds multiple columns to the LP.
+
+        Keyword arguments:
+        entrieslist -- list containing lists of tuples, each tuple contains a coefficient and a row index
+        objs  -- objective coefficient (default 0.0)
+        lbs   -- lower bounds (default 0.0)
+        ubs   -- upper bounds (default infinity)
+        """
+    def addRow(self, *args, **kwargs):
+        """Adds a single row to the LP.
+
+        Keyword arguments:
+        entries -- list of tuples, each tuple contains a coefficient and a column index
+        lhs     -- left-hand side of the row (default 0.0)
+        rhs     -- right-hand side of the row (default infinity)
+        """
+    def addRows(self, *args, **kwargs):
+        """Adds multiple rows to the LP.
+
+        Keyword arguments:
+        entrieslist -- list containing lists of tuples, each tuple contains a coefficient and a column index
+        lhss        -- left-hand side of the row (default 0.0)
+        rhss        -- right-hand side of the row (default infinity)
+        """
+    def chgBound(self, *args, **kwargs):
+        """Changes the lower and upper bound of a single column.
+
+        Keyword arguments:
+        col -- column to change
+        lb  -- new lower bound
+        ub  -- new upper bound
+        """
+    def chgCoef(self, *args, **kwargs):
+        """Changes a single coefficient in the LP.
+
+        Keyword arguments:
+        row -- row to change
+        col -- column to change
+        newval -- new coefficient
+        """
+    def chgObj(self, *args, **kwargs):
+        """Changes objective coefficient of a single column.
+
+        Keyword arguments:
+        col -- column to change
+        obj -- new objective coefficient
+        """
+    def chgSide(self, *args, **kwargs):
+        """Changes the left- and right-hand side of a single row.
+
+        Keyword arguments:
+        row -- row to change
+        lhs -- new left-hand side
+        rhs -- new right-hand side
+        """
+    def clear(self, *args, **kwargs):
+        """Clears the whole LP."""
+    def delCols(self, *args, **kwargs):
+        """Deletes a range of columns from the LP.
+
+        Keyword arguments:
+        firstcol -- first column to delete
+        lastcol  -- last column to delete
+        """
+    def delRows(self, *args, **kwargs):
+        """Deletes a range of rows from the LP.
+
+        Keyword arguments:
+        firstrow -- first row to delete
+        lastrow  -- last row to delete
+        """
+    def getBasisInds(self, *args, **kwargs):
+        """Returns the indices of the basic columns and rows; index i >= 0 corresponds to column i, index i < 0 to row -i-1"""
+    def getBounds(self, *args, **kwargs):
+        """Returns all lower and upper bounds for a range of columns.
+
+        Keyword arguments:
+        firstcol -- first column (default 0)
+        lastcol  -- last column (default ncols - 1)
+        """
+    def getDual(self, *args, **kwargs):
+        """Returns the dual solution of the last LP solve."""
+    def getDualRay(self, *args, **kwargs):
+        """Returns a dual ray if possible, None otherwise."""
+    def getNIterations(self, *args, **kwargs):
+        """Returns the number of LP iterations of the last LP solve."""
+    def getPrimal(self, *args, **kwargs):
+        """Returns the primal solution of the last LP solve."""
+    def getPrimalRay(self, *args, **kwargs):
+        """Returns a primal ray if possible, None otherwise."""
+    def getRedcost(self, *args, **kwargs):
+        """Returns the reduced cost vector of the last LP solve."""
+    def getSides(self, *args, **kwargs):
+        """Returns all left- and right-hand sides for a range of rows.
+
+        Keyword arguments:
+        firstrow -- first row (default 0)
+        lastrow  -- last row (default nrows - 1)
+        """
+    def infinity(self, *args, **kwargs):
+        """Returns infinity value of the LP."""
+    def isDualFeasible(self, *args, **kwargs):
+        """Returns True iff LP is proven to be dual feasible."""
+    def isInfinity(self, *args, **kwargs):
+        """Checks if a given value is equal to the infinity value of the LP.
+
+        Keyword arguments:
+        val -- value that should be checked
+        """
+    def isPrimalFeasible(self, *args, **kwargs):
+        """Returns True iff LP is proven to be primal feasible."""
+    def ncols(self, *args, **kwargs):
+        """Returns the number of columns."""
+    def nrows(self, *args, **kwargs):
+        """Returns the number of rows."""
+    def readLP(self, *args, **kwargs):
+        """Reads LP from a file.
+
+        Keyword arguments:
+        filename -- the name of the file to be used
+        """
+    def solve(self, *args, **kwargs):
+        """Solves the current LP.
+
+        Keyword arguments:
+        dual -- use the dual or primal Simplex method (default: dual)
+        """
+    def writeLP(self, *args, **kwargs):
+        """Writes LP to a file.
+
+        Keyword arguments:
+        filename -- the name of the file to be used
+        """
     def __reduce__(self): ...
 
 class Model:
@@ -5407,6 +5887,37 @@ class Node:
         """Return self!=value."""
     def __reduce__(self): ...
 
+class Nodesel:
+    model: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def nodecomp(self, *args, **kwargs):
+        """
+        compare two leaves of the current branching tree
+
+        It should return the following values:
+
+          value < 0, if node 1 comes before (is better than) node 2
+          value = 0, if both nodes are equally good
+          value > 0, if node 1 comes after (is worse than) node 2.
+        """
+    def nodeexit(self, *args, **kwargs):
+        """executed before the transformed problem is freed"""
+    def nodeexitsol(self, *args, **kwargs):
+        """executed before the branch-and-bound process is freed"""
+    def nodefree(self, *args, **kwargs):
+        """frees memory of node selector"""
+    def nodeinit(self, *args, **kwargs):
+        """executed after the problem is transformed. use this call to initialize node selector data."""
+    def nodeinitsol(self, *args, **kwargs):
+        """executed when the presolving is finished and the branch-and-bound process is about to begin"""
+    def nodeselect(self, *args, **kwargs):
+        """first method called in each iteration in the main solving loop."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
 class Op:
     add: ClassVar[str] = ...
     const: ClassVar[str] = ...
@@ -5720,6 +6231,133 @@ class PY_SCIP_STATUS:
     def __reduce_cython__(self, *args, **kwargs): ...
     def __setstate_cython__(self, *args, **kwargs): ...
 
+class PowExpr(GenExpr):
+    expo: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class Presol:
+    model: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def presolexec(self, *args, **kwargs):
+        """executes presolver"""
+    def presolexit(self, *args, **kwargs):
+        """deinitializes presolver"""
+    def presolexitpre(self, *args, **kwargs):
+        """informs presolver that the presolving process is finished"""
+    def presolfree(self, *args, **kwargs):
+        """frees memory of presolver"""
+    def presolinit(self, *args, **kwargs):
+        """initializes presolver"""
+    def presolinitpre(self, *args, **kwargs):
+        """informs presolver that the presolving process is being started"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class Pricer:
+    model: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def pricerexit(self, *args, **kwargs):
+        """calls exit method of variable pricer"""
+    def pricerexitsol(self, *args, **kwargs):
+        """informs variable pricer that the branch and bound process data is being freed"""
+    def pricerfarkas(self, *args, **kwargs):
+        """calls Farkas pricing method of variable pricer"""
+    def pricerfree(self, *args, **kwargs):
+        """calls destructor and frees memory of variable pricer"""
+    def pricerinit(self, *args, **kwargs):
+        """initializes variable pricer"""
+    def pricerinitsol(self, *args, **kwargs):
+        """informs variable pricer that the branch and bound process is being started"""
+    def pricerredcost(self, *args, **kwargs):
+        """calls reduced cost pricing method of variable pricer"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class ProdExpr(GenExpr):
+    constant: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class Prop:
+    model: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def propexec(self, *args, **kwargs):
+        """calls execution method of propagator"""
+    def propexit(self, *args, **kwargs):
+        """calls exit method of propagator"""
+    def propexitpre(self, *args, **kwargs):
+        """informs propagator that the presolving process is finished"""
+    def propexitsol(self, *args, **kwargs):
+        """informs propagator that the prop and bound process data is being freed"""
+    def propfree(self, *args, **kwargs):
+        """calls destructor and frees memory of propagator"""
+    def propinit(self, *args, **kwargs):
+        """initializes propagator"""
+    def propinitpre(self, *args, **kwargs):
+        """informs propagator that the presolving process is being started"""
+    def propinitsol(self, *args, **kwargs):
+        """informs propagator that the prop and bound process is being started"""
+    def proppresol(self, *args, **kwargs):
+        """executes presolving method of propagator"""
+    def propresprop(self, *args, **kwargs):
+        """resolves the given conflicting bound, that was reduced by the given propagator"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class Reader:
+    model: Incomplete
+    name: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def readerfree(self, *args, **kwargs):
+        """calls destructor and frees memory of reader"""
+    def readerread(self, *args, **kwargs):
+        """calls read method of reader"""
+    def readerwrite(self, *args, **kwargs):
+        """calls write method of reader"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class Relax:
+    model: Incomplete
+    name: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def relaxexec(self, *args, **kwargs):
+        """callls execution method of relaxation handler"""
+    def relaxexit(self, *args, **kwargs):
+        """calls exit method of relaxation handler"""
+    def relaxexitsol(self, *args, **kwargs):
+        """informs relaxation handler that the branch and bound process data is being freed"""
+    def relaxfree(self, *args, **kwargs):
+        """calls destructor and frees memory of relaxation handler"""
+    def relaxinit(self, *args, **kwargs):
+        """initializes relaxation handler"""
+    def relaxinitsol(self, *args, **kwargs):
+        """informs relaxaton handler that the branch and bound process is being started"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
 class Row:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
@@ -5916,6 +6554,30 @@ class Row:
         """Return self!=value."""
     def __reduce__(self): ...
 
+class Sepa:
+    model: Incomplete
+    name: Incomplete
+    @classmethod
+    def __init__(cls, *args, **kwargs) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def sepaexeclp(self, *args, **kwargs):
+        """calls LP separation method of separator"""
+    def sepaexecsol(self, *args, **kwargs):
+        """calls primal solution separation method of separator"""
+    def sepaexit(self, *args, **kwargs):
+        """calls exit method of separator"""
+    def sepaexitsol(self, *args, **kwargs):
+        """informs separator that the branch and bound process data is being freed"""
+    def sepafree(self, *args, **kwargs):
+        """calls destructor and frees memory of separator"""
+    def sepainit(self, *args, **kwargs):
+        """initializes separator"""
+    def sepainitsol(self, *args, **kwargs):
+        """informs separator that the branch and bound process is being started"""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
 class Solution:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
@@ -5990,6 +6652,15 @@ class Statistics:
     @property
     def n_vars(self): ...
 
+class SumExpr(GenExpr):
+    coefs: Incomplete
+    constant: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
 class Term:
     hashval: Incomplete
     ptrtuple: Incomplete
@@ -6000,6 +6671,21 @@ class Term:
     def __getitem__(self, index): ...
     def __hash__(self) -> int: ...
     def __len__(self) -> int: ...
+
+class UnaryExpr(GenExpr):
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
+
+class VarExpr(GenExpr):
+    var: Incomplete
+    def __init__(self, *args, **kwargs) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def __reduce__(self): ...
+    def __reduce_cython__(self, *args, **kwargs): ...
+    def __setstate_cython__(self, *args, **kwargs): ...
 
 class Variable(Expr):
     __pyx_vtable__: ClassVar[PyCapsule] = ...
