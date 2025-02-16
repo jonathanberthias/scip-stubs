@@ -355,10 +355,9 @@ class Constraint:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def getConshdlrName(self, *args, **kwargs):
+    def getConshdlrName(self):
         """
         Return the constraint handler's name.
 
@@ -367,7 +366,7 @@ class Constraint:
         str
 
         """
-    def isActive(self, *args, **kwargs):
+    def isActive(self):
         """
         Returns True iff constraint is active in the current node.
 
@@ -376,7 +375,7 @@ class Constraint:
         bool
 
         """
-    def isChecked(self, *args, **kwargs):
+    def isChecked(self):
         """
         Returns True if constraint should be checked for feasibility.
 
@@ -385,7 +384,7 @@ class Constraint:
         bool
 
         """
-    def isDynamic(self, *args, **kwargs):
+    def isDynamic(self):
         """
         Returns True if constraint is subject to aging.
 
@@ -394,7 +393,7 @@ class Constraint:
         bool
 
         """
-    def isEnforced(self, *args, **kwargs):
+    def isEnforced(self):
         """
         Returns True if constraint should be enforced during node processing.
 
@@ -403,7 +402,7 @@ class Constraint:
         bool
 
         """
-    def isInitial(self, *args, **kwargs):
+    def isInitial(self):
         """
         Returns True if the relaxation of the constraint should be in the initial LP.
 
@@ -412,7 +411,7 @@ class Constraint:
         bool
 
         """
-    def isLinear(self, *args, **kwargs):
+    def isLinear(self):
         """
         Returns True if constraint is linear
 
@@ -421,7 +420,7 @@ class Constraint:
         bool
 
         """
-    def isLocal(self, *args, **kwargs):
+    def isLocal(self):
         """
         Returns True if constraint is only locally valid or not added to any (sub)problem.
 
@@ -430,7 +429,7 @@ class Constraint:
         bool
 
         """
-    def isModifiable(self, *args, **kwargs):
+    def isModifiable(self):
         """
         Returns True if constraint is modifiable (subject to column generation).
 
@@ -439,7 +438,7 @@ class Constraint:
         bool
 
         """
-    def isNonlinear(self, *args, **kwargs):
+    def isNonlinear(self):
         """
         Returns True if constraint is nonlinear.
 
@@ -448,7 +447,7 @@ class Constraint:
         bool
 
         """
-    def isOriginal(self, *args, **kwargs):
+    def isOriginal(self):
         """
         Retrieve whether the constraint belongs to the original problem.
 
@@ -457,7 +456,7 @@ class Constraint:
         bool
 
         """
-    def isPropagated(self, *args, **kwargs):
+    def isPropagated(self):
         """
         Returns True if constraint should be propagated during node processing.
 
@@ -466,7 +465,7 @@ class Constraint:
         bool
 
         """
-    def isRemovable(self, *args, **kwargs):
+    def isRemovable(self):
         """
         Returns True if constraint's relaxation should be removed from the LP due to aging or cleanup.
 
@@ -475,7 +474,7 @@ class Constraint:
         bool
 
         """
-    def isSeparated(self, *args, **kwargs):
+    def isSeparated(self):
         """
         Returns True if constraint should be separated during LP processing.
 
@@ -484,7 +483,7 @@ class Constraint:
         bool
 
         """
-    def isStickingAtNode(self, *args, **kwargs):
+    def isStickingAtNode(self):
         """
         Returns True if constraint is only locally valid or not added to any (sub)problem.
 
