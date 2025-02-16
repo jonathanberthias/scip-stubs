@@ -5,3 +5,10 @@ repos:
       - id: ruff
         args: ["--fix"]
       - id: ruff-format
+  - repo: local
+    hooks:
+      - id: stubtest-allowlist
+        name: Check allowlist is up to date
+        language: system
+        entry: ".venv/bin/stubtest pyscipopt --concise --mypy-config-file pyproject.toml --allowlist .allowlist"
+        pass_filenames: false
