@@ -660,9 +660,9 @@ class Expr:
         """terms is a dict of variables to coefficients.
 
         CONST is used as key for the constant term."""
-    def degree(self, *args, **kwargs):
+    def degree(self):
         """computes highest degree of terms"""
-    def normalize(self, *args, **kwargs):
+    def normalize(self):
         """remove terms with coefficient of 0"""
     def __abs__(self):
         """abs(self)"""
@@ -691,12 +691,12 @@ class Expr:
     def __neg__(self):
         """-self"""
     def __next__(self): ...
-    def __pow__(self, other):
+    def __pow__(self, other, mod=...):
         """Return pow(self, value, mod)."""
     def __radd__(self, other): ...
     def __reduce__(self): ...
     def __rmul__(self, other): ...
-    def __rpow__(self, other):
+    def __rpow__(self, other, mod=...):
         """Return pow(value, self, mod)."""
     def __rsub__(self, other): ...
     def __rtruediv__(self, other):
