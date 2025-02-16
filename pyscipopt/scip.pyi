@@ -6337,10 +6337,9 @@ class Row:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def getAge(self, *args, **kwargs):
+    def getAge(self):
         """
         Gets the age of the row. (The consecutive times the row has been non-active in the LP).
 
@@ -6349,7 +6348,7 @@ class Row:
         int
 
         """
-    def getBasisStatus(self, *args, **kwargs):
+    def getBasisStatus(self):
         """
         Gets the basis status of a row in the LP solution.
 
@@ -6368,7 +6367,7 @@ class Row:
         Returns basis status "basic" for rows not in the current SCIP LP.
 
         """
-    def getCols(self, *args, **kwargs):
+    def getCols(self):
         """
         Gets list with columns of nonzero entries
 
@@ -6377,7 +6376,7 @@ class Row:
         list of Column
 
         """
-    def getConsOriginConshdlrtype(self, *args, **kwargs):
+    def getConsOriginConshdlrtype(self):
         """
         Returns type of constraint handler that created the row.
 
@@ -6386,7 +6385,7 @@ class Row:
         str
 
         """
-    def getConstant(self, *args, **kwargs):
+    def getConstant(self):
         """
         Gets constant shift of row.
 
@@ -6395,7 +6394,7 @@ class Row:
         float
 
         """
-    def getLPPos(self, *args, **kwargs):
+    def getLPPos(self):
         """
         Gets position of row in current LP, or -1 if it is not in LP.
 
@@ -6404,7 +6403,7 @@ class Row:
         int
 
         """
-    def getLhs(self, *args, **kwargs):
+    def getLhs(self):
         """
         Returns the left hand side of row.
 
@@ -6413,7 +6412,7 @@ class Row:
         float
 
         """
-    def getNLPNonz(self, *args, **kwargs):
+    def getNLPNonz(self):
         """
         Get number of nonzero entries in row vector that correspond to columns currently in the SCIP LP.
 
@@ -6422,7 +6421,7 @@ class Row:
         int
 
         """
-    def getNNonz(self, *args, **kwargs):
+    def getNNonz(self):
         """
         Get number of nonzero entries in row vector.
 
@@ -6431,7 +6430,7 @@ class Row:
         int
 
         """
-    def getNorm(self, *args, **kwargs):
+    def getNorm(self):
         """
         Gets Euclidean norm of row vector.
 
@@ -6440,7 +6439,7 @@ class Row:
         float
 
         """
-    def getOrigintype(self, *args, **kwargs):
+    def getOrigintype(self):
         """
         Returns type of origin that created the row.
 
@@ -6449,7 +6448,7 @@ class Row:
         PY_SCIP_ROWORIGINTYPE
 
         """
-    def getRhs(self, *args, **kwargs):
+    def getRhs(self):
         """
         Returns the right hand side of row.
 
@@ -6458,7 +6457,7 @@ class Row:
         float
 
         """
-    def getVals(self, *args, **kwargs):
+    def getVals(self):
         """
         Gets list with coefficients of nonzero entries.
 
@@ -6467,7 +6466,7 @@ class Row:
         list of int
 
         """
-    def isInGlobalCutpool(self, *args, **kwargs):
+    def isInGlobalCutpool(self):
         """
         Return TRUE iff row is a member of the global cut pool.
 
@@ -6476,7 +6475,7 @@ class Row:
         bool
 
         """
-    def isIntegral(self, *args, **kwargs):
+    def isIntegral(self):
         """
         Returns TRUE iff the activity of the row (without the row's constant)
         is always integral in a feasible solution.
@@ -6486,7 +6485,7 @@ class Row:
         bool
 
         """
-    def isLocal(self, *args, **kwargs):
+    def isLocal(self):
         """
         Returns TRUE iff the row is only valid locally.
 
@@ -6495,7 +6494,7 @@ class Row:
         bool
 
         """
-    def isModifiable(self, *args, **kwargs):
+    def isModifiable(self):
         """
         Returns TRUE iff row is modifiable during node processing (subject to column generation).
 
@@ -6504,7 +6503,7 @@ class Row:
         bool
 
         """
-    def isRemovable(self, *args, **kwargs):
+    def isRemovable(self):
         """
         Returns TRUE iff row is removable from the LP (due to aging or cleanup).
 
