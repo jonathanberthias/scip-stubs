@@ -5,16 +5,6 @@
 # Ignore errors from recipes, they're just clones of other errors
 pyscipopt.recipes.*
 
-pyscipopt.Benderscut.__init__
-pyscipopt.Benderscut.benderscutexec
-pyscipopt.Branchrule.__init__
-pyscipopt.Branchrule.branchexecext
-pyscipopt.Branchrule.branchexeclp
-pyscipopt.Branchrule.branchexecps
-pyscipopt.Eventhdlr.__init__
-pyscipopt.Eventhdlr.eventexec
-pyscipopt.Heur.__init__
-pyscipopt.Heur.heurexec
 pyscipopt.Model.activateBenders
 pyscipopt.Model.addBendersSubproblem
 pyscipopt.Model.addCoefLinear
@@ -256,26 +246,6 @@ pyscipopt.Model.writeProblem
 pyscipopt.Model.writeSol
 pyscipopt.Model.writeStatistics
 pyscipopt.Model.writeTransSol
-pyscipopt.Nodesel.__init__
-pyscipopt.Nodesel.nodecomp
-pyscipopt.Presol.__init__
-pyscipopt.Presol.presolexec
-pyscipopt.Pricer.__init__
-pyscipopt.Sepa.__init__
-pyscipopt.scip.Benderscut.__init__
-pyscipopt.scip.Benderscut.benderscutexec
-pyscipopt.scip.BoundChange.__init__
-pyscipopt.scip.Branchrule.__init__
-pyscipopt.scip.Branchrule.branchexecext
-pyscipopt.scip.Branchrule.branchexeclp
-pyscipopt.scip.Branchrule.branchexecps
-pyscipopt.scip.Cutsel.__init__
-pyscipopt.scip.Cutsel.cutselselect
-pyscipopt.scip.DomainChanges.__init__
-pyscipopt.scip.Eventhdlr.__init__
-pyscipopt.scip.Eventhdlr.eventexec
-pyscipopt.scip.Heur.__init__
-pyscipopt.scip.Heur.heurexec
 pyscipopt.scip.Model.activateBenders
 pyscipopt.scip.Model.addBendersSubproblem
 pyscipopt.scip.Model.addCoefLinear
@@ -517,9 +487,6 @@ pyscipopt.scip.Model.writeProblem
 pyscipopt.scip.Model.writeSol
 pyscipopt.scip.Model.writeStatistics
 pyscipopt.scip.Model.writeTransSol
-pyscipopt.scip.NLRow.__init__
-pyscipopt.scip.Nodesel.__init__
-pyscipopt.scip.Nodesel.nodecomp
 pyscipopt.scip.PY_SCIP_BENDERSENFOTYPE.__init__
 pyscipopt.scip.PY_SCIP_BRANCHDIR.__init__
 pyscipopt.scip.PY_SCIP_CALL
@@ -536,10 +503,3 @@ pyscipopt.scip.PY_SCIP_ROWORIGINTYPE.__init__
 pyscipopt.scip.PY_SCIP_SOLORIGIN.__init__
 pyscipopt.scip.PY_SCIP_STAGE.__init__
 pyscipopt.scip.PY_SCIP_STATUS.__init__
-pyscipopt.scip.Presol.__init__
-pyscipopt.scip.Presol.presolexec
-pyscipopt.scip.Pricer.__init__
-pyscipopt.scip.Relax.__init__
-pyscipopt.scip.Sepa.__init__
-pyscipopt.scip.Statistics.__init__
-pyscipopt.scip.Term.__init__

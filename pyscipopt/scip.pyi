@@ -70,10 +70,9 @@ class Benderscut:
     benders: Incomplete
     model: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def benderscutexec(self): ...
+    def benderscutexec(self, solution, probnumber, enfotype): ...
     def benderscutexit(self): ...
     def benderscutexitsol(self): ...
     def benderscutfree(self): ...
@@ -83,8 +82,7 @@ class Benderscut:
 
 class BoundChange:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def getBoundchgtype(self):
         """
@@ -137,14 +135,13 @@ class BoundChange:
 
 class Branchrule:
     model: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def branchexecext(self):
+    def branchexecext(self, allowaddcons):
         """executes branching rule for external branching candidates"""
-    def branchexeclp(self):
+    def branchexeclp(self, allowaddcons):
         """executes branching rule for fractional LP solution"""
-    def branchexecps(self):
+    def branchexecps(self, allowaddcons):
         """executes branching rule for not completely fixed pseudo solution"""
     def branchexit(self):
         """deinitializes branching rule"""
@@ -538,8 +535,7 @@ class Constraint:
 
 class Cutsel:
     model: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def cutselexit(self):
         """executed before the transformed problem is freed"""
@@ -551,14 +547,13 @@ class Cutsel:
         """executed after the problem is transformed. use this call to initialize cut selector data."""
     def cutselinitsol(self):
         """executed when the presolving is finished and the branch-and-bound process is about to begin"""
-    def cutselselect(self):
+    def cutselselect(self, cuts, forcedcuts, root, maxnselectedcuts):
         """first method called in each iteration in the main solving loop."""
     def __reduce__(self): ...
 
 class DomainChanges:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def getBoundchgs(self):
         """
@@ -659,14 +654,13 @@ class Event:
 class Eventhdlr:
     model: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def eventcopy(self):
         """sets copy callback for all events of this event handler"""
     def eventdelete(self):
         """sets callback to free specific event data"""
-    def eventexec(self):
+    def eventexec(self, event):
         """calls execution method of event handler"""
     def eventexit(self):
         """calls exit method of event handler"""
@@ -800,10 +794,9 @@ class GenExpr:
 class Heur:
     model: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def heurexec(self):
+    def heurexec(self, heurtiming, nodeinfeasible):
         """should the heuristic the executed at the given depth, frequency, timing,..."""
     def heurexit(self):
         """calls exit method of primal heuristic"""
@@ -5675,8 +5668,7 @@ class NLRow:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def getConstant(self):
         """
@@ -5892,10 +5884,9 @@ class Node:
 
 class Nodesel:
     model: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def nodecomp(self):
+    def nodecomp(self, node1, node2):
         """
         compare two leaves of the current branching tree
 
@@ -6210,10 +6201,9 @@ class PowExpr(GenExpr):
 
 class Presol:
     model: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def presolexec(self):
+    def presolexec(self, nrounds, presoltiming):
         """executes presolver"""
     def presolexit(self):
         """deinitializes presolver"""
@@ -6229,8 +6219,7 @@ class Presol:
 
 class Pricer:
     model: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def pricerexit(self):
         """calls exit method of variable pricer"""
@@ -6314,8 +6303,7 @@ class Reader:
 class Relax:
     model: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def relaxexec(self):
         """callls execution method of relaxation handler"""
@@ -6529,8 +6517,7 @@ class Row:
 class Sepa:
     model: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def sepaexeclp(self):
         """calls LP separation method of separator"""
@@ -6585,14 +6572,26 @@ class Solution:
 
 @dataclasses.dataclass
 class Statistics:
-    dual_bound: ClassVar[None] = ...
-    first_solution: ClassVar[None] = ...
-    gap: ClassVar[None] = ...
-    n_nodes: ClassVar[None] = ...
-    n_runs: ClassVar[None] = ...
-    n_solutions_found: ClassVar[int] = ...
-    primal_bound: ClassVar[None] = ...
-    primal_dual_integral: ClassVar[None] = ...
+    status: str
+    total_time: float
+    solving_time: float
+    presolving_time: float
+    reading_time: float
+    copying_time: float
+    problem_name: str
+    presolved_problem_name: str
+    _variables: dict
+    _presolved_variables: dict
+    _constraints: dict
+    _presolved_constraints: dict
+    n_runs: int | None = None
+    n_nodes: int | None = None
+    n_solutions_found: int = -1
+    first_solution: float | None = None
+    primal_bound: float | None = None
+    dual_bound: float | None = None
+    gap: float | None = None
+    primal_dual_integral: float | None = None
     @property
     def n_binary_vars(self): ...
     @property
@@ -6633,7 +6632,7 @@ class Term:
     hashval: Incomplete
     ptrtuple: Incomplete
     vartuple: Incomplete
-    def __init__(self) -> None: ...
+    def __init__(self, vartuple) -> None: ...
     def __add__(self, other): ...
     def __eq__(self, other: object) -> bool: ...
     def __getitem__(self, index): ...
