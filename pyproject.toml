@@ -29,3 +29,9 @@ dev = [
 
 [tool.mypy]
 ignore_errors = true
+
+[tool.ruff.lint]
+extend-select = ["PYI"]
+extend-ignore = [
+    "PYI021", # let's keep the docstrings for now
+]
