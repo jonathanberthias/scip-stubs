@@ -160,10 +160,9 @@ class Branchrule:
 class Column:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
-    @classmethod
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def getAge(self, *args, **kwargs):
+    def getAge(self):
         """
         Gets the age of the column, i.e., the total number of successive times a column was in the LP
         and was 0.0 in the solution.
@@ -173,7 +172,7 @@ class Column:
         int
 
         """
-    def getBasisStatus(self, *args, **kwargs):
+    def getBasisStatus(self):
         """
         Gets the basis status of a column in the LP solution
 
@@ -192,7 +191,7 @@ class Column:
         Returns basis status "zero" for columns not in the current SCIP LP.
 
         """
-    def getLPPos(self, *args, **kwargs):
+    def getLPPos(self):
         """
         Gets position of column in current LP, or -1 if it is not in LP.
 
@@ -201,7 +200,7 @@ class Column:
         int
 
         """
-    def getLb(self, *args, **kwargs):
+    def getLb(self):
         """
         Gets lower bound of column.
 
@@ -210,7 +209,7 @@ class Column:
         float
 
         """
-    def getObjCoeff(self, *args, **kwargs):
+    def getObjCoeff(self):
         """
         Gets objective value coefficient of a column.
 
@@ -219,7 +218,7 @@ class Column:
         float
 
         """
-    def getPrimsol(self, *args, **kwargs):
+    def getPrimsol(self):
         """
         Gets the primal LP solution of a column.
 
@@ -228,7 +227,7 @@ class Column:
         float
 
         """
-    def getUb(self, *args, **kwargs):
+    def getUb(self):
         """
         Gets upper bound of column.
 
@@ -237,7 +236,7 @@ class Column:
         float
 
         """
-    def getVar(self, *args, **kwargs):
+    def getVar(self):
         """
         Gets variable this column represents.
 
@@ -246,7 +245,7 @@ class Column:
         Variable
 
         """
-    def isIntegral(self, *args, **kwargs):
+    def isIntegral(self):
         """
         Returns whether the associated variable is of integral type (binary, integer, implicit integer).
 
@@ -6337,7 +6336,7 @@ class Row:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def getAge(self):
         """

@@ -509,16 +509,6 @@ pyscipopt.scip.Branchrule.branchexitsol
 pyscipopt.scip.Branchrule.branchfree
 pyscipopt.scip.Branchrule.branchinit
 pyscipopt.scip.Branchrule.branchinitsol
-pyscipopt.scip.Column.__init__
-pyscipopt.scip.Column.getAge
-pyscipopt.scip.Column.getBasisStatus
-pyscipopt.scip.Column.getLPPos
-pyscipopt.scip.Column.getLb
-pyscipopt.scip.Column.getObjCoeff
-pyscipopt.scip.Column.getPrimsol
-pyscipopt.scip.Column.getUb
-pyscipopt.scip.Column.getVar
-pyscipopt.scip.Column.isIntegral
 pyscipopt.scip.Cutsel.__init__
 pyscipopt.scip.Cutsel.cutselexit
 pyscipopt.scip.Cutsel.cutselexitsol
