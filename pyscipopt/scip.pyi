@@ -6285,14 +6285,31 @@ class Prop:
 class Reader:
     model: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def readerfree(self, *args, **kwargs):
+    def readerfree(self):
         """calls destructor and frees memory of reader"""
-    def readerread(self, *args, **kwargs):
+    def readerread(self, filename):
         """calls read method of reader"""
-    def readerwrite(self, *args, **kwargs):
+    def readerwrite(
+        self,
+        file,
+        name,
+        transformed,
+        objsense,
+        objscale,
+        objoffset,
+        binvars,
+        intvars,
+        implvars,
+        contvars,
+        fixedvars,
+        startnvars,
+        conss,
+        maxnconss,
+        startnconss,
+        genericnames,
+    ):
         """calls write method of reader"""
     def __reduce__(self): ...
 

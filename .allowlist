@@ -464,10 +464,6 @@ pyscipopt.Prop.propinitpre
 pyscipopt.Prop.propinitsol
 pyscipopt.Prop.proppresol
 pyscipopt.Prop.propresprop
-pyscipopt.Reader.__init__
-pyscipopt.Reader.readerfree
-pyscipopt.Reader.readerread
-pyscipopt.Reader.readerwrite
 pyscipopt.Sepa.__init__
 pyscipopt.Sepa.sepaexeclp
 pyscipopt.Sepa.sepaexecsol
@@ -991,10 +987,6 @@ pyscipopt.scip.Prop.propinitpre
 pyscipopt.scip.Prop.propinitsol
 pyscipopt.scip.Prop.proppresol
 pyscipopt.scip.Prop.propresprop
-pyscipopt.scip.Reader.__init__
-pyscipopt.scip.Reader.readerfree
-pyscipopt.scip.Reader.readerread
-pyscipopt.scip.Reader.readerwrite
 pyscipopt.scip.Relax.__init__
 pyscipopt.scip.Relax.relaxexec
 pyscipopt.scip.Relax.relaxexit
