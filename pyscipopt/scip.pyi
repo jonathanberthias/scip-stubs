@@ -274,74 +274,102 @@ class Column:
 class Conshdlr:
     model: Incomplete
     name: Incomplete
-    @classmethod
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def consactive(self, *args, **kwargs):
+    def consactive(self, constraint):
         """sets activation notification method of constraint handler"""
-    def conscheck(self, *args, **kwargs):
+    def conscheck(
+        self,
+        constraints,
+        solution,
+        checkintegrality,
+        checklprows,
+        printreason,
+        completely,
+    ):
         """calls feasibility check method of constraint handler"""
-    def conscopy(self, *args, **kwargs):
+    def conscopy(self):
         """sets copy method of both the constraint handler and each associated constraint"""
-    def consdeactive(self, *args, **kwargs):
+    def consdeactive(self, constraint):
         """sets deactivation notification method of constraint handler"""
-    def consdelete(self, *args, **kwargs):
+    def consdelete(self, constraint):
         """sets method of constraint handler to free specific constraint data"""
-    def consdelvars(self, *args, **kwargs):
+    def consdelvars(self, constraints):
         """calls variable deletion method of constraint handler"""
-    def consdisable(self, *args, **kwargs):
+    def consdisable(self, constraint):
         """sets disabling notification method of constraint handler"""
-    def consenable(self, *args, **kwargs):
+    def consenable(self, constraint):
         """sets enabling notification method of constraint handler"""
-    def consenfolp(self, *args, **kwargs):
+    def consenfolp(
+        self,
+        constraints,
+        nusefulconss,
+        solinfeasible,
+    ):
         """calls enforcing method of constraint handler for LP solution for all constraints added"""
-    def consenfops(self, *args, **kwargs):
+    def consenfops(self, constraints, nusefulconss, solinfeasible, objinfeasible):
         """calls enforcing method of constraint handler for pseudo solution for all constraints added"""
-    def consenforelax(self, *args, **kwargs):
+    def consenforelax(self, solution, constraints, nusefulconss, solinfeasible):
         """calls enforcing method of constraint handler for a relaxation solution for all constraints added"""
-    def consexit(self, *args, **kwargs):
+    def consexit(self, constraints):
         """calls exit method of constraint handler"""
-    def consexitpre(self, *args, **kwargs):
+    def consexitpre(self, constraints):
         """informs constraint handler that the presolving is finished"""
-    def consexitsol(self, *args, **kwargs):
+    def consexitsol(self, constraints, restart):
         """informs constraint handler that the branch and bound process data is being freed"""
-    def consfree(self, *args, **kwargs):
+    def consfree(self):
         """calls destructor and frees memory of constraint handler"""
-    def consgetdivebdchgs(self, *args, **kwargs):
+    def consgetdivebdchgs(self):
         """calls diving solution enforcement callback of constraint handler, if it exists"""
-    def consgetnvars(self, *args, **kwargs):
+    def consgetnvars(self, constraint):
         """sets constraint variable number getter method of constraint handler"""
-    def consgetpermsymgraph(self, *args, **kwargs):
+    def consgetpermsymgraph(self):
         """permutation symmetry detection graph getter callback, if it exists"""
-    def consgetsignedpermsymgraph(self, *args, **kwargs):
+    def consgetsignedpermsymgraph(self):
         """signed permutation symmetry detection graph getter callback, if it exists"""
-    def consgetvars(self, *args, **kwargs):
+    def consgetvars(self, constraint):
         """sets constraint variable getter method of constraint handler"""
-    def consinit(self, *args, **kwargs):
+    def consinit(self, constraints):
         """calls initialization method of constraint handler"""
-    def consinitlp(self, *args, **kwargs):
+    def consinitlp(self, constraints):
         """calls LP initialization method of constraint handler to separate all initial active constraints"""
-    def consinitpre(self, *args, **kwargs):
+    def consinitpre(self, constraints):
         """informs constraint handler that the presolving process is being started"""
-    def consinitsol(self, *args, **kwargs):
+    def consinitsol(self, constraints):
         """informs constraint handler that the branch and bound process is being started"""
-    def conslock(self, *args, **kwargs):
+    def conslock(self, constraint, locktype, nlockspos, nlocksneg):
         """variable rounding lock method of constraint handler"""
-    def consparse(self, *args, **kwargs):
+    def consparse(self):
         """sets constraint parsing method of constraint handler"""
-    def conspresol(self, *args, **kwargs):
+    def conspresol(
+        self,
+        constraints,
+        nrounds,
+        presoltiming,
+        nnewfixedvars,
+        nnewaggrvars,
+        nnewchgvartypes,
+        nnewchgbds,
+        nnewholes,
+        nnewdelconss,
+        nnewaddconss,
+        nnewupgdconss,
+        nnewchgcoefs,
+        nnewchgsides,
+        result_dict,
+    ):
         """calls presolving method of constraint handler"""
-    def consprint(self, *args, **kwargs):
+    def consprint(self, constraint):
         """sets constraint display method of constraint handler"""
-    def consprop(self, *args, **kwargs):
+    def consprop(self, constraints, nusefulconss, nmarkedconss, proptiming):
         """calls propagation method of constraint handler"""
-    def consresprop(self, *args, **kwargs):
+    def consresprop(self):
         """sets propagation conflict resolving method of constraint handler"""
-    def conssepalp(self, *args, **kwargs):
+    def conssepalp(self, constraints, nusefulconss):
         """calls separator method of constraint handler to separate LP solution"""
-    def conssepasol(self, *args, **kwargs):
+    def conssepasol(self, constraints, nusefulconss, solution):
         """calls separator method of constraint handler to separate given primal solution"""
-    def constrans(self, *args, **kwargs):
+    def constrans(self, sourceconstraint):
         """sets method of constraint handler to transform constraint data into data belonging to the transformed problem"""
     def __reduce__(self): ...
 
