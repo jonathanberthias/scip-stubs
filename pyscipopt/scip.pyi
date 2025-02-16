@@ -6556,7 +6556,7 @@ class Solution:
     data: Incomplete
     def __init__(self, *args, **kwargs) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-    def getOrigin(self, *args, **kwargs):
+    def getOrigin(self):
         """
         Returns origin of solution: where to retrieve uncached elements.
 
@@ -6564,9 +6564,9 @@ class Solution:
         -------
         PY_SCIP_SOLORIGIN
         """
-    def retransform(self, *args, **kwargs):
+    def retransform(self):
         """retransforms solution to original problem space"""
-    def translate(self, *args, **kwargs):
+    def translate(self, target):
         """
         translate solution to a target model solution
 

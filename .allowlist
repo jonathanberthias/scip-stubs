@@ -1021,8 +1021,5 @@ pyscipopt.scip.Sepa.sepaexitsol
 pyscipopt.scip.Sepa.sepafree
 pyscipopt.scip.Sepa.sepainit
 pyscipopt.scip.Sepa.sepainitsol
-pyscipopt.scip.Solution.getOrigin
-pyscipopt.scip.Solution.retransform
-pyscipopt.scip.Solution.translate
 pyscipopt.scip.Statistics.__init__
 pyscipopt.scip.Term.__init__
