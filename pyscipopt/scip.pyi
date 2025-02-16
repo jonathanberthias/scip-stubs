@@ -825,7 +825,7 @@ class LP:
         name -- the name of the problem (default 'LP')
         sense -- objective sense (default minimize)
         """
-    def addCol(self):
+    def addCol(self, entries, obj=..., lb=..., ub=...):
         """Adds a single column to the LP.
 
         Keyword arguments:
@@ -834,7 +834,7 @@ class LP:
         lb      -- lower bound (default 0.0)
         ub      -- upper bound (default infinity)
         """
-    def addCols(self):
+    def addCols(self, entrieslist, objs=..., lbs=..., ubs=...):
         """Adds multiple columns to the LP.
 
         Keyword arguments:
@@ -843,7 +843,7 @@ class LP:
         lbs   -- lower bounds (default 0.0)
         ubs   -- upper bounds (default infinity)
         """
-    def addRow(self):
+    def addRow(self, entries, lhs=..., rhs=...):
         """Adds a single row to the LP.
 
         Keyword arguments:
@@ -851,7 +851,7 @@ class LP:
         lhs     -- left-hand side of the row (default 0.0)
         rhs     -- right-hand side of the row (default infinity)
         """
-    def addRows(self):
+    def addRows(self, entrieslist, lhss=..., rhss=...):
         """Adds multiple rows to the LP.
 
         Keyword arguments:
@@ -859,7 +859,7 @@ class LP:
         lhss        -- left-hand side of the row (default 0.0)
         rhss        -- right-hand side of the row (default infinity)
         """
-    def chgBound(self):
+    def chgBound(self, col, lb, ub):
         """Changes the lower and upper bound of a single column.
 
         Keyword arguments:
@@ -867,7 +867,7 @@ class LP:
         lb  -- new lower bound
         ub  -- new upper bound
         """
-    def chgCoef(self):
+    def chgCoef(self, row, col, newval):
         """Changes a single coefficient in the LP.
 
         Keyword arguments:
@@ -875,14 +875,14 @@ class LP:
         col -- column to change
         newval -- new coefficient
         """
-    def chgObj(self):
+    def chgObj(self, col, obj):
         """Changes objective coefficient of a single column.
 
         Keyword arguments:
         col -- column to change
         obj -- new objective coefficient
         """
-    def chgSide(self):
+    def chgSide(self, row, lhs, rhs):
         """Changes the left- and right-hand side of a single row.
 
         Keyword arguments:
@@ -892,14 +892,14 @@ class LP:
         """
     def clear(self):
         """Clears the whole LP."""
-    def delCols(self):
+    def delCols(self, firstcol, lastcol):
         """Deletes a range of columns from the LP.
 
         Keyword arguments:
         firstcol -- first column to delete
         lastcol  -- last column to delete
         """
-    def delRows(self):
+    def delRows(self, firstrow, lastrow):
         """Deletes a range of rows from the LP.
 
         Keyword arguments:
@@ -908,7 +908,7 @@ class LP:
         """
     def getBasisInds(self):
         """Returns the indices of the basic columns and rows; index i >= 0 corresponds to column i, index i < 0 to row -i-1"""
-    def getBounds(self):
+    def getBounds(self, firstcol=..., lastcol=...):
         """Returns all lower and upper bounds for a range of columns.
 
         Keyword arguments:
@@ -927,7 +927,7 @@ class LP:
         """Returns a primal ray if possible, None otherwise."""
     def getRedcost(self):
         """Returns the reduced cost vector of the last LP solve."""
-    def getSides(self):
+    def getSides(self, firstrow=..., lastrow=...):
         """Returns all left- and right-hand sides for a range of rows.
 
         Keyword arguments:
@@ -938,7 +938,7 @@ class LP:
         """Returns infinity value of the LP."""
     def isDualFeasible(self):
         """Returns True iff LP is proven to be dual feasible."""
-    def isInfinity(self):
+    def isInfinity(self, val):
         """Checks if a given value is equal to the infinity value of the LP.
 
         Keyword arguments:
@@ -950,19 +950,19 @@ class LP:
         """Returns the number of columns."""
     def nrows(self):
         """Returns the number of rows."""
-    def readLP(self):
+    def readLP(self, filename):
         """Reads LP from a file.
 
         Keyword arguments:
         filename -- the name of the file to be used
         """
-    def solve(self):
+    def solve(self, dual=...):
         """Solves the current LP.
 
         Keyword arguments:
         dual -- use the dual or primal Simplex method (default: dual)
         """
-    def writeLP(self):
+    def writeLP(self, filename):
         """Writes LP to a file.
 
         Keyword arguments:
