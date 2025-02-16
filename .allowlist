@@ -564,20 +564,6 @@ pyscipopt.Variable.isOriginal
 pyscipopt.Variable.ptr
 pyscipopt.Variable.varMayRound
 pyscipopt.Variable.vtype
-pyscipopt.benders
-pyscipopt.benderscut
-pyscipopt.branchrule
-pyscipopt.conshdlr
-pyscipopt.cutsel
-pyscipopt.event
-pyscipopt.expr
-pyscipopt.heuristic
-pyscipopt.lp
-pyscipopt.nodesel
-pyscipopt.presol
-pyscipopt.pricer
-pyscipopt.propagator
-pyscipopt.reader
 pyscipopt.recipes.infeasibilities.Model.activateBenders
 pyscipopt.recipes.infeasibilities.Model.addBendersSubproblem
 pyscipopt.recipes.infeasibilities.Model.addCoefLinear
@@ -2018,7 +2004,6 @@ pyscipopt.recipes.primal_dual_evolution.Model.writeProblem
 pyscipopt.recipes.primal_dual_evolution.Model.writeSol
 pyscipopt.recipes.primal_dual_evolution.Model.writeStatistics
 pyscipopt.recipes.primal_dual_evolution.Model.writeTransSol
-pyscipopt.relax
 pyscipopt.scip.Benders.__init__
 pyscipopt.scip.Benders.benderscreatesub
 pyscipopt.scip.Benders.bendersexit
@@ -2743,4 +2728,3 @@ pyscipopt.scip.Variable.varMayRound
 pyscipopt.scip.Variable.vtype
 pyscipopt.scip.__reduce_cython__
 pyscipopt.scip.__setstate_cython__
-pyscipopt.sepa
