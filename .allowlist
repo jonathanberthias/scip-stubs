@@ -550,10 +550,6 @@ pyscipopt.scip.Eventhdlr.eventfree
 pyscipopt.scip.Eventhdlr.eventinit
 pyscipopt.scip.Eventhdlr.eventinitsol
 pyscipopt.scip.ExprCons.normalize
-pyscipopt.scip.GenExpr.__pow__
-pyscipopt.scip.GenExpr.__rpow__
-pyscipopt.scip.GenExpr.degree
-pyscipopt.scip.GenExpr.getOp
 pyscipopt.scip.Heur.__init__
 pyscipopt.scip.Heur.heurexec
 pyscipopt.scip.Heur.heurexit

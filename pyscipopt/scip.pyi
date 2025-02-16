@@ -759,9 +759,9 @@ class GenExpr:
     children: Incomplete
     def __init__(self, *args, **kwargs) -> None:
         """ """
-    def degree(self, *args, **kwargs):
+    def degree(self):
         """Note: none of these expressions should be polynomial"""
-    def getOp(self, *args, **kwargs):
+    def getOp(self):
         """returns operator of GenExpr"""
     def __abs__(self):
         """abs(self)"""
@@ -783,12 +783,12 @@ class GenExpr:
         """Return self!=value."""
     def __neg__(self):
         """-self"""
-    def __pow__(self, other):
+    def __pow__(self, other, mod=...):
         """Return pow(self, value, mod)."""
     def __radd__(self, other): ...
     def __reduce__(self): ...
     def __rmul__(self, other): ...
-    def __rpow__(self, other):
+    def __rpow__(self, other, mod=...):
         """Return pow(value, self, mod)."""
     def __rsub__(self, other): ...
     def __rtruediv__(self, other):
