@@ -1,21 +1,22 @@
 from . import Multidict as Multidict, _version as _version, scip as scip
 from pyscipopt.Multidict import multidict as multidict
+from pyscipopt.benders import Benders as Benders
+from pyscipopt.benderscut import Benderscut as Benderscut
+from pyscipopt.branchrule import Branchrule as Branchrule
+from pyscipopt.conshdlr import Conshdlr as Conshdlr
+from pyscipopt.event import Eventhdlr as Eventhdlr
+from pyscipopt.expr import Expr as Expr
+from pyscipopt.heuristic import Heur as Heur
+from pyscipopt.lp import LP as LP
+from pyscipopt.nodesel import Nodesel as Nodesel
+from pyscipopt.presol import Presol as Presol
+from pyscipopt.pricer import Pricer as Pricer
+from pyscipopt.propagator import Prop as Prop
+from pyscipopt.reader import Reader as Reader
+from pyscipopt.sepa import Sepa as Sepa
 from pyscipopt.scip import (
-    Benders as Benders,
-    Benderscut as Benderscut,
-    Branchrule as Branchrule,
-    Conshdlr as Conshdlr,
     Constraint as Constraint,
-    Eventhdlr as Eventhdlr,
-    Expr as Expr,
-    Heur as Heur,
-    LP as LP,
     Model as Model,
-    Nodesel as Nodesel,
-    Presol as Presol,
-    Pricer as Pricer,
-    Prop as Prop,
-    Reader as Reader,
     SCIP_BENDERSENFOTYPE as SCIP_BENDERSENFOTYPE,
     SCIP_BRANCHDIR as SCIP_BRANCHDIR,
     SCIP_EVENTTYPE as SCIP_EVENTTYPE,
@@ -30,7 +31,6 @@ from pyscipopt.scip import (
     SCIP_SOLORIGIN as SCIP_SOLORIGIN,
     SCIP_STAGE as SCIP_STAGE,
     SCIP_STATUS as SCIP_STATUS,
-    Sepa as Sepa,
     Variable as Variable,
     cos as cos,
     exp as exp,
