@@ -3,7 +3,32 @@ from _typeshed import Incomplete
 from typing import ClassVar
 from typing_extensions import CapsuleType as PyCapsule
 
-from pyscipopt.expr import Expr
+from pyscipopt.benders import Benders as Benders
+from pyscipopt.benderscut import Benderscut as Benderscut
+from pyscipopt.branchrule import Branchrule as Branchrule
+from pyscipopt.conshdlr import Conshdlr as Conshdlr
+from pyscipopt.cutsel import Cutsel as Cutsel
+from pyscipopt.event import Eventhdlr as Eventhdlr
+from pyscipopt.expr import (
+    Expr,
+    Constant as Constant,
+    ExprCons as ExprCons,
+    GenExpr as GenExpr,
+    PowExpr as PowExpr,
+    ProdExpr as ProdExpr,
+    SumExpr as SumExpr,
+    UnaryExpr as UnaryExpr,
+    VarExpr as VarExpr,
+)
+from pyscipopt.heuristic import Heur as Heur
+from pyscipopt.lp import LP as LP
+from pyscipopt.nodesel import Nodesel as Nodesel
+from pyscipopt.presol import Presol as Presol
+from pyscipopt.pricer import Pricer as Pricer
+from pyscipopt.propagator import Prop as Prop
+from pyscipopt.reader import Reader as Reader
+from pyscipopt.sepa import Sepa as Sepa
+from pyscipopt.relax import Relax as Relax
 
 CONST: Term
 EventNames: dict
@@ -29,6 +54,9 @@ def sin(expr): ...
 def sqrt(expr): ...
 def str_conversion(x): ...
 def value_to_array(val, nodes): ...
+def PY_SCIP_CALL(): ...
+def __reduce_cython__(): ...
+def __setstate_cython__(): ...
 
 class BoundChange:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
@@ -5398,7 +5426,7 @@ class Op:
 
 class PY_SCIP_BENDERSENFOTYPE:
     CHECK: ClassVar[int] = ...
-    LP: ClassVar[int] = ...
+    LP: ClassVar[int] = ...  # noqa: F811
     PSEUDO: ClassVar[int] = ...
     RELAX: ClassVar[int] = ...
     @classmethod
