@@ -6615,10 +6615,9 @@ class Variable(Expr):
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
-    @classmethod
     def __init__(cls, *args, **kwargs) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def getAvgSol(self, *args, **kwargs):
+    def getAvgSol(self):
         """
         Get the weighted average solution of variable in all feasible primal solutions found.
 
@@ -6627,7 +6626,7 @@ class Variable(Expr):
         float
 
         """
-    def getCol(self, *args, **kwargs):
+    def getCol(self):
         """
         Retrieve column of COLUMN variable.
 
@@ -6636,7 +6635,7 @@ class Variable(Expr):
         Column
 
         """
-    def getIndex(self, *args, **kwargs):
+    def getIndex(self):
         """
         Retrieve the unique index of the variable.
 
@@ -6645,7 +6644,7 @@ class Variable(Expr):
         int
 
         """
-    def getLPSol(self, *args, **kwargs):
+    def getLPSol(self):
         """
         Retrieve the current LP solution value of variable.
 
@@ -6654,7 +6653,7 @@ class Variable(Expr):
         float
 
         """
-    def getLbGlobal(self, *args, **kwargs):
+    def getLbGlobal(self):
         """
         Retrieve global lower bound of variable.
 
@@ -6663,7 +6662,7 @@ class Variable(Expr):
         float
 
         """
-    def getLbLocal(self, *args, **kwargs):
+    def getLbLocal(self):
         """
         Retrieve current lower bound of variable.
 
@@ -6672,7 +6671,7 @@ class Variable(Expr):
         float
 
         """
-    def getLbOriginal(self, *args, **kwargs):
+    def getLbOriginal(self):
         """
         Retrieve original lower bound of variable.
 
@@ -6681,7 +6680,7 @@ class Variable(Expr):
         float
 
         """
-    def getObj(self, *args, **kwargs):
+    def getObj(self):
         """
         Retrieve current objective value of variable.
 
@@ -6690,7 +6689,7 @@ class Variable(Expr):
         float
 
         """
-    def getUbGlobal(self, *args, **kwargs):
+    def getUbGlobal(self):
         """
         Retrieve global upper bound of variable.
 
@@ -6699,7 +6698,7 @@ class Variable(Expr):
         float
 
         """
-    def getUbLocal(self, *args, **kwargs):
+    def getUbLocal(self):
         """
         Retrieve current upper bound of variable.
 
@@ -6708,7 +6707,7 @@ class Variable(Expr):
         float
 
         """
-    def getUbOriginal(self, *args, **kwargs):
+    def getUbOriginal(self):
         """
         Retrieve original upper bound of variable.
 
@@ -6717,7 +6716,7 @@ class Variable(Expr):
         float
 
         """
-    def isInLP(self, *args, **kwargs):
+    def isInLP(self):
         """
         Retrieve whether the variable is a COLUMN variable that is member of the current LP.
 
@@ -6726,7 +6725,7 @@ class Variable(Expr):
         bool
 
         """
-    def isOriginal(self, *args, **kwargs):
+    def isOriginal(self):
         """
         Retrieve whether the variable belongs to the original problem
 
@@ -6735,9 +6734,9 @@ class Variable(Expr):
         bool
 
         """
-    def ptr(self, *args, **kwargs):
+    def ptr(self):
         """ """
-    def varMayRound(self, *args, **kwargs):
+    def varMayRound(self, direction=...):
         """
         Checks whether it is possible to round variable up / down and stay feasible for the relaxation.
 
@@ -6751,7 +6750,7 @@ class Variable(Expr):
         bool
 
         """
-    def vtype(self, *args, **kwargs):
+    def vtype(self):
         """
         Retrieve the variables type (BINARY, INTEGER, IMPLINT or CONTINUOUS)
 
