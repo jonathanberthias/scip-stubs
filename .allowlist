@@ -5,14 +5,6 @@
 # Ignore errors from recipes, they're just clones of other errors
 pyscipopt.recipes.*
 
-pyscipopt.Benders.__init__
-pyscipopt.Benders.benderscreatesub
-pyscipopt.Benders.bendersfreesub
-pyscipopt.Benders.bendersgetvar
-pyscipopt.Benders.benderspostsolve
-pyscipopt.Benders.benderspresubsolve
-pyscipopt.Benders.benderssolvesub
-pyscipopt.Benders.benderssolvesubconvex
 pyscipopt.Benderscut.__init__
 pyscipopt.Benderscut.benderscutexec
 pyscipopt.Branchrule.__init__
@@ -290,14 +282,6 @@ pyscipopt.Prop.propexec
 pyscipopt.Prop.proppresol
 pyscipopt.Prop.propresprop
 pyscipopt.Sepa.__init__
-pyscipopt.scip.Benders.__init__
-pyscipopt.scip.Benders.benderscreatesub
-pyscipopt.scip.Benders.bendersfreesub
-pyscipopt.scip.Benders.bendersgetvar
-pyscipopt.scip.Benders.benderspostsolve
-pyscipopt.scip.Benders.benderspresubsolve
-pyscipopt.scip.Benders.benderssolvesub
-pyscipopt.scip.Benders.benderssolvesubconvex
 pyscipopt.scip.Benderscut.__init__
 pyscipopt.scip.Benderscut.benderscutexec
 pyscipopt.scip.BoundChange.__init__
