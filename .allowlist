@@ -261,10 +261,6 @@ pyscipopt.Nodesel.nodecomp
 pyscipopt.Presol.__init__
 pyscipopt.Presol.presolexec
 pyscipopt.Pricer.__init__
-pyscipopt.Prop.__init__
-pyscipopt.Prop.propexec
-pyscipopt.Prop.proppresol
-pyscipopt.Prop.propresprop
 pyscipopt.Sepa.__init__
 pyscipopt.scip.Benderscut.__init__
 pyscipopt.scip.Benderscut.benderscutexec
@@ -543,10 +539,6 @@ pyscipopt.scip.PY_SCIP_STATUS.__init__
 pyscipopt.scip.Presol.__init__
 pyscipopt.scip.Presol.presolexec
 pyscipopt.scip.Pricer.__init__
-pyscipopt.scip.Prop.__init__
-pyscipopt.scip.Prop.propexec
-pyscipopt.scip.Prop.proppresol
-pyscipopt.scip.Prop.propresprop
 pyscipopt.scip.Relax.__init__
 pyscipopt.scip.Sepa.__init__
 pyscipopt.scip.Statistics.__init__

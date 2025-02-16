@@ -6256,10 +6256,9 @@ class ProdExpr(GenExpr):
 
 class Prop:
     model: Incomplete
-    @classmethod
-    def __init__(cls) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def propexec(self):
+    def propexec(self, proptiming):
         """calls execution method of propagator"""
     def propexit(self):
         """calls exit method of propagator"""
@@ -6275,9 +6274,9 @@ class Prop:
         """informs propagator that the presolving process is being started"""
     def propinitsol(self):
         """informs propagator that the prop and bound process is being started"""
-    def proppresol(self):
+    def proppresol(self, nrounds, presoltiming, result_dict):
         """executes presolving method of propagator"""
-    def propresprop(self):
+    def propresprop(self, confvar, inferinfo, bdtype, relaxedbd):
         """resolves the given conflicting bound, that was reduced by the given propagator"""
     def __reduce__(self): ...
 
