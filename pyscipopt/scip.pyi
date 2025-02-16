@@ -573,10 +573,9 @@ class DomainChanges:
 class Event:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
-    @classmethod
-    def __init__(cls, *args, **kwargs) -> None:
+    def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def getName(self, *args, **kwargs):
+    def getName(self):
         """
         Gets name of event.
 
@@ -585,7 +584,7 @@ class Event:
         str
 
         """
-    def getNewBound(self, *args, **kwargs):
+    def getNewBound(self):
         """
         Gets new bound for a bound change event.
 
@@ -594,7 +593,7 @@ class Event:
         float
 
         """
-    def getNode(self, *args, **kwargs):
+    def getNode(self):
         """
         Gets node for a node or LP event.
 
@@ -603,7 +602,7 @@ class Event:
         Node
 
         """
-    def getOldBound(self, *args, **kwargs):
+    def getOldBound(self):
         """
         Gets old bound for a bound change event.
 
@@ -612,7 +611,7 @@ class Event:
         float
 
         """
-    def getRow(self, *args, **kwargs):
+    def getRow(self):
         """
         Gets row for a row event.
 
@@ -621,7 +620,7 @@ class Event:
         Row
 
         """
-    def getType(self, *args, **kwargs):
+    def getType(self):
         """
         Gets type of event.
 
@@ -630,7 +629,7 @@ class Event:
         PY_SCIP_EVENTTYPE
 
         """
-    def getVar(self, *args, **kwargs):
+    def getVar(self):
         """
         Gets variable for a variable event (var added, var deleted, var fixed,
         objective value or domain change, domain hole added or removed).

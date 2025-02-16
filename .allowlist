@@ -518,14 +518,6 @@ pyscipopt.scip.Cutsel.cutselinitsol
 pyscipopt.scip.Cutsel.cutselselect
 pyscipopt.scip.DomainChanges.__init__
 pyscipopt.scip.DomainChanges.getBoundchgs
-pyscipopt.scip.Event.__init__
-pyscipopt.scip.Event.getName
-pyscipopt.scip.Event.getNewBound
-pyscipopt.scip.Event.getNode
-pyscipopt.scip.Event.getOldBound
-pyscipopt.scip.Event.getRow
-pyscipopt.scip.Event.getType
-pyscipopt.scip.Event.getVar
 pyscipopt.scip.Eventhdlr.__init__
 pyscipopt.scip.Eventhdlr.eventcopy
 pyscipopt.scip.Eventhdlr.eventdelete
