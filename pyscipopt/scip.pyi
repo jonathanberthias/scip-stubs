@@ -4382,7 +4382,17 @@ class Model:
         bool
 
         """
-    def includeBenders(self):
+    def includeBenders(
+        self,
+        benders,
+        name,
+        desc,
+        priority=...,
+        cutlp=...,
+        cutpseudo=...,
+        cutrelax=...,
+        shareaux=...,
+    ):
         """
         Include a Benders' decomposition.
 
@@ -4407,7 +4417,7 @@ class Model:
             highest priority Benders' decomposition
 
         """
-    def includeBendersDefaultCuts(self):
+    def includeBendersDefaultCuts(self, benders):
         """
         Includes the default Benders' decomposition cuts to the custom Benders' decomposition plugin.
 
@@ -4417,7 +4427,9 @@ class Model:
             the Benders' decomposition that the default cuts will be applied to
 
         """
-    def includeBenderscut(self):
+    def includeBenderscut(
+        self, benders, benderscut, name, desc, priority=..., islpcut=...
+    ):
         """
         Include a Benders' decomposition cutting method
 
@@ -4438,7 +4450,9 @@ class Model:
             (Default = True)
 
         """
-    def includeBranchrule(self):
+    def includeBranchrule(
+        self, branchrule, name, desc, priority, maxdepth, maxbounddist
+    ):
         """
         Include a branching rule.
 
@@ -4460,7 +4474,24 @@ class Model:
             (0.0: only on current best node, 1.0: on all nodes)
 
         """
-    def includeConshdlr(self):
+    def includeConshdlr(
+        self,
+        conshdlr,
+        name,
+        desc,
+        sepapriority=...,
+        enfopriority=...,
+        chckpriority=...,
+        sepafreq=...,
+        propfreq=...,
+        eagerfreq=...,
+        maxprerounds=...,
+        delaysepa=...,
+        delayprop=...,
+        needscons=...,
+        proptiming=...,
+        presoltiming=...,
+    ):
         """
         Include a constraint handler.
 
@@ -4501,7 +4532,7 @@ class Model:
             timing mask of the constraint handler's presolving method (Default value = SCIP_PRESOLTIMING.MEDIUM)
 
         """
-    def includeCutsel(self):
+    def includeCutsel(self, cutsel, name, desc, priority):
         """
         Include a cut selector.
 
@@ -4519,7 +4550,7 @@ class Model:
         """
     def includeDefaultPlugins(self):
         """Includes all default plug-ins into SCIP."""
-    def includeEventhdlr(self):
+    def includeEventhdlr(self, eventhdlr, name, desc):
         """
         Include an event handler.
 
@@ -4533,7 +4564,19 @@ class Model:
             description of event handler
 
         """
-    def includeHeur(self):
+    def includeHeur(
+        self,
+        heur,
+        name,
+        desc,
+        dispchar,
+        priority=...,
+        freq=...,
+        freqofs=...,
+        maxdepth=...,
+        timingmask=...,
+        usessubscip=...,
+    ):
         """
         Include a primal heuristic.
 
@@ -4562,7 +4605,7 @@ class Model:
             does the heuristic use a secondary SCIP instance? (Default value = False)
 
         """
-    def includeNodesel(self):
+    def includeNodesel(self, nodesel, name, desc, stdpriority, memsavepriority):
         """
         Include a node selector.
 
@@ -4580,7 +4623,7 @@ class Model:
             priority of the node selector in memory saving mode
 
         """
-    def includePresol(self):
+    def includePresol(self, presol, name, desc, priority, maxrounds, timing=...):
         """
         Include a presolver.
 
@@ -4600,7 +4643,7 @@ class Model:
              timing mask of presolver (Default value = SCIP_PRESOLTIMING_FAST)
 
         """
-    def includePricer(self):
+    def includePricer(self, pricer, name, desc, priority=..., delay=...):
         """
         Include a pricer.
 
@@ -4619,7 +4662,19 @@ class Model:
             with negative reduced costs are found? (Default value = True)
 
         """
-    def includeProp(self):
+    def includeProp(
+        self,
+        prop,
+        name,
+        desc,
+        presolpriority,
+        presolmaxrounds,
+        proptiming,
+        presoltiming=...,
+        priority=...,
+        freq=...,
+        delay=...,
+    ):
         """
         Include a propagator.
 
@@ -4647,7 +4702,7 @@ class Model:
             should propagator be delayed if other propagators have found reductions? (Default value = True)
 
         """
-    def includeReader(self):
+    def includeReader(self, reader, name, desc, ext):
         """
         Include a reader.
 
@@ -4663,7 +4718,7 @@ class Model:
             file extension of reader
 
         """
-    def includeRelax(self):
+    def includeRelax(self, relax, name, desc, priority=..., freq=...):
         """
         Include a relaxation handler.
 
@@ -4681,7 +4736,17 @@ class Model:
             frequency for calling relaxation handler
 
         """
-    def includeSepa(self):
+    def includeSepa(
+        self,
+        sepa,
+        name,
+        desc,
+        priority=...,
+        freq=...,
+        maxbounddist=...,
+        usessubscip=...,
+        delay=...,
+    ):
         """
         Include a separator
 
