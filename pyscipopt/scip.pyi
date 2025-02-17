@@ -2338,7 +2338,7 @@ class Model:
         """
     def count(self):
         """Counts the number of feasible points of problem."""
-    def createChild(self):
+    def createChild(self, nodeselprio, estimate):
         """
         Create a child node of the focus node.
 
@@ -2355,7 +2355,21 @@ class Model:
             the child which was created
 
         """
-    def createCons(self):
+    def createCons(
+        self,
+        conshdlr,
+        name,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        modifiable=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Create a constraint of a custom constraint handler.
 
@@ -2391,7 +2405,21 @@ class Model:
         Constraint
 
         """
-    def createConsFromExpr(self):
+    def createConsFromExpr(
+        self,
+        cons,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        modifiable=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Create a linear or nonlinear constraint without adding it to the SCIP problem.
         This is useful for creating disjunction constraints without also enforcing the individual constituents.
@@ -2432,7 +2460,9 @@ class Model:
             The created Constraint object.
 
         """
-    def createEmptyRowSepa(self):
+    def createEmptyRowSepa(
+        self, sepa, name=..., lhs=..., rhs=..., local=..., modifiable=..., removable=...
+    ):
         """
         Creates and captures an LP row without any coefficients from a separator.
 
@@ -2458,7 +2488,9 @@ class Model:
         Row
 
         """
-    def createEmptyRowUnspec(self):
+    def createEmptyRowUnspec(
+        self, name=..., lhs=..., rhs=..., local=..., modifiable=..., removable=...
+    ):
         """
         Creates and captures an LP row without any coefficients from an unspecified source.
 
@@ -2482,7 +2514,7 @@ class Model:
         Row
 
         """
-    def createOrigSol(self):
+    def createOrigSol(self, heur=...):
         """
         Create a new primal solution in the original space.
 
@@ -2496,7 +2528,7 @@ class Model:
         Solution
 
         """
-    def createPartialSol(self):
+    def createPartialSol(self, heur=...):
         """
         Create a partial primal solution, initialized to unknown values.
 
@@ -2510,7 +2542,7 @@ class Model:
         Solution
 
         """
-    def createProbBasic(self):
+    def createProbBasic(self, problemName=...):
         """
         Create new problem instance with given name.
 
@@ -2520,7 +2552,7 @@ class Model:
             name of model or problem (Default value = 'model')
 
         """
-    def createSol(self):
+    def createSol(self, heur=..., initlp=...):
         """
         Create a new primal solution in the transformed space.
 
