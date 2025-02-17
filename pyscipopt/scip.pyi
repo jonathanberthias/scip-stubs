@@ -2836,7 +2836,7 @@ class Model:
         Model
 
         """
-    def getActivity(self):
+    def getActivity(self, cons, sol=...):
         """
         Retrieve activity of given constraint.
         Can only be called after solving is completed.
@@ -2853,7 +2853,7 @@ class Model:
         float
 
         """
-    def getBendersAuxiliaryVar(self):
+    def getBendersAuxiliaryVar(self, probnumber, benders=...):
         """
         Returns the auxiliary variable that is associated with the input problem number
 
@@ -2869,7 +2869,7 @@ class Model:
         Variable
 
         """
-    def getBendersSubproblem(self):
+    def getBendersSubproblem(self, probnumber, benders=...):
         """
         Returns a Model object that wraps around the SCIP instance of the subproblem.
         NOTE: This Model object is just a place holder and SCIP instance will not be
@@ -2887,7 +2887,7 @@ class Model:
         Model
 
         """
-    def getBendersVar(self):
+    def getBendersVar(self, var, benders=..., probnumber=...):
         """
         Returns the variable for the subproblem or master problem
         depending on the input probnumber.
@@ -2957,7 +2957,14 @@ class Model:
         Node
 
         """
-    def getBipartiteGraphRepresentation(self):
+    def getBipartiteGraphRepresentation(
+        self,
+        prev_col_features=...,
+        prev_edge_features=...,
+        prev_row_features=...,
+        static_only=...,
+        suppress_warnings=...,
+    ):
         """
         This function generates the bipartite graph representation of an LP, which was first used in
         the following paper:
@@ -2996,7 +3003,7 @@ class Model:
             The feature mappings for the columns, edges, and rows
 
         """
-    def getBranchScoreMultiple(self):
+    def getBranchScoreMultiple(self, var, gains):
         """
         Calculates the branching score out of the gain predictions for a branching with
         arbitrarily many children.
@@ -3013,7 +3020,7 @@ class Model:
         float
 
         """
-    def getColRedCost(self):
+    def getColRedCost(self, col):
         """
         Gets the reduced cost of the column in the current LP.
 
@@ -3026,7 +3033,7 @@ class Model:
         float
 
         """
-    def getCondition(self):
+    def getCondition(self, exact=...):
         """
         Get the current LP's condition number.
 
@@ -3040,7 +3047,7 @@ class Model:
         float
 
         """
-    def getConsNVars(self):
+    def getConsNVars(self, constraint):
         """
         Gets number of variables in a constraint.
 
@@ -3059,7 +3066,7 @@ class Model:
             If the associated constraint handler does not have this functionality
 
         """
-    def getConsVars(self):
+    def getConsVars(self, constraint):
         """
         Gets variables in a constraint.
 
@@ -3073,7 +3080,7 @@ class Model:
         list of Variable
 
         """
-    def getConss(self):
+    def getConss(self, transformed=...):
         """
         Retrieve all constraints.
 
@@ -3096,7 +3103,7 @@ class Model:
         Node
 
         """
-    def getCutEfficacy(self):
+    def getCutEfficacy(self, cut, sol=...):
         """
         Returns efficacy of the cut with respect to the given primal solution or the
         current LP solution: e = -feasibility/norm
@@ -3111,7 +3118,7 @@ class Model:
         float
 
         """
-    def getCutLPSolCutoffDistance(self):
+    def getCutLPSolCutoffDistance(self, cut, sol):
         """
         Returns row's cutoff distance in the direction of the given primal solution.
 
@@ -3134,7 +3141,7 @@ class Model:
         int
 
         """
-    def getDualMultiplier(self):
+    def getDualMultiplier(self, cons):
         """
         DEPRECATED: Retrieve the dual solution to a linear constraint.
 
@@ -3148,7 +3155,7 @@ class Model:
         float
 
         """
-    def getDualSolVal(self):
+    def getDualSolVal(self, cons, boundconstraint=...):
         """
         Returns dual solution value of a constraint.
 
@@ -3183,7 +3190,7 @@ class Model:
         float
 
         """
-    def getDualfarkasLinear(self):
+    def getDualfarkasLinear(self, cons):
         """
         Retrieve the dual farkas value to a linear constraint.
 
@@ -3197,7 +3204,7 @@ class Model:
         float
 
         """
-    def getDualsolLinear(self):
+    def getDualsolLinear(self, cons):
         """
         Retrieve the dual solution to a linear constraint.
 
@@ -3221,7 +3228,7 @@ class Model:
         float
 
         """
-    def getHeurTiming(self):
+    def getHeurTiming(self, heurname):
         """
                 Get the timing of a heuristic
 
@@ -3234,7 +3241,7 @@ class Model:
                 PY_SCIP_HEURTIMING
         \t\t   positions in the node solving loop where heuristic should be executed
         """
-    def getLPBInvARow(self):
+    def getLPBInvARow(self, row):
         """
         Gets a row from B^-1 * A.
 
@@ -3248,7 +3255,7 @@ class Model:
         list of float
 
         """
-    def getLPBInvRow(self):
+    def getLPBInvRow(self, row):
         """
         Gets a row from the inverse basis matrix B^-1
 
@@ -3332,7 +3339,7 @@ class Model:
         SCIP_LPSOLSTAT
 
         """
-    def getLhs(self):
+    def getLhs(self, cons):
         """
         Retrieve left-hand side value of a constraint.
 
@@ -3346,7 +3353,7 @@ class Model:
         float
 
         """
-    def getLocalEstimate(self):
+    def getLocalEstimate(self, original=...):
         """
         Gets estimate of best primal solution w.r.t. original or transformed problem contained in current subtree.
 
@@ -3388,7 +3395,7 @@ class Model:
         int
 
         """
-    def getNConss(self):
+    def getNConss(self, transformed=...):
         """
         Retrieve number of all constraints.
 
@@ -3603,7 +3610,7 @@ class Model:
         int
 
         """
-    def getNVars(self):
+    def getNVars(self, transformed=...):
         """
         Retrieve number of variables in the problems.
 
@@ -3617,7 +3624,7 @@ class Model:
         int
 
         """
-    def getNlRowActivityBounds(self):
+    def getNlRowActivityBounds(self, nlrow):
         """
         Gives the minimal and maximal activity of a nonlinear row w.r.t. the variable's bounds.
 
@@ -3630,7 +3637,7 @@ class Model:
         tuple of float
 
         """
-    def getNlRowSolActivity(self):
+    def getNlRowSolActivity(self, nlrow, sol=...):
         """
         Gives the activity of a nonlinear row for a given primal solution.
 
@@ -3645,7 +3652,7 @@ class Model:
         float
 
         """
-    def getNlRowSolFeasibility(self):
+    def getNlRowSolFeasibility(self, nlrow, sol=...):
         """
         Gives the feasibility of a nonlinear row for a given primal solution
 
@@ -3669,7 +3676,7 @@ class Model:
         list of NLRow
 
         """
-    def getObjVal(self):
+    def getObjVal(self, original=...):
         """
         Retrieve the objective value of the best solution.
 
@@ -3710,7 +3717,7 @@ class Model:
         float
 
         """
-    def getObjoffset(self):
+    def getObjoffset(self, original=...):
         """
         Retrieve constant objective offset
 
@@ -3738,7 +3745,7 @@ class Model:
             list of all open sibling nodes
 
         """
-    def getParam(self):
+    def getParam(self, name):
         """
         Get the value of a parameter of type
         int, bool, real, long, char or str.
@@ -3782,7 +3789,7 @@ class Model:
         list of float
 
         """
-    def getPrimalRayVal(self):
+    def getPrimalRayVal(self, var):
         """
         Gets value of given variable in primal ray causing unboundedness of the LP relaxation.
 
@@ -3858,7 +3865,7 @@ class Model:
         float
 
         """
-    def getRhs(self):
+    def getRhs(self, cons):
         """
         Retrieve right-hand side value of a constraint.
 
@@ -3872,7 +3879,7 @@ class Model:
         float
 
         """
-    def getRowActivity(self):
+    def getRowActivity(self, row):
         """
         Returns the activity of a row in the last LP or pseudo solution.
 
@@ -3885,7 +3892,7 @@ class Model:
         float
 
         """
-    def getRowDualSol(self):
+    def getRowDualSol(self, row):
         """
         Gets the dual LP solution of a row.
 
@@ -3898,7 +3905,7 @@ class Model:
         float
 
         """
-    def getRowLPActivity(self):
+    def getRowLPActivity(self, row):
         """
         Returns the activity of a row in the last LP solution.
 
@@ -3911,7 +3918,7 @@ class Model:
         float
 
         """
-    def getRowLinear(self):
+    def getRowLinear(self, cons):
         """
         Retrieve the linear relaxation of the given linear constraint as a row.
         may return NULL if no LP row was yet created; the user must not modify the row!
@@ -3926,7 +3933,7 @@ class Model:
         Row
 
         """
-    def getRowNumIntCols(self):
+    def getRowNumIntCols(self, row):
         """
         Returns number of intergal columns in the row.
 
@@ -3939,7 +3946,7 @@ class Model:
         int
 
         """
-    def getRowObjParallelism(self):
+    def getRowObjParallelism(self, row):
         """
         Returns 1 if the row is parallel, and 0 if orthogonal.
 
@@ -3952,7 +3959,7 @@ class Model:
         float
 
         """
-    def getRowParallelism(self):
+    def getRowParallelism(self, row1, row2, orthofunc=...):
         """
         Returns the degree of parallelism between hyplerplanes. 1 if perfectly parallel, 0 if orthogonal.
         For two row vectors v, w the parallelism is calculated as: abs(v*w)/(abs(v)*abs(w)).
@@ -3970,7 +3977,7 @@ class Model:
         float
 
         """
-    def getSlack(self):
+    def getSlack(self, cons, sol=..., side=...):
         """
         Retrieve slack of given constraint.
         Can only be called after solving is completed.
@@ -3989,7 +3996,7 @@ class Model:
         float
 
         """
-    def getSlackVarIndicator(self):
+    def getSlackVarIndicator(self, cons):
         """
         Get slack variable of an indicator constraint.
 
@@ -4004,7 +4011,7 @@ class Model:
         Variable
 
         """
-    def getSolObjVal(self):
+    def getSolObjVal(self, sol, original=...):
         """
         Retrieve the objective value of the solution.
 
@@ -4019,7 +4026,7 @@ class Model:
         float
 
         """
-    def getSolTime(self):
+    def getSolTime(self, sol):
         """
         Get clock time when this solution was found.
 
@@ -4032,7 +4039,7 @@ class Model:
         float
 
         """
-    def getSolVal(self):
+    def getSolVal(self, sol, expr):
         """
         Retrieve value of given variable or expression in the given solution or in
         the LP/pseudo solution if sol == None
@@ -4098,7 +4105,7 @@ class Model:
             The status of SCIP.
 
         """
-    def getTermsQuadratic(self):
+    def getTermsQuadratic(self, cons):
         """
         Retrieve bilinear, quadratic, and linear terms of a quadratic constraint.
 
@@ -4123,7 +4130,7 @@ class Model:
         float
 
         """
-    def getTransformedCons(self):
+    def getTransformedCons(self, cons):
         """
         Retrieve transformed constraint.
 
@@ -4136,7 +4143,7 @@ class Model:
         Constraint
 
         """
-    def getTransformedVar(self):
+    def getTransformedVar(self, var):
         """
         Retrieve the transformed variable.
 
@@ -4159,7 +4166,7 @@ class Model:
         float
 
         """
-    def getVal(self):
+    def getVal(self, expr):
         """
         Retrieve the value of the given variable or expression in the best known solution.
         Can only be called after solving is completed.
@@ -4178,7 +4185,7 @@ class Model:
         A variable is also an expression.
 
         """
-    def getValsLinear(self):
+    def getValsLinear(self, cons):
         """
         Retrieve the coefficients of a linear constraint
 
@@ -4192,7 +4199,7 @@ class Model:
         dict of str to float
 
         """
-    def getVarDict(self):
+    def getVarDict(self, transformed=...):
         """
         Gets dictionary with variables names as keys and current variable values as items.
 
@@ -4206,7 +4213,7 @@ class Model:
         dict of str to float
 
         """
-    def getVarLbDive(self):
+    def getVarLbDive(self, var):
         """
         Returns variable's current lb in current dive.
 
@@ -4219,7 +4226,7 @@ class Model:
         float
 
         """
-    def getVarRedcost(self):
+    def getVarRedcost(self, var):
         """
         Retrieve the reduced cost of a variable.
 
@@ -4233,7 +4240,7 @@ class Model:
         float
 
         """
-    def getVarStrongbranch(self):
+    def getVarStrongbranch(self, var, itlim, idempotent=..., integral=...):
         """
         Strong branches and gets information on column variable.
 
@@ -4270,7 +4277,7 @@ class Model:
             whether an unresolved LP error occurred in the solving process
 
         """
-    def getVarStrongbranchLast(self):
+    def getVarStrongbranchLast(self, var):
         """
         Get the results of the last strong branching call on this variable (potentially was called
         at another node).
@@ -4296,7 +4303,7 @@ class Model:
             The LP objective value at the time of the last strong branching call
 
         """
-    def getVarStrongbranchNode(self):
+    def getVarStrongbranchNode(self, var):
         """
         Get the node number from the last time strong branching was called on the variable.
 
@@ -4310,7 +4317,7 @@ class Model:
         int
 
         """
-    def getVarUbDive(self):
+    def getVarUbDive(self, var):
         """
         Returns variable's current ub in current dive.
 
@@ -4323,7 +4330,7 @@ class Model:
         float
 
         """
-    def getVars(self):
+    def getVars(self, transformed=...):
         """
         Retrieve all variables.
 
