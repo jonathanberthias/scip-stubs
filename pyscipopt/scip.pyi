@@ -1002,7 +1002,7 @@ class Model:
             the number of subproblems in the Benders' decomposition
 
         """
-    def addBendersSubproblem(self):
+    def addBendersSubproblem(self, benders, subproblem):
         """
         Adds a subproblem to the Benders' decomposition given by the input
         name.
@@ -1015,7 +1015,7 @@ class Model:
             the subproblem to add to the decomposition
 
         """
-    def addCoefLinear(self):
+    def addCoefLinear(self, cons, var, value):
         """
         Adds coefficient to linear constraint (if it is not zero)
 
@@ -1029,7 +1029,21 @@ class Model:
             coefficient of constraint entry
 
         """
-    def addCons(self):
+    def addCons(
+        self,
+        cons,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        modifiable=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Add a linear or nonlinear constraint.
 
@@ -1067,7 +1081,22 @@ class Model:
             The created and added Constraint object.
 
         """
-    def addConsAnd(self):
+    def addConsAnd(
+        self,
+        vars,
+        resvar,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        modifiable=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Add an AND-constraint.
 
@@ -1105,7 +1134,23 @@ class Model:
             The newly created AND constraint
 
         """
-    def addConsCardinality(self):
+    def addConsCardinality(
+        self,
+        consvars,
+        cardval,
+        indvars=...,
+        weights=...,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Add a cardinality constraint that allows at most \'cardval\' many nonzero variables.
 
@@ -1150,7 +1195,7 @@ class Model:
             The newly created Cardinality constraint
 
         """
-    def addConsCoeff(self):
+    def addConsCoeff(self, cons, var, coeff):
         """
         Add coefficient to the linear constraint (if non-zero).
 
@@ -1164,7 +1209,18 @@ class Model:
             coefficient of new variable
 
         """
-    def addConsDisjunction(self):
+    def addConsDisjunction(
+        self,
+        conss,
+        name=...,
+        initial=...,
+        relaxcons=...,
+        enforce=...,
+        check=...,
+        local=...,
+        modifiable=...,
+        dynamic=...,
+    ):
         """
         Add a disjunction constraint.
 
@@ -1197,7 +1253,7 @@ class Model:
             The created disjunction constraint
 
         """
-    def addConsElemDisjunction(self):
+    def addConsElemDisjunction(self, disj_cons, cons):
         """
         Appends a constraint to a disjunction.
 
@@ -1214,7 +1270,22 @@ class Model:
             The disjunction constraint with `cons` appended.
 
         """
-    def addConsIndicator(self):
+    def addConsIndicator(
+        self,
+        cons,
+        binvar=...,
+        activeone=...,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """Add an indicator constraint for the linear inequality `cons`.
 
         The `binvar` argument models the redundancy of the linear constraint. A solution for which
@@ -1256,7 +1327,7 @@ class Model:
             The newly created Indicator constraint
 
         """
-    def addConsLocal(self):
+    def addConsLocal(self, cons, validnode=...):
         """
         Add a constraint to the current node.
 
@@ -1268,7 +1339,7 @@ class Model:
             more global node where cons is also valid. (Default=None)
 
         """
-    def addConsNode(self):
+    def addConsNode(self, node, cons, validnode=...):
         """
         Add a constraint to the given node.
 
@@ -1282,7 +1353,22 @@ class Model:
             more global node where cons is also valid. (Default=None)
 
         """
-    def addConsOr(self):
+    def addConsOr(
+        self,
+        vars,
+        resvar,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        modifiable=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Add an OR-constraint.
 
@@ -1320,7 +1406,21 @@ class Model:
             The newly created OR constraint
 
         """
-    def addConsSOS1(self):
+    def addConsSOS1(
+        self,
+        vars,
+        weights=...,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Add an SOS1 constraint.
 
@@ -1372,7 +1472,21 @@ class Model:
             The newly created SOS1 constraint
 
         """
-    def addConsSOS2(self):
+    def addConsSOS2(
+        self,
+        vars,
+        weights=...,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Add an SOS2 constraint.
 
@@ -1410,7 +1524,22 @@ class Model:
             The newly created SOS2 constraint
 
         """
-    def addConsXor(self):
+    def addConsXor(
+        self,
+        vars,
+        rhsvar,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        modifiable=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """
         Add a XOR-constraint.
 
@@ -1448,7 +1577,21 @@ class Model:
             The newly created XOR constraint
 
         """
-    def addConss(self):
+    def addConss(
+        self,
+        conss,
+        name=...,
+        initial=...,
+        separate=...,
+        enforce=...,
+        check=...,
+        propagate=...,
+        local=...,
+        modifiable=...,
+        dynamic=...,
+        removable=...,
+        stickingatnode=...,
+    ):
         """Adds multiple linear or quadratic constraints.
 
         Each of the constraints is added to the model using Model.addCons().
@@ -1493,7 +1636,7 @@ class Model:
             The created and added Constraint objects.
 
         """
-    def addCut(self):
+    def addCut(self, cut, forcecut=...):
         """
         Adds cut to separation storage and returns whether cut has been detected to be infeasible for local bounds.
 
@@ -1510,7 +1653,7 @@ class Model:
             Whether the cut has been detected to be infeasible from local bounds
 
         """
-    def addExprNonlinear(self):
+    def addExprNonlinear(self, cons, expr, coef):
         """
         Add coef*expr to nonlinear constraint.
 
@@ -1521,7 +1664,7 @@ class Model:
         coef : float
 
         """
-    def addObjoffset(self):
+    def addObjoffset(self, offset, solutions=...):
         """
         Add constant offset to objective.
 
@@ -1533,7 +1676,7 @@ class Model:
             add offset also to existing solutions (Default value = False)
 
         """
-    def addPoolCut(self):
+    def addPoolCut(self, row):
         """
         If not already existing, adds row to global cut pool.
 
@@ -1542,7 +1685,7 @@ class Model:
         row : Row
 
         """
-    def addPyCons(self):
+    def addPyCons(self, cons):
         """
         Adds a customly created cons.
 
@@ -1552,7 +1695,7 @@ class Model:
             constraint to add
 
         """
-    def addRowDive(self):
+    def addRowDive(self, row):
         """
         Adds a row to the LP in current dive.
 
@@ -1561,7 +1704,7 @@ class Model:
         row : Row
 
         """
-    def addSol(self):
+    def addSol(self, solution, free=...):
         """
         Try to add a solution to the storage.
 
@@ -1578,7 +1721,16 @@ class Model:
             stores whether given solution was good enough to keep
 
         """
-    def addVar(self):
+    def addVar(
+        self,
+        name=...,
+        vtype=...,
+        lb=...,
+        ub=...,
+        obj=...,
+        pricedVar=...,
+        pricedVarScore=...,
+    ):
         """
         Create a new variable. Default variable is non-negative and continuous.
 
@@ -1605,7 +1757,7 @@ class Model:
         Variable
 
         """
-    def addVarLocks(self):
+    def addVarLocks(self, var, nlocksdown, nlocksup):
         """
         Adds given values to lock numbers of variable for rounding.
 
@@ -1619,7 +1771,7 @@ class Model:
             new number of up locks
 
         """
-    def addVarSOS1(self):
+    def addVarSOS1(self, cons, var, weight):
         """
         Add variable to SOS1 constraint.
 
@@ -1633,7 +1785,7 @@ class Model:
             weight of new variable
 
         """
-    def addVarSOS2(self):
+    def addVarSOS2(self, cons, var, weight):
         """
         Add variable to SOS2 constraint.
 
@@ -1647,7 +1799,7 @@ class Model:
             weight of new variable
 
         """
-    def addVarToRow(self):
+    def addVarToRow(self, row, var, value):
         """
         Resolves variable to columns and adds them with the coefficient to the row.
 
