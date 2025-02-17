@@ -2072,7 +2072,7 @@ class Model:
             whether the given solution was feasible or not
 
         """
-    def chgCoefLinear(self):
+    def chgCoefLinear(self, cons, var, value):
         """
         Changes coefficient of variable in linear constraint;
         deletes the variable if coefficient is zero; adds variable if not yet contained in the constraint
@@ -2089,7 +2089,7 @@ class Model:
             new coefficient of constraint entry
 
         """
-    def chgLhs(self):
+    def chgLhs(self, cons, lhs):
         """
         Change left-hand side value of a constraint.
 
@@ -2101,7 +2101,7 @@ class Model:
             new left-hand side (set to None for -infinity)
 
         """
-    def chgReoptObjective(self):
+    def chgReoptObjective(self, coeffs, sense=...):
         """
         Establish the objective function as a linear expression.
 
@@ -2113,7 +2113,7 @@ class Model:
             the objective sense (Default value = 'minimize')
 
         """
-    def chgRhs(self):
+    def chgRhs(self, cons, rhs):
         """
         Change right-hand side value of a constraint.
 
@@ -2125,7 +2125,7 @@ class Model:
             new right-hand side (set to None for +infinity)
 
         """
-    def chgRowLhsDive(self):
+    def chgRowLhsDive(self, row, newlhs):
         """
         Changes row lhs in current dive, change will be undone after diving
         ends, for permanent changes use SCIPchgRowLhs().
@@ -2136,7 +2136,7 @@ class Model:
         newlhs : float
 
         """
-    def chgRowRhsDive(self):
+    def chgRowRhsDive(self, row, newrhs):
         """
         Changes row rhs in current dive, change will be undone after diving
         ends. For permanent changes use SCIPchgRowRhs().
@@ -2147,7 +2147,7 @@ class Model:
         newrhs : float
 
         """
-    def chgVarBranchPriority(self):
+    def chgVarBranchPriority(self, var, priority):
         """
         Sets the branch priority of the variable.
         Variables with higher branch priority are always preferred to variables with
@@ -2161,7 +2161,7 @@ class Model:
             the new priority of the variable (the default branching priority is 0)
 
         """
-    def chgVarLb(self):
+    def chgVarLb(self, var, lb):
         """
         Changes the lower bound of the specified variable.
 
@@ -2173,7 +2173,7 @@ class Model:
             new lower bound (set to None for -infinity)
 
         """
-    def chgVarLbDive(self):
+    def chgVarLbDive(self, var, newbound):
         """
         Changes variable's current lb in current dive.
 
@@ -2183,7 +2183,7 @@ class Model:
         newbound : float
 
         """
-    def chgVarLbGlobal(self):
+    def chgVarLbGlobal(self, var, lb):
         """Changes the global lower bound of the specified variable.
 
         Parameters
@@ -2194,7 +2194,7 @@ class Model:
             new lower bound (set to None for -infinity)
 
         """
-    def chgVarLbNode(self):
+    def chgVarLbNode(self, node, var, lb):
         """Changes the lower bound of the specified variable at the given node.
 
         Parameters
@@ -2207,7 +2207,7 @@ class Model:
             new lower bound (set to None for -infinity)
 
         """
-    def chgVarLbProbing(self):
+    def chgVarLbProbing(self, var, lb):
         """
         Changes the variable lower bound during probing mode.
 
@@ -2219,7 +2219,7 @@ class Model:
             new lower bound (set to None for -infinity)
 
         """
-    def chgVarObjDive(self):
+    def chgVarObjDive(self, var, newobj):
         """
         Changes (column) variable's objective value in current dive.
 
@@ -2229,9 +2229,9 @@ class Model:
         newobj : float
 
         """
-    def chgVarObjProbing(self):
+    def chgVarObjProbing(self, var, newobj):
         """Changes (column) variable's objective value during probing mode."""
-    def chgVarType(self):
+    def chgVarType(self, var, vtype):
         """
         Changes the type of a variable.
 
@@ -2244,7 +2244,7 @@ class Model:
             \'B\' or "BINARY", and \'M\' "IMPLINT".
 
         """
-    def chgVarUb(self):
+    def chgVarUb(self, var, ub):
         """Changes the upper bound of the specified variable.
 
         Parameters
@@ -2255,7 +2255,7 @@ class Model:
             new upper bound (set to None for +infinity)
 
         """
-    def chgVarUbDive(self):
+    def chgVarUbDive(self, var, newbound):
         """
         Changes variable's current ub in current dive.
 
@@ -2265,7 +2265,7 @@ class Model:
         newbound : float
 
         """
-    def chgVarUbGlobal(self):
+    def chgVarUbGlobal(self, var, ub):
         """Changes the global upper bound of the specified variable.
 
         Parameters
@@ -2276,7 +2276,7 @@ class Model:
             new upper bound (set to None for +infinity)
 
         """
-    def chgVarUbNode(self):
+    def chgVarUbNode(self, node, var, ub):
         """Changes the upper bound of the specified variable at the given node.
 
         Parameters
@@ -2289,7 +2289,7 @@ class Model:
             new upper bound (set to None for +infinity)
 
         """
-    def chgVarUbProbing(self):
+    def chgVarUbProbing(self, var, ub):
         """
         Changes the variable upper bound during probing mode.
 
