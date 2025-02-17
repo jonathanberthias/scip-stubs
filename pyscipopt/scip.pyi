@@ -5211,7 +5211,7 @@ class Model:
             whether the node can be cut off
 
         """
-    def setBendersSubproblemIsConvex(self):
+    def setBendersSubproblemIsConvex(self, benders, probnumber, isconvex=...):
         """
         Sets a flag indicating whether the subproblem is convex.
 
@@ -5225,7 +5225,7 @@ class Model:
             flag to indicate whether the subproblem is convex (default=True)
 
         """
-    def setBoolParam(self):
+    def setBoolParam(self, name, value):
         """
         Set a boolean-valued parameter.
 
@@ -5237,7 +5237,7 @@ class Model:
             value of parameter
 
         """
-    def setCharParam(self):
+    def setCharParam(self, name, value):
         """
         Set a char-valued parameter.
 
@@ -5249,7 +5249,7 @@ class Model:
             value of parameter
 
         """
-    def setCheck(self):
+    def setCheck(self, cons, newCheck):
         """
         Set "check" flag of a constraint.
 
@@ -5259,7 +5259,7 @@ class Model:
         newCheck : bool
 
         """
-    def setEmphasis(self):
+    def setEmphasis(self, paraemphasis, quiet=...):
         """
         Set emphasis settings
 
@@ -5271,7 +5271,7 @@ class Model:
             hide output? (Default value = True)
 
         """
-    def setEnforced(self):
+    def setEnforced(self, cons, newEnf):
         """
         Set "enforced" flag of a constraint.
 
@@ -5281,7 +5281,7 @@ class Model:
         newEnf : bool
 
         """
-    def setHeurTiming(self):
+    def setHeurTiming(self, heurname, heurtiming):
         """
                 Set the timing of a heuristic
 
@@ -5291,7 +5291,7 @@ class Model:
                 heurtiming : PY_SCIP_HEURTIMING
         \t\t   positions in the node solving loop where heuristic should be executed
         """
-    def setHeuristics(self):
+    def setHeuristics(self, setting):
         """
         Set heuristics parameter settings.
 
@@ -5301,7 +5301,7 @@ class Model:
             the parameter settings, e.g. SCIP_PARAMSETTING.OFF
 
         """
-    def setInitial(self):
+    def setInitial(self, cons, newInit):
         """
         Set "initial" flag of a constraint.
 
@@ -5311,7 +5311,7 @@ class Model:
         newInit : bool
 
         """
-    def setIntParam(self):
+    def setIntParam(self, name, value):
         """
         Set an int-valued parameter.
 
@@ -5323,7 +5323,7 @@ class Model:
             value of parameter
 
         """
-    def setLogfile(self):
+    def setLogfile(self, path):
         """
         Sets the log file name for the currently installed message handler.
 
@@ -5333,7 +5333,7 @@ class Model:
             name of log file, or None (no log)
 
         """
-    def setLongintParam(self):
+    def setLongintParam(self, name, value):
         """
         Set a long-valued parameter.
 
@@ -5360,7 +5360,7 @@ class Model:
         function is integral or can be scaled to be integral. However, in any case, the user has to
         make sure that no variable is added during the solving process that destroys this property.
         """
-    def setObjective(self):
+    def setObjective(self, expr, sense=..., clear=...):
         """
         Establish the objective function as a linear expression.
 
@@ -5374,7 +5374,7 @@ class Model:
             set all other variables objective coefficient to zero (Default value = \'true\')
 
         """
-    def setObjlimit(self):
+    def setObjlimit(self, objlimit):
         """
         Set a limit on the objective function.
         Only solutions with objective value better than this limit are accepted.
@@ -5385,7 +5385,7 @@ class Model:
             limit on the objective function
 
         """
-    def setParam(self):
+    def setParam(self, name, value):
         """Set a parameter with value in int, bool, real, long, char or str.
 
         Parameters
@@ -5396,7 +5396,7 @@ class Model:
             value of parameter
 
         """
-    def setParams(self):
+    def setParams(self, params):
         """
         Sets multiple parameters at once.
 
@@ -5408,7 +5408,7 @@ class Model:
         """
     def setParamsCountsols(self):
         """Sets SCIP parameters such that a valid counting process is possible."""
-    def setPresolve(self):
+    def setPresolve(self, setting):
         """
         Set presolving parameter settings.
 
@@ -5419,7 +5419,7 @@ class Model:
             the parameter settings, e.g. SCIP_PARAMSETTING.OFF
 
         """
-    def setProbName(self):
+    def setProbName(self, name):
         """
         Set problem name.
 
@@ -5428,7 +5428,7 @@ class Model:
         name : str
 
         """
-    def setRealParam(self):
+    def setRealParam(self, name, value):
         """
         Set a real-valued parameter.
 
@@ -5440,7 +5440,7 @@ class Model:
             value of parameter
 
         """
-    def setRelaxSolVal(self):
+    def setRelaxSolVal(self, var, val):
         """
         Sets the value of the given variable in the global relaxation solution.
 
@@ -5450,7 +5450,7 @@ class Model:
         val : float
 
         """
-    def setRemovable(self):
+    def setRemovable(self, cons, newRem):
         """
         Set "removable" flag of a constraint.
 
@@ -5460,7 +5460,7 @@ class Model:
         newRem : bool
 
         """
-    def setSeparating(self):
+    def setSeparating(self, setting):
         """
         Set separating parameter settings.
 
@@ -5470,7 +5470,7 @@ class Model:
             the parameter settings, e.g. SCIP_PARAMSETTING.OFF
 
         """
-    def setSolVal(self):
+    def setSolVal(self, solution, var, val):
         """
         Set a variable in a solution.
 
@@ -5484,7 +5484,7 @@ class Model:
             value of the specified variable
 
         """
-    def setStringParam(self):
+    def setStringParam(self, name, value):
         """
         Set a string-valued parameter.
 
