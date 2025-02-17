@@ -4803,7 +4803,7 @@ class Model:
         """
     def interruptSolve(self):
         """Interrupt the solving process as soon as possible."""
-    def isCutEfficacious(self):
+    def isCutEfficacious(self, cut, sol=...):
         """
         Returns whether the cut's efficacy with respect to the given primal solution or the
         current LP solution is greater than the minimal cut efficacy.
@@ -4818,7 +4818,7 @@ class Model:
         float
 
         """
-    def isEQ(self):
+    def isEQ(self, val1, val2):
         """
         Checks, if values are in range of epsilon.
 
@@ -4832,7 +4832,7 @@ class Model:
         bool
 
         """
-    def isFeasEQ(self):
+    def isFeasEQ(self, val1, val2):
         """
         Checks, if relative difference of values is in range of feasibility tolerance.
 
@@ -4846,7 +4846,7 @@ class Model:
         bool
 
         """
-    def isFeasIntegral(self):
+    def isFeasIntegral(self, value):
         """
         Returns whether value is integral within the LP feasibility bounds.
 
@@ -4859,7 +4859,7 @@ class Model:
         bool
 
         """
-    def isFeasNegative(self):
+    def isFeasNegative(self, value):
         """
         Returns whether value < -feastol.
 
@@ -4872,7 +4872,7 @@ class Model:
         bool
 
         """
-    def isFeasZero(self):
+    def isFeasZero(self, value):
         """
         Returns whether abs(value) < feastol.
 
@@ -4885,7 +4885,7 @@ class Model:
         bool
 
         """
-    def isGE(self):
+    def isGE(self, val1, val2):
         """
         Returns whether val1 >= val2 - eps.
 
@@ -4899,7 +4899,7 @@ class Model:
         bool
 
         """
-    def isGT(self):
+    def isGT(self, val1, val2):
         """
         Returns whether val1 > val2 + eps.
 
@@ -4913,7 +4913,7 @@ class Model:
         bool
 
         """
-    def isInfinity(self):
+    def isInfinity(self, value):
         """
         Returns whether value is SCIP's infinity.
 
@@ -4926,7 +4926,7 @@ class Model:
         bool
 
         """
-    def isLE(self):
+    def isLE(self, val1, val2):
         """
         Returns whether val1 <= val2 + eps.
 
@@ -4949,7 +4949,7 @@ class Model:
         bool
 
         """
-    def isLT(self):
+    def isLT(self, val1, val2):
         """
         Returns whether val1 < val2 - eps.
 
@@ -4981,7 +4981,7 @@ class Model:
         bool
 
         """
-    def isZero(self):
+    def isZero(self, value):
         """
         Returns whether abs(value) < eps.
 
