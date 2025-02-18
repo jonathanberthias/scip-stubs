@@ -1,7 +1,6 @@
 import dataclasses
 from _typeshed import Incomplete
 from typing import ClassVar
-from typing_extensions import CapsuleType as PyCapsule
 
 CONST: Term
 EventNames: dict
@@ -81,7 +80,6 @@ class Benderscut:
     def __reduce__(self): ...
 
 class BoundChange:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def getBoundchgtype(self):
@@ -156,7 +154,6 @@ class Branchrule:
     def __reduce__(self): ...
 
 class Column:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
@@ -377,7 +374,6 @@ class Constant(GenExpr):
     def __reduce__(self): ...
 
 class Constraint:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
     def __init__(self, *args) -> None:
@@ -552,7 +548,6 @@ class Cutsel:
     def __reduce__(self): ...
 
 class DomainChanges:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def getBoundchgs(self):
@@ -567,7 +562,6 @@ class DomainChanges:
     def __reduce__(self): ...
 
 class Event:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
@@ -964,7 +958,6 @@ class LP:
     def __reduce__(self): ...
 
 class Model:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     def __init__(
         self,
@@ -5951,7 +5944,6 @@ class Model:
     def __reduce__(self): ...
 
 class NLRow:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
     def __init__(self, *args) -> None:
@@ -6018,7 +6010,6 @@ class NLRow:
     def __reduce__(self): ...
 
 class Node:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
@@ -6591,7 +6582,6 @@ class Relax:
     def __reduce__(self): ...
 
 class Row:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
     def __init__(self, *args) -> None:
@@ -6807,7 +6797,6 @@ class Sepa:
     def __reduce__(self): ...
 
 class Solution:
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     def __init__(self, *args) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
@@ -6922,10 +6911,9 @@ class VarExpr(GenExpr):
     def __reduce__(self): ...
 
 class Variable(Expr):
-    __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
     name: Incomplete
-    def __init__(cls) -> None:
+    def __init__(self) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
     def getAvgSol(self):
         """
