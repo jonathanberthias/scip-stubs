@@ -5104,7 +5104,7 @@ class Model:
             number of domain reductions found
 
         """
-    def readParams(self):
+    def readParams(self, file):
         """
         Read an external parameter file.
 
@@ -5114,7 +5114,7 @@ class Model:
             file to read
 
         """
-    def readProblem(self):
+    def readProblem(self, filename, extension=...):
         """
         Read a problem instance from an external file.
 
@@ -5126,7 +5126,7 @@ class Model:
             specify file extension/type (Default value = None)
 
         """
-    def readSol(self):
+    def readSol(self, filename):
         """
         Reads a given solution file, problem has to be transformed in advance.
 
@@ -5136,7 +5136,7 @@ class Model:
             name of the input file
 
         """
-    def readSolFile(self):
+    def readSolFile(self, filename):
         """
         Reads a given solution file.
 
@@ -5788,7 +5788,7 @@ class Model:
         float
 
         """
-    def writeBestSol(self):
+    def writeBestSol(self, filename=..., write_zeros=...):
         """
         Write the best feasible primal solution to a file.
 
@@ -5800,7 +5800,7 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def writeBestTransSol(self):
+    def writeBestTransSol(self, filename=..., write_zeros=...):
         """
         Write the best feasible primal solution for the transformed problem to a file.
 
@@ -5812,7 +5812,7 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def writeLP(self):
+    def writeLP(self, filename=...):
         """
         Writes current LP to a file.
 
@@ -5822,7 +5822,7 @@ class Model:
             file name (Default value = "LP.lp")
 
         """
-    def writeName(self):
+    def writeName(self, var):
         """
         Write the name of the variable to the std out.
 
@@ -5831,7 +5831,7 @@ class Model:
         var : Variable
 
         """
-    def writeParams(self):
+    def writeParams(self, filename=..., comments=..., onlychanged=..., verbose=...):
         """
         Write parameter settings to an external file.
 
@@ -5847,7 +5847,7 @@ class Model:
             indicates whether a success message should be printed
 
         """
-    def writeProblem(self):
+    def writeProblem(self, filename=..., trans=..., genericnames=..., verbose=...):
         """
         Write current model/problem to a file.
 
@@ -5866,7 +5866,7 @@ class Model:
             indicates whether a success message should be printed
 
         """
-    def writeSol(self):
+    def writeSol(self, solution, filename=..., write_zeros=...):
         """
         Write the given primal solution to a file.
 
@@ -5880,7 +5880,7 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def writeStatistics(self):
+    def writeStatistics(self, filename=...):
         """
         Write statistics to a file.
 
@@ -5890,7 +5890,7 @@ class Model:
             name of the output file (Default = "origprob.stats")
 
         """
-    def writeTransSol(self):
+    def writeTransSol(self, solution, filename=..., write_zeros=...):
         """
         Write the given transformed primal solution to a file.
 
