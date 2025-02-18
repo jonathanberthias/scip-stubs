@@ -990,7 +990,7 @@ class Model:
             False if data can be safely shared between the source and target problem (default False)
 
         """
-    def activateBenders(self):
+    def activateBenders(self, benders, nsubproblems):
         """
         Activates the Benders' decomposition plugin with the input name.
 
@@ -1823,7 +1823,7 @@ class Model:
         bool
 
         """
-    def appendVarSOS1(self):
+    def appendVarSOS1(self, cons, var):
         """
         Append variable to SOS1 constraint.
 
@@ -1835,7 +1835,7 @@ class Model:
             variable to append
 
         """
-    def appendVarSOS2(self):
+    def appendVarSOS2(self, cons, var):
         """
         Append variable to SOS2 constraint.
 
@@ -1860,7 +1860,7 @@ class Model:
             whether an empty domain was created
 
         """
-    def attachEventHandlerCallback(self):
+    def attachEventHandlerCallback(self, callback, events, name=..., description=...):
         """
         Attach an event handler to the model using a callback function.
 
@@ -1877,7 +1877,7 @@ class Model:
         description : str, optional
             Description of the event handler. If not provided, an empty string will be used.
         """
-    def backtrackProbing(self):
+    def backtrackProbing(self, probingdepth):
         """
         Undoes all changes to the problem applied in probing up to the given probing depth.
 
@@ -1887,7 +1887,7 @@ class Model:
             probing depth of the node in the probing path that should be reactivated
 
         """
-    def branchVar(self):
+    def branchVar(self, variable):
         """
         Branch on a non-continuous variable.
 
@@ -1906,7 +1906,7 @@ class Model:
             Node created for the up (right) branch
 
         """
-    def branchVarVal(self):
+    def branchVarVal(self, variable, value):
         """
         Branches on variable using a value which separates the domain of the variable.
 
@@ -1927,7 +1927,7 @@ class Model:
             Node created for the up (right) branch
 
         """
-    def cacheRowExtensions(self):
+    def cacheRowExtensions(self, row):
         """
         Informs row that all subsequent additions of variables to the row
         should be cached and not directly applied;
@@ -1941,7 +1941,7 @@ class Model:
         row : Row
 
         """
-    def calcChildEstimate(self):
+    def calcChildEstimate(self, variable, targetvalue):
         """
         Calculates an estimate for the objective of the best feasible solution
         contained in the subtree after applying the given branching;
@@ -1960,7 +1960,7 @@ class Model:
             objective estimate of the best solution in the subtree after applying the given branching
 
         """
-    def calcNodeselPriority(self):
+    def calcNodeselPriority(self, variable, branchdir, targetvalue):
         """
         Calculates the node selection priority for moving the given variable's LP value
         to the given target value;
@@ -1981,7 +1981,7 @@ class Model:
             node selection priority for moving the given variable's LP value to the given target value
 
         """
-    def catchEvent(self):
+    def catchEvent(self, eventtype, eventhdlr):
         """
         Catches a global (not variable or row dependent) event.
 
@@ -1991,7 +1991,7 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def catchRowEvent(self):
+    def catchRowEvent(self, row, eventtype, eventhdlr):
         """
         Catches a row coefficient, constant, or side change event on the given row.
 
@@ -2002,7 +2002,7 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def catchVarEvent(self):
+    def catchVarEvent(self, var, eventtype, eventhdlr):
         """
         Catches an objective value or domain change event on the given transformed variable.
 
@@ -2013,7 +2013,7 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def checkBendersSubproblemOptimality(self):
+    def checkBendersSubproblemOptimality(self, solution, probnumber, benders=...):
         """
         Returns whether the subproblem is optimal w.r.t the master problem auxiliary variables.
 
@@ -2032,7 +2032,7 @@ class Model:
             flag to indicate whether the current subproblem is optimal for the master
 
         """
-    def checkQuadraticNonlinear(self):
+    def checkQuadraticNonlinear(self, cons):
         """
         Returns if the given constraint is quadratic.
 
@@ -2045,7 +2045,16 @@ class Model:
         bool
 
         """
-    def checkSol(self):
+    def checkSol(
+        self,
+        solution,
+        printreason=...,
+        completely=...,
+        checkbounds=...,
+        checkintegrality=...,
+        checklprows=...,
+        original=...,
+    ):
         """
         Check given primal solution for feasibility without adding it to the storage.
 
@@ -2320,7 +2329,7 @@ class Model:
             Can the node be cutoff?
 
         """
-    def copyLargeNeighborhoodSearch(self):
+    def copyLargeNeighborhoodSearch(self, to_fix, fix_vals):
         """
         Creates a configured copy of the transformed problem and applies provided fixings intended for LNS heuristics.
 
@@ -2568,7 +2577,7 @@ class Model:
         Solution
 
         """
-    def delCoefLinear(self):
+    def delCoefLinear(self, cons, var):
         """
         Deletes variable from linear constraint
         This method may only be called during problem creation stage for an original constraint and variable.
@@ -2582,7 +2591,7 @@ class Model:
             variable of constraint entry
 
         """
-    def delCons(self):
+    def delCons(self, cons):
         """
         Delete constraint from the model
 
@@ -2592,7 +2601,7 @@ class Model:
             constraint to be deleted
 
         """
-    def delConsLocal(self):
+    def delConsLocal(self, cons):
         """
         Delete constraint from the current node and its children.
 
@@ -2602,7 +2611,7 @@ class Model:
             constraint to be deleted
 
         """
-    def delVar(self):
+    def delVar(self, var):
         """
         Delete a variable.
 
@@ -2617,7 +2626,7 @@ class Model:
             Whether deleting was successfull
 
         """
-    def disablePropagation(self):
+    def disablePropagation(self, onlyroot=...):
         """
         Disables propagation in SCIP to avoid modifying the original problem during transformation.
 
@@ -2627,7 +2636,7 @@ class Model:
             use propagation when root processing is finished (Default value = False)
 
         """
-    def dropEvent(self):
+    def dropEvent(self, eventtype, eventhdlr):
         """
         Drops a global event (stops tracking the event).
 
@@ -2637,7 +2646,7 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def dropRowEvent(self):
+    def dropRowEvent(self, row, eventtype, eventhdlr):
         """
         Drops a row coefficient, constant, or side change event (stops tracking the event) on the given row.
 
@@ -2648,7 +2657,7 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def dropVarEvent(self):
+    def dropVarEvent(self, var, eventtype, eventhdlr):
         """
         Drops an objective value or domain change event (stops tracking the event) on the given transformed variable.
 
@@ -2659,7 +2668,7 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def enableReoptimization(self):
+    def enableReoptimization(self, enable=...):
         """
         Include specific heuristics and branching rules for reoptimization.
 
@@ -2685,7 +2694,7 @@ class Model:
         float
 
         """
-    def feasCeil(self):
+    def feasCeil(self, value):
         """
         Rounds value - feasibility tolerance up to the next integer.
 
@@ -2698,7 +2707,7 @@ class Model:
         float
 
         """
-    def feasFloor(self):
+    def feasFloor(self, value):
         """
         Rounds value + feasibility tolerance down to the next integer.
 
@@ -2711,7 +2720,7 @@ class Model:
         float
 
         """
-    def feasFrac(self):
+    def feasFrac(self, value):
         """
         Returns fractional part of value, i.e. x - floor(x) in feasible tolerance: x - floor(x+feastol).
 
@@ -2724,7 +2733,7 @@ class Model:
         float
 
         """
-    def feasRound(self):
+    def feasRound(self, value):
         """
         Rounds value to the nearest integer in feasibility tolerance.
 
@@ -2746,7 +2755,7 @@ class Model:
         float
 
         """
-    def fixVar(self):
+    def fixVar(self, var, val):
         """
         Fixes the variable var to the value val if possible.
 
@@ -2765,7 +2774,7 @@ class Model:
             Was the fixing performed?
 
         """
-    def fixVarProbing(self):
+    def fixVarProbing(self, var, fixedval):
         """
         Fixes a variable at the current probing node.
 
@@ -2775,7 +2784,7 @@ class Model:
         fixedval : float
 
         """
-    def flushRowExtensions(self):
+    def flushRowExtensions(self, row):
         """
         Flushes all cached row extensions after a call of cacheRowExtensions()
         and merges coefficients with equal columns into a single coefficient
@@ -2785,7 +2794,7 @@ class Model:
         row : Row
 
         """
-    def frac(self):
+    def frac(self, value):
         """
         Returns fractional part of value, i.e. x - floor(x) in epsilon tolerance: x - floor(x+eps).
 
@@ -2805,7 +2814,7 @@ class Model:
         """Frees problem and solution process data."""
     def freeReoptSolve(self):
         """Frees all solution process data and prepares for reoptimization."""
-    def freeSol(self):
+    def freeSol(self, solution):
         """
         Free given solution
 
@@ -2819,7 +2828,7 @@ class Model:
         """Frees all solution process data including presolving and
         transformed problem, only original problem is kept."""
     @staticmethod
-    def from_ptr():
+    def from_ptr(capsule, take_ownership):
         """
         Create a Model from a given pointer.
 
@@ -4353,7 +4362,7 @@ class Model:
         bool
 
         """
-    def hideOutput(self):
+    def hideOutput(self, quiet=...):
         """
         Hide the output.
 
@@ -4791,7 +4800,7 @@ class Model:
         int
 
         """
-    def initBendersDefault(self):
+    def initBendersDefault(self, subproblems):
         """
         Initialises the default Benders' decomposition with a dictionary of subproblems.
 
@@ -5013,7 +5022,7 @@ class Model:
         """Optimize the problem without GIL."""
     def presolve(self):
         """Presolve the problem."""
-    def printBestSol(self):
+    def printBestSol(self, write_zeros=...):
         """
         Prints the best feasible primal solution.
 
@@ -5023,7 +5032,7 @@ class Model:
             include variables that are set to zero (Default = False)
 
         """
-    def printCons(self):
+    def printCons(self, constraint):
         """
         Print the constraint
 
@@ -5034,7 +5043,7 @@ class Model:
         """
     def printExternalCodeVersions(self):
         """Print external code versions, e.g. symmetry, non-linear solver, lp solver."""
-    def printNlRow(self):
+    def printNlRow(self, nlrow):
         """
         Prints nonlinear row.
 
@@ -5043,7 +5052,7 @@ class Model:
         nlrow : NLRow
 
         """
-    def printProblem(self):
+    def printProblem(self, ext=..., trans=..., genericnames=...):
         """
         Write current model/problem to standard output.
 
@@ -5059,7 +5068,7 @@ class Model:
             indicates whether the problem should be written with generic variable
             and constraint names (Default value = False)
         """
-    def printRow(self):
+    def printRow(self, row):
         """
         Prints row.
 
@@ -5068,7 +5077,7 @@ class Model:
         row : Row
 
         """
-    def printSol(self):
+    def printSol(self, solution=..., write_zeros=...):
         """
         Print the given primal solution.
 
@@ -5084,7 +5093,7 @@ class Model:
         """Print statistics."""
     def printVersion(self):
         """Print version, copyright information and compile mode."""
-    def propagateProbing(self):
+    def propagateProbing(self, maxproprounds):
         """
         Applies domain propagation on the probing sub problem, that was changed after SCIPstartProbing() was called;
         the propagated domains of the variables can be accessed with the usual bound accessing calls SCIPvarGetLbLocal()
@@ -5157,7 +5166,7 @@ class Model:
         """Send output to python instead of terminal."""
     def relax(self):
         """Relaxes the integrality restrictions of the model."""
-    def releaseRow(self):
+    def releaseRow(self, row):
         """
         Decreases usage counter of LP row, and frees memory if necessary.
 
@@ -5166,9 +5175,9 @@ class Model:
         row : Row
 
         """
-    def repropagateNode(self):
+    def repropagateNode(self, node):
         """Marks the given node to be propagated again the next time a node of its subtree is processed."""
-    def resetParam(self):
+    def resetParam(self, name):
         """
         Reset parameter setting to its default value
 
@@ -5182,7 +5191,7 @@ class Model:
         """Reset parameter settings to their default values."""
     def restartSolve(self):
         """Restarts the solving process as soon as possible."""
-    def separateSol(self):
+    def separateSol(self, sol=..., pretendroot=..., allowlocal=..., onlydelayed=...):
         """
         Separates the given primal solution or the current LP solution by calling
         the separators and constraint handlers\' separation methods;
@@ -5496,7 +5505,9 @@ class Model:
             value of parameter
 
         """
-    def setupBendersSubproblem(self):
+    def setupBendersSubproblem(
+        self, probnumber, benders=..., solution=..., checktype=...
+    ):
         """
         Sets up the Benders' subproblem given the master problem solution.
 
@@ -5513,7 +5524,7 @@ class Model:
             PY_SCIP_BENDERSENFOTYPE: LP, RELAX, PSEUDO or CHECK. Default is LP.
 
         """
-    def solveBendersSubproblem(self):
+    def solveBendersSubproblem(self, probnumber, solvecip, benders=..., solution=...):
         """
         Solves the Benders' decomposition subproblem. The convex relaxation will be solved unless
         the parameter solvecip is set to True.
@@ -5541,7 +5552,7 @@ class Model:
         """Transforms, presolves, and solves problem using additional solvers which emphasize on
         finding solutions.
         WARNING: This feature is still experimental and prone to some errors."""
-    def solveDiveLP(self):
+    def solveDiveLP(self, itlim=...):
         """
         Solves the LP of the current dive. No separation or pricing is applied.
 
@@ -5558,7 +5569,7 @@ class Model:
             whether the LP was infeasible or the objective limit was reached
 
         """
-    def solveProbingLP(self):
+    def solveProbingLP(self, itlim=...):
         """
         Solves the LP at the current probing node (cannot be applied at preprocessing stage)
         no separation or pricing is applied.
@@ -5590,7 +5601,7 @@ class Model:
         TODO: Propagation option has currently been disabled via Python.
         If propagation is enabled then strong branching is not done on the LP, but on additionally created nodes
         (has some overhead)."""
-    def tightenVarLb(self):
+    def tightenVarLb(self, var, lb, force=...):
         """
         Tighten the lower bound in preprocessing or current node, if the bound is tighter.
 
@@ -5611,7 +5622,7 @@ class Model:
             Whether the bound was tightened
 
         """
-    def tightenVarLbGlobal(self):
+    def tightenVarLbGlobal(self, var, lb, force=...):
         """Tighten the global lower bound, if the bound is tighter.
 
         Parameters
@@ -5631,7 +5642,7 @@ class Model:
             Whether the bound was tightened
 
         """
-    def tightenVarUb(self):
+    def tightenVarUb(self, var, ub, force=...):
         """
         Tighten the upper bound in preprocessing or current node, if the bound is tighter.
 
@@ -5652,7 +5663,7 @@ class Model:
             Whether the bound was tightened
 
         """
-    def tightenVarUbGlobal(self):
+    def tightenVarUbGlobal(self, var, ub, force=...):
         """
         Tighten the global upper bound, if the bound is tighter.
 
@@ -5673,7 +5684,7 @@ class Model:
             Whether the bound was tightened
 
         """
-    def to_ptr(self):
+    def to_ptr(self, give_ownership):
         """
         Return the underlying Scip pointer to the current Model.
 
@@ -5690,7 +5701,7 @@ class Model:
             PyCapsule under the name "scip".
 
         """
-    def translateSubSol(self):
+    def translateSubSol(self, sub_model, sol, heur):
         """
                 \t\tTranslates a solution of a model copy into a solution of the main model
         \t\t
@@ -5708,7 +5719,16 @@ class Model:
                 \t\tsolution : Solution
                 \t\t\tThe corresponding solution in the main model
         """
-    def trySol(self):
+    def trySol(
+        self,
+        solution,
+        printreason=...,
+        completely=...,
+        checkbounds=...,
+        checkintegrality=...,
+        checklprows=...,
+        free=...,
+    ):
         """
         Check given primal solution for feasibility and try to add it to the storage.
 
@@ -5735,7 +5755,7 @@ class Model:
             whether given solution was feasible and good enough to keep
 
         """
-    def updateBendersLowerbounds(self):
+    def updateBendersLowerbounds(self, lowerbounds, benders=...):
         """
         Updates the subproblem lower bounds for benders using
         the lowerbounds dict. If benders is None, then the default
@@ -5747,7 +5767,7 @@ class Model:
         benders : Benders or None, optional
 
         """
-    def updateNodeLowerbound(self):
+    def updateNodeLowerbound(self, node, lb):
         """
         If given value is larger than the node's lower bound (in transformed problem),
         sets the node's lower bound to the new value.
@@ -5760,7 +5780,7 @@ class Model:
             new bound (if greater) for the node
 
         """
-    def updateVarPseudocost(self):
+    def updateVarPseudocost(self, var, valdelta, objdelta, weight):
         """
         Updates the pseudo costs of the given variable and the global pseudo costs after a change of valdelta
         in the variable's solution value and resulting change of objdelta in the LP's objective value.
