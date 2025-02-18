@@ -966,7 +966,17 @@ class LP:
 class Model:
     __pyx_vtable__: ClassVar[PyCapsule] = ...
     data: Incomplete
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        problemName: str = ...,
+        defaultPlugins: bool = True,
+        sourceModel: Model | None = None,
+        origcopy: bool = False,
+        flobalcopy: bool = True,
+        enablepricing: bool = False,
+        createscip: bool = True,
+        threadsafe: bool = False,
+    ) -> None:
         """
         Main class holding a pointer to SCIP for managing most interactions
 
