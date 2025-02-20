@@ -63,7 +63,6 @@ class Benders:
         """sets solve callback of Benders decomposition"""
     def benderssolvesubconvex(self, solution, probnumber, onlyconvex):
         """sets convex solve callback of Benders decomposition"""
-    def __reduce__(self): ...
 
 class Benderscut:
     benders: Incomplete
@@ -77,7 +76,6 @@ class Benderscut:
     def benderscutfree(self): ...
     def benderscutinit(self): ...
     def benderscutinitsol(self): ...
-    def __reduce__(self): ...
 
 class BoundChange:
     def __init__(self, *args) -> None:
@@ -129,7 +127,6 @@ class BoundChange:
         bool
 
         """
-    def __reduce__(self): ...
 
 class Branchrule:
     model: Incomplete
@@ -151,7 +148,6 @@ class Branchrule:
         """initializes branching rule"""
     def branchinitsol(self):
         """informs branching rule that the branch and bound process is being started"""
-    def __reduce__(self): ...
 
 class Column:
     data: Incomplete
@@ -263,7 +259,6 @@ class Column:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-    def __reduce__(self): ...
 
 class Conshdlr:
     model: Incomplete
@@ -365,13 +360,11 @@ class Conshdlr:
         """calls separator method of constraint handler to separate given primal solution"""
     def constrans(self, sourceconstraint):
         """sets method of constraint handler to transform constraint data into data belonging to the transformed problem"""
-    def __reduce__(self): ...
 
 class Constant(GenExpr):
     number: Incomplete
     def __init__(self, *args) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-    def __reduce__(self): ...
 
 class Constraint:
     data: Incomplete
@@ -527,7 +520,6 @@ class Constraint:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-    def __reduce__(self): ...
 
 class Cutsel:
     model: Incomplete
@@ -545,7 +537,6 @@ class Cutsel:
         """executed when the presolving is finished and the branch-and-bound process is about to begin"""
     def cutselselect(self, cuts, forcedcuts, root, maxnselectedcuts):
         """first method called in each iteration in the main solving loop."""
-    def __reduce__(self): ...
 
 class DomainChanges:
     def __init__(self, *args) -> None:
@@ -559,7 +550,6 @@ class DomainChanges:
         list of BoundChange
 
         """
-    def __reduce__(self): ...
 
 class Event:
     data: Incomplete
@@ -643,7 +633,6 @@ class Event:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-    def __reduce__(self): ...
 
 class Eventhdlr:
     model: Incomplete
@@ -666,7 +655,6 @@ class Eventhdlr:
         """initializes event handler"""
     def eventinitsol(self):
         """informs event handler that the branch and bound process is being started"""
-    def __reduce__(self): ...
 
 class Expr:
     terms: Incomplete
@@ -708,7 +696,6 @@ class Expr:
     def __pow__(self, other, mod=...):
         """Return pow(self, value, mod)."""
     def __radd__(self, other): ...
-    def __reduce__(self): ...
     def __rmul__(self, other): ...
     def __rpow__(self, other, mod=...):
         """Return pow(value, self, mod)."""
@@ -740,7 +727,6 @@ class ExprCons:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-    def __reduce__(self): ...
 
 class GenExpr:
     children: Incomplete
@@ -773,7 +759,6 @@ class GenExpr:
     def __pow__(self, other, mod=...):
         """Return pow(self, value, mod)."""
     def __radd__(self, other): ...
-    def __reduce__(self): ...
     def __rmul__(self, other): ...
     def __rpow__(self, other, mod=...):
         """Return pow(value, self, mod)."""
@@ -802,7 +787,6 @@ class Heur:
         """initializes primal heuristic"""
     def heurinitsol(self):
         """informs primal heuristic that the branch and bound process is being started"""
-    def __reduce__(self): ...
 
 class LP:
     name: Incomplete
@@ -955,7 +939,6 @@ class LP:
         Keyword arguments:
         filename -- the name of the file to be used
         """
-    def __reduce__(self): ...
 
 class Model:
     data: Incomplete
@@ -5941,7 +5924,6 @@ class Model:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-    def __reduce__(self): ...
 
 class NLRow:
     data: Incomplete
@@ -6007,7 +5989,6 @@ class NLRow:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-    def __reduce__(self): ...
 
 class Node:
     data: Incomplete
@@ -6157,7 +6138,6 @@ class Node:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-    def __reduce__(self): ...
 
 class Nodesel:
     model: Incomplete
@@ -6185,7 +6165,6 @@ class Nodesel:
         """executed when the presolving is finished and the branch-and-bound process is about to begin"""
     def nodeselect(self):
         """first method called in each iteration in the main solving loop."""
-    def __reduce__(self): ...
 
 class Op:
     add: ClassVar[str] = ...
@@ -6211,7 +6190,6 @@ class PY_SCIP_BENDERSENFOTYPE:
     RELAX: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_BRANCHDIR:
     AUTO: ClassVar[int] = ...
@@ -6220,7 +6198,6 @@ class PY_SCIP_BRANCHDIR:
     UPWARDS: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_EVENTTYPE:
     BESTSOLFOUND: ClassVar[int] = ...
@@ -6279,7 +6256,6 @@ class PY_SCIP_EVENTTYPE:
     VARUNLOCKED: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_HEURTIMING:
     AFTERLPLOOP: ClassVar[int] = ...
@@ -6295,7 +6271,6 @@ class PY_SCIP_HEURTIMING:
     DURINGPRICINGLOOP: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_LPSOLSTAT:
     ERROR: ClassVar[int] = ...
@@ -6308,7 +6283,6 @@ class PY_SCIP_LPSOLSTAT:
     UNBOUNDEDRAY: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_NODETYPE:
     CHILD: ClassVar[int] = ...
@@ -6324,7 +6298,6 @@ class PY_SCIP_NODETYPE:
     SUBROOT: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_PARAMEMPHASIS:
     BENCHMARK: ClassVar[int] = ...
@@ -6341,7 +6314,6 @@ class PY_SCIP_PARAMEMPHASIS:
     PHASEPROOF: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_PARAMSETTING:
     AGGRESSIVE: ClassVar[int] = ...
@@ -6350,7 +6322,6 @@ class PY_SCIP_PARAMSETTING:
     OFF: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_PRESOLTIMING:
     EXHAUSTIVE: ClassVar[int] = ...
@@ -6359,7 +6330,6 @@ class PY_SCIP_PRESOLTIMING:
     NONE: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_PROPTIMING:
     AFTERLPLOOP: ClassVar[int] = ...
@@ -6368,7 +6338,6 @@ class PY_SCIP_PROPTIMING:
     DURINGLPLOOP: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_RESULT:
     BRANCHED: ClassVar[int] = ...
@@ -6390,7 +6359,6 @@ class PY_SCIP_RESULT:
     UNBOUNDED: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_ROWORIGINTYPE:
     CONS: ClassVar[int] = ...
@@ -6399,7 +6367,6 @@ class PY_SCIP_ROWORIGINTYPE:
     UNSPEC: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_SOLORIGIN:
     LPSOL: ClassVar[int] = ...
@@ -6412,7 +6379,6 @@ class PY_SCIP_SOLORIGIN:
     ZERO: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_STAGE:
     EXITPRESOLVE: ClassVar[int] = ...
@@ -6431,7 +6397,6 @@ class PY_SCIP_STAGE:
     TRANSFORMING: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PY_SCIP_STATUS:
     BESTSOLLIMIT: ClassVar[int] = ...
@@ -6453,13 +6418,11 @@ class PY_SCIP_STATUS:
     USERINTERRUPT: ClassVar[int] = ...
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
-    def __reduce__(self): ...
 
 class PowExpr(GenExpr):
     expo: Incomplete
     def __init__(self, *args) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-    def __reduce__(self): ...
 
 class Presol:
     model: Incomplete
@@ -6477,7 +6440,6 @@ class Presol:
         """initializes presolver"""
     def presolinitpre(self):
         """informs presolver that the presolving process is being started"""
-    def __reduce__(self): ...
 
 class Pricer:
     model: Incomplete
@@ -6497,13 +6459,11 @@ class Pricer:
         """informs variable pricer that the branch and bound process is being started"""
     def pricerredcost(self):
         """calls reduced cost pricing method of variable pricer"""
-    def __reduce__(self): ...
 
 class ProdExpr(GenExpr):
     constant: Incomplete
     def __init__(self, *args) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-    def __reduce__(self): ...
 
 class Prop:
     model: Incomplete
@@ -6529,7 +6489,6 @@ class Prop:
         """executes presolving method of propagator"""
     def propresprop(self, confvar, inferinfo, bdtype, relaxedbd):
         """resolves the given conflicting bound, that was reduced by the given propagator"""
-    def __reduce__(self): ...
 
 class Reader:
     model: Incomplete
@@ -6560,7 +6519,6 @@ class Reader:
         genericnames,
     ):
         """calls write method of reader"""
-    def __reduce__(self): ...
 
 class Relax:
     model: Incomplete
@@ -6579,7 +6537,6 @@ class Relax:
         """initializes relaxation handler"""
     def relaxinitsol(self):
         """informs relaxaton handler that the branch and bound process is being started"""
-    def __reduce__(self): ...
 
 class Row:
     data: Incomplete
@@ -6773,7 +6730,6 @@ class Row:
         """Return self<value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-    def __reduce__(self): ...
 
 class Sepa:
     model: Incomplete
@@ -6794,7 +6750,6 @@ class Sepa:
         """initializes separator"""
     def sepainitsol(self):
         """informs separator that the branch and bound process is being started"""
-    def __reduce__(self): ...
 
 class Solution:
     data: Incomplete
@@ -6826,7 +6781,6 @@ class Solution:
         """Delete self[key]."""
     def __getitem__(self, index):
         """Return self[key]."""
-    def __reduce__(self): ...
     def __setitem__(self, index, object) -> None:
         """Set self[key] to value."""
 
@@ -6886,7 +6840,6 @@ class SumExpr(GenExpr):
     constant: Incomplete
     def __init__(self, *args) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-    def __reduce__(self): ...
 
 class Term:
     hashval: Incomplete
@@ -6902,13 +6855,11 @@ class Term:
 class UnaryExpr(GenExpr):
     def __init__(self, *args) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-    def __reduce__(self): ...
 
 class VarExpr(GenExpr):
     var: Incomplete
     def __init__(self, *args) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
-    def __reduce__(self): ...
 
 class Variable(Expr):
     data: Incomplete
@@ -7058,4 +7009,3 @@ class Variable(Expr):
             "BINARY", "INTEGER", "CONTINUOUS", or "IMPLINT"
 
         """
-    def __reduce__(self): ...
