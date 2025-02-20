@@ -1,6 +1,7 @@
 import dataclasses
 from _typeshed import Incomplete
 from typing import ClassVar
+from typing_extensions import Literal as L
 
 CONST: Term
 EventNames: dict
@@ -150,115 +151,20 @@ class Branchrule:
         """informs branching rule that the branch and bound process is being started"""
 
 class Column:
-    data: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getAge(self):
-        """
-        Gets the age of the column, i.e., the total number of successive times a column was in the LP
-        and was 0.0 in the solution.
-
-        Returns
-        -------
-        int
-
-        """
-    def getBasisStatus(self):
-        """
-        Gets the basis status of a column in the LP solution
-
-        Returns
-        -------
-        str
-            Possible values are "lower", "basic", "upper", and "zero"
-
-        Raises
-        ------
-        Exception
-            If SCIP returns an unknown basis status
-
-        Notes
-        -----
-        Returns basis status "zero" for columns not in the current SCIP LP.
-
-        """
-    def getLPPos(self):
-        """
-        Gets position of column in current LP, or -1 if it is not in LP.
-
-        Returns
-        -------
-        int
-
-        """
-    def getLb(self):
-        """
-        Gets lower bound of column.
-
-        Returns
-        -------
-        float
-
-        """
-    def getObjCoeff(self):
-        """
-        Gets objective value coefficient of a column.
-
-        Returns
-        -------
-        float
-
-        """
-    def getPrimsol(self):
-        """
-        Gets the primal LP solution of a column.
-
-        Returns
-        -------
-        float
-
-        """
-    def getUb(self):
-        """
-        Gets upper bound of column.
-
-        Returns
-        -------
-        float
-
-        """
-    def getVar(self):
-        """
-        Gets variable this column represents.
-
-        Returns
-        -------
-        Variable
-
-        """
-    def isIntegral(self):
-        """
-        Returns whether the associated variable is of integral type (binary, integer, implicit integer).
-
-        Returns
-        -------
-        bool
-
-        """
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
+    data: object
+    def __init__(self) -> None: ...
+    def getAge(self) -> int: ...
+    def getBasisStatus(self) -> L["lower", "basic", "upper", "zero"]: ...
+    def getLPPos(self) -> int: ...
+    def getLb(self) -> float: ...
+    def getObjCoeff(self) -> float: ...
+    def getPrimsol(self) -> float: ...
+    def getUb(self) -> float: ...
+    def getVar(self) -> Variable: ...
+    def isIntegral(self) -> bool: ...
+    def __hash__(self) -> int: ...
+    def __eq__(self, other: object) -> bool: ...
+    def __ne__(self, other: object) -> bool: ...
 
 class Conshdlr:
     model: Incomplete
@@ -6875,7 +6781,7 @@ class Variable(Expr):
         float
 
         """
-    def getCol(self):
+    def getCol(self) -> Column:
         """
         Retrieve column of COLUMN variable.
 

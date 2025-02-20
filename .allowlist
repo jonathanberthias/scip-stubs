@@ -1,3 +1,7 @@
 # Ignore cython leftovers
 .*.__reduce_cython__
 .*.__setstate_cython__
+
+# Even though runtime allows any arg and kwarg, they don't seem to have any effect
+# so the stubs only reflect the 0-arg call
+pyscipopt.scip.Column.__init__
