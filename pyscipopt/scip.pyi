@@ -6799,15 +6799,7 @@ class Variable(Expr):
         int
 
         """
-    def getLPSol(self):
-        """
-        Retrieve the current LP solution value of variable.
-
-        Returns
-        -------
-        float
-
-        """
+    def getLPSol(self) -> float: ...
     def getLbGlobal(self):
         """
         Retrieve global lower bound of variable.
@@ -6871,15 +6863,7 @@ class Variable(Expr):
         float
 
         """
-    def isInLP(self):
-        """
-        Retrieve whether the variable is a COLUMN variable that is member of the current LP.
-
-        Returns
-        -------
-        bool
-
-        """
+    def isInLP(self) -> bool: ...
     def isOriginal(self):
         """
         Retrieve whether the variable belongs to the original problem

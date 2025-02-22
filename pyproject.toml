@@ -27,6 +27,10 @@ dev = [
     "basedpyright==1.27.1",
 ]
 
+[tool.pyright]
+typeCheckingMode = "strict"
+reportInvalidStubStatement = false
+
 [tool.mypy]
 ignore_errors = true
 
