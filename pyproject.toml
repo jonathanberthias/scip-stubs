@@ -28,6 +28,7 @@ dev = [
 ]
 
 [tool.pyright]
+pythonVersion = "3.8"
 typeCheckingMode = "strict"
 reportInvalidStubStatement = false
 

@@ -1,7 +1,14 @@
 import dataclasses
 from _typeshed import Incomplete
 from typing import ClassVar
-from typing_extensions import Literal as L
+from typing_extensions import Literal as L, TypeAlias
+
+_VTypes: TypeAlias = L[
+    "C", "CONTINUOUS",
+    "B", "BINARY",
+    "I", "INTEGER",
+    "M", "IMPLINT"
+]  # fmt: off
 
 CONST: Term
 EventNames: dict
@@ -1615,14 +1622,15 @@ class Model:
         """
     def addVar(
         self,
-        name=...,
-        vtype=...,
-        lb=...,
-        ub=...,
-        obj=...,
-        pricedVar=...,
-        pricedVarScore=...,
-    ):
+        /,
+        name: str = "",
+        vtype: _VTypes = "C",
+        lb: float | None = 0.0,
+        ub: float | None = None,
+        obj: float | None = 0.0,
+        pricedVar: bool = False,
+        pricedVarScore: float = 1.0,
+    ) -> Variable:
         """
         Create a new variable. Default variable is non-negative and continuous.
 
