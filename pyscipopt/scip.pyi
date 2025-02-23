@@ -1,6 +1,6 @@
 import dataclasses
 from _typeshed import Incomplete
-from typing import ClassVar, SupportsFloat, overload
+from typing import ClassVar, Iterator, SupportsFloat, overload
 from typing_extensions import Literal as L, TypeAlias
 
 _VTypes: TypeAlias = L[
@@ -10,14 +10,22 @@ _VTypes: TypeAlias = L[
     "M", "IMPLINT"
 ]  # fmt: off
 
+##########
+# expr.pxi
+##########
+
+class Term:
+    hashval: int
+    ptrtuple: tuple[int, ...]
+    vartuple: tuple[Variable, ...]
+    def __init__(self, *vartuple: Variable) -> None: ...
+    def __add__(self, other: Term, /) -> Term: ...
+    def __eq__(self, other: Term, /) -> bool: ...
+    def __getitem__(self, index: int, /) -> Variable: ...
+    def __hash__(self, /) -> int: ...
+    def __len__(self, /) -> int: ...
+
 CONST: Term
-EventNames: dict
-MAJOR: int
-MINOR: int
-Operator: Op
-PATCH: int
-StageNames: dict
-__test__: dict
 
 @overload
 def buildGenExprObj(expr: Expr) -> SumExpr: ...
@@ -32,20 +40,199 @@ def buildGenExprObj(expr: SupportsFloat) -> Constant: ...
 # @overload
 # def buildGenExprObj(expr: str) -> Constant: ...
 
-def cos(expr): ...
-def exp(expr): ...
-def expr_to_array(expr, nodes): ...
-def expr_to_nodes(expr): ...
-def is_memory_freed(): ...
-def log(expr): ...
-def print_memory_in_use(): ...
+class Expr:
+    terms: dict[Term, float]
+    def __init__(self, terms: dict[Term, float] | None = None) -> None: ...
+    def degree(self, /) -> int:
+        """computes highest degree of terms"""
+    def normalize(self) -> None:
+        """remove terms with coefficient of 0"""
+    def __abs__(self):
+        """abs(self)"""
+    @overload
+    def __add__(self, other: Expr, /) -> Expr: ...
+    @overload
+    def __add__(self, other: SupportsFloat, /) -> Expr: ...
+    @overload
+    def __add__(self, other: str, /) -> Expr: ...
+    @overload
+    def __add__(self, other: GenExpr, /) -> SumExpr: ...
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __getitem__(self, index):
+        """Return self[key]."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    def __iadd__(self, other):
+        """Return self+=value."""
+    def __iter__(self, /) -> Iterator[Term]: ...
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    def __mul__(self, other):
+        """Return self*value."""
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+    def __neg__(self, /) -> Expr: ...
+    def __pow__(self, other, mod=...):
+        """Return pow(self, value, mod)."""
+    @overload
+    def __radd__(self, other: SupportsFloat, /) -> Expr: ...
+    @overload
+    def __radd__(self, other: str, /) -> Expr: ...
+    def __rmul__(self, other): ...
+    def __rpow__(self, other, mod=...):
+        """Return pow(value, self, mod)."""
+    def __rsub__(self, other): ...
+    def __rtruediv__(self, other):
+        """other / self"""
+    def __sub__(self, other):
+        """Return self-value."""
+    def __truediv__(self, other):
+        """Return self/value."""
+
+class ExprCons:
+    expr: Incomplete
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def normalize(self):
+        """move constant terms in expression to bounds"""
+    def __bool__(self) -> bool:
+        """True if self else False"""
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+
 def quickprod(termlist): ...
 def quicksum(termlist): ...
-def readStatistics(filename): ...
-def sin(expr): ...
+
+class Op:
+    add: ClassVar[str] = ...
+    const: ClassVar[str] = ...
+    cos: ClassVar[str] = ...
+    div: ClassVar[str] = ...
+    exp: ClassVar[str] = ...
+    fabs: ClassVar[str] = ...
+    log: ClassVar[str] = ...
+    minus: ClassVar[str] = ...
+    mul: ClassVar[str] = ...
+    plus: ClassVar[str] = ...
+    power: ClassVar[str] = ...
+    prod: ClassVar[str] = ...
+    sin: ClassVar[str] = ...
+    sqrt: ClassVar[str] = ...
+    varidx: ClassVar[str] = ...
+
+Operator: Op
+
+class GenExpr:
+    children: Incomplete
+    def __init__(self) -> None:
+        """ """
+    def degree(self):
+        """Note: none of these expressions should be polynomial"""
+    def getOp(self):
+        """returns operator of GenExpr"""
+    def __abs__(self):
+        """abs(self)"""
+    def __add__(self, other):
+        """Return self+value."""
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    def __mul__(self, other):
+        """Return self*value."""
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+    def __neg__(self):
+        """-self"""
+    def __pow__(self, other, mod=...):
+        """Return pow(self, value, mod)."""
+    def __radd__(self, other): ...
+    def __rmul__(self, other): ...
+    def __rpow__(self, other, mod=...):
+        """Return pow(value, self, mod)."""
+    def __rsub__(self, other): ...
+    def __rtruediv__(self, other):
+        """other / self"""
+    def __sub__(self, other):
+        """Return self-value."""
+    def __truediv__(self, other):
+        """Return self/value."""
+
+class SumExpr(GenExpr):
+    coefs: Incomplete
+    constant: Incomplete
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+class ProdExpr(GenExpr):
+    constant: Incomplete
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+class VarExpr(GenExpr):
+    var: Incomplete
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+class PowExpr(GenExpr):
+    expo: Incomplete
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+class UnaryExpr(GenExpr):
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+class Constant(GenExpr):
+    number: Incomplete
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+
+def exp(expr): ...
+def log(expr): ...
 def sqrt(expr): ...
-def str_conversion(x): ...
+def sin(expr): ...
+def cos(expr): ...
+def expr_to_nodes(expr): ...
 def value_to_array(val, nodes): ...
+def expr_to_array(expr, nodes): ...
+
+######
+# TODO
+######
+
+EventNames: dict
+MAJOR: int
+MINOR: int
+PATCH: int
+StageNames: dict
+__test__: dict
+
+def is_memory_freed(): ...
+def print_memory_in_use(): ...
+def readStatistics(filename): ...
+def str_conversion(x): ...
 def PY_SCIP_CALL(rc): ...
 
 class Benders:
@@ -285,11 +472,6 @@ class Conshdlr:
         """calls separator method of constraint handler to separate given primal solution"""
     def constrans(self, sourceconstraint):
         """sets method of constraint handler to transform constraint data into data belonging to the transformed problem"""
-
-class Constant(GenExpr):
-    number: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
 
 class Constraint:
     data: Incomplete
@@ -580,129 +762,6 @@ class Eventhdlr:
         """initializes event handler"""
     def eventinitsol(self):
         """informs event handler that the branch and bound process is being started"""
-
-class Expr:
-    terms: dict[Term, float]
-    def __init__(self) -> None:
-        """terms is a dict of variables to coefficients.
-
-        CONST is used as key for the constant term."""
-    def degree(self):
-        """computes highest degree of terms"""
-    def normalize(self):
-        """remove terms with coefficient of 0"""
-    def __abs__(self):
-        """abs(self)"""
-    @overload
-    def __add__(self, other: Expr, /) -> Expr: ...
-    @overload
-    def __add__(self, other: SupportsFloat, /) -> Expr: ...
-    @overload
-    def __add__(self, other: str, /) -> Expr: ...
-    @overload
-    def __add__(self, other: GenExpr, /) -> SumExpr: ...
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __getitem__(self, index):
-        """Return self[key]."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    def __iadd__(self, other):
-        """Return self+=value."""
-    def __iter__(self):
-        """Implement iter(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    def __mul__(self, other):
-        """Return self*value."""
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-    def __neg__(self):
-        """-self"""
-    def __next__(self): ...
-    def __pow__(self, other, mod=...):
-        """Return pow(self, value, mod)."""
-    @overload
-    def __radd__(self, other: SupportsFloat, /) -> Expr: ...
-    @overload
-    def __radd__(self, other: str, /) -> Expr: ...
-    def __rmul__(self, other): ...
-    def __rpow__(self, other, mod=...):
-        """Return pow(value, self, mod)."""
-    def __rsub__(self, other): ...
-    def __rtruediv__(self, other):
-        """other / self"""
-    def __sub__(self, other):
-        """Return self-value."""
-    def __truediv__(self, other):
-        """Return self/value."""
-
-class ExprCons:
-    expr: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-    def normalize(self):
-        """move constant terms in expression to bounds"""
-    def __bool__(self) -> bool:
-        """True if self else False"""
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-
-class GenExpr:
-    children: Incomplete
-    def __init__(self) -> None:
-        """ """
-    def degree(self):
-        """Note: none of these expressions should be polynomial"""
-    def getOp(self):
-        """returns operator of GenExpr"""
-    def __abs__(self):
-        """abs(self)"""
-    def __add__(self, other):
-        """Return self+value."""
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    def __mul__(self, other):
-        """Return self*value."""
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-    def __neg__(self):
-        """-self"""
-    def __pow__(self, other, mod=...):
-        """Return pow(self, value, mod)."""
-    def __radd__(self, other): ...
-    def __rmul__(self, other): ...
-    def __rpow__(self, other, mod=...):
-        """Return pow(value, self, mod)."""
-    def __rsub__(self, other): ...
-    def __rtruediv__(self, other):
-        """other / self"""
-    def __sub__(self, other):
-        """Return self-value."""
-    def __truediv__(self, other):
-        """Return self/value."""
 
 class Heur:
     model: Incomplete
@@ -6101,23 +6160,6 @@ class Nodesel:
     def nodeselect(self):
         """first method called in each iteration in the main solving loop."""
 
-class Op:
-    add: ClassVar[str] = ...
-    const: ClassVar[str] = ...
-    cos: ClassVar[str] = ...
-    div: ClassVar[str] = ...
-    exp: ClassVar[str] = ...
-    fabs: ClassVar[str] = ...
-    log: ClassVar[str] = ...
-    minus: ClassVar[str] = ...
-    mul: ClassVar[str] = ...
-    plus: ClassVar[str] = ...
-    power: ClassVar[str] = ...
-    prod: ClassVar[str] = ...
-    sin: ClassVar[str] = ...
-    sqrt: ClassVar[str] = ...
-    varidx: ClassVar[str] = ...
-
 class PY_SCIP_BENDERSENFOTYPE:
     CHECK: ClassVar[int] = ...
     LP: ClassVar[int] = ...  # noqa: F811
@@ -6354,11 +6396,6 @@ class PY_SCIP_STATUS:
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
 
-class PowExpr(GenExpr):
-    expo: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-
 class Presol:
     model: Incomplete
     def __init__(self, *args) -> None:
@@ -6394,11 +6431,6 @@ class Pricer:
         """informs variable pricer that the branch and bound process is being started"""
     def pricerredcost(self):
         """calls reduced cost pricing method of variable pricer"""
-
-class ProdExpr(GenExpr):
-    constant: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
 
 class Prop:
     model: Incomplete
@@ -6769,32 +6801,6 @@ class Statistics:
     def n_presolved_vars(self): ...
     @property
     def n_vars(self): ...
-
-class SumExpr(GenExpr):
-    coefs: Incomplete
-    constant: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-
-class Term:
-    hashval: Incomplete
-    ptrtuple: Incomplete
-    vartuple: Incomplete
-    def __init__(self, vartuple) -> None: ...
-    def __add__(self, other): ...
-    def __eq__(self, other: object) -> bool: ...
-    def __getitem__(self, index): ...
-    def __hash__(self) -> int: ...
-    def __len__(self) -> int: ...
-
-class UnaryExpr(GenExpr):
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-
-class VarExpr(GenExpr):
-    var: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
 
 class Variable(Expr):
     data: Incomplete
