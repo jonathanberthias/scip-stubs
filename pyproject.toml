@@ -30,6 +30,7 @@ dev = [
 [tool.pyright]
 pythonVersion = "3.8"
 typeCheckingMode = "strict"
+reportIncompatibleMethodOverride = false
 reportInvalidStubStatement = false
 
 [tool.mypy]
