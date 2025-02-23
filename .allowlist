@@ -5,3 +5,6 @@
 # Even though runtime allows any arg and kwarg, they don't seem to have any effect
 # so the stubs only reflect the 0-arg call
 pyscipopt.scip.Column.__init__
+
+# This doesn't work at runtime
+pyscipopt(.scip)?.Expr.__next__
