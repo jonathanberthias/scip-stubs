@@ -23,8 +23,9 @@ x: Variable
 class ToFloat:
     def __float__(self) -> float: ...
 
+# buildGenExprObj
 assert_type(buildGenExprObj(1.0), Constant)
-assert_type(buildGenExprObj(expr=1.0), Constant)
+assert_type(buildGenExprObj(expr=1), Constant)
 assert_type(buildGenExprObj(d), Constant)
 assert_type(buildGenExprObj(ToFloat()), Constant)
 
@@ -43,8 +44,10 @@ buildGenExprObj(1j)  # pyright: ignore[reportArgumentType, reportCallIssue]
 # works at runtime
 buildGenExprObj("1.0")  # pyright: ignore[reportArgumentType, reportCallIssue]
 
+# Expr.__(r)add__
 assert_type(e + e, Expr)
 assert_type(e + 1, Expr)
+assert_type(e + d, Expr)
 assert_type(1 + e, Expr)
 assert_type(e + "1", Expr)
 assert_type("1" + e, Expr)
