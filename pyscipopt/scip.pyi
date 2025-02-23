@@ -582,7 +582,7 @@ class Eventhdlr:
         """informs event handler that the branch and bound process is being started"""
 
 class Expr:
-    terms: Incomplete
+    terms: dict[Term, float]
     def __init__(self) -> None:
         """terms is a dict of variables to coefficients.
 
@@ -593,8 +593,14 @@ class Expr:
         """remove terms with coefficient of 0"""
     def __abs__(self):
         """abs(self)"""
-    def __add__(self, other):
-        """Return self+value."""
+    @overload
+    def __add__(self, other: Expr, /) -> Expr: ...
+    @overload
+    def __add__(self, other: SupportsFloat, /) -> Expr: ...
+    @overload
+    def __add__(self, other: str, /) -> Expr: ...
+    @overload
+    def __add__(self, other: GenExpr, /) -> SumExpr: ...
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
@@ -620,7 +626,10 @@ class Expr:
     def __next__(self): ...
     def __pow__(self, other, mod=...):
         """Return pow(self, value, mod)."""
-    def __radd__(self, other): ...
+    @overload
+    def __radd__(self, other: SupportsFloat, /) -> Expr: ...
+    @overload
+    def __radd__(self, other: str, /) -> Expr: ...
     def __rmul__(self, other): ...
     def __rpow__(self, other, mod=...):
         """Return pow(value, self, mod)."""

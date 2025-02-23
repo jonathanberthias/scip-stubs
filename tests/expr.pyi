@@ -18,6 +18,7 @@ from pyscipopt.scip import (
 e: Expr
 g: GenExpr
 d: Decimal
+x: Variable
 
 class ToFloat:
     def __float__(self) -> float: ...
@@ -41,3 +42,20 @@ buildGenExprObj(1j)  # pyright: ignore[reportArgumentType, reportCallIssue]
 
 # works at runtime
 buildGenExprObj("1.0")  # pyright: ignore[reportArgumentType, reportCallIssue]
+
+assert_type(e + e, Expr)
+assert_type(e + 1, Expr)
+assert_type(1 + e, Expr)
+assert_type(e + "1", Expr)
+assert_type("1" + e, Expr)
+
+assert_type(x + x, Expr)
+assert_type(x + 1, Expr)
+assert_type(1 + x, Expr)
+assert_type(x + "1", Expr)
+assert_type("1" + x, Expr)
+
+assert_type(e + g, SumExpr)
+assert_type(e + PowExpr(), SumExpr)
+
+e + 1j  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
