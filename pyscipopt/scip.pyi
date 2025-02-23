@@ -1,6 +1,6 @@
 import dataclasses
 from _typeshed import Incomplete
-from typing import ClassVar
+from typing import ClassVar, SupportsFloat, overload
 from typing_extensions import Literal as L, TypeAlias
 
 _VTypes: TypeAlias = L[
@@ -19,7 +19,19 @@ PATCH: int
 StageNames: dict
 __test__: dict
 
-def buildGenExprObj(expr): ...
+@overload
+def buildGenExprObj(expr: Expr) -> SumExpr: ...
+@overload
+def buildGenExprObj(expr: GenExpr) -> GenExpr: ...
+@overload
+def buildGenExprObj(expr: SupportsFloat) -> Constant: ...
+
+# This case is valid at runtime if expr is the string repr of a real number
+# (i.e., float(expr) does not raise), but expr is not converted to a float
+# so the returned value is essentially unusable.
+# @overload
+# def buildGenExprObj(expr: str) -> Constant: ...
+
 def cos(expr): ...
 def exp(expr): ...
 def expr_to_array(expr, nodes): ...
