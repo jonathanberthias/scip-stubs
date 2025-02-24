@@ -1,10 +1,8 @@
 import pyscipopt.scip
-from pyscipopt.scip import (
-    Constraint as Constraint,
-    Model as Model,
-    Variable as Variable,
-    quicksum as quicksum,
-)
+from pyscipopt.scip import Constraint as Constraint
+from pyscipopt.scip import Model as Model
+from pyscipopt.scip import Variable as Variable
+from pyscipopt.scip import quicksum as quicksum
 
 def add_piecewise_linear_cons(
     model: pyscipopt.scip.Model,

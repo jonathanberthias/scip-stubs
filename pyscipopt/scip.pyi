@@ -1,7 +1,9 @@
 import dataclasses
-from _typeshed import Incomplete
 from typing import ClassVar, Iterator, SupportsFloat, overload
-from typing_extensions import Literal as L, TypeAlias
+
+from _typeshed import Incomplete
+from typing_extensions import Literal as L
+from typing_extensions import TypeAlias
 
 _VTypes: TypeAlias = L[
     "C", "CONTINUOUS",
@@ -401,12 +403,7 @@ class Conshdlr:
         """sets disabling notification method of constraint handler"""
     def consenable(self, constraint):
         """sets enabling notification method of constraint handler"""
-    def consenfolp(
-        self,
-        constraints,
-        nusefulconss,
-        solinfeasible,
-    ):
+    def consenfolp(self, constraints, nusefulconss, solinfeasible):
         """calls enforcing method of constraint handler for LP solution for all constraints added"""
     def consenfops(self, constraints, nusefulconss, solinfeasible, objinfeasible):
         """calls enforcing method of constraint handler for pseudo solution for all constraints added"""

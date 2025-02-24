@@ -1,4 +1,5 @@
 from typing_extensions import assert_type
+
 from pyscipopt.scip import Column, Variable
 
 # What is a Column?

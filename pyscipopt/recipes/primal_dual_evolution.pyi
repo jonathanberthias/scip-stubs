@@ -1,9 +1,7 @@
 import pyscipopt.scip
-from pyscipopt.scip import (
-    Eventhdlr as Eventhdlr,
-    Model as Model,
-    SCIP_EVENTTYPE as SCIP_EVENTTYPE,
-)
+from pyscipopt.scip import SCIP_EVENTTYPE as SCIP_EVENTTYPE
+from pyscipopt.scip import Eventhdlr as Eventhdlr
+from pyscipopt.scip import Model as Model
 
 def attach_primal_dual_evolution_eventhdlr(model: pyscipopt.scip.Model):
     """

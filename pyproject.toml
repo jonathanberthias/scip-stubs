@@ -37,7 +37,11 @@ reportInvalidStubStatement = false
 ignore_errors = true
 
 [tool.ruff.lint]
-extend-select = ["PYI"]
+extend-select = ["I", "UP", "PYI"]
 extend-ignore = [
     "PYI021", # let's keep the docstrings for now
 ]
+[tool.ruff.lint.isort]
+split-on-trailing-comma = false
+[tool.ruff.format]
+skip-magic-trailing-comma = true
