@@ -45,12 +45,9 @@ def buildGenExprObj(expr: SupportsFloat) -> Constant: ...
 class Expr:
     terms: dict[Term, float]
     def __init__(self, terms: dict[Term, float] | None = None) -> None: ...
-    def degree(self, /) -> int:
-        """computes highest degree of terms"""
-    def normalize(self) -> None:
-        """remove terms with coefficient of 0"""
-    def __abs__(self):
-        """abs(self)"""
+    def degree(self, /) -> int: ...
+    def normalize(self, /) -> None: ...
+    def __abs__(self, /) -> UnaryExpr: ...
     @overload
     def __add__(self, other: Expr, /) -> Expr: ...
     @overload
@@ -63,8 +60,10 @@ class Expr:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
-    def __getitem__(self, index):
-        """Return self[key]."""
+    @overload
+    def __getitem__(self, index: Variable, /) -> float: ...
+    @overload
+    def __getitem__(self, index: Term, /) -> float: ...
     def __gt__(self, other: object) -> bool:
         """Return self>value."""
     def __iadd__(self, other):

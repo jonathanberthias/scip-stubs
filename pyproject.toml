@@ -30,8 +30,10 @@ dev = [
 [tool.pyright]
 pythonVersion = "3.8"
 typeCheckingMode = "strict"
+reportIgnoreCommentWithoutRule = true
 reportIncompatibleMethodOverride = false
 reportInvalidStubStatement = false
+reportUnnecessaryTypeIgnoreComment = true
 
 [tool.mypy]
 ignore_errors = true
