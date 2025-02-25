@@ -26,6 +26,10 @@ y: Variable
 class ToFloat:
     def __float__(self) -> float: ...
 
+# In many cases where floats are expected, a string repr of a float is also valid
+# However, from a typing perspective, a general string is not valid
+# so we forbid all strings (a call to float is enough to solve the type error)
+
 # buildGenExprObj
 assert_type(buildGenExprObj(1.0), Constant)
 assert_type(buildGenExprObj(expr=1), Constant)
@@ -53,36 +57,6 @@ assert_type(Expr(terms=None), Expr)
 assert_type(Expr(terms={}), Expr)
 assert_type(Expr({Term(x): 1}), Expr)
 
-# Expr.__(r)add__
-assert_type(e + e, Expr)
-assert_type(e + 1, Expr)
-assert_type(e + d, Expr)
-assert_type(1 + e, Expr)
-assert_type(e + "1", Expr)
-assert_type("1" + e, Expr)
-
-assert_type(x + x, Expr)
-assert_type(x + 1, Expr)
-assert_type(1 + x, Expr)
-assert_type(x + "1", Expr)
-assert_type("1" + x, Expr)
-
-assert_type(e + g, SumExpr)
-assert_type(e + PowExpr(), SumExpr)
-
-e + 1j  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-
-# Expr.__iter__
-assert_type(iter(e), Iterator[Term])
-next(e)  # pyright: ignore[reportArgumentType]
-
-# Expr.__abs__
-assert_type(abs(e), UnaryExpr)
-
-# Expr.__neg__
-assert_type(-e, Expr)
-assert_type(-x, Expr)
-
 # Expr.__getitem__
 assert_type(e[x], float)
 assert_type(e[Term(x)], float)
@@ -92,3 +66,51 @@ e[0]  # pyright: ignore[reportArgumentType, reportCallIssue]
 e[x,]  # pyright: ignore[reportArgumentType, reportCallIssue]
 e[x, y]  # pyright: ignore[reportArgumentType, reportCallIssue]
 e[e]  # pyright: ignore[reportArgumentType, reportCallIssue]
+
+# Expr.__iter__
+assert_type(iter(e), Iterator[Term])
+# __next__ is defined but doesn't work, so let's make sure it gets flagged
+next(e)  # pyright: ignore[reportArgumentType]
+
+# Expr.__abs__
+assert_type(abs(e), UnaryExpr)
+
+# Expr.__(r)add__
+assert_type(e + e, Expr)
+assert_type(e + 1, Expr)
+assert_type(e + d, Expr)
+assert_type(1 + e, Expr)
+
+assert_type(x + x, Expr)
+assert_type(x + 1, Expr)
+assert_type(1 + x, Expr)
+
+assert_type(e + g, SumExpr)
+assert_type(e + PowExpr(), SumExpr)
+
+e + 1j  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e + "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+"1" + e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+
+# Expr.__iadd__
+e1: Expr
+e2: Expr
+e3: Expr
+e4: Expr
+e5: Expr
+
+e1 += e
+assert_type(e1, Expr)
+e2 += 1
+assert_type(e2, Expr)
+# at runtime this will modify e3 to become a SumExpr
+# using the `e3 += g` syntax is an error for pyright as it tries to
+# assign the result back to e3
+assert_type(e3.__iadd__(g), SumExpr)
+
+e4 += "1"  # pyright: ignore[reportOperatorIssue]
+e5 += 1j  # pyright: ignore[reportOperatorIssue]
+
+# Expr.__neg__
+assert_type(-e, Expr)
+assert_type(-x, Expr)
