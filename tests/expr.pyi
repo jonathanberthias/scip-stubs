@@ -143,6 +143,18 @@ assert_type(e * g, ProdExpr)
 e * "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
 "1" * e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
 
+# Expr.__(r)truediv__
+assert_type(e / 2, Expr)
+assert_type(2 / e, Expr)
+assert_type(e / e, ProdExpr)
+assert_type(e / g, ProdExpr)
+
+e / "2"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+"2" / e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+
+e // 2  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+2 // e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+
 # Expr.__neg__
 assert_type(-e, Expr)
 assert_type(-x, Expr)
