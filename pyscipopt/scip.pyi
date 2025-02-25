@@ -10,7 +10,7 @@ _VTypes: TypeAlias = L[
     "B", "BINARY",
     "I", "INTEGER",
     "M", "IMPLINT"
-]  # fmt: off
+]  # fmt: skip
 
 ##########
 # expr.pxi
