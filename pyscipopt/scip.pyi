@@ -21,11 +21,11 @@ class Term:
     ptrtuple: tuple[int, ...]
     vartuple: tuple[Variable, ...]
     def __init__(self, *vartuple: Variable) -> None: ...
-    def __add__(self, other: Term, /) -> Term: ...
-    def __eq__(self, other: Term, /) -> bool: ...
     def __getitem__(self, index: int, /) -> Variable: ...
     def __hash__(self, /) -> int: ...
+    def __eq__(self, other: Term, /) -> bool: ...
     def __len__(self, /) -> int: ...
+    def __add__(self, other: Term, /) -> Term: ...
 
 CONST: Term
 
@@ -45,8 +45,11 @@ def buildGenExprObj(expr: SupportsFloat) -> Constant: ...
 class Expr:
     terms: dict[Term, float]
     def __init__(self, terms: dict[Term, float] | None = None) -> None: ...
-    def degree(self, /) -> int: ...
-    def normalize(self, /) -> None: ...
+    @overload
+    def __getitem__(self, index: Variable, /) -> float: ...
+    @overload
+    def __getitem__(self, index: Term, /) -> float: ...
+    def __iter__(self, /) -> Iterator[Term]: ...
     def __abs__(self, /) -> UnaryExpr: ...
     @overload
     def __add__(self, other: Expr, /) -> Expr: ...
@@ -56,55 +59,29 @@ class Expr:
     def __add__(self, other: str, /) -> Expr: ...
     @overload
     def __add__(self, other: GenExpr, /) -> SumExpr: ...
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    @overload
-    def __getitem__(self, index: Variable, /) -> float: ...
-    @overload
-    def __getitem__(self, index: Term, /) -> float: ...
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
     def __iadd__(self, other):
         """Return self+=value."""
-    def __iter__(self, /) -> Iterator[Term]: ...
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
     def __mul__(self, other):
         """Return self*value."""
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-    def __neg__(self, /) -> Expr: ...
+    def __truediv__(self, other):
+        """Return self/value."""
+    def __rtruediv__(self, other):
+        """other / self"""
     def __pow__(self, other, mod=...):
         """Return pow(self, value, mod)."""
+    def __neg__(self, /) -> Expr: ...
+    def __sub__(self, other):
+        """Return self-value."""
     @overload
     def __radd__(self, other: SupportsFloat, /) -> Expr: ...
     @overload
     def __radd__(self, other: str, /) -> Expr: ...
     def __rmul__(self, other): ...
-    def __rpow__(self, other, mod=...):
-        """Return pow(value, self, mod)."""
     def __rsub__(self, other): ...
-    def __rtruediv__(self, other):
-        """other / self"""
-    def __sub__(self, other):
-        """Return self-value."""
-    def __truediv__(self, other):
-        """Return self/value."""
-
-class ExprCons:
-    expr: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-    def normalize(self):
-        """move constant terms in expression to bounds"""
-    def __bool__(self) -> bool:
-        """True if self else False"""
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
     def __gt__(self, other: object) -> bool:
@@ -113,11 +90,34 @@ class ExprCons:
         """Return self<=value."""
     def __lt__(self, other: object) -> bool:
         """Return self<value."""
+    def normalize(self, /) -> None: ...
+    def degree(self, /) -> int: ...
+
+class ExprCons:
+    expr: Incomplete
+    _lhs: Incomplete
+    _rhs: Incomplete
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def normalize(self):
+        """move constant terms in expression to bounds"""
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    def __bool__(self) -> bool:
+        """True if self else False"""
 
-def quickprod(termlist): ...
 def quicksum(termlist): ...
+def quickprod(termlist): ...
 
 class Op:
     add: ClassVar[str] = ...
@@ -139,19 +139,33 @@ class Op:
 Operator: Op
 
 class GenExpr:
+    _op: Incomplete
     children: Incomplete
     def __init__(self) -> None:
         """ """
-    def degree(self):
-        """Note: none of these expressions should be polynomial"""
-    def getOp(self):
-        """returns operator of GenExpr"""
     def __abs__(self):
         """abs(self)"""
     def __add__(self, other):
         """Return self+value."""
+    def __mul__(self, other):
+        """Return self*value."""
+    def __pow__(self, other, mod=...):
+        """Return pow(self, value, mod)."""
+    def __truediv__(self, other):
+        """Return self/value."""
+    def __rtruediv__(self, other):
+        """other / self"""
+    def __neg__(self):
+        """-self"""
+    def __sub__(self, other):
+        """Return self-value."""
+    def __radd__(self, other): ...
+    def __rmul__(self, other): ...
+    def __rsub__(self, other): ...
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
     def __gt__(self, other: object) -> bool:
@@ -160,29 +174,14 @@ class GenExpr:
         """Return self<=value."""
     def __lt__(self, other: object) -> bool:
         """Return self<value."""
-    def __mul__(self, other):
-        """Return self*value."""
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-    def __neg__(self):
-        """-self"""
-    def __pow__(self, other, mod=...):
-        """Return pow(self, value, mod)."""
-    def __radd__(self, other): ...
-    def __rmul__(self, other): ...
-    def __rpow__(self, other, mod=...):
-        """Return pow(value, self, mod)."""
-    def __rsub__(self, other): ...
-    def __rtruediv__(self, other):
-        """other / self"""
-    def __sub__(self, other):
-        """Return self-value."""
-    def __truediv__(self, other):
-        """Return self/value."""
+    def degree(self):
+        """Note: none of these expressions should be polynomial"""
+    def getOp(self):
+        """returns operator of GenExpr"""
 
 class SumExpr(GenExpr):
-    coefs: Incomplete
     constant: Incomplete
+    coefs: Incomplete
     def __init__(self, *args) -> None:
         """Initialize self.  See help(type(self)) for accurate signature."""
 
