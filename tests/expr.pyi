@@ -111,6 +111,18 @@ assert_type(e3.__iadd__(g), SumExpr)
 e4 += "1"  # pyright: ignore[reportOperatorIssue]
 e5 += 1j  # pyright: ignore[reportOperatorIssue]
 
+# Expr.__(r)mul__
+assert_type(e * 1, Expr)
+assert_type(1 * e, Expr)
+assert_type(e * d, Expr)
+assert_type(d * e, Expr)
+assert_type(e * e, Expr)
+
+assert_type(e * g, ProdExpr)
+
+e * "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+"1" * e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+
 # Expr.__neg__
 assert_type(-e, Expr)
 assert_type(-x, Expr)
