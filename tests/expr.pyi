@@ -51,6 +51,26 @@ buildGenExprObj(1j)  # pyright: ignore[reportArgumentType, reportCallIssue]
 # works at runtime
 buildGenExprObj("1.0")  # pyright: ignore[reportArgumentType, reportCallIssue]
 
+# Term.__init__
+assert_type(Term(x), Term)
+assert_type(Term(x, y), Term)
+Term(e)  # pyright: ignore[reportArgumentType]
+Term(1)  # pyright: ignore[reportArgumentType]
+Term((x, y))  # pyright: ignore[reportArgumentType]
+
+t: Term
+# Term.__getitem__
+assert_type(t[0], Variable)
+t[x]  # pyright:ignore[reportArgumentType]
+
+# Term.__hash__
+assert_type(hash(t), int)
+
+# Term.__add__
+assert_type(t + t, Term)
+t + x  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+t + e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+
 # Expr.__init__
 assert_type(Expr(), Expr)
 assert_type(Expr(terms=None), Expr)
