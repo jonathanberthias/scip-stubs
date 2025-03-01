@@ -202,3 +202,16 @@ e != 1  # FIXME: this should be an error
 e <= "1"  # pyright: ignore[reportOperatorIssue]
 e >= "1"  # pyright: ignore[reportOperatorIssue]
 e == "1"  # FIXME: this should be an error
+
+# ExprCons.__init__
+ExprCons(e)
+ExprCons(g)
+ExprCons(e, 0)
+ExprCons(expr=g, lhs=1, rhs=None)
+ExprCons(e, lhs=None, rhs=1)
+
+ExprCons()  # pyright: ignore[reportCallIssue]
+ExprCons(e, 1, 2, 3)  # pyright: ignore[reportCallIssue]
+ExprCons(e, None, None)  # pyright: ignore[reportArgumentType, reportCallIssue]
+ExprCons(e, e)  # pyright: ignore[reportArgumentType, reportCallIssue]
+ExprCons(e, d)  # pyright: ignore[reportArgumentType, reportCallIssue]

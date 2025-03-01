@@ -87,13 +87,16 @@ class Expr:
     def degree(self, /) -> int: ...
 
 class ExprCons:
-    expr: Incomplete
-    _lhs: Incomplete
-    _rhs: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-    def normalize(self):
-        """move constant terms in expression to bounds"""
+    expr: Expr | GenExpr
+    _lhs: float | None
+    _rhs: float | None
+    @overload
+    def __init__(self, expr: Expr | GenExpr, lhs: None = None) -> None: ...
+    @overload
+    def __init__(self, expr: Expr | GenExpr, lhs: float, rhs: None = None) -> None: ...
+    @overload
+    def __init__(self, expr: Expr | GenExpr, lhs: float | None, rhs: float) -> None: ...
+    def normalize(self) -> None: ...
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ne__(self, other: object) -> bool:
