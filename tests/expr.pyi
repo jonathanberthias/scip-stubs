@@ -169,3 +169,12 @@ e ** "a"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
 # Expr.__neg__
 assert_type(-e, Expr)
 assert_type(-x, Expr)
+
+# Expr.__sub__
+assert_type(e - e, Expr)
+assert_type(e - 1, Expr)
+assert_type(e - g, SumExpr)
+
+# Expr.__rsub__
+assert_type(1 - e, Expr)
+assert_type(d - e, Expr)
