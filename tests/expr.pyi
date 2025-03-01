@@ -17,6 +17,7 @@ from pyscipopt.scip import (
     VarExpr,
     Variable,
     buildGenExprObj,
+    quicksum,
 )
 
 e: Expr
@@ -237,3 +238,12 @@ ec == 1  # FIXME: this should be an error
 # Expr.__bool__
 bool(ec)  # FIXME: this should be an error
 1 <= e <= 2  # FIXME: this should be an error
+
+# quicksum
+assert_type(quicksum(ex for ex in [e]), Expr)
+assert_type(quicksum([g]), SumExpr)
+assert_type(quicksum([e, g]), SumExpr)
+assert_type(quicksum(termlist=[]), Expr)
+assert_type(quicksum(termlist=range(3)), Expr)
+assert_type(quicksum([d]), Expr)
+assert_type(quicksum([1, d, e, g]), SumExpr)
