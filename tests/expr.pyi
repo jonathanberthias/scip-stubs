@@ -70,8 +70,8 @@ assert_type(hash(t), int)
 
 # Term.__add__
 assert_type(t + t, Term)
-t + x  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-t + e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+t + x  # pyright: ignore[reportOperatorIssue]
+t + e  # pyright: ignore[reportOperatorIssue]
 
 # Expr.__init__
 assert_type(Expr(), Expr)
@@ -110,9 +110,9 @@ assert_type(1 + x, Expr)
 assert_type(e + g, SumExpr)
 assert_type(e + PowExpr(), SumExpr)
 
-e + 1j  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-e + "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-"1" + e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e + 1j  # pyright: ignore[reportOperatorIssue]
+e + "1"  # pyright: ignore[reportOperatorIssue]
+"1" + e  # pyright: ignore[reportOperatorIssue]
 
 # Expr.__iadd__
 e1: Expr
@@ -142,8 +142,8 @@ assert_type(e * e, Expr)
 
 assert_type(e * g, ProdExpr)
 
-e * "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-"1" * e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e * "1"  # pyright: ignore[reportOperatorIssue]
+"1" * e  # pyright: ignore[reportOperatorIssue]
 
 # Expr.__(r)truediv__
 assert_type(e / 2, Expr)
@@ -151,11 +151,11 @@ assert_type(2 / e, Expr)
 assert_type(e / e, ProdExpr)
 assert_type(e / g, ProdExpr)
 
-e / "2"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-"2" / e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e / "2"  # pyright: ignore[reportOperatorIssue]
+"2" / e  # pyright: ignore[reportOperatorIssue]
 
-e // 2  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-2 // e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e // 2  # pyright: ignore[reportOperatorIssue]
+2 // e  # pyright: ignore[reportOperatorIssue]
 
 # Expr.__pow__
 assert_type(e**0, Expr | Literal[1] | PowExpr)  # actually returns Literal[1]
@@ -164,8 +164,8 @@ assert_type(e**1.5, Expr | Literal[1] | PowExpr)  # actually returns PowExpr
 assert_type(e**d, Expr | Literal[1] | PowExpr)
 assert_type(e**-1, Expr | Literal[1] | PowExpr)  # actually returns PowExpr
 
-e**e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-e ** "a"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e**e  # pyright: ignore[reportOperatorIssue]
+e ** "a"  # pyright: ignore[reportOperatorIssue]
 
 # Expr.__neg__
 assert_type(-e, Expr)
@@ -196,9 +196,9 @@ assert_type(e == g, ExprCons)
 assert_type(e == 1, ExprCons)
 assert_type(e == d, ExprCons)
 
-e < 1  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-e > 1  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-e != 1  # pyright: ignore[reportUnusedExpression]  # FIXME: this should be an error
-e <= "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-e >= "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
-e == "1"  # pyright: ignore[reportUnusedExpression]  # FIXME: this should be an error
+e < 1  # pyright: ignore[reportOperatorIssue]
+e > 1  # pyright: ignore[reportOperatorIssue]
+e != 1  # FIXME: this should be an error
+e <= "1"  # pyright: ignore[reportOperatorIssue]
+e >= "1"  # pyright: ignore[reportOperatorIssue]
+e == "1"  # FIXME: this should be an error
