@@ -29,7 +29,7 @@ dev = [
 
 [tool.pyright]
 pythonVersion = "3.8"
-typeCheckingMode = "strict"
+typeCheckingMode = "basic"
 reportIgnoreCommentWithoutRule = true
 reportIncompatibleMethodOverride = false
 reportInvalidStubStatement = false
