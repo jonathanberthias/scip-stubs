@@ -215,3 +215,25 @@ ExprCons(e, 1, 2, 3)  # pyright: ignore[reportCallIssue]
 ExprCons(e, None, None)  # pyright: ignore[reportArgumentType, reportCallIssue]
 ExprCons(e, e)  # pyright: ignore[reportArgumentType, reportCallIssue]
 ExprCons(e, d)  # pyright: ignore[reportArgumentType, reportCallIssue]
+
+# ExprCons comparisons
+ec: ExprCons
+# TODO: refine these by making ExprCons generic on the bounds, e.g.:
+# class ExprCons[UB: (float, None), LB: (float, None)]
+# to get:
+# assert_type(ExprCons[float, None]() <= 1, ExprCons[float, float])
+
+assert_type(ec <= 1, ExprCons)
+assert_type(ec <= d, ExprCons)
+assert_type(ec >= 1, ExprCons)
+assert_type(ec >= d, ExprCons)
+
+ec <= e  # pyright: ignore[reportOperatorIssue]
+ec >= e  # pyright: ignore[reportOperatorIssue]
+ec < 1  # pyright: ignore[reportOperatorIssue]
+ec > 1  # pyright: ignore[reportOperatorIssue]
+ec == 1  # FIXME: this should be an error
+
+# Expr.__bool__
+bool(ec)  # FIXME: this should be an error
+1 <= e <= 2  # FIXME: this should be an error

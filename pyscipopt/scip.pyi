@@ -97,20 +97,8 @@ class ExprCons:
     @overload
     def __init__(self, expr: Expr | GenExpr, lhs: float | None, rhs: float) -> None: ...
     def normalize(self) -> None: ...
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    def __bool__(self) -> bool:
-        """True if self else False"""
+    def __ge__(self, other: SupportsFloat) -> ExprCons: ...
+    def __le__(self, other: SupportsFloat) -> ExprCons: ...
 
 def quicksum(termlist): ...
 def quickprod(termlist): ...
