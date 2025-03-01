@@ -17,6 +17,7 @@ from pyscipopt.scip import (
     VarExpr,
     Variable,
     buildGenExprObj,
+    quickprod,
     quicksum,
 )
 
@@ -247,3 +248,12 @@ assert_type(quicksum(termlist=[]), Expr)
 assert_type(quicksum(termlist=range(3)), Expr)
 assert_type(quicksum([d]), Expr)
 assert_type(quicksum([1, d, e, g]), SumExpr)
+
+# quickprod
+assert_type(quickprod(ex for ex in [e]), Expr)
+assert_type(quickprod([g]), ProdExpr)
+assert_type(quickprod([e, g]), ProdExpr)
+assert_type(quickprod(termlist=[]), Expr)
+assert_type(quickprod(termlist=range(3)), Expr)
+assert_type(quickprod([d]), Expr)
+assert_type(quickprod([1, d, e, g]), ProdExpr)
