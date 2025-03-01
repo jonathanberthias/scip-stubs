@@ -7,6 +7,7 @@ from typing_extensions import assert_type
 from pyscipopt import Expr
 from pyscipopt.scip import (
     Constant,
+    ExprCons,
     GenExpr,
     PowExpr,
     ProdExpr,
@@ -178,3 +179,26 @@ assert_type(e - g, SumExpr)
 # Expr.__rsub__
 assert_type(1 - e, Expr)
 assert_type(d - e, Expr)
+
+# Expr comparisons
+assert_type(e <= e, ExprCons)
+assert_type(e <= g, ExprCons)
+assert_type(e <= 1, ExprCons)
+assert_type(e <= d, ExprCons)
+
+assert_type(e >= e, ExprCons)
+assert_type(e >= g, ExprCons)
+assert_type(e >= 1, ExprCons)
+assert_type(e >= d, ExprCons)
+
+assert_type(e == e, ExprCons)
+assert_type(e == g, ExprCons)
+assert_type(e == 1, ExprCons)
+assert_type(e == d, ExprCons)
+
+e < 1  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e > 1  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e != 1  # pyright: ignore[reportUnusedExpression]  # FIXME: this should be an error
+e <= "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e >= "1"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e == "1"  # pyright: ignore[reportUnusedExpression]  # FIXME: this should be an error
