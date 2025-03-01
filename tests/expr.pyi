@@ -1,5 +1,6 @@
 from collections.abc import Iterator
 from decimal import Decimal
+from typing import Literal
 
 from typing_extensions import assert_type
 
@@ -154,6 +155,16 @@ e / "2"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
 
 e // 2  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
 2 // e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+
+# Expr.__pow__
+assert_type(e**0, Expr | Literal[1] | PowExpr)  # actually returns Literal[1]
+assert_type(e**2, Expr | Literal[1] | PowExpr)  # actually returns Expr
+assert_type(e**1.5, Expr | Literal[1] | PowExpr)  # actually returns PowExpr
+assert_type(e**d, Expr | Literal[1] | PowExpr)
+assert_type(e**-1, Expr | Literal[1] | PowExpr)  # actually returns PowExpr
+
+e**e  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
+e ** "a"  # pyright: ignore[reportOperatorIssue, reportUnusedExpression]
 
 # Expr.__neg__
 assert_type(-e, Expr)

@@ -1,5 +1,5 @@
 import dataclasses
-from typing import ClassVar, Iterator, SupportsFloat, overload
+from typing import Any, ClassVar, Iterator, SupportsFloat, overload
 
 from _typeshed import Incomplete
 from typing_extensions import Literal as L
@@ -68,8 +68,9 @@ class Expr:
     @overload
     def __truediv__(self, other: Expr | GenExpr, /) -> ProdExpr: ...
     def __rtruediv__(self, other: SupportsFloat, /) -> Expr: ...
-    def __pow__(self, other, mod=...):
-        """Return pow(self, value, mod)."""
+    def __pow__(
+        self, other: SupportsFloat, mod: Any = None, /
+    ) -> Expr | PowExpr | L[1]: ...
     def __neg__(self, /) -> Expr: ...
     def __sub__(self, other):
         """Return self-value."""
