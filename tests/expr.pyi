@@ -9,6 +9,7 @@ from pyscipopt.scip import (
     Constant,
     ExprCons,
     GenExpr,
+    Operator,
     PowExpr,
     ProdExpr,
     SumExpr,
@@ -257,3 +258,100 @@ assert_type(quickprod(termlist=[]), Expr)
 assert_type(quickprod(termlist=range(3)), Expr)
 assert_type(quickprod([d]), Expr)
 assert_type(quickprod([1, d, e, g]), ProdExpr)
+
+# GenExpr.__abs__
+assert_type(abs(g), UnaryExpr)
+
+# GenExpr.__add__
+assert_type(g + 1, SumExpr)
+assert_type(g + e, SumExpr)
+assert_type(g + g, SumExpr)
+
+# this fails at runtime, maybe a bug?
+g + d  # pyright: ignore[reportOperatorIssue]
+
+# GenExpr.__mul__
+assert_type(g * 2, ProdExpr)
+assert_type(g * e, ProdExpr)
+assert_type(g * g, ProdExpr)
+
+# this fails at runtime, maybe a bug?
+g * d  # pyright: ignore[reportOperatorIssue]
+
+# GenExpr.__pow__
+assert_type(g**0, PowExpr)
+assert_type(g**1.5, PowExpr)
+assert_type(g**d, PowExpr)
+
+g**e  # pyright: ignore[reportOperatorIssue]
+g**g  # pyright: ignore[reportOperatorIssue]
+
+# GenExpr.__truediv__
+assert_type(g / 1, ProdExpr)
+assert_type(g / e, ProdExpr)
+assert_type(g / g, ProdExpr)
+
+# this fails at runtime, maybe a bug?
+g / d  # pyright: ignore[reportOperatorIssue]
+
+# GenExpr.__rtruediv__
+assert_type(1 / g, ProdExpr)
+
+# GenExpr.__neg__
+assert_type(-g, ProdExpr)
+
+# GenExpr.__sub__
+assert_type(g - 1, SumExpr)
+assert_type(g - e, SumExpr)
+assert_type(g - g, SumExpr)
+
+# this fails at runtime, maybe a bug?
+g - d  # pyright: ignore[reportOperatorIssue]
+
+# GenExpr.__radd__
+assert_type(1 + g, SumExpr)
+assert_type(1.5 + g, SumExpr)
+
+# this fails at runtime, maybe a bug?
+d + g  # pyright: ignore[reportOperatorIssue]
+
+# GenExpr.__rmul__
+assert_type(1 * g, SumExpr)
+assert_type(1.5 * g, SumExpr)
+
+# this fails at runtime, maybe a bug?
+d * g  # pyright: ignore[reportOperatorIssue]
+
+# GenExpr.__rsub__
+assert_type(1 - g, SumExpr)
+assert_type(1.5 - g, SumExpr)
+
+# this fails at runtime, maybe a bug?
+d - g  # pyright: ignore[reportOperatorIssue]
+
+# GenExpr comparisons
+assert_type(g <= g, ExprCons)
+assert_type(g <= e, ExprCons)
+assert_type(g <= 1, ExprCons)
+assert_type(g <= d, ExprCons)
+
+assert_type(g >= g, ExprCons)
+assert_type(g >= e, ExprCons)
+assert_type(g >= 1, ExprCons)
+assert_type(g >= d, ExprCons)
+
+assert_type(g == g, ExprCons)
+assert_type(g == e, ExprCons)
+assert_type(g == 1, ExprCons)
+assert_type(g == d, ExprCons)
+
+g < 1  # pyright: ignore[reportOperatorIssue]
+g > 1  # pyright: ignore[reportOperatorIssue]
+g != 1  # FIXME: this should be an error
+g <= "1"  # pyright: ignore[reportOperatorIssue]
+g >= "1"  # pyright: ignore[reportOperatorIssue]
+g == "1"  # FIXME: this should be an error
+
+# Other GenExpr methods
+assert_type(g.degree(), float)
+assert_type(g.getOp(), Operator)
