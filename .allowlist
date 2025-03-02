@@ -9,6 +9,5 @@ pyscipopt.scip.Column.__init__
 # This doesn't work at runtime
 pyscipopt(.scip)?.Expr.__next__
 
-# In the stubs, Operator is an Enum so Op doesn't exist
-pyscipopt.scip.Op
-pyscipopt.scip.Operator
+# stubtest thinks these accept *args while they don't
+pyscipopt.scip.(Pow|Prod|Sum)Expr.__init__

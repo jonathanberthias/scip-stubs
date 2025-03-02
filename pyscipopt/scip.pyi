@@ -1,6 +1,5 @@
 import dataclasses
-from enum import Enum
-from typing import Any, ClassVar, Iterable, Iterator, SupportsFloat, overload
+from typing import Any, ClassVar, Final, Iterable, Iterator, SupportsFloat, overload
 
 from _typeshed import Incomplete
 from typing_extensions import Literal as L
@@ -114,26 +113,27 @@ def quickprod(termlist: Iterable[Expr | SupportsFloat]) -> Expr: ...
 @overload
 def quickprod(termlist: Iterable[Expr | SupportsFloat | GenExpr]) -> ProdExpr: ...
 
-class Operator(str, Enum):
-    add: str
-    const: str
-    cos: str
-    div: str
-    exp: str
-    fabs: str
-    log: str
-    minus: str
-    mul: str
-    plus: str
-    power: str
-    prod: str
-    sin: str
-    sqrt: str
-    varidx: str
+class Op:
+    add: Final[str]
+    const: Final[str]
+    cos: Final[str]
+    div: Final[str]
+    exp: Final[str]
+    fabs: Final[str]
+    log: Final[str]
+    minus: Final[str]
+    mul: Final[str]
+    plus: Final[str]
+    power: Final[str]
+    prod: Final[str]
+    sin: Final[str]
+    sqrt: Final[str]
+    varidx: Final[str]
 
-# TODO: make GenExpr generic over op
+Operator: Op
+
 class GenExpr:
-    _op: Operator
+    _op: str
     children: list[GenExpr]
     def __init__(self, /) -> None: ...
     def __abs__(self, /) -> UnaryExpr: ...
@@ -151,37 +151,49 @@ class GenExpr:
     def __ge__(self, other: Expr | SupportsFloat | GenExpr, /) -> ExprCons: ...
     def __le__(self, other: Expr | SupportsFloat | GenExpr, /) -> ExprCons: ...
     def degree(self, /) -> float: ...
-    def getOp(self, /) -> Operator: ...
+    def getOp(self, /) -> str: ...
 
 class SumExpr(GenExpr):
-    constant: Incomplete
-    coefs: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
+    constant: float
+    coefs: list[float]
+    def __init__(self, /) -> None: ...
+    @override
+    def getOp(self, /) -> L["sum"]: ...
 
 class ProdExpr(GenExpr):
-    constant: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
+    constant: float
+    def __init__(self, /) -> None: ...
+    @override
+    def getOp(self, /) -> L["prod"]: ...
 
 class VarExpr(GenExpr):
-    var: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
+    var: Variable
+    children: list[Variable]
+    def __init__(self, /, var: Variable) -> None: ...
+    @override
+    def getOp(self, /) -> L["var"]: ...
 
 class PowExpr(GenExpr):
-    expo: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
+    expo: float
+    def __init__(self, /) -> None: ...
+    @override
+    def getOp(self, /) -> L["power"]: ...
 
 class UnaryExpr(GenExpr):
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
+    def __init__(
+        self,
+        # the union is redundant, but the literals make better tooltips
+        # and the str allows using the Operator.exp form
+        # the downside is that this is very permissive
+        op: L["exp", "log", "sqrt", "sin", "cos", "abs"] | str,  # noqa: PYI051
+        expr: GenExpr,
+    ) -> None: ...
 
 class Constant(GenExpr):
-    number: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
+    number: float
+    def __init__(self, /, number: float) -> None: ...
+    @override
+    def getOp(self, /) -> L["const"]: ...
 
 def exp(expr): ...
 def log(expr): ...

@@ -47,8 +47,8 @@ assert_type(buildGenExprObj(Variable()), SumExpr)
 assert_type(buildGenExprObj(g), GenExpr)
 assert_type(buildGenExprObj(PowExpr()), GenExpr)
 assert_type(buildGenExprObj(ProdExpr()), GenExpr)
-assert_type(buildGenExprObj(UnaryExpr()), GenExpr)
-assert_type(buildGenExprObj(VarExpr()), GenExpr)
+assert_type(buildGenExprObj(UnaryExpr(Operator.fabs, g)), GenExpr)
+assert_type(buildGenExprObj(VarExpr(x)), GenExpr)
 
 buildGenExprObj()  # pyright: ignore[reportCallIssue]
 buildGenExprObj(1j)  # pyright: ignore[reportArgumentType, reportCallIssue]
@@ -354,4 +354,63 @@ g == "1"  # FIXME: this should be an error
 
 # Other GenExpr methods
 assert_type(g.degree(), float)
-assert_type(g.getOp(), Operator)
+assert_type(g.getOp(), str)
+
+# SumExpr
+assert_type(SumExpr(), SumExpr)
+SumExpr(e)  # pyright: ignore[reportCallIssue]
+
+assert_type(SumExpr().constant, float)
+assert_type(SumExpr().coefs, list[float])
+assert_type(SumExpr().getOp(), Literal["sum"])
+
+# ProdExpr
+assert_type(ProdExpr(), ProdExpr)
+ProdExpr(e)  # pyright: ignore[reportCallIssue]
+assert_type(ProdExpr().constant, float)
+assert_type(ProdExpr().getOp(), Literal["prod"])
+
+# VarExpr
+assert_type(VarExpr(x), VarExpr)
+assert_type(VarExpr(var=x), VarExpr)
+VarExpr()  # pyright: ignore[reportCallIssue]
+VarExpr(e)  # pyright: ignore[reportArgumentType]
+
+assert_type(VarExpr(x).children, list[Variable])
+assert_type(VarExpr(x).getOp(), Literal["var"])
+
+# PowExpr
+assert_type(PowExpr(), PowExpr)
+PowExpr(1)  # pyright: ignore[reportCallIssue]
+
+assert_type(PowExpr().expo, float)
+assert_type(PowExpr().getOp(), Literal["power"])
+
+# UnaryExpr
+assert_type(UnaryExpr(Operator.exp, g), UnaryExpr)
+assert_type(UnaryExpr("exp", g), UnaryExpr)
+assert_type(UnaryExpr(Operator.log, g), UnaryExpr)
+assert_type(UnaryExpr(Operator.sqrt, g), UnaryExpr)
+assert_type(UnaryExpr(Operator.sin, expr=g), UnaryExpr)
+assert_type(UnaryExpr(op=Operator.cos, expr=g), UnaryExpr)
+assert_type(UnaryExpr(op=Operator.fabs, expr=g), UnaryExpr)
+
+UnaryExpr()  # pyright: ignore[reportCallIssue]
+UnaryExpr("square", g)  # TODO: can this be rejected?
+UnaryExpr(Operator.exp, 1)  # pyright: ignore[reportArgumentType]
+UnaryExpr(Operator.exp, e)  # pyright: ignore[reportArgumentType]
+
+assert_type(UnaryExpr(Operator.exp, g).children, list[GenExpr])
+# TODO: could this be more precise with generics?
+assert_type(UnaryExpr(Operator.exp, g).getOp(), str)
+
+# Constant
+assert_type(Constant(1), Constant)
+assert_type(Constant(number=1.5), Constant)
+Constant()  # pyright: ignore[reportCallIssue]
+Constant(e)  # pyright: ignore[reportArgumentType]
+# allowed at runtime, but any operation with it will fail
+Constant(d)  # pyright: ignore[reportArgumentType]
+
+assert_type(Constant(1).number, float)
+assert_type(Constant(1).getOp(), Literal["const"])
