@@ -1,4 +1,8 @@
 repos:
+  - repo: meta
+    hooks:
+      - id: check-hooks-apply
+      - id: check-useless-excludes
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -6,7 +10,6 @@ repos:
       - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-docstring-first
-      - id: check-executables-have-shebangs
       - id: check-illegal-windows-names
       - id: check-json
       - id: check-merge-conflict
@@ -33,10 +36,10 @@ repos:
     hooks:
       - id: uv-lock
       - id: uv-sync
-  # - repo: local
-  #   hooks:
-  #     - id: stubtest-allowlist
-  #       name: Check allowlist is up to date
-  #       language: system
-  #       entry: ".venv/bin/stubtest pyscipopt --concise --mypy-config-file pyproject.toml --allowlist .allowlist"
-  #       pass_filenames: false
+  - repo: local
+    hooks:
+      - id: stubtest-allowlist
+        name: Check allowlist is up to date
+        language: system
+        entry: ".venv/bin/stubtest pyscipopt --concise --mypy-config-file pyproject.toml --allowlist .allowlist"
+        pass_filenames: false
