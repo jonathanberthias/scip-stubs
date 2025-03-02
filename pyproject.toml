@@ -35,10 +35,13 @@ reportIncompatibleMethodOverride = false
 reportInvalidStubStatement = false
 reportUnnecessaryTypeIgnoreComment = true
 reportUnusedExpression = false
+reportImplicitOverride = true
 
 [tool.mypy]
 ignore_errors = true
 
+[tool.ruff]
+show-fixes = true
 [tool.ruff.lint]
 extend-select = ["I", "UP", "PYI"]
 extend-ignore = [

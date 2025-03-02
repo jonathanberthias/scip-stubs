@@ -22,7 +22,9 @@ class Term:
     vartuple: tuple[Variable, ...]
     def __init__(self, *vartuple: Variable) -> None: ...
     def __getitem__(self, index: int, /) -> Variable: ...
+    @override
     def __hash__(self, /) -> int: ...
+    @override
     def __eq__(self, other: Term, /) -> bool: ...
     def __len__(self, /) -> int: ...
     def __add__(self, other: Term, /) -> Term: ...
@@ -147,6 +149,7 @@ class GenExpr:
     def __radd__(self, other: float, /) -> SumExpr: ...
     def __rmul__(self, other: float, /) -> SumExpr: ...
     def __rsub__(self, other: float, /) -> SumExpr: ...
+    @override
     def __eq__(self, other: Expr | SupportsFloat | GenExpr, /) -> ExprCons: ...
     def __ge__(self, other: Expr | SupportsFloat | GenExpr, /) -> ExprCons: ...
     def __le__(self, other: Expr | SupportsFloat | GenExpr, /) -> ExprCons: ...
@@ -510,8 +513,11 @@ class Column:
     def getUb(self) -> float: ...
     def getVar(self) -> Variable: ...
     def isIntegral(self) -> bool: ...
+    @override
     def __hash__(self) -> int: ...
+    @override
     def __eq__(self, other: object) -> bool: ...
+    @override
     def __ne__(self, other: object) -> bool: ...
 
 class Conshdlr:
@@ -750,18 +756,21 @@ class Constraint:
         bool
 
         """
+    @override
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
     def __gt__(self, other: object) -> bool:
         """Return self>value."""
+    @override
     def __hash__(self) -> int:
         """Return hash(self)."""
     def __le__(self, other: object) -> bool:
         """Return self<=value."""
     def __lt__(self, other: object) -> bool:
         """Return self<value."""
+    @override
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
@@ -863,18 +872,21 @@ class Event:
         Variable
 
         """
+    @override
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
     def __gt__(self, other: object) -> bool:
         """Return self>value."""
+    @override
     def __hash__(self) -> int:
         """Return hash(self)."""
     def __le__(self, other: object) -> bool:
         """Return self<=value."""
     def __lt__(self, other: object) -> bool:
         """Return self<value."""
+    @override
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
@@ -5889,18 +5901,21 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
+    @override
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
     def __gt__(self, other: object) -> bool:
         """Return self>value."""
+    @override
     def __hash__(self) -> int:
         """Return hash(self)."""
     def __le__(self, other: object) -> bool:
         """Return self<=value."""
     def __lt__(self, other: object) -> bool:
         """Return self<value."""
+    @override
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
@@ -5954,18 +5969,21 @@ class NLRow:
         float
 
         """
+    @override
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
     def __gt__(self, other: object) -> bool:
         """Return self>value."""
+    @override
     def __hash__(self) -> int:
         """Return hash(self)."""
     def __le__(self, other: object) -> bool:
         """Return self<=value."""
     def __lt__(self, other: object) -> bool:
         """Return self<value."""
+    @override
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
@@ -6103,18 +6121,21 @@ class Node:
         bool
 
         """
+    @override
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
     def __gt__(self, other: object) -> bool:
         """Return self>value."""
+    @override
     def __hash__(self) -> int:
         """Return hash(self)."""
     def __le__(self, other: object) -> bool:
         """Return self<=value."""
     def __lt__(self, other: object) -> bool:
         """Return self<value."""
+    @override
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
@@ -6668,18 +6689,21 @@ class Row:
         bool
 
         """
+    @override
     def __eq__(self, other: object) -> bool:
         """Return self==value."""
     def __ge__(self, other: object) -> bool:
         """Return self>=value."""
     def __gt__(self, other: object) -> bool:
         """Return self>value."""
+    @override
     def __hash__(self) -> int:
         """Return hash(self)."""
     def __le__(self, other: object) -> bool:
         """Return self<=value."""
     def __lt__(self, other: object) -> bool:
         """Return self<value."""
+    @override
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
