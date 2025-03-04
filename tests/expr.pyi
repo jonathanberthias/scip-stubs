@@ -4,7 +4,7 @@ from typing import Literal
 
 from typing_extensions import assert_type
 
-from pyscipopt import Expr
+from pyscipopt import Expr, scip
 from pyscipopt.scip import (
     Constant,
     ExprCons,
@@ -414,3 +414,20 @@ Constant(d)  # pyright: ignore[reportArgumentType]
 
 assert_type(Constant(1).number, float)
 assert_type(Constant(1).getOp(), Literal["const"])
+
+# GenExpr builders
+assert_type(scip.exp(e), UnaryExpr)
+assert_type(scip.exp(expr=d), UnaryExpr)
+assert_type(scip.exp(g), UnaryExpr)
+assert_type(scip.log(e), UnaryExpr)
+assert_type(scip.log(d), UnaryExpr)
+assert_type(scip.log(expr=g), UnaryExpr)
+assert_type(scip.sqrt(expr=e), UnaryExpr)
+assert_type(scip.sqrt(d), UnaryExpr)
+assert_type(scip.sqrt(g), UnaryExpr)
+assert_type(scip.sin(e), UnaryExpr)
+assert_type(scip.sin(d), UnaryExpr)
+assert_type(scip.sin(expr=g), UnaryExpr)
+assert_type(scip.cos(e), UnaryExpr)
+assert_type(scip.cos(expr=d), UnaryExpr)
+assert_type(scip.cos(g), UnaryExpr)
