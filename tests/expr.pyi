@@ -18,6 +18,7 @@ from pyscipopt.scip import (
     VarExpr,
     Variable,
     buildGenExprObj,
+    expr_to_nodes,
     quickprod,
     quicksum,
 )
@@ -431,3 +432,7 @@ assert_type(scip.sin(expr=g), UnaryExpr)
 assert_type(scip.cos(e), UnaryExpr)
 assert_type(scip.cos(expr=d), UnaryExpr)
 assert_type(scip.cos(g), UnaryExpr)
+
+# Misc
+expr_to_nodes(g)
+expr_to_nodes(e)  # pyright: ignore[reportArgumentType]
