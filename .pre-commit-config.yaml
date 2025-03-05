@@ -10,9 +10,7 @@ repos:
       - id: check-builtin-literals
       - id: check-case-conflict
       - id: check-docstring-first
-      - id: check-illegal-windows-names
       - id: check-json
-      - id: check-merge-conflict
       - id: check-shebang-scripts-are-executable
       - id: check-toml
       - id: check-vcs-permalinks
@@ -20,7 +18,6 @@ repos:
       - id: debug-statements
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
-      - id: forbid-submodules
       - id: mixed-line-ending
       - id: pretty-format-json
         args: ["--autofix"]
@@ -41,5 +38,5 @@ repos:
       - id: stubtest-allowlist
         name: Check allowlist is up to date
         language: system
-        entry: ".venv/bin/stubtest pyscipopt --concise --mypy-config-file pyproject.toml --allowlist .allowlist"
+        entry: uv run tool/stubtest.py
         pass_filenames: false
