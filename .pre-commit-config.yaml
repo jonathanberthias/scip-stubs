@@ -38,5 +38,5 @@ repos:
       - id: stubtest-allowlist
         name: Check allowlist is up to date
         language: system
-        entry: uv run tool/stubtest.py
+        entry: uv run --frozen --offline tool/stubtest.py
         pass_filenames: false
