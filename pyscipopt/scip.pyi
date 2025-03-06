@@ -300,6 +300,40 @@ class LP:
     def getRedcost(self) -> list[float]: ...
     def getBasisInds(self) -> list[int]: ...
 
+#############
+# benders.pxi
+#############
+
+class Benders:
+    model: Model
+    name: str
+    def benderscreatesub(self, probnumber: int) -> Incomplete: ...
+    def bendersexit(self) -> None: ...
+    def bendersexitpre(self) -> None: ...
+    def bendersexitsol(self) -> None: ...
+    def bendersfree(self) -> None: ...
+    def bendersfreesub(self, probnumber: int) -> Incomplete: ...
+    def bendersgetvar(self, variable: Variable, probnumber: int) -> Variable: ...
+    def bendersinit(self) -> None: ...
+    def bendersinitpre(self) -> None: ...
+    def bendersinitsol(self) -> None: ...
+    def benderspostsolve(
+        self,
+        solution: Incomplete,
+        enfotype: Incomplete,
+        mergecandidates: Incomplete,
+        npriomergecands: Incomplete,
+        checkint: Incomplete,
+        infeasible: Incomplete,
+    ) -> None: ...
+    def benderspresubsolve(
+        self, solution: Incomplete, enfotype: Incomplete, checkint: Incomplete
+    ) -> Incomplete: ...
+    def benderssolvesub(self, solution: Incomplete, probnumber: int) -> Incomplete: ...
+    def benderssolvesubconvex(
+        self, solution: Incomplete, probnumber: Incomplete, onlyconvex: Incomplete
+    ) -> Incomplete: ...
+
 ######
 # TODO
 ######
@@ -316,42 +350,6 @@ def print_memory_in_use(): ...
 def readStatistics(filename): ...
 def str_conversion(x): ...
 def PY_SCIP_CALL(rc): ...
-
-class Benders:
-    model: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def benderscreatesub(self, probnumber):
-        """creates the subproblems and registers it with the Benders decomposition struct"""
-    def bendersexit(self):
-        """calls exit method of Benders decomposition"""
-    def bendersexitpre(self):
-        """informs the Benders decomposition that the presolving process has been completed"""
-    def bendersexitsol(self):
-        """informs Benders decomposition that the branch and bound process data is being freed"""
-    def bendersfree(self):
-        """calls destructor and frees memory of Benders decomposition"""
-    def bendersfreesub(self, probnumber):
-        """frees the subproblems"""
-    def bendersgetvar(self, variable, probnumber):
-        """Returns the corresponding master or subproblem variable for the given variable. This provides a call back for the variable mapping between the master and subproblems."""
-    def bendersinit(self):
-        """initializes Benders deconposition"""
-    def bendersinitpre(self):
-        """informs the Benders decomposition that the presolving process is being started"""
-    def bendersinitsol(self):
-        """informs Benders decomposition that the branch and bound process is being started"""
-    def benderspostsolve(
-        self, solution, enfotype, mergecandidates, npriomergecands, checkint, infeasible
-    ):
-        """sets post-solve callback of Benders decomposition"""
-    def benderspresubsolve(self, solution, enfotype, checkint):
-        """sets the pre subproblem solve callback of Benders decomposition"""
-    def benderssolvesub(self, solution, probnumber):
-        """sets solve callback of Benders decomposition"""
-    def benderssolvesubconvex(self, solution, probnumber, onlyconvex):
-        """sets convex solve callback of Benders decomposition"""
 
 class Benderscut:
     benders: Incomplete
