@@ -351,6 +351,21 @@ class Benderscut:
     def benderscutinit(self) -> None: ...
     def benderscutinitsol(self) -> None: ...
 
+################
+# branchrule.pxi
+################
+
+class Branchrule:
+    model: Model
+    def branchexecext(self, allowaddcons: bool) -> Incomplete: ...
+    def branchexeclp(self, allowaddcons: bool) -> Incomplete: ...
+    def branchexecps(self, allowaddcons: bool) -> Incomplete: ...
+    def branchexit(self) -> None: ...
+    def branchexitsol(self) -> None: ...
+    def branchfree(self) -> None: ...
+    def branchinit(self) -> None: ...
+    def branchinitsol(self) -> None: ...
+
 ######
 # TODO
 ######
@@ -418,27 +433,6 @@ class BoundChange:
         bool
 
         """
-
-class Branchrule:
-    model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def branchexecext(self, allowaddcons):
-        """executes branching rule for external branching candidates"""
-    def branchexeclp(self, allowaddcons):
-        """executes branching rule for fractional LP solution"""
-    def branchexecps(self, allowaddcons):
-        """executes branching rule for not completely fixed pseudo solution"""
-    def branchexit(self):
-        """deinitializes branching rule"""
-    def branchexitsol(self):
-        """informs branching rule that the branch and bound process data is being freed"""
-    def branchfree(self):
-        """frees memory of branching rule"""
-    def branchinit(self):
-        """initializes branching rule"""
-    def branchinitsol(self):
-        """informs branching rule that the branch and bound process is being started"""
 
 class Column:
     data: object
