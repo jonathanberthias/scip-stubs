@@ -2,6 +2,7 @@ from collections.abc import Iterator
 from decimal import Decimal
 from typing import Literal
 
+from typing_extensions import Literal as L
 from typing_extensions import assert_type
 
 from pyscipopt import Expr, scip
@@ -24,7 +25,7 @@ from pyscipopt.scip import (
 )
 
 e: Expr
-g: GenExpr
+g: GenExpr[L["+"]]
 d: Decimal
 x: Variable
 y: Variable
@@ -45,11 +46,11 @@ assert_type(buildGenExprObj(ToFloat()), Constant)
 assert_type(buildGenExprObj(e), SumExpr)
 assert_type(buildGenExprObj(Variable()), SumExpr)
 
-assert_type(buildGenExprObj(g), GenExpr)
-assert_type(buildGenExprObj(PowExpr()), GenExpr)
-assert_type(buildGenExprObj(ProdExpr()), GenExpr)
-assert_type(buildGenExprObj(UnaryExpr(Operator.fabs, g)), GenExpr)
-assert_type(buildGenExprObj(VarExpr(x)), GenExpr)
+assert_type(buildGenExprObj(g), GenExpr[L["+"]])
+assert_type(buildGenExprObj(PowExpr()), GenExpr[L["**"]])
+assert_type(buildGenExprObj(ProdExpr()), GenExpr[L["prod"]])
+assert_type(buildGenExprObj(UnaryExpr(Operator.fabs, g)), GenExpr[L["abs"]])
+assert_type(buildGenExprObj(VarExpr(x)), GenExpr[L["var"]])
 
 buildGenExprObj()  # pyright: ignore[reportCallIssue]
 buildGenExprObj(1j)  # pyright: ignore[reportArgumentType, reportCallIssue]
@@ -355,7 +356,7 @@ g == "1"  # FIXME: this should be an error
 
 # Other GenExpr methods
 assert_type(g.degree(), float)
-assert_type(g.getOp(), str)
+assert_type(g.getOp(), L["+"])
 
 # SumExpr
 assert_type(SumExpr(), SumExpr)
@@ -385,25 +386,38 @@ assert_type(PowExpr(), PowExpr)
 PowExpr(1)  # pyright: ignore[reportCallIssue]
 
 assert_type(PowExpr().expo, float)
-assert_type(PowExpr().getOp(), Literal["power"])
+assert_type(PowExpr().getOp(), Literal["**"])
 
 # UnaryExpr
-assert_type(UnaryExpr(Operator.exp, g), UnaryExpr)
-assert_type(UnaryExpr("exp", g), UnaryExpr)
-assert_type(UnaryExpr(Operator.log, g), UnaryExpr)
-assert_type(UnaryExpr(Operator.sqrt, g), UnaryExpr)
-assert_type(UnaryExpr(Operator.sin, expr=g), UnaryExpr)
-assert_type(UnaryExpr(op=Operator.cos, expr=g), UnaryExpr)
-assert_type(UnaryExpr(op=Operator.fabs, expr=g), UnaryExpr)
+assert_type(UnaryExpr(Operator.exp, g), UnaryExpr[L["exp"]])
+assert_type(UnaryExpr(Operator.log, g), UnaryExpr[L["log"]])
+assert_type(UnaryExpr(Operator.sqrt, g), UnaryExpr[L["sqrt"]])
+assert_type(UnaryExpr(Operator.sin, expr=g), UnaryExpr[L["sin"]])
+assert_type(UnaryExpr(op=Operator.cos, expr=g), UnaryExpr[L["cos"]])
+assert_type(UnaryExpr(op=Operator.fabs, expr=g), UnaryExpr[L["abs"]])
+
+# Test all operations with string literals
+assert_type(UnaryExpr(op="exp", expr=g), UnaryExpr[L["exp"]])
+assert_type(UnaryExpr(op="log", expr=g), UnaryExpr[L["log"]])
+assert_type(UnaryExpr(op="sqrt", expr=g), UnaryExpr[L["sqrt"]])
+assert_type(UnaryExpr(op="sin", expr=g), UnaryExpr[L["sin"]])
+assert_type(UnaryExpr(op="cos", expr=g), UnaryExpr[L["cos"]])
+assert_type(UnaryExpr(op="abs", expr=g), UnaryExpr[L["abs"]])
 
 UnaryExpr()  # pyright: ignore[reportCallIssue]
-UnaryExpr("square", g)  # TODO: can this be rejected?
+UnaryExpr(op="invalid", expr=g)  # pyright: ignore[reportArgumentType]
+UnaryExpr(Operator.prod, g)  # pyright: ignore[reportArgumentType]
 UnaryExpr(Operator.exp, 1)  # pyright: ignore[reportArgumentType]
 UnaryExpr(Operator.exp, e)  # pyright: ignore[reportArgumentType]
 
+assert_type(UnaryExpr(Operator.exp, g).getOp(), L["exp"])
+assert_type(UnaryExpr(Operator.log, g).getOp(), L["log"])
+assert_type(UnaryExpr(Operator.sqrt, g).getOp(), L["sqrt"])
+assert_type(UnaryExpr(Operator.sin, g).getOp(), L["sin"])
+assert_type(UnaryExpr(Operator.cos, g).getOp(), L["cos"])
+assert_type(UnaryExpr(Operator.fabs, g).getOp(), L["abs"])
+
 assert_type(UnaryExpr(Operator.exp, g).children, list[GenExpr])
-# TODO: could this be more precise with generics?
-assert_type(UnaryExpr(Operator.exp, g).getOp(), str)
 
 # Constant
 assert_type(Constant(1), Constant)
@@ -417,21 +431,21 @@ assert_type(Constant(1).number, float)
 assert_type(Constant(1).getOp(), Literal["const"])
 
 # GenExpr builders
-assert_type(scip.exp(e), UnaryExpr)
-assert_type(scip.exp(expr=d), UnaryExpr)
-assert_type(scip.exp(g), UnaryExpr)
-assert_type(scip.log(e), UnaryExpr)
-assert_type(scip.log(d), UnaryExpr)
-assert_type(scip.log(expr=g), UnaryExpr)
-assert_type(scip.sqrt(expr=e), UnaryExpr)
-assert_type(scip.sqrt(d), UnaryExpr)
-assert_type(scip.sqrt(g), UnaryExpr)
-assert_type(scip.sin(e), UnaryExpr)
-assert_type(scip.sin(d), UnaryExpr)
-assert_type(scip.sin(expr=g), UnaryExpr)
-assert_type(scip.cos(e), UnaryExpr)
-assert_type(scip.cos(expr=d), UnaryExpr)
-assert_type(scip.cos(g), UnaryExpr)
+assert_type(scip.exp(e), UnaryExpr[L["exp"]])
+assert_type(scip.exp(expr=d), UnaryExpr[L["exp"]])
+assert_type(scip.exp(g), UnaryExpr[L["exp"]])
+assert_type(scip.log(e), UnaryExpr[L["log"]])
+assert_type(scip.log(d), UnaryExpr[L["log"]])
+assert_type(scip.log(expr=g), UnaryExpr[L["log"]])
+assert_type(scip.sqrt(expr=e), UnaryExpr[L["sqrt"]])
+assert_type(scip.sqrt(d), UnaryExpr[L["sqrt"]])
+assert_type(scip.sqrt(g), UnaryExpr[L["sqrt"]])
+assert_type(scip.sin(e), UnaryExpr[L["sin"]])
+assert_type(scip.sin(d), UnaryExpr[L["sin"]])
+assert_type(scip.sin(expr=g), UnaryExpr[L["sin"]])
+assert_type(scip.cos(e), UnaryExpr[L["cos"]])
+assert_type(scip.cos(expr=d), UnaryExpr[L["cos"]])
+assert_type(scip.cos(g), UnaryExpr[L["cos"]])
 
 # Misc
 expr_to_nodes(g)
