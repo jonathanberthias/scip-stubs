@@ -462,14 +462,267 @@ class Conshdlr:
     def constrans(self, sourceconstraint: Constraint) -> None: ...
     def consinitpre(self, constraints: Incomplete) -> None: ...
 
-######
-# TODO
-######
+############
+# cutsel.pxi
+############
 
-EventNames: dict
+class Cutsel:
+    model: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def cutselexit(self):
+        """executed before the transformed problem is freed"""
+    def cutselexitsol(self):
+        """executed before the branch-and-bound process is freed"""
+    def cutselfree(self):
+        """frees memory of cut selector"""
+    def cutselinit(self):
+        """executed after the problem is transformed. use this call to initialize cut selector data."""
+    def cutselinitsol(self):
+        """executed when the presolving is finished and the branch-and-bound process is about to begin"""
+    def cutselselect(self, cuts, forcedcuts, root, maxnselectedcuts):
+        """first method called in each iteration in the main solving loop."""
+
+###########
+# event.pxi
+###########
+
+class Eventhdlr:
+    model: Incomplete
+    name: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def eventcopy(self):
+        """sets copy callback for all events of this event handler"""
+    def eventdelete(self):
+        """sets callback to free specific event data"""
+    def eventexec(self, event):
+        """calls execution method of event handler"""
+    def eventexit(self):
+        """calls exit method of event handler"""
+    def eventexitsol(self):
+        """informs event handler that the branch and bound process data is being freed"""
+    def eventfree(self):
+        """calls destructor and frees memory of event handler"""
+    def eventinit(self):
+        """initializes event handler"""
+    def eventinitsol(self):
+        """informs event handler that the branch and bound process is being started"""
+
+###############
+# heuristic.pxi
+###############
+
+class Heur:
+    model: Incomplete
+    name: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def heurexec(self, heurtiming, nodeinfeasible):
+        """should the heuristic the executed at the given depth, frequency, timing,..."""
+    def heurexit(self):
+        """calls exit method of primal heuristic"""
+    def heurexitsol(self):
+        """informs primal heuristic that the branch and bound process data is being freed"""
+    def heurfree(self):
+        """calls destructor and frees memory of primal heuristic"""
+    def heurinit(self):
+        """initializes primal heuristic"""
+    def heurinitsol(self):
+        """informs primal heuristic that the branch and bound process is being started"""
+
+############
+# presol.pxi
+############
+
+class Presol:
+    model: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def presolexec(self, nrounds, presoltiming):
+        """executes presolver"""
+    def presolexit(self):
+        """deinitializes presolver"""
+    def presolexitpre(self):
+        """informs presolver that the presolving process is finished"""
+    def presolfree(self):
+        """frees memory of presolver"""
+    def presolinit(self):
+        """initializes presolver"""
+    def presolinitpre(self):
+        """informs presolver that the presolving process is being started"""
+
+############
+# pricer.pxi
+############
+
+class Pricer:
+    model: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def pricerexit(self):
+        """calls exit method of variable pricer"""
+    def pricerexitsol(self):
+        """informs variable pricer that the branch and bound process data is being freed"""
+    def pricerfarkas(self):
+        """calls Farkas pricing method of variable pricer"""
+    def pricerfree(self):
+        """calls destructor and frees memory of variable pricer"""
+    def pricerinit(self):
+        """initializes variable pricer"""
+    def pricerinitsol(self):
+        """informs variable pricer that the branch and bound process is being started"""
+    def pricerredcost(self):
+        """calls reduced cost pricing method of variable pricer"""
+
+################
+# propagator.pxi
+################
+
+class Prop:
+    model: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def propexec(self, proptiming):
+        """calls execution method of propagator"""
+    def propexit(self):
+        """calls exit method of propagator"""
+    def propexitpre(self):
+        """informs propagator that the presolving process is finished"""
+    def propexitsol(self, restart):
+        """informs propagator that the prop and bound process data is being freed"""
+    def propfree(self):
+        """calls destructor and frees memory of propagator"""
+    def propinit(self):
+        """initializes propagator"""
+    def propinitpre(self):
+        """informs propagator that the presolving process is being started"""
+    def propinitsol(self):
+        """informs propagator that the prop and bound process is being started"""
+    def proppresol(self, nrounds, presoltiming, result_dict):
+        """executes presolving method of propagator"""
+    def propresprop(self, confvar, inferinfo, bdtype, relaxedbd):
+        """resolves the given conflicting bound, that was reduced by the given propagator"""
+
+##########
+# sepa.pxi
+##########
+
+class Sepa:
+    model: Incomplete
+    name: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def sepaexeclp(self):
+        """calls LP separation method of separator"""
+    def sepaexecsol(self, solution):
+        """calls primal solution separation method of separator"""
+    def sepaexit(self):
+        """calls exit method of separator"""
+    def sepaexitsol(self):
+        """informs separator that the branch and bound process data is being freed"""
+    def sepafree(self):
+        """calls destructor and frees memory of separator"""
+    def sepainit(self):
+        """initializes separator"""
+    def sepainitsol(self):
+        """informs separator that the branch and bound process is being started"""
+
+############
+# reader.pxi
+############
+
+class Reader:
+    model: Incomplete
+    name: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def readerfree(self):
+        """calls destructor and frees memory of reader"""
+    def readerread(self, filename):
+        """calls read method of reader"""
+    def readerwrite(
+        self,
+        file,
+        name,
+        transformed,
+        objsense,
+        objscale,
+        objoffset,
+        binvars,
+        intvars,
+        implvars,
+        contvars,
+        fixedvars,
+        startnvars,
+        conss,
+        maxnconss,
+        startnconss,
+        genericnames,
+    ):
+        """calls write method of reader"""
+
+###########
+# relax.pxi
+###########
+
+class Relax:
+    model: Incomplete
+    name: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def relaxexec(self):
+        """callls execution method of relaxation handler"""
+    def relaxexit(self):
+        """calls exit method of relaxation handler"""
+    def relaxexitsol(self):
+        """informs relaxation handler that the branch and bound process data is being freed"""
+    def relaxfree(self):
+        """calls destructor and frees memory of relaxation handler"""
+    def relaxinit(self):
+        """initializes relaxation handler"""
+    def relaxinitsol(self):
+        """informs relaxaton handler that the branch and bound process is being started"""
+
+#############
+# nodesel.pxi
+#############
+
+class Nodesel:
+    model: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def nodecomp(self, node1, node2):
+        """
+        compare two leaves of the current branching tree
+
+        It should return the following values:
+
+          value < 0, if node 1 comes before (is better than) node 2
+          value = 0, if both nodes are equally good
+          value > 0, if node 1 comes after (is worse than) node 2.
+        """
+    def nodeexit(self):
+        """executed before the transformed problem is freed"""
+    def nodeexitsol(self):
+        """executed before the branch-and-bound process is freed"""
+    def nodefree(self):
+        """frees memory of node selector"""
+    def nodeinit(self):
+        """executed after the problem is transformed. use this call to initialize node selector data."""
+    def nodeinitsol(self):
+        """executed when the presolving is finished and the branch-and-bound process is about to begin"""
+    def nodeselect(self):
+        """first method called in each iteration in the main solving loop."""
+
+##########
+# scip.pxi
+##########
+
 MAJOR: int
 MINOR: int
 PATCH: int
+EventNames: dict
 StageNames: dict
 __test__: dict
 
@@ -707,23 +960,6 @@ class Constraint:
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
-class Cutsel:
-    model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def cutselexit(self):
-        """executed before the transformed problem is freed"""
-    def cutselexitsol(self):
-        """executed before the branch-and-bound process is freed"""
-    def cutselfree(self):
-        """frees memory of cut selector"""
-    def cutselinit(self):
-        """executed after the problem is transformed. use this call to initialize cut selector data."""
-    def cutselinitsol(self):
-        """executed when the presolving is finished and the branch-and-bound process is about to begin"""
-    def cutselselect(self, cuts, forcedcuts, root, maxnselectedcuts):
-        """first method called in each iteration in the main solving loop."""
-
 class DomainChanges:
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
@@ -822,46 +1058,6 @@ class Event:
     @override
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-
-class Eventhdlr:
-    model: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def eventcopy(self):
-        """sets copy callback for all events of this event handler"""
-    def eventdelete(self):
-        """sets callback to free specific event data"""
-    def eventexec(self, event):
-        """calls execution method of event handler"""
-    def eventexit(self):
-        """calls exit method of event handler"""
-    def eventexitsol(self):
-        """informs event handler that the branch and bound process data is being freed"""
-    def eventfree(self):
-        """calls destructor and frees memory of event handler"""
-    def eventinit(self):
-        """initializes event handler"""
-    def eventinitsol(self):
-        """informs event handler that the branch and bound process is being started"""
-
-class Heur:
-    model: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def heurexec(self, heurtiming, nodeinfeasible):
-        """should the heuristic the executed at the given depth, frequency, timing,..."""
-    def heurexit(self):
-        """calls exit method of primal heuristic"""
-    def heurexitsol(self):
-        """informs primal heuristic that the branch and bound process data is being freed"""
-    def heurfree(self):
-        """calls destructor and frees memory of primal heuristic"""
-    def heurinit(self):
-        """initializes primal heuristic"""
-    def heurinitsol(self):
-        """informs primal heuristic that the branch and bound process is being started"""
 
 class Model:
     data: Incomplete
@@ -6072,33 +6268,6 @@ class Node:
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
-class Nodesel:
-    model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def nodecomp(self, node1, node2):
-        """
-        compare two leaves of the current branching tree
-
-        It should return the following values:
-
-          value < 0, if node 1 comes before (is better than) node 2
-          value = 0, if both nodes are equally good
-          value > 0, if node 1 comes after (is worse than) node 2.
-        """
-    def nodeexit(self):
-        """executed before the transformed problem is freed"""
-    def nodeexitsol(self):
-        """executed before the branch-and-bound process is freed"""
-    def nodefree(self):
-        """frees memory of node selector"""
-    def nodeinit(self):
-        """executed after the problem is transformed. use this call to initialize node selector data."""
-    def nodeinitsol(self):
-        """executed when the presolving is finished and the branch-and-bound process is about to begin"""
-    def nodeselect(self):
-        """first method called in each iteration in the main solving loop."""
-
 class PY_SCIP_BENDERSENFOTYPE:
     CHECK: ClassVar[int] = ...
     LP: ClassVar[int] = ...  # noqa: F811
@@ -6335,115 +6504,6 @@ class PY_SCIP_STATUS:
     def __init__(self, *args) -> None:
         """Create and return a new object.  See help(type) for accurate signature."""
 
-class Presol:
-    model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def presolexec(self, nrounds, presoltiming):
-        """executes presolver"""
-    def presolexit(self):
-        """deinitializes presolver"""
-    def presolexitpre(self):
-        """informs presolver that the presolving process is finished"""
-    def presolfree(self):
-        """frees memory of presolver"""
-    def presolinit(self):
-        """initializes presolver"""
-    def presolinitpre(self):
-        """informs presolver that the presolving process is being started"""
-
-class Pricer:
-    model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def pricerexit(self):
-        """calls exit method of variable pricer"""
-    def pricerexitsol(self):
-        """informs variable pricer that the branch and bound process data is being freed"""
-    def pricerfarkas(self):
-        """calls Farkas pricing method of variable pricer"""
-    def pricerfree(self):
-        """calls destructor and frees memory of variable pricer"""
-    def pricerinit(self):
-        """initializes variable pricer"""
-    def pricerinitsol(self):
-        """informs variable pricer that the branch and bound process is being started"""
-    def pricerredcost(self):
-        """calls reduced cost pricing method of variable pricer"""
-
-class Prop:
-    model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def propexec(self, proptiming):
-        """calls execution method of propagator"""
-    def propexit(self):
-        """calls exit method of propagator"""
-    def propexitpre(self):
-        """informs propagator that the presolving process is finished"""
-    def propexitsol(self, restart):
-        """informs propagator that the prop and bound process data is being freed"""
-    def propfree(self):
-        """calls destructor and frees memory of propagator"""
-    def propinit(self):
-        """initializes propagator"""
-    def propinitpre(self):
-        """informs propagator that the presolving process is being started"""
-    def propinitsol(self):
-        """informs propagator that the prop and bound process is being started"""
-    def proppresol(self, nrounds, presoltiming, result_dict):
-        """executes presolving method of propagator"""
-    def propresprop(self, confvar, inferinfo, bdtype, relaxedbd):
-        """resolves the given conflicting bound, that was reduced by the given propagator"""
-
-class Reader:
-    model: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def readerfree(self):
-        """calls destructor and frees memory of reader"""
-    def readerread(self, filename):
-        """calls read method of reader"""
-    def readerwrite(
-        self,
-        file,
-        name,
-        transformed,
-        objsense,
-        objscale,
-        objoffset,
-        binvars,
-        intvars,
-        implvars,
-        contvars,
-        fixedvars,
-        startnvars,
-        conss,
-        maxnconss,
-        startnconss,
-        genericnames,
-    ):
-        """calls write method of reader"""
-
-class Relax:
-    model: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def relaxexec(self):
-        """callls execution method of relaxation handler"""
-    def relaxexit(self):
-        """calls exit method of relaxation handler"""
-    def relaxexitsol(self):
-        """informs relaxation handler that the branch and bound process data is being freed"""
-    def relaxfree(self):
-        """calls destructor and frees memory of relaxation handler"""
-    def relaxinit(self):
-        """initializes relaxation handler"""
-    def relaxinitsol(self):
-        """informs relaxaton handler that the branch and bound process is being started"""
-
 class Row:
     data: Incomplete
     name: Incomplete
@@ -6639,26 +6699,6 @@ class Row:
     @override
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
-
-class Sepa:
-    model: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def sepaexeclp(self):
-        """calls LP separation method of separator"""
-    def sepaexecsol(self, solution):
-        """calls primal solution separation method of separator"""
-    def sepaexit(self):
-        """calls exit method of separator"""
-    def sepaexitsol(self):
-        """informs separator that the branch and bound process data is being freed"""
-    def sepafree(self):
-        """calls destructor and frees memory of separator"""
-    def sepainit(self):
-        """initializes separator"""
-    def sepainitsol(self):
-        """informs separator that the branch and bound process is being started"""
 
 class Solution:
     data: Incomplete
