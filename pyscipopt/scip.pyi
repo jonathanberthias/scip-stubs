@@ -722,15 +722,654 @@ class Nodesel:
 MAJOR: int
 MINOR: int
 PATCH: int
-EventNames: dict
-StageNames: dict
-__test__: dict
 
-def is_memory_freed(): ...
-def print_memory_in_use(): ...
-def readStatistics(filename): ...
 def str_conversion(x): ...
+
+_SCIP_BOUNDTYPE_TO_STRING: dict[int, str]
+
+class PY_SCIP_RESULT:
+    BRANCHED: ClassVar[int] = ...
+    CONSADDED: ClassVar[int] = ...
+    CONSCHANGED: ClassVar[int] = ...
+    CUTOFF: ClassVar[int] = ...
+    DELAYED: ClassVar[int] = ...
+    DIDNOTFIND: ClassVar[int] = ...
+    DIDNOTRUN: ClassVar[int] = ...
+    FEASIBLE: ClassVar[int] = ...
+    FOUNDSOL: ClassVar[int] = ...
+    INFEASIBLE: ClassVar[int] = ...
+    NEWROUND: ClassVar[int] = ...
+    REDUCEDDOM: ClassVar[int] = ...
+    SEPARATED: ClassVar[int] = ...
+    SOLVELP: ClassVar[int] = ...
+    SUCCESS: ClassVar[int] = ...
+    SUSPENDED: ClassVar[int] = ...
+    UNBOUNDED: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_PARAMSETTING:
+    AGGRESSIVE: ClassVar[int] = ...
+    DEFAULT: ClassVar[int] = ...
+    FAST: ClassVar[int] = ...
+    OFF: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_PARAMEMPHASIS:
+    BENCHMARK: ClassVar[int] = ...
+    COUNTER: ClassVar[int] = ...
+    CPSOLVER: ClassVar[int] = ...
+    DEFAULT: ClassVar[int] = ...
+    EASYCIP: ClassVar[int] = ...
+    FEASIBILITY: ClassVar[int] = ...
+    HARDLP: ClassVar[int] = ...
+    NUMERICS: ClassVar[int] = ...
+    OPTIMALITY: ClassVar[int] = ...
+    PHASEFEAS: ClassVar[int] = ...
+    PHASEIMPROVE: ClassVar[int] = ...
+    PHASEPROOF: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_STATUS:
+    BESTSOLLIMIT: ClassVar[int] = ...
+    DUALLIMIT: ClassVar[int] = ...
+    GAPLIMIT: ClassVar[int] = ...
+    INFEASIBLE: ClassVar[int] = ...
+    INFORUNBD: ClassVar[int] = ...
+    MEMLIMIT: ClassVar[int] = ...
+    NODELIMIT: ClassVar[int] = ...
+    OPTIMAL: ClassVar[int] = ...
+    PRIMALLIMIT: ClassVar[int] = ...
+    RESTARTLIMIT: ClassVar[int] = ...
+    SOLLIMIT: ClassVar[int] = ...
+    STALLNODELIMIT: ClassVar[int] = ...
+    TIMELIMIT: ClassVar[int] = ...
+    TOTALNODELIMIT: ClassVar[int] = ...
+    UNBOUNDED: ClassVar[int] = ...
+    UNKNOWN: ClassVar[int] = ...
+    USERINTERRUPT: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+StageNames: dict
+
+class PY_SCIP_STAGE:
+    EXITPRESOLVE: ClassVar[int] = ...
+    EXITSOLVE: ClassVar[int] = ...
+    FREE: ClassVar[int] = ...
+    FREETRANS: ClassVar[int] = ...
+    INIT: ClassVar[int] = ...
+    INITPRESOLVE: ClassVar[int] = ...
+    INITSOLVE: ClassVar[int] = ...
+    PRESOLVED: ClassVar[int] = ...
+    PRESOLVING: ClassVar[int] = ...
+    PROBLEM: ClassVar[int] = ...
+    SOLVED: ClassVar[int] = ...
+    SOLVING: ClassVar[int] = ...
+    TRANSFORMED: ClassVar[int] = ...
+    TRANSFORMING: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_NODETYPE:
+    CHILD: ClassVar[int] = ...
+    DEADEND: ClassVar[int] = ...
+    FOCUSNODE: ClassVar[int] = ...
+    FORK: ClassVar[int] = ...
+    JUNCTION: ClassVar[int] = ...
+    LEAF: ClassVar[int] = ...
+    PROBINGNODE: ClassVar[int] = ...
+    PSEUDOFORK: ClassVar[int] = ...
+    REFOCUSNODE: ClassVar[int] = ...
+    SIBLING: ClassVar[int] = ...
+    SUBROOT: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_PROPTIMING:
+    AFTERLPLOOP: ClassVar[int] = ...
+    AFTERLPNODE: ClassVar[int] = ...
+    BEFORELP: ClassVar[int] = ...
+    DURINGLPLOOP: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_PRESOLTIMING:
+    EXHAUSTIVE: ClassVar[int] = ...
+    FAST: ClassVar[int] = ...
+    MEDIUM: ClassVar[int] = ...
+    NONE: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_HEURTIMING:
+    AFTERLPLOOP: ClassVar[int] = ...
+    AFTERLPNODE: ClassVar[int] = ...
+    AFTERLPPLUNGE: ClassVar[int] = ...
+    AFTERPROPLOOP: ClassVar[int] = ...
+    AFTERPSEUDONODE: ClassVar[int] = ...
+    AFTERPSEUDOPLUNGE: ClassVar[int] = ...
+    BEFORENODE: ClassVar[int] = ...
+    BEFOREPRESOL: ClassVar[int] = ...
+    DURINGLPLOOP: ClassVar[int] = ...
+    DURINGPRESOLLOOP: ClassVar[int] = ...
+    DURINGPRICINGLOOP: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+EventNames: dict
+
+class PY_SCIP_EVENTTYPE:
+    BESTSOLFOUND: ClassVar[int] = ...
+    BOUNDCHANGED: ClassVar[int] = ...
+    BOUNDRELAXED: ClassVar[int] = ...
+    BOUNDTIGHTENED: ClassVar[int] = ...
+    DISABLED: ClassVar[int] = ...
+    DOMCHANGED: ClassVar[int] = ...
+    FIRSTLPSOLVED: ClassVar[int] = ...
+    GBDCHANGED: ClassVar[int] = ...
+    GHOLEADDED: ClassVar[int] = ...
+    GHOLECHANGED: ClassVar[int] = ...
+    GHOLEREMOVED: ClassVar[int] = ...
+    GLBCHANGED: ClassVar[int] = ...
+    GUBCHANGED: ClassVar[int] = ...
+    HOLECHANGED: ClassVar[int] = ...
+    IMPLADDED: ClassVar[int] = ...
+    LBCHANGED: ClassVar[int] = ...
+    LBRELAXED: ClassVar[int] = ...
+    LBTIGHTENED: ClassVar[int] = ...
+    LHOLEADDED: ClassVar[int] = ...
+    LHOLECHANGED: ClassVar[int] = ...
+    LHOLEREMOVED: ClassVar[int] = ...
+    LPEVENT: ClassVar[int] = ...
+    LPSOLVED: ClassVar[int] = ...
+    NODEBRANCHED: ClassVar[int] = ...
+    NODEDELETE: ClassVar[int] = ...
+    NODEEVENT: ClassVar[int] = ...
+    NODEFEASIBLE: ClassVar[int] = ...
+    NODEFOCUSED: ClassVar[int] = ...
+    NODEINFEASIBLE: ClassVar[int] = ...
+    NODESOLVED: ClassVar[int] = ...
+    OBJCHANGED: ClassVar[int] = ...
+    POORSOLFOUND: ClassVar[int] = ...
+    PRESOLVEROUND: ClassVar[int] = ...
+    ROWADDEDLP: ClassVar[int] = ...
+    ROWADDEDSEPA: ClassVar[int] = ...
+    ROWCHANGED: ClassVar[int] = ...
+    ROWCOEFCHANGED: ClassVar[int] = ...
+    ROWCONSTCHANGED: ClassVar[int] = ...
+    ROWDELETEDLP: ClassVar[int] = ...
+    ROWDELETEDSEPA: ClassVar[int] = ...
+    ROWEVENT: ClassVar[int] = ...
+    ROWSIDECHANGED: ClassVar[int] = ...
+    SOLEVENT: ClassVar[int] = ...
+    SOLFOUND: ClassVar[int] = ...
+    SYNC: ClassVar[int] = ...
+    UBCHANGED: ClassVar[int] = ...
+    UBRELAXED: ClassVar[int] = ...
+    UBTIGHTENED: ClassVar[int] = ...
+    VARADDED: ClassVar[int] = ...
+    VARCHANGED: ClassVar[int] = ...
+    VARDELETED: ClassVar[int] = ...
+    VAREVENT: ClassVar[int] = ...
+    VARFIXED: ClassVar[int] = ...
+    VARUNLOCKED: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_LPSOLSTAT:
+    ERROR: ClassVar[int] = ...
+    INFEASIBLE: ClassVar[int] = ...
+    ITERLIMIT: ClassVar[int] = ...
+    NOTSOLVED: ClassVar[int] = ...
+    OBJLIMIT: ClassVar[int] = ...
+    OPTIMAL: ClassVar[int] = ...
+    TIMELIMIT: ClassVar[int] = ...
+    UNBOUNDEDRAY: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_BRANCHDIR:
+    AUTO: ClassVar[int] = ...
+    DOWNWARDS: ClassVar[int] = ...
+    FIXED: ClassVar[int] = ...
+    UPWARDS: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_BENDERSENFOTYPE:
+    CHECK: ClassVar[int] = ...
+    LP: ClassVar[int] = ...  # noqa: F811
+    PSEUDO: ClassVar[int] = ...
+    RELAX: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_ROWORIGINTYPE:
+    CONS: ClassVar[int] = ...
+    REOPT: ClassVar[int] = ...
+    SEPA: ClassVar[int] = ...
+    UNSPEC: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
+class PY_SCIP_SOLORIGIN:
+    LPSOL: ClassVar[int] = ...
+    NLPSOL: ClassVar[int] = ...
+    ORIGINAL: ClassVar[int] = ...
+    PARTIAL: ClassVar[int] = ...
+    PSEUDOSOL: ClassVar[int] = ...
+    RELAXSOL: ClassVar[int] = ...
+    UNKNOWN: ClassVar[int] = ...
+    ZERO: ClassVar[int] = ...
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+
 def PY_SCIP_CALL(rc): ...
+
+class Event:
+    data: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def getName(self):
+        """
+        Gets name of event.
+
+        Returns
+        -------
+        str
+
+        """
+    def getNewBound(self):
+        """
+        Gets new bound for a bound change event.
+
+        Returns
+        -------
+        float
+
+        """
+    def getNode(self):
+        """
+        Gets node for a node or LP event.
+
+        Returns
+        -------
+        Node
+
+        """
+    def getOldBound(self):
+        """
+        Gets old bound for a bound change event.
+
+        Returns
+        -------
+        float
+
+        """
+    def getRow(self):
+        """
+        Gets row for a row event.
+
+        Returns
+        -------
+        Row
+
+        """
+    def getType(self):
+        """
+        Gets type of event.
+
+        Returns
+        -------
+        PY_SCIP_EVENTTYPE
+
+        """
+    def getVar(self):
+        """
+        Gets variable for a variable event (var added, var deleted, var fixed,
+        objective value or domain change, domain hole added or removed).
+
+        Returns
+        -------
+        Variable
+
+        """
+    @override
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    @override
+    def __hash__(self) -> int:
+        """Return hash(self)."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    @override
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+
+class Column:
+    data: object
+    def __init__(self) -> None: ...
+    def getAge(self) -> int: ...
+    def getBasisStatus(self) -> L["lower", "basic", "upper", "zero"]: ...
+    def getLPPos(self) -> int: ...
+    def getLb(self) -> float: ...
+    def getObjCoeff(self) -> float: ...
+    def getPrimsol(self) -> float: ...
+    def getUb(self) -> float: ...
+    def getVar(self) -> Variable: ...
+    def isIntegral(self) -> bool: ...
+    @override
+    def __hash__(self) -> int: ...
+    @override
+    def __eq__(self, other: object) -> bool: ...
+    @override
+    def __ne__(self, other: object) -> bool: ...
+
+class Row:
+    data: Incomplete
+    name: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def getAge(self):
+        """
+        Gets the age of the row. (The consecutive times the row has been non-active in the LP).
+
+        Returns
+        -------
+        int
+
+        """
+    def getBasisStatus(self):
+        """
+        Gets the basis status of a row in the LP solution.
+
+        Returns
+        -------
+        str
+            Possible values are "lower", "basic", and "upper"
+
+        Raises
+        ------
+        Exception
+            If SCIP returns an unknown or "zero" basis status
+
+        Notes
+        -----
+        Returns basis status "basic" for rows not in the current SCIP LP.
+
+        """
+    def getCols(self):
+        """
+        Gets list with columns of nonzero entries
+
+        Returns
+        -------
+        list of Column
+
+        """
+    def getConsOriginConshdlrtype(self):
+        """
+        Returns type of constraint handler that created the row.
+
+        Returns
+        -------
+        str
+
+        """
+    def getConstant(self):
+        """
+        Gets constant shift of row.
+
+        Returns
+        -------
+        float
+
+        """
+    def getLPPos(self):
+        """
+        Gets position of row in current LP, or -1 if it is not in LP.
+
+        Returns
+        -------
+        int
+
+        """
+    def getLhs(self):
+        """
+        Returns the left hand side of row.
+
+        Returns
+        -------
+        float
+
+        """
+    def getNLPNonz(self):
+        """
+        Get number of nonzero entries in row vector that correspond to columns currently in the SCIP LP.
+
+        Returns
+        -------
+        int
+
+        """
+    def getNNonz(self):
+        """
+        Get number of nonzero entries in row vector.
+
+        Returns
+        -------
+        int
+
+        """
+    def getNorm(self):
+        """
+        Gets Euclidean norm of row vector.
+
+        Returns
+        -------
+        float
+
+        """
+    def getOrigintype(self):
+        """
+        Returns type of origin that created the row.
+
+        Returns
+        -------
+        PY_SCIP_ROWORIGINTYPE
+
+        """
+    def getRhs(self):
+        """
+        Returns the right hand side of row.
+
+        Returns
+        -------
+        float
+
+        """
+    def getVals(self):
+        """
+        Gets list with coefficients of nonzero entries.
+
+        Returns
+        -------
+        list of int
+
+        """
+    def isInGlobalCutpool(self):
+        """
+        Return TRUE iff row is a member of the global cut pool.
+
+        Returns
+        -------
+        bool
+
+        """
+    def isIntegral(self):
+        """
+        Returns TRUE iff the activity of the row (without the row's constant)
+        is always integral in a feasible solution.
+
+        Returns
+        -------
+        bool
+
+        """
+    def isLocal(self):
+        """
+        Returns TRUE iff the row is only valid locally.
+
+        Returns
+        -------
+        bool
+
+        """
+    def isModifiable(self):
+        """
+        Returns TRUE iff row is modifiable during node processing (subject to column generation).
+
+        Returns
+        -------
+        bool
+
+        """
+    def isRemovable(self):
+        """
+        Returns TRUE iff row is removable from the LP (due to aging or cleanup).
+
+        Returns
+        -------
+        bool
+
+        """
+    @override
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    @override
+    def __hash__(self) -> int:
+        """Return hash(self)."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    @override
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+
+class NLRow:
+    data: Incomplete
+    name: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def getConstant(self):
+        """
+        Returns the constant of a nonlinear row.
+
+        Returns
+        -------
+        float
+
+        """
+    def getDualsol(self):
+        """
+        Gets the dual NLP solution of a nonlinear row.
+
+        Returns
+        -------
+        float
+
+        """
+    def getLhs(self):
+        """
+        Returns the left hand side of a nonlinear row.
+
+        Returns
+        -------
+        float
+
+        """
+    def getLinearTerms(self):
+        """
+        Returns a list of tuples (var, coef) representing the linear part of a nonlinear row.
+
+        Returns
+        -------
+        list of tuple
+
+        """
+    def getRhs(self):
+        """
+        Returns the right hand side of a nonlinear row.
+
+        Returns
+        -------
+        float
+
+        """
+    @override
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
+    @override
+    def __hash__(self) -> int:
+        """Return hash(self)."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
+    @override
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+
+class Solution:
+    data: Incomplete
+    def __init__(self, *args) -> None:
+        """Initialize self.  See help(type(self)) for accurate signature."""
+    def getOrigin(self):
+        """
+        Returns origin of solution: where to retrieve uncached elements.
+
+        Returns
+        -------
+        PY_SCIP_SOLORIGIN
+        """
+    def retransform(self):
+        """retransforms solution to original problem space"""
+    def translate(self, target):
+        """
+        translate solution to a target model solution
+
+        Parameters
+        ----------
+        target : Model
+
+        Returns
+        -------
+        targetSol: Solution
+        """
+    def __delitem__(self, other) -> None:
+        """Delete self[key]."""
+    def __getitem__(self, index):
+        """Return self[key]."""
+    def __setitem__(self, index, object) -> None:
+        """Set self[key] to value."""
 
 class BoundChange:
     def __init__(self, *args) -> None:
@@ -783,24 +1422,303 @@ class BoundChange:
 
         """
 
-class Column:
-    data: object
-    def __init__(self) -> None: ...
-    def getAge(self) -> int: ...
-    def getBasisStatus(self) -> L["lower", "basic", "upper", "zero"]: ...
-    def getLPPos(self) -> int: ...
-    def getLb(self) -> float: ...
-    def getObjCoeff(self) -> float: ...
-    def getPrimsol(self) -> float: ...
-    def getUb(self) -> float: ...
-    def getVar(self) -> Variable: ...
-    def isIntegral(self) -> bool: ...
+class DomainChanges:
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def getBoundchgs(self):
+        """
+        Returns the bound changes in the domain change.
+
+        Returns
+        -------
+        list of BoundChange
+
+        """
+
+class Node:
+    data: Incomplete
+    def __init__(self, *args) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def getAddedConss(self):
+        """
+        Retrieve all constraints added at this node.
+
+        Returns
+        -------
+        list of Constraint
+
+        """
+    def getDepth(self):
+        """
+        Retrieve depth of node.
+
+        Returns
+        -------
+        int
+
+        """
+    def getDomchg(self):
+        """
+        Retrieve domain changes for this node.
+
+        Returns
+        -------
+        DomainChanges
+
+        """
+    def getEstimate(self):
+        """
+        Retrieve the estimated value of the best feasible solution in subtree of the node.
+
+        Returns
+        -------
+        float
+
+        """
+    def getLowerbound(self):
+        """
+        Retrieve lower bound of node.
+
+        Returns
+        -------
+        float
+
+        """
+    def getNAddedConss(self):
+        """
+        Retrieve number of added constraints at this node.
+
+        Returns
+        -------
+        int
+
+        """
+    def getNDomchg(self):
+        """
+        Retrieve the number of bound changes due to branching, constraint propagation, and propagation.
+
+        Returns
+        -------
+        nbranchings : int
+        nconsprop : int
+        nprop : int
+
+        """
+    def getNParentBranchings(self):
+        """
+        Retrieve the number of variable branchings that were performed in the parent node to create this node.
+
+        Returns
+        -------
+        int
+
+        """
+    def getNumber(self):
+        """
+        Retrieve number of node.
+
+        Returns
+        -------
+        int
+
+        """
+    def getParent(self):
+        """
+        Retrieve parent node (or None if the node has no parent node).
+
+        Returns
+        -------
+        Node
+
+        """
+    def getParentBranchings(self):
+        """
+        Retrieve the set of variable branchings that were performed in the parent node to create this node.
+
+        Returns
+        -------
+        list of Variable
+        list of float
+        list of int
+
+        """
+    def getType(self):
+        """
+        Retrieve type of node.
+
+        Returns
+        -------
+        PY_SCIP_NODETYPE
+
+        """
+    def isActive(self):
+        """
+        Is the node in the path to the current node?
+
+        Returns
+        -------
+        bool
+
+        """
+    def isPropagatedAgain(self):
+        """
+        Is the node marked to be propagated again?
+
+        Returns
+        -------
+        bool
+
+        """
     @override
-    def __hash__(self) -> int: ...
+    def __eq__(self, other: object) -> bool:
+        """Return self==value."""
+    def __ge__(self, other: object) -> bool:
+        """Return self>=value."""
+    def __gt__(self, other: object) -> bool:
+        """Return self>value."""
     @override
-    def __eq__(self, other: object) -> bool: ...
+    def __hash__(self) -> int:
+        """Return hash(self)."""
+    def __le__(self, other: object) -> bool:
+        """Return self<=value."""
+    def __lt__(self, other: object) -> bool:
+        """Return self<value."""
     @override
-    def __ne__(self, other: object) -> bool: ...
+    def __ne__(self, other: object) -> bool:
+        """Return self!=value."""
+
+class Variable(Expr):
+    data: Incomplete
+    name: Incomplete
+    def __init__(self) -> None:
+        """Create and return a new object.  See help(type) for accurate signature."""
+    def getAvgSol(self):
+        """
+        Get the weighted average solution of variable in all feasible primal solutions found.
+
+        Returns
+        -------
+        float
+
+        """
+    def getCol(self) -> Column:
+        """
+        Retrieve column of COLUMN variable.
+
+        Returns
+        -------
+        Column
+
+        """
+    def getIndex(self):
+        """
+        Retrieve the unique index of the variable.
+
+        Returns
+        -------
+        int
+
+        """
+    def getLPSol(self) -> float: ...
+    def getLbGlobal(self):
+        """
+        Retrieve global lower bound of variable.
+
+        Returns
+        -------
+        float
+
+        """
+    def getLbLocal(self):
+        """
+        Retrieve current lower bound of variable.
+
+        Returns
+        -------
+        float
+
+        """
+    def getLbOriginal(self):
+        """
+        Retrieve original lower bound of variable.
+
+        Returns
+        -------
+        float
+
+        """
+    def getObj(self):
+        """
+        Retrieve current objective value of variable.
+
+        Returns
+        -------
+        float
+
+        """
+    def getUbGlobal(self):
+        """
+        Retrieve global upper bound of variable.
+
+        Returns
+        -------
+        float
+
+        """
+    def getUbLocal(self):
+        """
+        Retrieve current upper bound of variable.
+
+        Returns
+        -------
+        float
+
+        """
+    def getUbOriginal(self):
+        """
+        Retrieve original upper bound of variable.
+
+        Returns
+        -------
+        float
+
+        """
+    def isInLP(self) -> bool: ...
+    def isOriginal(self):
+        """
+        Retrieve whether the variable belongs to the original problem
+
+        Returns
+        -------
+        bool
+
+        """
+    def ptr(self):
+        """ """
+    def varMayRound(self, direction=...):
+        """
+        Checks whether it is possible to round variable up / down and stay feasible for the relaxation.
+
+        Parameters
+        ----------
+        direction : str
+            "up" or "down"
+
+        Returns
+        -------
+        bool
+
+        """
+    def vtype(self):
+        """
+        Retrieve the variables type (BINARY, INTEGER, IMPLINT or CONTINUOUS)
+
+        Returns
+        -------
+        str
+            "BINARY", "INTEGER", "CONTINUOUS", or "IMPLINT"
+
+        """
 
 class Constraint:
     data: Incomplete
@@ -940,105 +1858,6 @@ class Constraint:
         Returns
         -------
         bool
-
-        """
-    @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-
-class DomainChanges:
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getBoundchgs(self):
-        """
-        Returns the bound changes in the domain change.
-
-        Returns
-        -------
-        list of BoundChange
-
-        """
-
-class Event:
-    data: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getName(self):
-        """
-        Gets name of event.
-
-        Returns
-        -------
-        str
-
-        """
-    def getNewBound(self):
-        """
-        Gets new bound for a bound change event.
-
-        Returns
-        -------
-        float
-
-        """
-    def getNode(self):
-        """
-        Gets node for a node or LP event.
-
-        Returns
-        -------
-        Node
-
-        """
-    def getOldBound(self):
-        """
-        Gets old bound for a bound change event.
-
-        Returns
-        -------
-        float
-
-        """
-    def getRow(self):
-        """
-        Gets row for a row event.
-
-        Returns
-        -------
-        Row
-
-        """
-    def getType(self):
-        """
-        Gets type of event.
-
-        Returns
-        -------
-        PY_SCIP_EVENTTYPE
-
-        """
-    def getVar(self):
-        """
-        Gets variable for a variable event (var added, var deleted, var fixed,
-        objective value or domain change, domain hole added or removed).
-
-        Returns
-        -------
-        Variable
 
         """
     @override
@@ -6048,691 +6867,6 @@ class Model:
     def __ne__(self, other: object) -> bool:
         """Return self!=value."""
 
-class NLRow:
-    data: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getConstant(self):
-        """
-        Returns the constant of a nonlinear row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getDualsol(self):
-        """
-        Gets the dual NLP solution of a nonlinear row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLhs(self):
-        """
-        Returns the left hand side of a nonlinear row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLinearTerms(self):
-        """
-        Returns a list of tuples (var, coef) representing the linear part of a nonlinear row.
-
-        Returns
-        -------
-        list of tuple
-
-        """
-    def getRhs(self):
-        """
-        Returns the right hand side of a nonlinear row.
-
-        Returns
-        -------
-        float
-
-        """
-    @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-
-class Node:
-    data: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getAddedConss(self):
-        """
-        Retrieve all constraints added at this node.
-
-        Returns
-        -------
-        list of Constraint
-
-        """
-    def getDepth(self):
-        """
-        Retrieve depth of node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getDomchg(self):
-        """
-        Retrieve domain changes for this node.
-
-        Returns
-        -------
-        DomainChanges
-
-        """
-    def getEstimate(self):
-        """
-        Retrieve the estimated value of the best feasible solution in subtree of the node.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLowerbound(self):
-        """
-        Retrieve lower bound of node.
-
-        Returns
-        -------
-        float
-
-        """
-    def getNAddedConss(self):
-        """
-        Retrieve number of added constraints at this node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNDomchg(self):
-        """
-        Retrieve the number of bound changes due to branching, constraint propagation, and propagation.
-
-        Returns
-        -------
-        nbranchings : int
-        nconsprop : int
-        nprop : int
-
-        """
-    def getNParentBranchings(self):
-        """
-        Retrieve the number of variable branchings that were performed in the parent node to create this node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNumber(self):
-        """
-        Retrieve number of node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getParent(self):
-        """
-        Retrieve parent node (or None if the node has no parent node).
-
-        Returns
-        -------
-        Node
-
-        """
-    def getParentBranchings(self):
-        """
-        Retrieve the set of variable branchings that were performed in the parent node to create this node.
-
-        Returns
-        -------
-        list of Variable
-        list of float
-        list of int
-
-        """
-    def getType(self):
-        """
-        Retrieve type of node.
-
-        Returns
-        -------
-        PY_SCIP_NODETYPE
-
-        """
-    def isActive(self):
-        """
-        Is the node in the path to the current node?
-
-        Returns
-        -------
-        bool
-
-        """
-    def isPropagatedAgain(self):
-        """
-        Is the node marked to be propagated again?
-
-        Returns
-        -------
-        bool
-
-        """
-    @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-
-class PY_SCIP_BENDERSENFOTYPE:
-    CHECK: ClassVar[int] = ...
-    LP: ClassVar[int] = ...  # noqa: F811
-    PSEUDO: ClassVar[int] = ...
-    RELAX: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_BRANCHDIR:
-    AUTO: ClassVar[int] = ...
-    DOWNWARDS: ClassVar[int] = ...
-    FIXED: ClassVar[int] = ...
-    UPWARDS: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_EVENTTYPE:
-    BESTSOLFOUND: ClassVar[int] = ...
-    BOUNDCHANGED: ClassVar[int] = ...
-    BOUNDRELAXED: ClassVar[int] = ...
-    BOUNDTIGHTENED: ClassVar[int] = ...
-    DISABLED: ClassVar[int] = ...
-    DOMCHANGED: ClassVar[int] = ...
-    FIRSTLPSOLVED: ClassVar[int] = ...
-    GBDCHANGED: ClassVar[int] = ...
-    GHOLEADDED: ClassVar[int] = ...
-    GHOLECHANGED: ClassVar[int] = ...
-    GHOLEREMOVED: ClassVar[int] = ...
-    GLBCHANGED: ClassVar[int] = ...
-    GUBCHANGED: ClassVar[int] = ...
-    HOLECHANGED: ClassVar[int] = ...
-    IMPLADDED: ClassVar[int] = ...
-    LBCHANGED: ClassVar[int] = ...
-    LBRELAXED: ClassVar[int] = ...
-    LBTIGHTENED: ClassVar[int] = ...
-    LHOLEADDED: ClassVar[int] = ...
-    LHOLECHANGED: ClassVar[int] = ...
-    LHOLEREMOVED: ClassVar[int] = ...
-    LPEVENT: ClassVar[int] = ...
-    LPSOLVED: ClassVar[int] = ...
-    NODEBRANCHED: ClassVar[int] = ...
-    NODEDELETE: ClassVar[int] = ...
-    NODEEVENT: ClassVar[int] = ...
-    NODEFEASIBLE: ClassVar[int] = ...
-    NODEFOCUSED: ClassVar[int] = ...
-    NODEINFEASIBLE: ClassVar[int] = ...
-    NODESOLVED: ClassVar[int] = ...
-    OBJCHANGED: ClassVar[int] = ...
-    POORSOLFOUND: ClassVar[int] = ...
-    PRESOLVEROUND: ClassVar[int] = ...
-    ROWADDEDLP: ClassVar[int] = ...
-    ROWADDEDSEPA: ClassVar[int] = ...
-    ROWCHANGED: ClassVar[int] = ...
-    ROWCOEFCHANGED: ClassVar[int] = ...
-    ROWCONSTCHANGED: ClassVar[int] = ...
-    ROWDELETEDLP: ClassVar[int] = ...
-    ROWDELETEDSEPA: ClassVar[int] = ...
-    ROWEVENT: ClassVar[int] = ...
-    ROWSIDECHANGED: ClassVar[int] = ...
-    SOLEVENT: ClassVar[int] = ...
-    SOLFOUND: ClassVar[int] = ...
-    SYNC: ClassVar[int] = ...
-    UBCHANGED: ClassVar[int] = ...
-    UBRELAXED: ClassVar[int] = ...
-    UBTIGHTENED: ClassVar[int] = ...
-    VARADDED: ClassVar[int] = ...
-    VARCHANGED: ClassVar[int] = ...
-    VARDELETED: ClassVar[int] = ...
-    VAREVENT: ClassVar[int] = ...
-    VARFIXED: ClassVar[int] = ...
-    VARUNLOCKED: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_HEURTIMING:
-    AFTERLPLOOP: ClassVar[int] = ...
-    AFTERLPNODE: ClassVar[int] = ...
-    AFTERLPPLUNGE: ClassVar[int] = ...
-    AFTERPROPLOOP: ClassVar[int] = ...
-    AFTERPSEUDONODE: ClassVar[int] = ...
-    AFTERPSEUDOPLUNGE: ClassVar[int] = ...
-    BEFORENODE: ClassVar[int] = ...
-    BEFOREPRESOL: ClassVar[int] = ...
-    DURINGLPLOOP: ClassVar[int] = ...
-    DURINGPRESOLLOOP: ClassVar[int] = ...
-    DURINGPRICINGLOOP: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_LPSOLSTAT:
-    ERROR: ClassVar[int] = ...
-    INFEASIBLE: ClassVar[int] = ...
-    ITERLIMIT: ClassVar[int] = ...
-    NOTSOLVED: ClassVar[int] = ...
-    OBJLIMIT: ClassVar[int] = ...
-    OPTIMAL: ClassVar[int] = ...
-    TIMELIMIT: ClassVar[int] = ...
-    UNBOUNDEDRAY: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_NODETYPE:
-    CHILD: ClassVar[int] = ...
-    DEADEND: ClassVar[int] = ...
-    FOCUSNODE: ClassVar[int] = ...
-    FORK: ClassVar[int] = ...
-    JUNCTION: ClassVar[int] = ...
-    LEAF: ClassVar[int] = ...
-    PROBINGNODE: ClassVar[int] = ...
-    PSEUDOFORK: ClassVar[int] = ...
-    REFOCUSNODE: ClassVar[int] = ...
-    SIBLING: ClassVar[int] = ...
-    SUBROOT: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_PARAMEMPHASIS:
-    BENCHMARK: ClassVar[int] = ...
-    COUNTER: ClassVar[int] = ...
-    CPSOLVER: ClassVar[int] = ...
-    DEFAULT: ClassVar[int] = ...
-    EASYCIP: ClassVar[int] = ...
-    FEASIBILITY: ClassVar[int] = ...
-    HARDLP: ClassVar[int] = ...
-    NUMERICS: ClassVar[int] = ...
-    OPTIMALITY: ClassVar[int] = ...
-    PHASEFEAS: ClassVar[int] = ...
-    PHASEIMPROVE: ClassVar[int] = ...
-    PHASEPROOF: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_PARAMSETTING:
-    AGGRESSIVE: ClassVar[int] = ...
-    DEFAULT: ClassVar[int] = ...
-    FAST: ClassVar[int] = ...
-    OFF: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_PRESOLTIMING:
-    EXHAUSTIVE: ClassVar[int] = ...
-    FAST: ClassVar[int] = ...
-    MEDIUM: ClassVar[int] = ...
-    NONE: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_PROPTIMING:
-    AFTERLPLOOP: ClassVar[int] = ...
-    AFTERLPNODE: ClassVar[int] = ...
-    BEFORELP: ClassVar[int] = ...
-    DURINGLPLOOP: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_RESULT:
-    BRANCHED: ClassVar[int] = ...
-    CONSADDED: ClassVar[int] = ...
-    CONSCHANGED: ClassVar[int] = ...
-    CUTOFF: ClassVar[int] = ...
-    DELAYED: ClassVar[int] = ...
-    DIDNOTFIND: ClassVar[int] = ...
-    DIDNOTRUN: ClassVar[int] = ...
-    FEASIBLE: ClassVar[int] = ...
-    FOUNDSOL: ClassVar[int] = ...
-    INFEASIBLE: ClassVar[int] = ...
-    NEWROUND: ClassVar[int] = ...
-    REDUCEDDOM: ClassVar[int] = ...
-    SEPARATED: ClassVar[int] = ...
-    SOLVELP: ClassVar[int] = ...
-    SUCCESS: ClassVar[int] = ...
-    SUSPENDED: ClassVar[int] = ...
-    UNBOUNDED: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_ROWORIGINTYPE:
-    CONS: ClassVar[int] = ...
-    REOPT: ClassVar[int] = ...
-    SEPA: ClassVar[int] = ...
-    UNSPEC: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_SOLORIGIN:
-    LPSOL: ClassVar[int] = ...
-    NLPSOL: ClassVar[int] = ...
-    ORIGINAL: ClassVar[int] = ...
-    PARTIAL: ClassVar[int] = ...
-    PSEUDOSOL: ClassVar[int] = ...
-    RELAXSOL: ClassVar[int] = ...
-    UNKNOWN: ClassVar[int] = ...
-    ZERO: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_STAGE:
-    EXITPRESOLVE: ClassVar[int] = ...
-    EXITSOLVE: ClassVar[int] = ...
-    FREE: ClassVar[int] = ...
-    FREETRANS: ClassVar[int] = ...
-    INIT: ClassVar[int] = ...
-    INITPRESOLVE: ClassVar[int] = ...
-    INITSOLVE: ClassVar[int] = ...
-    PRESOLVED: ClassVar[int] = ...
-    PRESOLVING: ClassVar[int] = ...
-    PROBLEM: ClassVar[int] = ...
-    SOLVED: ClassVar[int] = ...
-    SOLVING: ClassVar[int] = ...
-    TRANSFORMED: ClassVar[int] = ...
-    TRANSFORMING: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class PY_SCIP_STATUS:
-    BESTSOLLIMIT: ClassVar[int] = ...
-    DUALLIMIT: ClassVar[int] = ...
-    GAPLIMIT: ClassVar[int] = ...
-    INFEASIBLE: ClassVar[int] = ...
-    INFORUNBD: ClassVar[int] = ...
-    MEMLIMIT: ClassVar[int] = ...
-    NODELIMIT: ClassVar[int] = ...
-    OPTIMAL: ClassVar[int] = ...
-    PRIMALLIMIT: ClassVar[int] = ...
-    RESTARTLIMIT: ClassVar[int] = ...
-    SOLLIMIT: ClassVar[int] = ...
-    STALLNODELIMIT: ClassVar[int] = ...
-    TIMELIMIT: ClassVar[int] = ...
-    TOTALNODELIMIT: ClassVar[int] = ...
-    UNBOUNDED: ClassVar[int] = ...
-    UNKNOWN: ClassVar[int] = ...
-    USERINTERRUPT: ClassVar[int] = ...
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-
-class Row:
-    data: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getAge(self):
-        """
-        Gets the age of the row. (The consecutive times the row has been non-active in the LP).
-
-        Returns
-        -------
-        int
-
-        """
-    def getBasisStatus(self):
-        """
-        Gets the basis status of a row in the LP solution.
-
-        Returns
-        -------
-        str
-            Possible values are "lower", "basic", and "upper"
-
-        Raises
-        ------
-        Exception
-            If SCIP returns an unknown or "zero" basis status
-
-        Notes
-        -----
-        Returns basis status "basic" for rows not in the current SCIP LP.
-
-        """
-    def getCols(self):
-        """
-        Gets list with columns of nonzero entries
-
-        Returns
-        -------
-        list of Column
-
-        """
-    def getConsOriginConshdlrtype(self):
-        """
-        Returns type of constraint handler that created the row.
-
-        Returns
-        -------
-        str
-
-        """
-    def getConstant(self):
-        """
-        Gets constant shift of row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLPPos(self):
-        """
-        Gets position of row in current LP, or -1 if it is not in LP.
-
-        Returns
-        -------
-        int
-
-        """
-    def getLhs(self):
-        """
-        Returns the left hand side of row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getNLPNonz(self):
-        """
-        Get number of nonzero entries in row vector that correspond to columns currently in the SCIP LP.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNNonz(self):
-        """
-        Get number of nonzero entries in row vector.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNorm(self):
-        """
-        Gets Euclidean norm of row vector.
-
-        Returns
-        -------
-        float
-
-        """
-    def getOrigintype(self):
-        """
-        Returns type of origin that created the row.
-
-        Returns
-        -------
-        PY_SCIP_ROWORIGINTYPE
-
-        """
-    def getRhs(self):
-        """
-        Returns the right hand side of row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getVals(self):
-        """
-        Gets list with coefficients of nonzero entries.
-
-        Returns
-        -------
-        list of int
-
-        """
-    def isInGlobalCutpool(self):
-        """
-        Return TRUE iff row is a member of the global cut pool.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isIntegral(self):
-        """
-        Returns TRUE iff the activity of the row (without the row's constant)
-        is always integral in a feasible solution.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isLocal(self):
-        """
-        Returns TRUE iff the row is only valid locally.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isModifiable(self):
-        """
-        Returns TRUE iff row is modifiable during node processing (subject to column generation).
-
-        Returns
-        -------
-        bool
-
-        """
-    def isRemovable(self):
-        """
-        Returns TRUE iff row is removable from the LP (due to aging or cleanup).
-
-        Returns
-        -------
-        bool
-
-        """
-    @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
-
-class Solution:
-    data: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-    def getOrigin(self):
-        """
-        Returns origin of solution: where to retrieve uncached elements.
-
-        Returns
-        -------
-        PY_SCIP_SOLORIGIN
-        """
-    def retransform(self):
-        """retransforms solution to original problem space"""
-    def translate(self, target):
-        """
-        translate solution to a target model solution
-
-        Parameters
-        ----------
-        target : Model
-
-        Returns
-        -------
-        targetSol: Solution
-        """
-    def __delitem__(self, other) -> None:
-        """Delete self[key]."""
-    def __getitem__(self, index):
-        """Return self[key]."""
-    def __setitem__(self, index, object) -> None:
-        """Set self[key] to value."""
-
 @dataclasses.dataclass
 class Statistics:
     status: str
@@ -6784,135 +6918,8 @@ class Statistics:
     @property
     def n_vars(self): ...
 
-class Variable(Expr):
-    data: Incomplete
-    name: Incomplete
-    def __init__(self) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getAvgSol(self):
-        """
-        Get the weighted average solution of variable in all feasible primal solutions found.
+def readStatistics(filename): ...
+def is_memory_freed(): ...
+def print_memory_in_use(): ...
 
-        Returns
-        -------
-        float
-
-        """
-    def getCol(self) -> Column:
-        """
-        Retrieve column of COLUMN variable.
-
-        Returns
-        -------
-        Column
-
-        """
-    def getIndex(self):
-        """
-        Retrieve the unique index of the variable.
-
-        Returns
-        -------
-        int
-
-        """
-    def getLPSol(self) -> float: ...
-    def getLbGlobal(self):
-        """
-        Retrieve global lower bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLbLocal(self):
-        """
-        Retrieve current lower bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLbOriginal(self):
-        """
-        Retrieve original lower bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getObj(self):
-        """
-        Retrieve current objective value of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getUbGlobal(self):
-        """
-        Retrieve global upper bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getUbLocal(self):
-        """
-        Retrieve current upper bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getUbOriginal(self):
-        """
-        Retrieve original upper bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def isInLP(self) -> bool: ...
-    def isOriginal(self):
-        """
-        Retrieve whether the variable belongs to the original problem
-
-        Returns
-        -------
-        bool
-
-        """
-    def ptr(self):
-        """ """
-    def varMayRound(self, direction=...):
-        """
-        Checks whether it is possible to round variable up / down and stay feasible for the relaxation.
-
-        Parameters
-        ----------
-        direction : str
-            "up" or "down"
-
-        Returns
-        -------
-        bool
-
-        """
-    def vtype(self):
-        """
-        Retrieve the variables type (BINARY, INTEGER, IMPLINT or CONTINUOUS)
-
-        Returns
-        -------
-        str
-            "BINARY", "INTEGER", "CONTINUOUS", or "IMPLINT"
-
-        """
+__test__: dict
