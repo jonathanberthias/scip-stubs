@@ -785,7 +785,7 @@ class PY_SCIP_STATUS:
     UNBOUNDED: L[13]
     INFORUNBD: L[14]
 
-StageNames: dict
+StageNames: dict[int, str]
 
 class PY_SCIP_STAGE:
     INIT: L[0]
@@ -841,7 +841,7 @@ class PY_SCIP_HEURTIMING:
     DURINGPRESOLLOOP: L[0x200]
     AFTERPROPLOOP: L[0x400]
 
-EventNames: dict
+EventNames: dict[int, str]
 
 class PY_SCIP_EVENTTYPE:
     DISABLED: L[0x0]
@@ -939,7 +939,7 @@ class PY_SCIP_SOLORIGIN:
     PARTIAL: L[6]
     UNKNOWN: L[7]
 
-def PY_SCIP_CALL(rc): ...
+def PY_SCIP_CALL(rc: int) -> None: ...
 
 class Event:
     data: Incomplete
