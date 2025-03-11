@@ -1,4 +1,5 @@
 import dataclasses
+from enum import IntEnum
 from typing import (
     Any,
     Generic,
@@ -726,7 +727,7 @@ def str_conversion(x): ...
 
 _SCIP_BOUNDTYPE_TO_STRING: dict[int, str]
 
-class PY_SCIP_RESULT:
+class PY_SCIP_RESULT(IntEnum):
     DIDNOTRUN: L[1]
     DELAYED: L[2]
     DIDNOTFIND: L[3]
@@ -746,13 +747,13 @@ class PY_SCIP_RESULT:
     SUCCESS: L[17]
     DELAYNODE: L[18]
 
-class PY_SCIP_PARAMSETTING:
+class PY_SCIP_PARAMSETTING(IntEnum):
     DEFAULT: L[0]
     AGGRESSIVE: L[1]
     FAST: L[2]
     OFF: L[3]
 
-class PY_SCIP_PARAMEMPHASIS:
+class PY_SCIP_PARAMEMPHASIS(IntEnum):
     DEFAULT: L[0]
     CPSOLVER: L[1]
     EASYCIP: L[2]
@@ -766,7 +767,7 @@ class PY_SCIP_PARAMEMPHASIS:
     NUMERICS: L[10]
     BENCHMARK: L[11]
 
-class PY_SCIP_STATUS:
+class PY_SCIP_STATUS(IntEnum):
     UNKNOWN: L[0]
     USERINTERRUPT: L[1]
     NODELIMIT: L[2]
@@ -787,7 +788,7 @@ class PY_SCIP_STATUS:
 
 StageNames: dict[int, str]
 
-class PY_SCIP_STAGE:
+class PY_SCIP_STAGE(IntEnum):
     INIT: L[0]
     PROBLEM: L[1]
     TRANSFORMING: L[2]
@@ -803,7 +804,7 @@ class PY_SCIP_STAGE:
     FREETRANS: L[12]
     FREE: L[13]
 
-class PY_SCIP_NODETYPE:
+class PY_SCIP_NODETYPE(IntEnum):
     FOCUSNODE: L[0]
     PROBINGNODE: L[1]
     SIBLING: L[2]
@@ -816,19 +817,19 @@ class PY_SCIP_NODETYPE:
     SUBROOT: L[9]
     REFOCUSNODE: L[10]
 
-class PY_SCIP_PROPTIMING:
+class PY_SCIP_PROPTIMING(IntEnum):
     BEFORELP: L[0x1]
     DURINGLPLOOP: L[0x2]
     AFTERLPLOOP: L[0x4]
     AFTERLPNODE: L[0x8]
 
-class PY_SCIP_PRESOLTIMING:
+class PY_SCIP_PRESOLTIMING(IntEnum):
     NONE: L[0x2]
     FAST: L[0x4]
     MEDIUM: L[0x8]
     EXHAUSTIVE: L[0x10]
 
-class PY_SCIP_HEURTIMING:
+class PY_SCIP_HEURTIMING(IntEnum):
     BEFORENODE: L[0x1]
     DURINGLPLOOP: L[0x2]
     AFTERLPLOOP: L[0x4]
@@ -843,7 +844,7 @@ class PY_SCIP_HEURTIMING:
 
 EventNames: dict[int, str]
 
-class PY_SCIP_EVENTTYPE:
+class PY_SCIP_EVENTTYPE(IntEnum):
     DISABLED: L[0x0]
     VARADDED: L[0x1]
     VARDELETED: L[0x2]
@@ -900,7 +901,7 @@ class PY_SCIP_EVENTTYPE:
     ROWCHANGED: L[0x380000000]  # noqa: PYI054
     ROWEVENT: L[0x3F8000000]  # noqa: PYI054
 
-class PY_SCIP_LPSOLSTAT:
+class PY_SCIP_LPSOLSTAT(IntEnum):
     NOTSOLVED: L[0]
     OPTIMAL: L[1]
     INFEASIBLE: L[2]
@@ -910,26 +911,26 @@ class PY_SCIP_LPSOLSTAT:
     TIMELIMIT: L[6]
     ERROR: L[7]
 
-class PY_SCIP_BRANCHDIR:
+class PY_SCIP_BRANCHDIR(IntEnum):
     DOWNWARDS: L[0]
     UPWARDS: L[1]
     FIXED: L[2]
     AUTO: L[3]
 
-class PY_SCIP_BENDERSENFOTYPE:
+class PY_SCIP_BENDERSENFOTYPE(IntEnum):
     LP: L[1]
     RELAX: L[2]
     PSEUDO: L[3]
     CHECK: L[4]
 
-class PY_SCIP_ROWORIGINTYPE:
+class PY_SCIP_ROWORIGINTYPE(IntEnum):
     UNSPEC: L[0]
     CONSHDLR: L[1]
     CONS: L[2]
     SEPA: L[3]
     REOPT: L[4]
 
-class PY_SCIP_SOLORIGIN:
+class PY_SCIP_SOLORIGIN(IntEnum):
     ORIGINAL: L[0]
     ZERO: L[1]
     LPSOL: L[2]
@@ -990,7 +991,7 @@ class Event:
         Row
 
         """
-    def getType(self):
+    def getType(self) -> PY_SCIP_EVENTTYPE:
         """
         Gets type of event.
 

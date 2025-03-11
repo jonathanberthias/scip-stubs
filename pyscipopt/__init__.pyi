@@ -1,19 +1,23 @@
+from typing_extensions import TypeAlias
+
 from pyscipopt.Multidict import multidict as multidict
 from pyscipopt.scip import LP as LP
-from pyscipopt.scip import SCIP_BENDERSENFOTYPE as SCIP_BENDERSENFOTYPE
-from pyscipopt.scip import SCIP_BRANCHDIR as SCIP_BRANCHDIR
-from pyscipopt.scip import SCIP_EVENTTYPE as SCIP_EVENTTYPE
-from pyscipopt.scip import SCIP_HEURTIMING as SCIP_HEURTIMING
-from pyscipopt.scip import SCIP_LPSOLSTAT as SCIP_LPSOLSTAT
-from pyscipopt.scip import SCIP_PARAMEMPHASIS as SCIP_PARAMEMPHASIS
-from pyscipopt.scip import SCIP_PARAMSETTING as SCIP_PARAMSETTING
-from pyscipopt.scip import SCIP_PRESOLTIMING as SCIP_PRESOLTIMING
-from pyscipopt.scip import SCIP_PROPTIMING as SCIP_PROPTIMING
-from pyscipopt.scip import SCIP_RESULT as SCIP_RESULT
-from pyscipopt.scip import SCIP_ROWORIGINTYPE as SCIP_ROWORIGINTYPE
-from pyscipopt.scip import SCIP_SOLORIGIN as SCIP_SOLORIGIN
-from pyscipopt.scip import SCIP_STAGE as SCIP_STAGE
-from pyscipopt.scip import SCIP_STATUS as SCIP_STATUS
+from pyscipopt.scip import (
+    PY_SCIP_BENDERSENFOTYPE,
+    PY_SCIP_BRANCHDIR,
+    PY_SCIP_EVENTTYPE,
+    PY_SCIP_HEURTIMING,
+    PY_SCIP_LPSOLSTAT,
+    PY_SCIP_PARAMEMPHASIS,
+    PY_SCIP_PARAMSETTING,
+    PY_SCIP_PRESOLTIMING,
+    PY_SCIP_PROPTIMING,
+    PY_SCIP_RESULT,
+    PY_SCIP_ROWORIGINTYPE,
+    PY_SCIP_SOLORIGIN,
+    PY_SCIP_STAGE,
+    PY_SCIP_STATUS,
+)
 from pyscipopt.scip import Benders as Benders
 from pyscipopt.scip import Benderscut as Benderscut
 from pyscipopt.scip import Branchrule as Branchrule
@@ -42,3 +46,18 @@ from pyscipopt.scip import sqrt as sqrt
 from . import Multidict as Multidict
 from . import _version as _version
 from . import scip as scip
+
+SCIP_BENDERSENFOTYPE: TypeAlias = PY_SCIP_BENDERSENFOTYPE
+SCIP_BRANCHDIR: TypeAlias = PY_SCIP_BRANCHDIR
+SCIP_EVENTTYPE: TypeAlias = PY_SCIP_EVENTTYPE
+SCIP_HEURTIMING: TypeAlias = PY_SCIP_HEURTIMING
+SCIP_LPSOLSTAT: TypeAlias = PY_SCIP_LPSOLSTAT
+SCIP_PARAMEMPHASIS: TypeAlias = PY_SCIP_PARAMEMPHASIS
+SCIP_PARAMSETTING: TypeAlias = PY_SCIP_PARAMSETTING
+SCIP_PRESOLTIMING: TypeAlias = PY_SCIP_PRESOLTIMING
+SCIP_PROPTIMING: TypeAlias = PY_SCIP_PROPTIMING
+SCIP_RESULT: TypeAlias = PY_SCIP_RESULT
+SCIP_ROWORIGINTYPE: TypeAlias = PY_SCIP_ROWORIGINTYPE
+SCIP_SOLORIGIN: TypeAlias = PY_SCIP_SOLORIGIN
+SCIP_STAGE: TypeAlias = PY_SCIP_STAGE
+SCIP_STATUS: TypeAlias = PY_SCIP_STATUS
