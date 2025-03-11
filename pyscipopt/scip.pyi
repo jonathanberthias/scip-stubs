@@ -718,9 +718,9 @@ class Nodesel:
 # scip.pxi
 ##########
 
-MAJOR: int
-MINOR: int
-PATCH: int
+MAJOR: L[9]
+MINOR: L[2]
+PATCH: L[1]
 
 def str_conversion(x): ...
 
