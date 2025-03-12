@@ -10,4 +10,6 @@ pyscipopt.scip.Column.__init__
 pyscipopt(.scip)?.Expr.__next__
 
 # stubtest thinks these accept *args while they don't
-pyscipopt.scip.(Pow|Prod|Sum)Expr.__init__
+pyscipopt.scip.PowExpr.__init__
+pyscipopt.scip.ProdExpr.__init__
+pyscipopt.scip.SumExpr.__init__
