@@ -943,90 +943,20 @@ class PY_SCIP_SOLORIGIN(IntEnum):
 def PY_SCIP_CALL(rc: int) -> None: ...
 
 class Event:
-    data: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getName(self):
-        """
-        Gets name of event.
-
-        Returns
-        -------
-        str
-
-        """
-    def getNewBound(self):
-        """
-        Gets new bound for a bound change event.
-
-        Returns
-        -------
-        float
-
-        """
-    def getNode(self):
-        """
-        Gets node for a node or LP event.
-
-        Returns
-        -------
-        Node
-
-        """
-    def getOldBound(self):
-        """
-        Gets old bound for a bound change event.
-
-        Returns
-        -------
-        float
-
-        """
-    def getRow(self):
-        """
-        Gets row for a row event.
-
-        Returns
-        -------
-        Row
-
-        """
-    def getType(self) -> PY_SCIP_EVENTTYPE:
-        """
-        Gets type of event.
-
-        Returns
-        -------
-        PY_SCIP_EVENTTYPE
-
-        """
-    def getVar(self):
-        """
-        Gets variable for a variable event (var added, var deleted, var fixed,
-        objective value or domain change, domain hole added or removed).
-
-        Returns
-        -------
-        Variable
-
-        """
+    data: object
+    def getName(self) -> str: ...  # one of the keys of SCIP_EVENTTYPE
+    def getNewBound(self) -> float: ...
+    def getNode(self) -> Node: ...
+    def getOldBound(self) -> float: ...
+    def getRow(self) -> Row: ...
+    def getType(self) -> PY_SCIP_EVENTTYPE: ...
+    def getVar(self) -> Variable: ...
     @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
+    def __eq__(self, other: Event) -> bool: ...
     @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
+    def __ne__(self, other: Event) -> bool: ...
     @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
+    def __hash__(self) -> int: ...
 
 class Column:
     data: object
