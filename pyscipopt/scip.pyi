@@ -951,12 +951,6 @@ class Event:
     def getRow(self) -> Row: ...
     def getType(self) -> PY_SCIP_EVENTTYPE: ...
     def getVar(self) -> Variable: ...
-    @override
-    def __eq__(self, other: Event) -> bool: ...
-    @override
-    def __ne__(self, other: Event) -> bool: ...
-    @override
-    def __hash__(self) -> int: ...
 
 class Column:
     data: object
@@ -970,208 +964,29 @@ class Column:
     def getUb(self) -> float: ...
     def getVar(self) -> Variable: ...
     def isIntegral(self) -> bool: ...
-    @override
-    def __hash__(self) -> int: ...
-    @override
-    def __eq__(self, other: object) -> bool: ...
-    @override
-    def __ne__(self, other: object) -> bool: ...
 
 class Row:
-    data: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getAge(self):
-        """
-        Gets the age of the row. (The consecutive times the row has been non-active in the LP).
-
-        Returns
-        -------
-        int
-
-        """
-    def getBasisStatus(self):
-        """
-        Gets the basis status of a row in the LP solution.
-
-        Returns
-        -------
-        str
-            Possible values are "lower", "basic", and "upper"
-
-        Raises
-        ------
-        Exception
-            If SCIP returns an unknown or "zero" basis status
-
-        Notes
-        -----
-        Returns basis status "basic" for rows not in the current SCIP LP.
-
-        """
-    def getCols(self):
-        """
-        Gets list with columns of nonzero entries
-
-        Returns
-        -------
-        list of Column
-
-        """
-    def getConsOriginConshdlrtype(self):
-        """
-        Returns type of constraint handler that created the row.
-
-        Returns
-        -------
-        str
-
-        """
-    def getConstant(self):
-        """
-        Gets constant shift of row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLPPos(self):
-        """
-        Gets position of row in current LP, or -1 if it is not in LP.
-
-        Returns
-        -------
-        int
-
-        """
-    def getLhs(self):
-        """
-        Returns the left hand side of row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getNLPNonz(self):
-        """
-        Get number of nonzero entries in row vector that correspond to columns currently in the SCIP LP.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNNonz(self):
-        """
-        Get number of nonzero entries in row vector.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNorm(self):
-        """
-        Gets Euclidean norm of row vector.
-
-        Returns
-        -------
-        float
-
-        """
-    def getOrigintype(self):
-        """
-        Returns type of origin that created the row.
-
-        Returns
-        -------
-        PY_SCIP_ROWORIGINTYPE
-
-        """
-    def getRhs(self):
-        """
-        Returns the right hand side of row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getVals(self):
-        """
-        Gets list with coefficients of nonzero entries.
-
-        Returns
-        -------
-        list of int
-
-        """
-    def isInGlobalCutpool(self):
-        """
-        Return TRUE iff row is a member of the global cut pool.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isIntegral(self):
-        """
-        Returns TRUE iff the activity of the row (without the row's constant)
-        is always integral in a feasible solution.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isLocal(self):
-        """
-        Returns TRUE iff the row is only valid locally.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isModifiable(self):
-        """
-        Returns TRUE iff row is modifiable during node processing (subject to column generation).
-
-        Returns
-        -------
-        bool
-
-        """
-    def isRemovable(self):
-        """
-        Returns TRUE iff row is removable from the LP (due to aging or cleanup).
-
-        Returns
-        -------
-        bool
-
-        """
-    @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
+    data: object
+    @property
+    def name(self) -> str: ...
+    def getLhs(self) -> float: ...
+    def getRhs(self) -> float: ...
+    def getConstant(self) -> float: ...
+    def getLPPos(self) -> int: ...
+    def getBasisStatus(self) -> L["lower", "basic", "upper"]: ...
+    def isIntegral(self) -> bool: ...
+    def isLocal(self) -> bool: ...
+    def isModifiable(self) -> bool: ...
+    def isRemovable(self) -> bool: ...
+    def isInGlobalCutpool(self) -> bool: ...
+    def getOrigintype(self) -> PY_SCIP_ROWORIGINTYPE: ...
+    def getConsOriginConshdlrtype(self) -> str: ...
+    def getNNonz(self) -> int: ...
+    def getNLPNonz(self) -> int: ...
+    def getCols(self) -> list[Column]: ...
+    def getVals(self) -> list[float]: ...
+    def getAge(self) -> int: ...
+    def getNorm(self) -> float: ...
 
 class NLRow:
     data: Incomplete
