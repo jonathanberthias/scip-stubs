@@ -989,72 +989,14 @@ class Row:
     def getNorm(self) -> float: ...
 
 class NLRow:
-    data: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getConstant(self):
-        """
-        Returns the constant of a nonlinear row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getDualsol(self):
-        """
-        Gets the dual NLP solution of a nonlinear row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLhs(self):
-        """
-        Returns the left hand side of a nonlinear row.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLinearTerms(self):
-        """
-        Returns a list of tuples (var, coef) representing the linear part of a nonlinear row.
-
-        Returns
-        -------
-        list of tuple
-
-        """
-    def getRhs(self):
-        """
-        Returns the right hand side of a nonlinear row.
-
-        Returns
-        -------
-        float
-
-        """
-    @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
+    data: object
+    @property
+    def name(self) -> str: ...
+    def getConstant(self) -> float: ...
+    def getDualsol(self) -> float: ...
+    def getLhs(self) -> float: ...
+    def getLinearTerms(self) -> list[tuple[Variable, float]]: ...
+    def getRhs(self) -> float: ...
 
 class Solution:
     data: Incomplete
