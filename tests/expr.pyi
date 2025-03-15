@@ -1,6 +1,6 @@
 from collections.abc import Iterator
 from decimal import Decimal
-from typing import Literal
+from typing import Any, Literal
 
 from typing_extensions import Literal as L
 from typing_extensions import assert_type
@@ -52,31 +52,31 @@ assert_type(buildGenExprObj(ProdExpr()), GenExpr[L["prod"]])
 assert_type(buildGenExprObj(UnaryExpr(Operator.fabs, g)), GenExpr[L["abs"]])
 assert_type(buildGenExprObj(VarExpr(x)), GenExpr[L["var"]])
 
-buildGenExprObj()  # pyright: ignore[reportCallIssue]
-buildGenExprObj(1j)  # pyright: ignore[reportArgumentType, reportCallIssue]
+buildGenExprObj()  # type: ignore[call-overload] # pyright: ignore[reportCallIssue]
+buildGenExprObj(1j)  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
 
 # works at runtime
-buildGenExprObj("1.0")  # pyright: ignore[reportArgumentType, reportCallIssue]
+buildGenExprObj("1.0")  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
 
 # Term.__init__
 assert_type(Term(x), Term)
 assert_type(Term(x, y), Term)
-Term(e)  # pyright: ignore[reportArgumentType]
-Term(1)  # pyright: ignore[reportArgumentType]
-Term((x, y))  # pyright: ignore[reportArgumentType]
+Term(e)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
+Term(1)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
+Term((x, y))  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
 
 t: Term
 # Term.__getitem__
 assert_type(t[0], Variable)
-t[x]  # pyright:ignore[reportArgumentType]
+t[x]  # type: ignore[index] # pyright:ignore[reportArgumentType]
 
 # Term.__hash__
 assert_type(hash(t), int)
 
 # Term.__add__
 assert_type(t + t, Term)
-t + x  # pyright: ignore[reportOperatorIssue]
-t + e  # pyright: ignore[reportOperatorIssue]
+t + x  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+t + e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # Expr.__init__
 assert_type(Expr(), Expr)
@@ -89,18 +89,18 @@ assert_type(e[x], float)
 assert_type(e[Term(x)], float)
 assert_type(e[Term(x, y)], float)
 
-e[0]  # pyright: ignore[reportArgumentType, reportCallIssue]
-e[x,]  # pyright: ignore[reportArgumentType, reportCallIssue]
-e[x, y]  # pyright: ignore[reportArgumentType, reportCallIssue]
-e[e]  # pyright: ignore[reportArgumentType, reportCallIssue]
+e[0]  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
+e[x,]  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
+e[x, y]  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
+e[e]  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
 
 # Expr.__iter__
 assert_type(iter(e), Iterator[Term])
 # __next__ is defined but doesn't work, so let's make sure it gets flagged
-next(e)  # pyright: ignore[reportArgumentType]
+next(e)  # type: ignore[call-overload] # pyright: ignore[reportArgumentType]
 
 # Expr.__abs__
-assert_type(abs(e), UnaryExpr)
+assert_type(abs(e), UnaryExpr[L["abs"]])
 
 # Expr.__(r)add__
 assert_type(e + e, Expr)
@@ -115,9 +115,9 @@ assert_type(1 + x, Expr)
 assert_type(e + g, SumExpr)
 assert_type(e + PowExpr(), SumExpr)
 
-e + 1j  # pyright: ignore[reportOperatorIssue]
-e + "1"  # pyright: ignore[reportOperatorIssue]
-"1" + e  # pyright: ignore[reportOperatorIssue]
+e + 1j  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+e + "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+"1" + e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # Expr.__iadd__
 e1: Expr
@@ -135,8 +135,8 @@ assert_type(e2, Expr)
 # assign the result back to e3
 assert_type(e3.__iadd__(g), SumExpr)
 
-e4 += "1"  # pyright: ignore[reportOperatorIssue]
-e5 += 1j  # pyright: ignore[reportOperatorIssue]
+e4 += "1"  # type: ignore[call-overload] # pyright: ignore[reportOperatorIssue]
+e5 += 1j  # type: ignore[call-overload] # pyright: ignore[reportOperatorIssue]
 
 # Expr.__(r)mul__
 assert_type(e * 1, Expr)
@@ -147,8 +147,8 @@ assert_type(e * e, Expr)
 
 assert_type(e * g, ProdExpr)
 
-e * "1"  # pyright: ignore[reportOperatorIssue]
-"1" * e  # pyright: ignore[reportOperatorIssue]
+e * "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+"1" * e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # Expr.__(r)truediv__
 assert_type(e / 2, Expr)
@@ -156,11 +156,11 @@ assert_type(2 / e, Expr)
 assert_type(e / e, ProdExpr)
 assert_type(e / g, ProdExpr)
 
-e / "2"  # pyright: ignore[reportOperatorIssue]
-"2" / e  # pyright: ignore[reportOperatorIssue]
+e / "2"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+"2" / e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
-e // 2  # pyright: ignore[reportOperatorIssue]
-2 // e  # pyright: ignore[reportOperatorIssue]
+e // 2  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+2 // e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # Expr.__pow__
 assert_type(e**0, Expr | Literal[1] | PowExpr)  # actually returns Literal[1]
@@ -169,8 +169,8 @@ assert_type(e**1.5, Expr | Literal[1] | PowExpr)  # actually returns PowExpr
 assert_type(e**d, Expr | Literal[1] | PowExpr)
 assert_type(e**-1, Expr | Literal[1] | PowExpr)  # actually returns PowExpr
 
-e**e  # pyright: ignore[reportOperatorIssue]
-e ** "a"  # pyright: ignore[reportOperatorIssue]
+e**e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+e ** "a"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # Expr.__neg__
 assert_type(-e, Expr)
@@ -201,11 +201,11 @@ assert_type(e == g, ExprCons)
 assert_type(e == 1, ExprCons)
 assert_type(e == d, ExprCons)
 
-e < 1  # pyright: ignore[reportOperatorIssue]
-e > 1  # pyright: ignore[reportOperatorIssue]
+e < 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+e > 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 e != 1  # FIXME: this should be an error
-e <= "1"  # pyright: ignore[reportOperatorIssue]
-e >= "1"  # pyright: ignore[reportOperatorIssue]
+e <= "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+e >= "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 e == "1"  # FIXME: this should be an error
 
 # ExprCons.__init__
@@ -215,11 +215,11 @@ ExprCons(e, 0)
 ExprCons(expr=g, lhs=1, rhs=None)
 ExprCons(e, lhs=None, rhs=1)
 
-ExprCons()  # pyright: ignore[reportCallIssue]
-ExprCons(e, 1, 2, 3)  # pyright: ignore[reportCallIssue]
-ExprCons(e, None, None)  # pyright: ignore[reportArgumentType, reportCallIssue]
-ExprCons(e, e)  # pyright: ignore[reportArgumentType, reportCallIssue]
-ExprCons(e, d)  # pyright: ignore[reportArgumentType, reportCallIssue]
+ExprCons()  # type: ignore[call-overload] # pyright: ignore[reportCallIssue]
+ExprCons(e, 1, 2, 3)  # type: ignore[call-overload] # pyright: ignore[reportCallIssue]
+ExprCons(e, None, None)  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
+ExprCons(e, e)  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
+ExprCons(e, d)  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
 
 # ExprCons comparisons
 ec: ExprCons
@@ -233,10 +233,10 @@ assert_type(ec <= d, ExprCons)
 assert_type(ec >= 1, ExprCons)
 assert_type(ec >= d, ExprCons)
 
-ec <= e  # pyright: ignore[reportOperatorIssue]
-ec >= e  # pyright: ignore[reportOperatorIssue]
-ec < 1  # pyright: ignore[reportOperatorIssue]
-ec > 1  # pyright: ignore[reportOperatorIssue]
+ec <= e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+ec >= e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+ec < 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+ec > 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 ec == 1  # FIXME: this should be an error
 
 # Expr.__bool__
@@ -262,7 +262,7 @@ assert_type(quickprod([d]), Expr)
 assert_type(quickprod([1, d, e, g]), ProdExpr)
 
 # GenExpr.__abs__
-assert_type(abs(g), UnaryExpr)
+assert_type(abs(g), UnaryExpr[L["abs"]])
 
 # GenExpr.__add__
 assert_type(g + 1, SumExpr)
@@ -270,7 +270,7 @@ assert_type(g + e, SumExpr)
 assert_type(g + g, SumExpr)
 
 # this fails at runtime, maybe a bug?
-g + d  # pyright: ignore[reportOperatorIssue]
+g + d  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # GenExpr.__mul__
 assert_type(g * 2, ProdExpr)
@@ -278,15 +278,15 @@ assert_type(g * e, ProdExpr)
 assert_type(g * g, ProdExpr)
 
 # this fails at runtime, maybe a bug?
-g * d  # pyright: ignore[reportOperatorIssue]
+g * d  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # GenExpr.__pow__
 assert_type(g**0, PowExpr)
 assert_type(g**1.5, PowExpr)
 assert_type(g**d, PowExpr)
 
-g**e  # pyright: ignore[reportOperatorIssue]
-g**g  # pyright: ignore[reportOperatorIssue]
+g**e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+g**g  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # GenExpr.__truediv__
 assert_type(g / 1, ProdExpr)
@@ -294,7 +294,7 @@ assert_type(g / e, ProdExpr)
 assert_type(g / g, ProdExpr)
 
 # this fails at runtime, maybe a bug?
-g / d  # pyright: ignore[reportOperatorIssue]
+g / d  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # GenExpr.__rtruediv__
 assert_type(1 / g, ProdExpr)
@@ -308,28 +308,28 @@ assert_type(g - e, SumExpr)
 assert_type(g - g, SumExpr)
 
 # this fails at runtime, maybe a bug?
-g - d  # pyright: ignore[reportOperatorIssue]
+g - d  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # GenExpr.__radd__
 assert_type(1 + g, SumExpr)
 assert_type(1.5 + g, SumExpr)
 
 # this fails at runtime, maybe a bug?
-d + g  # pyright: ignore[reportOperatorIssue]
+d + g  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # GenExpr.__rmul__
 assert_type(1 * g, SumExpr)
 assert_type(1.5 * g, SumExpr)
 
 # this fails at runtime, maybe a bug?
-d * g  # pyright: ignore[reportOperatorIssue]
+d * g  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # GenExpr.__rsub__
 assert_type(1 - g, SumExpr)
 assert_type(1.5 - g, SumExpr)
 
 # this fails at runtime, maybe a bug?
-d - g  # pyright: ignore[reportOperatorIssue]
+d - g  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # GenExpr comparisons
 assert_type(g <= g, ExprCons)
@@ -347,11 +347,11 @@ assert_type(g == e, ExprCons)
 assert_type(g == 1, ExprCons)
 assert_type(g == d, ExprCons)
 
-g < 1  # pyright: ignore[reportOperatorIssue]
-g > 1  # pyright: ignore[reportOperatorIssue]
+g < 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+g > 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 g != 1  # FIXME: this should be an error
-g <= "1"  # pyright: ignore[reportOperatorIssue]
-g >= "1"  # pyright: ignore[reportOperatorIssue]
+g <= "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+g >= "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 g == "1"  # FIXME: this should be an error
 
 # Other GenExpr methods
@@ -360,7 +360,7 @@ assert_type(g.getOp(), L["+"])
 
 # SumExpr
 assert_type(SumExpr(), SumExpr)
-SumExpr(e)  # pyright: ignore[reportCallIssue]
+SumExpr(e)  # type: ignore[call-arg] # pyright: ignore[reportCallIssue]
 
 assert_type(SumExpr().constant, float)
 assert_type(SumExpr().coefs, list[float])
@@ -368,22 +368,22 @@ assert_type(SumExpr().getOp(), Literal["sum"])
 
 # ProdExpr
 assert_type(ProdExpr(), ProdExpr)
-ProdExpr(e)  # pyright: ignore[reportCallIssue]
+ProdExpr(e)  # type: ignore[call-arg] # pyright: ignore[reportCallIssue]
 assert_type(ProdExpr().constant, float)
 assert_type(ProdExpr().getOp(), Literal["prod"])
 
 # VarExpr
 assert_type(VarExpr(x), VarExpr)
 assert_type(VarExpr(var=x), VarExpr)
-VarExpr()  # pyright: ignore[reportCallIssue]
-VarExpr(e)  # pyright: ignore[reportArgumentType]
+VarExpr()  # type: ignore[call-arg] # pyright: ignore[reportCallIssue]
+VarExpr(e)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
 
 assert_type(VarExpr(x).children, list[Variable])
 assert_type(VarExpr(x).getOp(), Literal["var"])
 
 # PowExpr
 assert_type(PowExpr(), PowExpr)
-PowExpr(1)  # pyright: ignore[reportCallIssue]
+PowExpr(1)  # type: ignore[call-arg] # pyright: ignore[reportCallIssue]
 
 assert_type(PowExpr().expo, float)
 assert_type(PowExpr().getOp(), Literal["**"])
@@ -404,11 +404,11 @@ assert_type(UnaryExpr(op="sin", expr=g), UnaryExpr[L["sin"]])
 assert_type(UnaryExpr(op="cos", expr=g), UnaryExpr[L["cos"]])
 assert_type(UnaryExpr(op="abs", expr=g), UnaryExpr[L["abs"]])
 
-UnaryExpr()  # pyright: ignore[reportCallIssue]
-UnaryExpr(op="invalid", expr=g)  # pyright: ignore[reportArgumentType]
-UnaryExpr(Operator.prod, g)  # pyright: ignore[reportArgumentType]
-UnaryExpr(Operator.exp, 1)  # pyright: ignore[reportArgumentType]
-UnaryExpr(Operator.exp, e)  # pyright: ignore[reportArgumentType]
+UnaryExpr()  # type: ignore[call-arg] # pyright: ignore[reportCallIssue]
+UnaryExpr(op="invalid", expr=g)  # type: ignore[type-var] # pyright: ignore[reportArgumentType]
+UnaryExpr(Operator.prod, g)  # type: ignore[type-var] # pyright: ignore[reportArgumentType]
+UnaryExpr(Operator.exp, 1)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
+UnaryExpr(Operator.exp, e)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
 
 assert_type(UnaryExpr(Operator.exp, g).getOp(), L["exp"])
 assert_type(UnaryExpr(Operator.log, g).getOp(), L["log"])
@@ -417,15 +417,15 @@ assert_type(UnaryExpr(Operator.sin, g).getOp(), L["sin"])
 assert_type(UnaryExpr(Operator.cos, g).getOp(), L["cos"])
 assert_type(UnaryExpr(Operator.fabs, g).getOp(), L["abs"])
 
-assert_type(UnaryExpr(Operator.exp, g).children, list[GenExpr])
+assert_type(UnaryExpr(Operator.exp, g).children, list[GenExpr[Any]])
 
 # Constant
 assert_type(Constant(1), Constant)
 assert_type(Constant(number=1.5), Constant)
-Constant()  # pyright: ignore[reportCallIssue]
-Constant(e)  # pyright: ignore[reportArgumentType]
+Constant()  # type: ignore[call-arg] # pyright: ignore[reportCallIssue]
+Constant(e)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
 # allowed at runtime, but any operation with it will fail
-Constant(d)  # pyright: ignore[reportArgumentType]
+Constant(d)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]
 
 assert_type(Constant(1).number, float)
 assert_type(Constant(1).getOp(), Literal["const"])
@@ -449,4 +449,4 @@ assert_type(scip.cos(g), UnaryExpr[L["cos"]])
 
 # Misc
 expr_to_nodes(g)
-expr_to_nodes(e)  # pyright: ignore[reportArgumentType]
+expr_to_nodes(e)  # type: ignore[arg-type] # pyright: ignore[reportArgumentType]

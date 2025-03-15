@@ -30,6 +30,7 @@ dev = [
 [tool.pyright]
 pythonVersion = "3.8"
 typeCheckingMode = "basic"
+enableTypeIgnoreComments = false
 reportIgnoreCommentWithoutRule = true
 reportIncompatibleMethodOverride = false
 reportInvalidStubStatement = false
@@ -38,7 +39,8 @@ reportUnusedExpression = false
 reportImplicitOverride = true
 
 [tool.mypy]
-ignore_errors = true
+disallow_any_explicit = false
+disable_error_code = "comparison-overlap,misc"
 
 [tool.ruff]
 show-fixes = true
