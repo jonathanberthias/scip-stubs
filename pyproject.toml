@@ -40,7 +40,7 @@ reportImplicitOverride = true
 
 [tool.mypy]
 disallow_any_explicit = false
-disable_error_code = "comparison-overlap,misc"
+disable_error_code = "comparison-overlap"
 
 [tool.ruff]
 show-fixes = true
