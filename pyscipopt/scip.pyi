@@ -21,6 +21,7 @@ _VTypes: TypeAlias = L[
     "I", "INTEGER",
     "M", "IMPLINT"
 ]  # fmt: skip
+_VTypesLong: TypeAlias = L["CONTINUOUS", "BINARY", "INTEGER", "IMPLINT"]
 
 ##########
 # expr.pxi
@@ -1036,137 +1037,25 @@ class Node:
     def getDomchg(self) -> DomainChanges | None: ...
 
 class Variable(Expr):
-    data: Incomplete
-    name: Incomplete
-    def __init__(self) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getAvgSol(self):
-        """
-        Get the weighted average solution of variable in all feasible primal solutions found.
-
-        Returns
-        -------
-        float
-
-        """
-    def getCol(self) -> Column:
-        """
-        Retrieve column of COLUMN variable.
-
-        Returns
-        -------
-        Column
-
-        """
-    def getIndex(self):
-        """
-        Retrieve the unique index of the variable.
-
-        Returns
-        -------
-        int
-
-        """
-    def getLPSol(self) -> float: ...
-    def getLbGlobal(self):
-        """
-        Retrieve global lower bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLbLocal(self):
-        """
-        Retrieve current lower bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLbOriginal(self):
-        """
-        Retrieve original lower bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getObj(self):
-        """
-        Retrieve current objective value of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getUbGlobal(self):
-        """
-        Retrieve global upper bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getUbLocal(self):
-        """
-        Retrieve current upper bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
-    def getUbOriginal(self):
-        """
-        Retrieve original upper bound of variable.
-
-        Returns
-        -------
-        float
-
-        """
+    data: object
+    @property
+    def name(self) -> str: ...
+    def ptr(self) -> int: ...
+    def vtype(self) -> _VTypesLong: ...
+    def isOriginal(self) -> bool: ...
     def isInLP(self) -> bool: ...
-    def isOriginal(self):
-        """
-        Retrieve whether the variable belongs to the original problem
-
-        Returns
-        -------
-        bool
-
-        """
-    def ptr(self):
-        """ """
-    def varMayRound(self, direction=...):
-        """
-        Checks whether it is possible to round variable up / down and stay feasible for the relaxation.
-
-        Parameters
-        ----------
-        direction : str
-            "up" or "down"
-
-        Returns
-        -------
-        bool
-
-        """
-    def vtype(self):
-        """
-        Retrieve the variables type (BINARY, INTEGER, IMPLINT or CONTINUOUS)
-
-        Returns
-        -------
-        str
-            "BINARY", "INTEGER", "CONTINUOUS", or "IMPLINT"
-
-        """
+    def getIndex(self) -> int: ...
+    def getCol(self) -> Column: ...
+    def getLbOriginal(self) -> float: ...
+    def getUbOriginal(self) -> float: ...
+    def getLbGlobal(self) -> float: ...
+    def getUbGlobal(self) -> float: ...
+    def getLbLocal(self) -> float: ...
+    def getUbLocal(self) -> float: ...
+    def getObj(self) -> float: ...
+    def getLPSol(self) -> float: ...
+    def getAvgSol(self) -> float: ...
+    def varMayRound(self, direction: L["down", "up"] = "down") -> bool: ...
 
 class Constraint:
     data: Incomplete
