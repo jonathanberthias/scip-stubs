@@ -995,37 +995,13 @@ class NLRow:
     def getRhs(self) -> float: ...
 
 class Solution:
-    data: Incomplete
-    def __init__(self, *args) -> None:
-        """Initialize self.  See help(type(self)) for accurate signature."""
-    def getOrigin(self):
-        """
-        Returns origin of solution: where to retrieve uncached elements.
-
-        Returns
-        -------
-        PY_SCIP_SOLORIGIN
-        """
-    def retransform(self):
-        """retransforms solution to original problem space"""
-    def translate(self, target):
-        """
-        translate solution to a target model solution
-
-        Parameters
-        ----------
-        target : Model
-
-        Returns
-        -------
-        targetSol: Solution
-        """
-    def __delitem__(self, other) -> None:
-        """Delete self[key]."""
-    def __getitem__(self, index):
-        """Return self[key]."""
-    def __setitem__(self, index, object) -> None:
-        """Set self[key] to value."""
+    data: object
+    def __init__(self, raise_error: bool = False) -> None: ...
+    def getOrigin(self) -> PY_SCIP_SOLORIGIN: ...
+    def retransform(self) -> None: ...
+    def translate(self, target: Model) -> Solution: ...
+    def __getitem__(self, /, expr: Expr) -> float: ...
+    def __setitem__(self, /, var: Variable, value: float) -> None: ...
 
 class BoundChange:
     def __init__(self, *args) -> None:
