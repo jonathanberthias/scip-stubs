@@ -72,6 +72,7 @@ t[x]  # type: ignore[index] # pyright:ignore[reportArgumentType]
 
 # Term.__hash__
 assert_type(hash(t), int)
+assert_type({t}, set[Term])
 
 # Term.__add__
 assert_type(t + t, Term)
@@ -207,6 +208,9 @@ e != 1  # FIXME: this should be an error
 e <= "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 e >= "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 e == "1"  # FIXME: this should be an error
+
+# Expr is not hashable
+{e}  # type: ignore[arg-type] # pyright: ignore[reportUnhashable]
 
 # ExprCons.__init__
 ExprCons(e)
