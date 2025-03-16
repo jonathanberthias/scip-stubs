@@ -1004,68 +1004,16 @@ class Solution:
     def __setitem__(self, /, var: Variable, value: float) -> None: ...
 
 class BoundChange:
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getBoundchgtype(self):
-        """
-        Returns the bound change type of the bound change.
-
-        Returns
-        -------
-        int
-            (0 = branching, 1 = consinfer, 2 = propinfer)
-
-        """
-    def getBoundtype(self):
-        """
-        Returns the bound type of the bound change.
-
-        Returns
-        -------
-        int
-            (0 = lower, 1 = upper)
-
-        """
-    def getNewBound(self):
-        """
-        Returns the new value of the bound in the bound change.
-
-        Returns
-        -------
-        float
-
-        """
-    def getVar(self):
-        """
-        Returns the variable of the bound change.
-
-        Returns
-        -------
-        Variable
-
-        """
-    def isRedundant(self):
-        """
-        Returns whether the bound change is redundant due to a more global bound that is at least as strong.
-
-        Returns
-        -------
-        bool
-
-        """
+    # TODO: enum? (0 = branching, 1 = consinfer, 2 = propinfer)
+    def getBoundchgtype(self) -> int: ...
+    # TODO: enum? (0 = lower, 1 = upper)
+    def getBoundtype(self) -> int: ...
+    def getNewBound(self) -> float: ...
+    def getVar(self) -> Variable: ...
+    def isRedundant(self) -> bool: ...
 
 class DomainChanges:
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getBoundchgs(self):
-        """
-        Returns the bound changes in the domain change.
-
-        Returns
-        -------
-        list of BoundChange
-
-        """
+    def getBoundchgs(self) -> list[BoundChange]: ...
 
 class Node:
     data: Incomplete
