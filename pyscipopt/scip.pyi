@@ -468,8 +468,6 @@ class Conshdlr:
 
 class Cutsel:
     model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
     def cutselexit(self):
         """executed before the transformed problem is freed"""
     def cutselexitsol(self):
@@ -480,7 +478,13 @@ class Cutsel:
         """executed after the problem is transformed. use this call to initialize cut selector data."""
     def cutselinitsol(self):
         """executed when the presolving is finished and the branch-and-bound process is about to begin"""
-    def cutselselect(self, cuts, forcedcuts, root, maxnselectedcuts):
+    def cutselselect(
+        self,
+        cuts: Incomplete,
+        forcedcuts: Incomplete,
+        root: Incomplete,
+        maxnselectedcuts: Incomplete,
+    ):
         """first method called in each iteration in the main solving loop."""
 
 ###########
@@ -490,13 +494,11 @@ class Cutsel:
 class Eventhdlr:
     model: Incomplete
     name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
     def eventcopy(self):
         """sets copy callback for all events of this event handler"""
     def eventdelete(self):
         """sets callback to free specific event data"""
-    def eventexec(self, event):
+    def eventexec(self, event: Incomplete):
         """calls execution method of event handler"""
     def eventexit(self):
         """calls exit method of event handler"""
@@ -516,9 +518,7 @@ class Eventhdlr:
 class Heur:
     model: Incomplete
     name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def heurexec(self, heurtiming, nodeinfeasible):
+    def heurexec(self, heurtiming: Incomplete, nodeinfeasible: Incomplete):
         """should the heuristic the executed at the given depth, frequency, timing,..."""
     def heurexit(self):
         """calls exit method of primal heuristic"""
@@ -537,9 +537,7 @@ class Heur:
 
 class Presol:
     model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def presolexec(self, nrounds, presoltiming):
+    def presolexec(self, nrounds: Incomplete, presoltiming: Incomplete):
         """executes presolver"""
     def presolexit(self):
         """deinitializes presolver"""
@@ -558,8 +556,6 @@ class Presol:
 
 class Pricer:
     model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
     def pricerexit(self):
         """calls exit method of variable pricer"""
     def pricerexitsol(self):
@@ -581,15 +577,13 @@ class Pricer:
 
 class Prop:
     model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def propexec(self, proptiming):
+    def propexec(self, proptiming: Incomplete):
         """calls execution method of propagator"""
     def propexit(self):
         """calls exit method of propagator"""
     def propexitpre(self):
         """informs propagator that the presolving process is finished"""
-    def propexitsol(self, restart):
+    def propexitsol(self, restart: Incomplete):
         """informs propagator that the prop and bound process data is being freed"""
     def propfree(self):
         """calls destructor and frees memory of propagator"""
@@ -599,9 +593,17 @@ class Prop:
         """informs propagator that the presolving process is being started"""
     def propinitsol(self):
         """informs propagator that the prop and bound process is being started"""
-    def proppresol(self, nrounds, presoltiming, result_dict):
+    def proppresol(
+        self, nrounds: Incomplete, presoltiming: Incomplete, result_dict: Incomplete
+    ):
         """executes presolving method of propagator"""
-    def propresprop(self, confvar, inferinfo, bdtype, relaxedbd):
+    def propresprop(
+        self,
+        confvar: Incomplete,
+        inferinfo: Incomplete,
+        bdtype: Incomplete,
+        relaxedbd: Incomplete,
+    ):
         """resolves the given conflicting bound, that was reduced by the given propagator"""
 
 ##########
@@ -611,11 +613,9 @@ class Prop:
 class Sepa:
     model: Incomplete
     name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
     def sepaexeclp(self):
         """calls LP separation method of separator"""
-    def sepaexecsol(self, solution):
+    def sepaexecsol(self, solution: Incomplete):
         """calls primal solution separation method of separator"""
     def sepaexit(self):
         """calls exit method of separator"""
@@ -635,30 +635,28 @@ class Sepa:
 class Reader:
     model: Incomplete
     name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
     def readerfree(self):
         """calls destructor and frees memory of reader"""
-    def readerread(self, filename):
+    def readerread(self, filename: Incomplete):
         """calls read method of reader"""
     def readerwrite(
         self,
-        file,
-        name,
-        transformed,
-        objsense,
-        objscale,
-        objoffset,
-        binvars,
-        intvars,
-        implvars,
-        contvars,
-        fixedvars,
-        startnvars,
-        conss,
-        maxnconss,
-        startnconss,
-        genericnames,
+        file: Incomplete,
+        name: Incomplete,
+        transformed: Incomplete,
+        objsense: Incomplete,
+        objscale: Incomplete,
+        objoffset: Incomplete,
+        binvars: Incomplete,
+        intvars: Incomplete,
+        implvars: Incomplete,
+        contvars: Incomplete,
+        fixedvars: Incomplete,
+        startnvars: Incomplete,
+        conss: Incomplete,
+        maxnconss: Incomplete,
+        startnconss: Incomplete,
+        genericnames: Incomplete,
     ):
         """calls write method of reader"""
 
@@ -669,8 +667,6 @@ class Reader:
 class Relax:
     model: Incomplete
     name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
     def relaxexec(self):
         """callls execution method of relaxation handler"""
     def relaxexit(self):
@@ -690,9 +686,7 @@ class Relax:
 
 class Nodesel:
     model: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def nodecomp(self, node1, node2):
+    def nodecomp(self, node1: Incomplete, node2: Incomplete):
         """
         compare two leaves of the current branching tree
 
@@ -723,7 +717,7 @@ MAJOR: L[9]
 MINOR: L[2]
 PATCH: L[1]
 
-def str_conversion(x): ...
+def str_conversion(x: str) -> bytes: ...
 
 _SCIP_BOUNDTYPE_TO_STRING: dict[int, str]
 
@@ -6132,7 +6126,7 @@ class Statistics:
     @property
     def n_vars(self) -> int: ...
 
-def readStatistics(filename: os.PathLike) -> Statistics: ...
+def readStatistics(filename: os.PathLike[Any]) -> Statistics: ...
 def is_memory_freed() -> bool: ...
 def print_memory_in_use() -> None: ...
 
