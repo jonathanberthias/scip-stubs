@@ -1016,156 +1016,24 @@ class DomainChanges:
     def getBoundchgs(self) -> list[BoundChange]: ...
 
 class Node:
-    data: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getAddedConss(self):
-        """
-        Retrieve all constraints added at this node.
-
-        Returns
-        -------
-        list of Constraint
-
-        """
-    def getDepth(self):
-        """
-        Retrieve depth of node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getDomchg(self):
-        """
-        Retrieve domain changes for this node.
-
-        Returns
-        -------
-        DomainChanges
-
-        """
-    def getEstimate(self):
-        """
-        Retrieve the estimated value of the best feasible solution in subtree of the node.
-
-        Returns
-        -------
-        float
-
-        """
-    def getLowerbound(self):
-        """
-        Retrieve lower bound of node.
-
-        Returns
-        -------
-        float
-
-        """
-    def getNAddedConss(self):
-        """
-        Retrieve number of added constraints at this node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNDomchg(self):
-        """
-        Retrieve the number of bound changes due to branching, constraint propagation, and propagation.
-
-        Returns
-        -------
-        nbranchings : int
-        nconsprop : int
-        nprop : int
-
-        """
-    def getNParentBranchings(self):
-        """
-        Retrieve the number of variable branchings that were performed in the parent node to create this node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNumber(self):
-        """
-        Retrieve number of node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getParent(self):
-        """
-        Retrieve parent node (or None if the node has no parent node).
-
-        Returns
-        -------
-        Node
-
-        """
-    def getParentBranchings(self):
-        """
-        Retrieve the set of variable branchings that were performed in the parent node to create this node.
-
-        Returns
-        -------
-        list of Variable
-        list of float
-        list of int
-
-        """
-    def getType(self):
-        """
-        Retrieve type of node.
-
-        Returns
-        -------
-        PY_SCIP_NODETYPE
-
-        """
-    def isActive(self):
-        """
-        Is the node in the path to the current node?
-
-        Returns
-        -------
-        bool
-
-        """
-    def isPropagatedAgain(self):
-        """
-        Is the node marked to be propagated again?
-
-        Returns
-        -------
-        bool
-
-        """
-    @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
+    data: object
+    def getParent(self) -> Node | None: ...
+    def getNumber(self) -> int: ...
+    def getDepth(self) -> int: ...
+    def getType(self) -> PY_SCIP_NODETYPE: ...
+    def getLowerbound(self) -> float: ...
+    def getEstimate(self) -> float: ...
+    def getAddedConss(self) -> list[Constraint]: ...
+    def getNAddedConss(self) -> int: ...
+    def isActive(self) -> bool: ...
+    def isPropagatedAgain(self) -> bool: ...
+    def getNParentBranchings(self) -> int: ...
+    # TODO: the ints are SCIP_BOUNDTYPEs
+    def getParentBranchings(
+        self,
+    ) -> tuple[list[Variable], list[float], list[int]] | None: ...
+    def getNDomchg(self) -> tuple[int, int, int]: ...
+    def getDomchg(self) -> DomainChanges | None: ...
 
 class Variable(Expr):
     data: Incomplete
