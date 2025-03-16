@@ -1056,164 +1056,30 @@ class Variable(Expr):
     def getLPSol(self) -> float: ...
     def getAvgSol(self) -> float: ...
     def varMayRound(self, direction: L["down", "up"] = "down") -> bool: ...
+    @override
+    def __hash__(self) -> int: ...
 
 class Constraint:
-    data: Incomplete
-    name: Incomplete
-    def __init__(self, *args) -> None:
-        """Create and return a new object.  See help(type) for accurate signature."""
-    def getConshdlrName(self):
-        """
-        Return the constraint handler's name.
-
-        Returns
-        -------
-        str
-
-        """
-    def isActive(self):
-        """
-        Returns True iff constraint is active in the current node.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isChecked(self):
-        """
-        Returns True if constraint should be checked for feasibility.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isDynamic(self):
-        """
-        Returns True if constraint is subject to aging.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isEnforced(self):
-        """
-        Returns True if constraint should be enforced during node processing.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isInitial(self):
-        """
-        Returns True if the relaxation of the constraint should be in the initial LP.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isLinear(self):
-        """
-        Returns True if constraint is linear
-
-        Returns
-        -------
-        bool
-
-        """
-    def isLocal(self):
-        """
-        Returns True if constraint is only locally valid or not added to any (sub)problem.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isModifiable(self):
-        """
-        Returns True if constraint is modifiable (subject to column generation).
-
-        Returns
-        -------
-        bool
-
-        """
-    def isNonlinear(self):
-        """
-        Returns True if constraint is nonlinear.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isOriginal(self):
-        """
-        Retrieve whether the constraint belongs to the original problem.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isPropagated(self):
-        """
-        Returns True if constraint should be propagated during node processing.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isRemovable(self):
-        """
-        Returns True if constraint's relaxation should be removed from the LP due to aging or cleanup.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isSeparated(self):
-        """
-        Returns True if constraint should be separated during LP processing.
-
-        Returns
-        -------
-        bool
-
-        """
-    def isStickingAtNode(self):
-        """
-        Returns True if constraint is only locally valid or not added to any (sub)problem.
-
-        Returns
-        -------
-        bool
-
-        """
+    data: object
+    @property
+    def name(self) -> str: ...
+    def getConshdlrName(self) -> str: ...
+    def isActive(self) -> bool: ...
+    def isChecked(self) -> bool: ...
+    def isDynamic(self) -> bool: ...
+    def isEnforced(self) -> bool: ...
+    def isInitial(self) -> bool: ...
+    def isLinear(self) -> bool: ...
+    def isLocal(self) -> bool: ...
+    def isModifiable(self) -> bool: ...
+    def isNonlinear(self) -> bool: ...
+    def isOriginal(self) -> bool: ...
+    def isPropagated(self) -> bool: ...
+    def isRemovable(self) -> bool: ...
+    def isSeparated(self) -> bool: ...
+    def isStickingAtNode(self) -> bool: ...
     @override
-    def __eq__(self, other: object) -> bool:
-        """Return self==value."""
-    def __ge__(self, other: object) -> bool:
-        """Return self>=value."""
-    def __gt__(self, other: object) -> bool:
-        """Return self>value."""
-    @override
-    def __hash__(self) -> int:
-        """Return hash(self)."""
-    def __le__(self, other: object) -> bool:
-        """Return self<=value."""
-    def __lt__(self, other: object) -> bool:
-        """Return self<value."""
-    @override
-    def __ne__(self, other: object) -> bool:
-        """Return self!=value."""
+    def __hash__(self) -> int: ...
 
 class Model:
     data: Incomplete
