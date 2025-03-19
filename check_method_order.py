@@ -26,7 +26,7 @@ IGNORES = [
 
 
 def get_methods_by_class(lines: List[str]) -> Dict[str, List[str]]:
-    classes = defaultdict(list)
+    classes: defaultdict[str, list[str]] = defaultdict(list)
     current_class = None
     for i, line in enumerate(lines):
         m = re.match(r"^(?:cdef )?class (\w+)", line)
@@ -83,7 +83,7 @@ def compare() -> int:
     assert not scip_extra, f"Extra classes in scip: {scip_extra}"
 
     status = 0
-    for klass in sorted(scip_methods):
+    for klass in stub_methods:
         scip_meths = scip_methods[klass]
         stub_meths = stub_methods[klass]
         diff = list(
