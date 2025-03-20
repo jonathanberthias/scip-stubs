@@ -5,6 +5,7 @@ and ensures the order is the same in the source and in the stubs.
 
 import difflib
 import re
+import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List
@@ -12,6 +13,7 @@ from typing import Dict, List
 # Methods that are in the source .pxi files but not in the stubs
 IGNORES = [
     ("Column", "__init__"),
+    ("Event", "__str__"),
     ("Expr", "__next__"),
     ("Model", "__eq__"),
     ("*", "__dealloc__"),
@@ -99,5 +101,47 @@ def compare() -> int:
     return status
 
 
+def reorder(classname: str) -> None:
+    scip_source_lines = load_scip_source()
+    stub_source_lines = load_stub_source()
+    scip_methods = get_methods_by_class(scip_source_lines)[classname]
+
+    if f"class {classname}:" in stub_source_lines:
+        class_start = stub_source_lines.index(f"class {classname}:")
+    elif f"cdef class {classname}:" in stub_source_lines:
+        class_start = stub_source_lines.index(f"cdef class {classname}:")
+    else:
+        raise ValueError(f"Class {classname} not found in stub")
+    stub_source_lines = stub_source_lines[class_start + 1 :]
+
+    def find_end() -> int:
+        for i, line in enumerate(stub_source_lines):
+            if line and not line.startswith(" "):
+                return i
+        raise ValueError("End of class not found")
+
+    class_end = find_end()
+    stub_source_lines = stub_source_lines[:class_end]
+
+    stub_source = "\n".join(stub_source_lines)
+    funcs = re.findall(
+        r'(def (\w+)\(.*?\)(?: -> [, "\[\]\w]+)?:\s*(?:""".*?""")?(?:...)?(?:[# \w]*)(?=\n\s*def|$))',
+        stub_source,
+        re.DOTALL | re.MULTILINE,
+    )
+    source_by_name = {fname: func for func, fname in funcs}
+    new_source = []
+    for meth in scip_methods:
+        if meth not in source_by_name:
+            print(f"Method {meth} not found in stubs")
+            continue
+        new_source.append(source_by_name[meth])
+    new_source = "    " + "\n    ".join(new_source)
+    print(new_source)
+
+
 if __name__ == "__main__":
-    exit(compare())
+    if len(sys.argv) > 1:
+        reorder(sys.argv[1])
+    else:
+        exit(compare())
