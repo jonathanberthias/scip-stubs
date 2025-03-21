@@ -1,5 +1,6 @@
 import dataclasses
 import os
+from collections.abc import Callable
 from enum import IntEnum
 from typing import (
     Any,
@@ -13,8 +14,8 @@ from typing import (
 )
 
 from _typeshed import Incomplete
+from typing_extensions import CapsuleType, Self, TypeAlias, override
 from typing_extensions import Literal as L
-from typing_extensions import Self, TypeAlias, override
 
 _VTypes: TypeAlias = L[
     "C", "CONTINUOUS",
@@ -1099,716 +1100,95 @@ class Model:
         createscip: bool = True,
         threadsafe: bool = False,
     ) -> None: ...
-    def attachEventHandlerCallback(self, callback, events, name=..., description=...):
-        """
-        Attach an event handler to the model using a callback function.
-
-        Parameters
-        ----------
-        callback : callable
-            The callback function to be called when an event occurs.
-            The callback function should have the following signature:
-            callback(model, event)
-        events : list of SCIP_EVENTTYPE
-            List of event types to attach the event handler to.
-        name : str, optional
-            Name of the event handler. If not provided, a unique default name will be generated.
-        description : str, optional
-            Description of the event handler. If not provided, an empty string will be used.
-        """
+    def attachEventHandlerCallback(
+        self,
+        callback: Callable[[Model, Event], None],
+        events: Iterable[PY_SCIP_EVENTTYPE],
+        name: str = "eventhandler",
+        description: str = "",
+    ) -> None: ...
     @override
     def __hash__(self) -> int: ...
     @staticmethod
-    def from_ptr(capsule, take_ownership):
-        """
-        Create a Model from a given pointer.
-
-        Parameters
-        ----------
-        capsule
-            The PyCapsule containing the SCIP pointer under the name "scip"
-        take_ownership : bool
-            Whether the newly created Model assumes ownership of the
-            underlying Scip pointer (see ``_freescip``)
-
-        Returns
-        -------
-        Model
-
-        """
-    def to_ptr(self, give_ownership):
-        """
-        Return the underlying Scip pointer to the current Model.
-
-        Parameters
-        ----------
-        give_ownership : bool
-            Whether the current Model gives away ownership of the
-            underlying Scip pointer (see ``_freescip``)
-
-        Returns
-        -------
-        capsule
-            The underlying pointer to the current Model, wrapped in a
-            PyCapsule under the name "scip".
-
-        """
-    def includeDefaultPlugins(self):
-        """Includes all default plug-ins into SCIP."""
-    def createProbBasic(self, problemName=...):
-        """
-        Create new problem instance with given name.
-
-        Parameters
-        ----------
-        problemName : str, optional
-            name of model or problem (Default value = 'model')
-
-        """
-    def freeProb(self):
-        """Frees problem and solution process data."""
-    def freeTransform(self):
-        """Frees all solution process data including presolving and
-        transformed problem, only original problem is kept."""
-    def version(self):
-        """
-        Retrieve SCIP version.
-
-        Returns
-        -------
-        float
-
-        """
-    def printVersion(self):
-        """Print version, copyright information and compile mode."""
-    def printExternalCodeVersions(self):
-        """Print external code versions, e.g. symmetry, non-linear solver, lp solver."""
-    def getProbName(self):
-        """
-        Retrieve problem name.
-
-        Returns
-        -------
-        str
-
-        """
-    def getTotalTime(self):
-        """
-        Retrieve the current total SCIP time in seconds,
-        i.e. the total time since the SCIP instance has been created.
-
-        Returns
-        -------
-        float
-
-        """
-    def getSolvingTime(self):
-        """
-        Retrieve the current solving time in seconds.
-
-        Returns
-        -------
-        float
-
-        """
-    def getReadingTime(self):
-        """
-        Retrieve the current reading time in seconds.
-
-        Returns
-        -------
-        float
-
-        """
-    def getPresolvingTime(self):
-        """
-        Returns the current presolving time in seconds.
-
-        Returns
-        -------
-        float
-
-        """
-    def getNLPIterations(self):
-        """
-        Returns the total number of LP iterations so far.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNNodes(self):
-        """
-        Gets number of processed nodes in current run, including the focus node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNTotalNodes(self):
-        """
-        Gets number of processed nodes in all runs, including the focus node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNFeasibleLeaves(self):
-        """
-        Retrieve number of leaf nodes processed with feasible relaxation solution.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNInfeasibleLeaves(self):
-        """
-        Gets number of infeasible leaf nodes processed.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNLeaves(self):
-        """
-        Gets number of leaves in the tree.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNChildren(self):
-        """
-        Gets number of children of focus node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getNSiblings(self):
-        """
-        Gets number of siblings of focus node.
-
-        Returns
-        -------
-        int
-
-        """
-    def getCurrentNode(self):
-        """
-        Retrieve current node.
-
-        Returns
-        -------
-        Node
-
-        """
-    def getGap(self):
-        """
-        Retrieve the gap,
-        i.e. abs((primalbound - dualbound)/min(abs(primalbound),abs(dualbound)))
-
-        Returns
-        -------
-        float
-
-        """
-    def getDepth(self):
-        """
-        Retrieve the depth of the current node.
-
-        Returns
-        -------
-        int
-
-        """
-    def infinity(self):
-        """
-        Retrieve SCIP's infinity value.
-
-        Returns
-        -------
-        int
-
-        """
-    def epsilon(self):
-        """
-        Retrieve epsilon for e.g. equality checks.
-
-        Returns
-        -------
-        float
-
-        """
-    def feastol(self):
-        """
-        Retrieve feasibility tolerance.
-
-        Returns
-        -------
-        float
-
-        """
-    def feasFrac(self, value):
-        """
-        Returns fractional part of value, i.e. x - floor(x) in feasible tolerance: x - floor(x+feastol).
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        float
-
-        """
-    def frac(self, value):
-        """
-        Returns fractional part of value, i.e. x - floor(x) in epsilon tolerance: x - floor(x+eps).
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        float
-
-        """
-    def feasFloor(self, value):
-        """
-        Rounds value + feasibility tolerance down to the next integer.
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        float
-
-        """
-    def feasCeil(self, value):
-        """
-        Rounds value - feasibility tolerance up to the next integer.
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        float
-
-        """
-    def feasRound(self, value):
-        """
-        Rounds value to the nearest integer in feasibility tolerance.
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        float
-
-        """
-    def isZero(self, value):
-        """
-        Returns whether abs(value) < eps.
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isFeasZero(self, value):
-        """
-        Returns whether abs(value) < feastol.
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isInfinity(self, value):
-        """
-        Returns whether value is SCIP's infinity.
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isFeasNegative(self, value):
-        """
-        Returns whether value < -feastol.
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isFeasIntegral(self, value):
-        """
-        Returns whether value is integral within the LP feasibility bounds.
-
-        Parameters
-        ----------
-        value : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isEQ(self, val1, val2):
-        """
-        Checks, if values are in range of epsilon.
-
-        Parameters
-        ----------
-        val1 : float
-        val2 : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isFeasEQ(self, val1, val2):
-        """
-        Checks, if relative difference of values is in range of feasibility tolerance.
-
-        Parameters
-        ----------
-        val1 : float
-        val2 : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isLE(self, val1, val2):
-        """
-        Returns whether val1 <= val2 + eps.
-
-        Parameters
-        ----------
-        val1 : float
-        val2 : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isLT(self, val1, val2):
-        """
-        Returns whether val1 < val2 - eps.
-
-        Parameters
-        ----------
-        val1 : float
-        val2 : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isGE(self, val1, val2):
-        """
-        Returns whether val1 >= val2 - eps.
-
-        Parameters
-        ----------
-        val1 : float
-        val2 : float
-
-        Returns
-        -------
-        bool
-
-        """
-    def isGT(self, val1, val2):
-        """
-        Returns whether val1 > val2 + eps.
-
-        Parameters
-        ----------
-        val1 : float
-        val2 : foat
-
-        Returns
-        -------
-        bool
-
-        """
-    def getCondition(self, exact=...):
-        """
-        Get the current LP's condition number.
-
-        Parameters
-        ----------
-        exact : bool, optional
-            whether to get an estimate or the exact value (Default value = False)
-
-        Returns
-        -------
-        float
-
-        """
-    def enableReoptimization(self, enable=...):
-        """
-        Include specific heuristics and branching rules for reoptimization.
-
-        Parameters
-        ----------
-        enable : bool, optional
-            True to enable and False to disable
-
-        """
-    def lpiGetIterations(self):
-        """
-        Get the iteration count of the last solved LP.
-
-        Returns
-        -------
-        int
-
-        """
-    def setMinimize(self):
-        """Set the objective sense to minimization."""
-    def setMaximize(self):
-        """Set the objective sense to maximization."""
-    def setObjlimit(self, objlimit):
-        """
-        Set a limit on the objective function.
-        Only solutions with objective value better than this limit are accepted.
-
-        Parameters
-        ----------
-        objlimit : float
-            limit on the objective function
-
-        """
-    def getObjlimit(self):
-        """
-        Returns current limit on objective function.
-
-        Returns
-        -------
-        float
-
-        """
-    def setObjective(self, expr, sense=..., clear=...):
-        """
-        Establish the objective function as a linear expression.
-
-        Parameters
-        ----------
-        expr : Expr or float
-            the objective function SCIP Expr, or constant value
-        sense : str, optional
-            the objective sense ("minimize" or "maximize") (Default value = \'minimize\')
-        clear : bool, optional
-            set all other variables objective coefficient to zero (Default value = \'true\')
-
-        """
-    def getObjective(self):
-        """
-        Retrieve objective function as Expr.
-
-        Returns
-        -------
-        Expr
-
-        """
-    def addObjoffset(self, offset, solutions=...):
-        """
-        Add constant offset to objective.
-
-        Parameters
-        ----------
-        offset : float
-            offset to add
-        solutions : bool, optional
-            add offset also to existing solutions (Default value = False)
-
-        """
-    def getObjoffset(self, original=...):
-        """
-        Retrieve constant objective offset
-
-        Parameters
-        ----------
-        original : bool, optional
-            offset of original or transformed problem (Default value = True)
-
-        Returns
-        -------
-        float
-
-        """
-    def setObjIntegral(self):
-        """Informs SCIP that the objective value is always integral in every feasible solution.
-
-        Notes
-        -----
-        This function should be used to inform SCIP that the objective function is integral,
-        helping to improve the performance. This is useful when using column generation.
-        If no column generation (pricing) is used, SCIP automatically detects whether the objective
-        function is integral or can be scaled to be integral. However, in any case, the user has to
-        make sure that no variable is added during the solving process that destroys this property.
-        """
-    def getLocalEstimate(self, original=...):
-        """
-        Gets estimate of best primal solution w.r.t. original or transformed problem contained in current subtree.
-
-        Parameters
-        ----------
-        original : bool, optional
-            get estimate of original or transformed problem (Default value = False)
-
-        Returns
-        -------
-        float
-
-        """
-    def setPresolve(self, setting):
-        """
-        Set presolving parameter settings.
-
-
-        Parameters
-        ----------
-        setting : SCIP_PARAMSETTING
-            the parameter settings, e.g. SCIP_PARAMSETTING.OFF
-
-        """
-    def setProbName(self, name):
-        """
-        Set problem name.
-
-        Parameters
-        ----------
-        name : str
-
-        """
-    def setSeparating(self, setting):
-        """
-        Set separating parameter settings.
-
-        Parameters
-        ----------
-        setting : SCIP_PARAMSETTING
-            the parameter settings, e.g. SCIP_PARAMSETTING.OFF
-
-        """
-    def setHeuristics(self, setting):
-        """
-        Set heuristics parameter settings.
-
-        Parameters
-        ----------
-        setting : SCIP_PARAMSETTING
-            the parameter settings, e.g. SCIP_PARAMSETTING.OFF
-
-        """
-    def setHeurTiming(self, heurname, heurtiming):
-        """
-                Set the timing of a heuristic
-
-                Parameters
-                ----------
-                heurname : string, name of the heuristic
-                heurtiming : PY_SCIP_HEURTIMING
-        \t\t   positions in the node solving loop where heuristic should be executed
-        """
-    def getHeurTiming(self, heurname):
-        """
-                Get the timing of a heuristic
-
-                Parameters
-                ----------
-                heurname : string, name of the heuristic
-
-                Returns
-                -------
-                PY_SCIP_HEURTIMING
-        \t\t   positions in the node solving loop where heuristic should be executed
-        """
-    def disablePropagation(self, onlyroot=...):
-        """
-        Disables propagation in SCIP to avoid modifying the original problem during transformation.
-
-        Parameters
-        ----------
-        onlyroot : bool, optional
-            use propagation when root processing is finished (Default value = False)
-
-        """
-    def printProblem(self, ext=..., trans=..., genericnames=...):
-        """
-        Write current model/problem to standard output.
-
-        Parameters
-        ----------
-        ext   : str, optional
-            the extension to be used (Default value = '.cip').
-            Should have an extension corresponding to one of the readable file formats,
-            described in https://www.scipopt.org/doc/html/group__FILEREADERS.php.
-        trans : bool, optional
-            indicates whether the transformed problem is written to file (Default value = False)
-        genericnames : bool, optional
-            indicates whether the problem should be written with generic variable
-            and constraint names (Default value = False)
-        """
-    def writeProblem(self, filename=..., trans=..., genericnames=..., verbose=...):
-        """
-        Write current model/problem to a file.
-
-        Parameters
-        ----------
-        filename : str, optional
-            the name of the file to be used (Default value = 'model.cip').
-            Should have an extension corresponding to one of the readable file formats,
-            described in https://www.scipopt.org/doc/html/group__FILEREADERS.php.
-        trans : bool, optional
-            indicates whether the transformed problem is written to file (Default value = False)
-        genericnames : bool, optional
-            indicates whether the problem should be written with generic variable
-            and constraint names (Default value = False)
-        verbose : bool, optional
-            indicates whether a success message should be printed
-
-        """
+    def from_ptr(capsule: CapsuleType, take_ownership: bool) -> Model: ...
+    def to_ptr(self, give_ownership: bool) -> CapsuleType: ...
+    def includeDefaultPlugins(self) -> None: ...
+    def createProbBasic(self, problemName: str = "model") -> None: ...
+    def freeProb(self) -> None: ...
+    def freeTransform(self) -> None: ...
+    def version(self) -> float: ...
+    def printVersion(self) -> None: ...
+    def printExternalCodeVersions(self) -> None: ...
+    def getProbName(self) -> str: ...
+    def getTotalTime(self) -> float: ...
+    def getSolvingTime(self) -> float: ...
+    def getReadingTime(self) -> float: ...
+    def getPresolvingTime(self) -> float: ...
+    def getNLPIterations(self) -> int: ...
+    def getNNodes(self) -> int: ...
+    def getNTotalNodes(self) -> int: ...
+    def getNFeasibleLeaves(self) -> int: ...
+    def getNInfeasibleLeaves(self) -> int: ...
+    def getNLeaves(self) -> int: ...
+    def getNChildren(self) -> int: ...
+    def getNSiblings(self) -> int: ...
+    def getCurrentNode(self) -> Node: ...
+    def getGap(self) -> float: ...
+    def getDepth(self) -> int: ...
+    def infinity(self) -> float: ...
+    def epsilon(self) -> float: ...
+    def feastol(self) -> float: ...
+    def feasFrac(self, value: float) -> float: ...
+    def frac(self, value: float) -> float: ...
+    def feasFloor(self, value: float) -> float: ...
+    def feasCeil(self, value: float) -> float: ...
+    def feasRound(self, value: float) -> float: ...
+    def isZero(self, value: float) -> bool: ...
+    def isFeasZero(self, value: float) -> bool: ...
+    def isInfinity(self, value: float) -> bool: ...
+    def isFeasNegative(self, value: float) -> bool: ...
+    def isFeasIntegral(self, value: float) -> bool: ...
+    def isEQ(self, val1: float, val2: float) -> bool: ...
+    def isFeasEQ(self, val1: float, val2: float) -> bool: ...
+    def isLE(self, val1: float, val2: float) -> bool: ...
+    def isLT(self, val1: float, val2: float) -> bool: ...
+    def isGE(self, val1: float, val2: float) -> bool: ...
+    def isGT(self, val1: float, val2: float) -> bool: ...
+    def getCondition(self, exact: bool = False) -> float: ...
+    def enableReoptimization(self, enable: bool = True) -> None: ...
+    def lpiGetIterations(self) -> int: ...
+    def setMinimize(self) -> None: ...
+    def setMaximize(self) -> None: ...
+    def setObjlimit(self, objlimit: float) -> None: ...
+    def getObjlimit(self) -> float: ...
+    def setObjective(
+        self,
+        expr: Expr | SupportsFloat,
+        sense: L["minimize", "maximize"] = "minimize",
+        clear: bool | L["true"] = "true",  # TODO: typo?
+    ) -> None: ...
+    def getObjective(self) -> Expr: ...
+    def addObjoffset(self, offset: float, solutions: bool = False) -> None: ...
+    def getObjoffset(self, original: bool = True) -> float: ...
+    def setObjIntegral(self) -> None: ...
+    def getLocalEstimate(self, original: bool = False) -> float: ...
+    def setPresolve(self, setting: PY_SCIP_PARAMSETTING) -> None: ...
+    def setProbName(self, name: str) -> None: ...
+    def setSeparating(self, setting: PY_SCIP_PARAMSETTING) -> None: ...
+    def setHeuristics(self, setting: PY_SCIP_PARAMSETTING) -> None: ...
+    def setHeurTiming(self, heurname: str, heurtiming: PY_SCIP_HEURTIMING) -> None: ...
+    def getHeurTiming(self, heurname: str) -> PY_SCIP_HEURTIMING: ...
+    def disablePropagation(self, onlyroot: bool = False) -> None: ...
+    def printProblem(
+        self, ext: str = ".cip", trans: bool = False, genericnames: bool = False
+    ) -> None: ...
+    def writeProblem(
+        self,
+        filename: str | bytes | os.PathLike[Any] = "model.cip",
+        trans: bool = False,
+        genericnames: bool = False,
+        verbose: bool = True,
+    ) -> None: ...
     def addVar(
         self,
         /,
