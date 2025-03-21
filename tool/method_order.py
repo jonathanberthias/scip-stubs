@@ -55,9 +55,9 @@ def get_methods_by_class(lines: List[str]) -> Dict[str, List[str]]:
 
 
 def load_scip_source() -> List[str]:
-    lib_site_packages = Path(__file__).absolute().parent / ".venv/lib"
-    site_packages = lib_site_packages.glob("python*/site-packages/pyscipopt")
-    scip_dir = next(site_packages)
+    venv_lib = Path(__file__).absolute().parent.parent / ".venv/lib"
+    pyscipopt = venv_lib.glob("python*/site-packages/pyscipopt")
+    scip_dir = next(pyscipopt)
     sources = scip_dir.glob("*.pxi")
 
     scip_lines = []
@@ -67,7 +67,7 @@ def load_scip_source() -> List[str]:
 
 
 def load_stub_source() -> List[str]:
-    stub_file = Path(__file__).parent / "pyscipopt/scip.pyi"
+    stub_file = Path(__file__).parent.parent / "pyscipopt/scip.pyi"
     return stub_file.read_text().splitlines()
 
 

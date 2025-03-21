@@ -35,6 +35,11 @@ repos:
       - id: uv-sync
   - repo: local
     hooks:
+      - id: method-order
+        name: Check method order
+        language: system
+        entry: uv run --frozen --offline tool/method_order.py
+        pass_filenames: false
       - id: stubtest-allowlist
         name: Check allowlist is up to date
         language: system
