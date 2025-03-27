@@ -47,7 +47,7 @@ show-fixes = true
 [tool.ruff.lint]
 extend-select = ["I", "UP", "PYI"]
 extend-ignore = [
-    "PYI021", # let's keep the docstrings for now
+    "PYI021", # let's keep the docstrings so that they show up in tooltips
 ]
 [tool.ruff.lint.isort]
 split-on-trailing-comma = false
