@@ -105,7 +105,12 @@ def buildGenExprObj(expr: SupportsFloat) -> Constant: ...
 
 class Expr:
     terms: dict[Term, float]
-    def __init__(self, /, terms: dict[Term, float] | None = None) -> None: ...
+    def __init__(self, /, terms: dict[Term, float] | None = None) -> None:
+        """
+        terms is a dict of variables to coefficients.
+
+        CONST is used as key for the constant term.
+        """
     @overload
     def __getitem__(self, index: Variable, /) -> float: ...
     @overload
@@ -128,7 +133,10 @@ class Expr:
     def __truediv__(self, other: SupportsFloat, /) -> Expr: ...
     @overload
     def __truediv__(self, other: Expr | GenExpr[Any], /) -> ProdExpr: ...
-    def __rtruediv__(self, other: SupportsFloat, /) -> Expr: ...
+    def __rtruediv__(self, other: SupportsFloat, /) -> Expr:
+        """
+        other / self
+        """
     def __pow__(
         self, other: SupportsFloat, mod: Any = None, /
     ) -> Expr | PowExpr | L[1]: ...
@@ -144,8 +152,14 @@ class Expr:
     def __eq__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...  # type: ignore[override]
     def __ge__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...
     def __le__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...
-    def normalize(self, /) -> None: ...
-    def degree(self, /) -> int: ...
+    def normalize(self, /) -> None:
+        """
+        remove terms with coefficient of 0
+        """
+    def degree(self, /) -> int:
+        """
+        computes highest degree of terms
+        """
 
 class ExprCons:
     expr: Expr | GenExpr[Any]
@@ -161,7 +175,10 @@ class ExprCons:
     def __init__(
         self, /, expr: Expr | GenExpr[Any], lhs: float | None, rhs: float
     ) -> None: ...
-    def normalize(self, /) -> None: ...
+    def normalize(self, /) -> None:
+        """
+        move constant terms in expression to bounds
+        """
     def __ge__(self, other: SupportsFloat, /) -> ExprCons: ...
     def __le__(self, other: SupportsFloat, /) -> ExprCons: ...
 
@@ -183,7 +200,10 @@ class GenExpr(Generic[_OpT]):
     def __mul__(self, other: Expr | float | GenExpr[Any], /) -> ProdExpr: ...
     def __pow__(self, other: SupportsFloat, mod: Any = None, /) -> PowExpr: ...
     def __truediv__(self, other: Expr | float | GenExpr[Any], /) -> ProdExpr: ...
-    def __rtruediv__(self, other: float, /) -> ProdExpr: ...
+    def __rtruediv__(self, other: float, /) -> ProdExpr:
+        """
+        other / self
+        """
     def __neg__(self, /) -> ProdExpr: ...
     def __sub__(self, other: Expr | float | GenExpr[Any], /) -> SumExpr: ...
     def __radd__(self, other: float, /) -> SumExpr: ...
@@ -193,8 +213,14 @@ class GenExpr(Generic[_OpT]):
     def __eq__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...  # type: ignore[override]
     def __ge__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...
     def __le__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...
-    def degree(self, /) -> float: ...
-    def getOp(self, /) -> _OpT: ...
+    def degree(self, /) -> float:
+        """
+        Note: none of these expressions should be polynomial
+        """
+    def getOp(self, /) -> _OpT:
+        """
+        returns operator of GenExpr
+        """
 
 class SumExpr(GenExpr[L["sum"]]):
     constant: float
@@ -242,64 +268,225 @@ def expr_to_array(expr: GenExpr[Any], nodes: list[Node]) -> int: ...
 class LP:
     def __init__(
         self, name: str = "LP", sense: L["minimize", "maximize"] = "minimize"
-    ) -> None: ...
+    ) -> None:
+        """
+        Keyword arguments:
+        name -- the name of the problem (default 'LP')
+        sense -- objective sense (default minimize)
+        """
     @property
     def name(self, /) -> str: ...
-    def writeLP(self, /, filename: bytes) -> None: ...
-    def readLP(self, /, filename: bytes) -> None: ...
-    def infinity(self, /) -> float: ...
-    def isInfinity(self, /, val: SupportsFloat) -> bool: ...
+    def writeLP(self, /, filename: bytes) -> None:
+        """
+        Writes LP to a file.
+
+        Keyword arguments:
+        filename -- the name of the file to be used
+        """
+    def readLP(self, /, filename: bytes) -> None:
+        """
+        Reads LP from a file.
+
+        Keyword arguments:
+        filename -- the name of the file to be used
+        """
+    def infinity(self, /) -> float:
+        """
+        Returns infinity value of the LP.
+        """
+    def isInfinity(self, /, val: SupportsFloat) -> bool:
+        """
+        Checks if a given value is equal to the infinity value of the LP.
+
+        Keyword arguments:
+        val -- value that should be checked
+        """
     def addCol(
         self,
         entries: Sequence[tuple[int, float]],
         obj: float = 0.0,
         lb: float = 0.0,
         ub: float | None = None,
-    ) -> None: ...
+    ) -> None:
+        """
+        Adds a single column to the LP.
+
+        Keyword arguments:
+        entries -- list of tuples, each tuple consists of a row index and a coefficient
+        obj     -- objective coefficient (default 0.0)
+        lb      -- lower bound (default 0.0)
+        ub      -- upper bound (default infinity)
+        """
     def addCols(
         self,
         entrieslist: Sequence[Sequence[tuple[int, float]]],
         objs: Sequence[float] | None = None,
         lbs: Sequence[float] | None = None,
         ubs: Sequence[float] | None = None,
-    ) -> None: ...
-    def delCols(self, firstcol: int, lastcol: int) -> None: ...
+    ) -> None:
+        """
+        Adds multiple columns to the LP.
+
+        Keyword arguments:
+        entrieslist -- list containing lists of tuples, each tuple contains a coefficient and a row index
+        objs  -- objective coefficient (default 0.0)
+        lbs   -- lower bounds (default 0.0)
+        ubs   -- upper bounds (default infinity)
+        """
+    def delCols(self, firstcol: int, lastcol: int) -> None:
+        """
+        Deletes a range of columns from the LP.
+
+        Keyword arguments:
+        firstcol -- first column to delete
+        lastcol  -- last column to delete
+        """
     def addRow(
         self,
         entries: Sequence[tuple[int, float]],
         lhs: float = 0.0,
         rhs: float | None = None,
-    ) -> None: ...
+    ) -> None:
+        """
+        Adds a single row to the LP.
+
+        Keyword arguments:
+        entries -- list of tuples, each tuple contains a coefficient and a column index
+        lhs     -- left-hand side of the row (default 0.0)
+        rhs     -- right-hand side of the row (default infinity)
+        """
     def addRows(
         self,
         entrieslist: Sequence[Sequence[tuple[int, float]]],
         lhss: Sequence[float] | None = None,
         rhss: Sequence[float] | None = None,
-    ) -> None: ...
-    def delRows(self, firstrow: int, lastrow: int) -> None: ...
+    ) -> None:
+        """
+        Adds multiple rows to the LP.
+
+        Keyword arguments:
+        entrieslist -- list containing lists of tuples, each tuple contains a coefficient and a column index
+        lhss        -- left-hand side of the row (default 0.0)
+        rhss        -- right-hand side of the row (default infinity)
+        """
+    def delRows(self, firstrow: int, lastrow: int) -> None:
+        """
+        Deletes a range of rows from the LP.
+
+        Keyword arguments:
+        firstrow -- first row to delete
+        lastrow  -- last row to delete
+        """
     def getBounds(
         self, firstcol: int = 0, lastcol: int | None = None
-    ) -> tuple[list[float], list[float]] | None: ...
+    ) -> tuple[list[float], list[float]] | None:
+        """
+        Returns all lower and upper bounds for a range of columns.
+
+        Keyword arguments:
+        firstcol -- first column (default 0)
+        lastcol  -- last column (default ncols - 1)
+        """
     def getSides(
         self, firstrow: int = 0, lastrow: float | None = None
-    ) -> tuple[list[float], list[float]] | None: ...
-    def chgObj(self, col: int, obj: float) -> None: ...
-    def chgCoef(self, row: int, col: int, newval: float) -> None: ...
-    def chgBound(self, col: int, lb: float, ub: float) -> None: ...
-    def chgSide(self, row: int, lhs: float, rhs: float) -> None: ...
-    def clear(self) -> None: ...
-    def nrows(self) -> int: ...
-    def ncols(self) -> int: ...
-    def solve(self, dual: bool = True) -> float: ...
-    def getPrimal(self) -> list[float]: ...
-    def isPrimalFeasible(self) -> bool: ...
-    def getDual(self) -> list[float]: ...
-    def isDualFeasible(self) -> bool: ...
-    def getPrimalRay(self) -> list[float] | None: ...
-    def getDualRay(self) -> list[float] | None: ...
-    def getNIterations(self) -> int: ...
-    def getRedcost(self) -> list[float]: ...
-    def getBasisInds(self) -> list[int]: ...
+    ) -> tuple[list[float], list[float]] | None:
+        """
+        Returns all left- and right-hand sides for a range of rows.
+
+        Keyword arguments:
+        firstrow -- first row (default 0)
+        lastrow  -- last row (default nrows - 1)
+        """
+    def chgObj(self, col: int, obj: float) -> None:
+        """
+        Changes objective coefficient of a single column.
+
+        Keyword arguments:
+        col -- column to change
+        obj -- new objective coefficient
+        """
+    def chgCoef(self, row: int, col: int, newval: float) -> None:
+        """
+        Changes a single coefficient in the LP.
+
+        Keyword arguments:
+        row -- row to change
+        col -- column to change
+        newval -- new coefficient
+        """
+    def chgBound(self, col: int, lb: float, ub: float) -> None:
+        """
+        Changes the lower and upper bound of a single column.
+
+        Keyword arguments:
+        col -- column to change
+        lb  -- new lower bound
+        ub  -- new upper bound
+        """
+    def chgSide(self, row: int, lhs: float, rhs: float) -> None:
+        """
+        Changes the left- and right-hand side of a single row.
+
+        Keyword arguments:
+        row -- row to change
+        lhs -- new left-hand side
+        rhs -- new right-hand side
+        """
+    def clear(self) -> None:
+        """
+        Clears the whole LP.
+        """
+    def nrows(self) -> int:
+        """
+        Returns the number of rows.
+        """
+    def ncols(self) -> int:
+        """
+        Returns the number of columns.
+        """
+    def solve(self, dual: bool = True) -> float:
+        """
+        Solves the current LP.
+
+        Keyword arguments:
+        dual -- use the dual or primal Simplex method (default: dual)
+        """
+    def getPrimal(self) -> list[float]:
+        """
+        Returns the primal solution of the last LP solve.
+        """
+    def isPrimalFeasible(self) -> bool:
+        """
+        Returns True iff LP is proven to be primal feasible.
+        """
+    def getDual(self) -> list[float]:
+        """
+        Returns the dual solution of the last LP solve.
+        """
+    def isDualFeasible(self) -> bool:
+        """
+        Returns True iff LP is proven to be dual feasible.
+        """
+    def getPrimalRay(self) -> list[float] | None:
+        """
+        Returns a primal ray if possible, None otherwise.
+        """
+    def getDualRay(self) -> list[float] | None:
+        """
+        Returns a dual ray if possible, None otherwise.
+        """
+    def getNIterations(self) -> int:
+        """
+        Returns the number of LP iterations of the last LP solve.
+        """
+    def getRedcost(self) -> list[float]:
+        """
+        Returns the reduced cost vector of the last LP solve.
+        """
+    def getBasisInds(self) -> list[int]:
+        """
+        Returns the indices of the basic columns and rows; index i >= 0 corresponds to column i, index i < 0 to row -i-1
+        """
 
 #############
 # benders.pxi
@@ -308,21 +495,54 @@ class LP:
 class Benders:
     model: Model
     name: str
-    def bendersfree(self) -> None: ...
-    def bendersinit(self) -> None: ...
-    def bendersexit(self) -> None: ...
-    def bendersinitpre(self) -> None: ...
-    def bendersexitpre(self) -> None: ...
-    def bendersinitsol(self) -> None: ...
-    def bendersexitsol(self) -> None: ...
-    def benderscreatesub(self, probnumber: int) -> Incomplete: ...
+    def bendersfree(self) -> None:
+        """
+        calls destructor and frees memory of Benders decomposition
+        """
+    def bendersinit(self) -> None:
+        """
+        initializes Benders deconposition
+        """
+    def bendersexit(self) -> None:
+        """
+        calls exit method of Benders decomposition
+        """
+    def bendersinitpre(self) -> None:
+        """
+        informs the Benders decomposition that the presolving process is being started
+        """
+    def bendersexitpre(self) -> None:
+        """
+        informs the Benders decomposition that the presolving process has been completed
+        """
+    def bendersinitsol(self) -> None:
+        """
+        informs Benders decomposition that the branch and bound process is being started
+        """
+    def bendersexitsol(self) -> None:
+        """
+        informs Benders decomposition that the branch and bound process data is being freed
+        """
+    def benderscreatesub(self, probnumber: int) -> Incomplete:
+        """
+        creates the subproblems and registers it with the Benders decomposition struct
+        """
     def benderspresubsolve(
         self, solution: Incomplete, enfotype: Incomplete, checkint: Incomplete
-    ) -> Incomplete: ...
+    ) -> Incomplete:
+        """
+        sets the pre subproblem solve callback of Benders decomposition
+        """
     def benderssolvesubconvex(
         self, solution: Incomplete, probnumber: Incomplete, onlyconvex: Incomplete
-    ) -> Incomplete: ...
-    def benderssolvesub(self, solution: Incomplete, probnumber: int) -> Incomplete: ...
+    ) -> Incomplete:
+        """
+        sets convex solve callback of Benders decomposition
+        """
+    def benderssolvesub(self, solution: Incomplete, probnumber: int) -> Incomplete:
+        """
+        sets solve callback of Benders decomposition
+        """
     def benderspostsolve(
         self,
         solution: Incomplete,
@@ -331,9 +551,18 @@ class Benders:
         npriomergecands: Incomplete,
         checkint: Incomplete,
         infeasible: Incomplete,
-    ) -> None: ...
-    def bendersfreesub(self, probnumber: int) -> Incomplete: ...
-    def bendersgetvar(self, variable: Variable, probnumber: int) -> Variable: ...
+    ) -> None:
+        """
+        sets post-solve callback of Benders decomposition
+        """
+    def bendersfreesub(self, probnumber: int) -> Incomplete:
+        """
+        frees the subproblems
+        """
+    def bendersgetvar(self, variable: Variable, probnumber: int) -> Variable:
+        """
+        Returns the corresponding master or subproblem variable for the given variable. This provides a call back for the variable mapping between the master and subproblems.
+        """
 
 ################
 # benderscut.pxi
@@ -358,14 +587,38 @@ class Benderscut:
 
 class Branchrule:
     model: Model
-    def branchfree(self) -> None: ...
-    def branchinit(self) -> None: ...
-    def branchexit(self) -> None: ...
-    def branchinitsol(self) -> None: ...
-    def branchexitsol(self) -> None: ...
-    def branchexeclp(self, allowaddcons: bool) -> Incomplete: ...
-    def branchexecext(self, allowaddcons: bool) -> Incomplete: ...
-    def branchexecps(self, allowaddcons: bool) -> Incomplete: ...
+    def branchfree(self) -> None:
+        """
+        frees memory of branching rule
+        """
+    def branchinit(self) -> None:
+        """
+        initializes branching rule
+        """
+    def branchexit(self) -> None:
+        """
+        deinitializes branching rule
+        """
+    def branchinitsol(self) -> None:
+        """
+        informs branching rule that the branch and bound process is being started
+        """
+    def branchexitsol(self) -> None:
+        """
+        informs branching rule that the branch and bound process data is being freed
+        """
+    def branchexeclp(self, allowaddcons: bool) -> Incomplete:
+        """
+        executes branching rule for fractional LP solution
+        """
+    def branchexecext(self, allowaddcons: bool) -> Incomplete:
+        """
+        executes branching rule for external branching candidates
+        """
+    def branchexecps(self, allowaddcons: bool) -> Incomplete:
+        """
+        executes branching rule for not completely fixed pseudo solution
+        """
 
 ##############
 # conshdlr.pxi
@@ -374,40 +627,85 @@ class Branchrule:
 class Conshdlr:
     model: Model
     name: str
-    def consfree(self) -> None: ...
-    def consinit(self, constraints: Incomplete) -> None: ...
-    def consexit(self, constraints: Incomplete) -> None: ...
-    def consinitpre(self, constraints: Incomplete) -> None: ...
-    def consexitpre(self, constraints: Incomplete) -> None: ...
-    def consinitsol(self, constraints: Incomplete) -> None: ...
-    def consexitsol(self, constraints: Incomplete, restart: Incomplete) -> None: ...
-    def consdelete(self, constraint: Constraint) -> None: ...
-    def constrans(self, sourceconstraint: Constraint) -> None: ...
-    def consinitlp(self, constraints: Incomplete) -> None: ...
-    def conssepalp(self, constraints: Incomplete, nusefulconss: Incomplete) -> None: ...
+    def consfree(self) -> None:
+        """
+        calls destructor and frees memory of constraint handler
+        """
+    def consinit(self, constraints: Incomplete) -> None:
+        """
+        calls initialization method of constraint handler
+        """
+    def consexit(self, constraints: Incomplete) -> None:
+        """
+        calls exit method of constraint handler
+        """
+    def consinitpre(self, constraints: Incomplete) -> None:
+        """
+        informs constraint handler that the presolving process is being started
+        """
+    def consexitpre(self, constraints: Incomplete) -> None:
+        """
+        informs constraint handler that the presolving is finished
+        """
+    def consinitsol(self, constraints: Incomplete) -> None:
+        """
+        informs constraint handler that the branch and bound process is being started
+        """
+    def consexitsol(self, constraints: Incomplete, restart: Incomplete) -> None:
+        """
+        informs constraint handler that the branch and bound process data is being freed
+        """
+    def consdelete(self, constraint: Constraint) -> None:
+        """
+        sets method of constraint handler to free specific constraint data
+        """
+    def constrans(self, sourceconstraint: Constraint) -> None:
+        """
+        sets method of constraint handler to transform constraint data into data belonging to the transformed problem
+        """
+    def consinitlp(self, constraints: Incomplete) -> None:
+        """
+        calls LP initialization method of constraint handler to separate all initial active constraints
+        """
+    def conssepalp(self, constraints: Incomplete, nusefulconss: Incomplete) -> None:
+        """
+        calls separator method of constraint handler to separate LP solution
+        """
     def conssepasol(
         self, constraints: Incomplete, nusefulconss: Incomplete, solution: Incomplete
-    ) -> None: ...
+    ) -> None:
+        """
+        calls separator method of constraint handler to separate given primal solution
+        """
     def consenfolp(
         self,
         constraints: Incomplete,
         nusefulconss: Incomplete,
         solinfeasible: Incomplete,
-    ) -> None: ...
+    ) -> None:
+        """
+        calls enforcing method of constraint handler for LP solution for all constraints added
+        """
     def consenforelax(
         self,
         solution: Incomplete,
         constraints: Incomplete,
         nusefulconss: Incomplete,
         solinfeasible: Incomplete,
-    ) -> None: ...
+    ) -> None:
+        """
+        calls enforcing method of constraint handler for a relaxation solution for all constraints added
+        """
     def consenfops(
         self,
         constraints: Incomplete,
         nusefulconss: Incomplete,
         solinfeasible: Incomplete,
         objinfeasible: Incomplete,
-    ) -> None: ...
+    ) -> None:
+        """
+        calls enforcing method of constraint handler for pseudo solution for all constraints added
+        """
     def conscheck(
         self,
         constraints: Incomplete,
@@ -416,14 +714,20 @@ class Conshdlr:
         checklprows: Incomplete,
         printreason: Incomplete,
         completely: Incomplete,
-    ) -> Incomplete: ...
+    ) -> Incomplete:
+        """
+        calls feasibility check method of constraint handler
+        """
     def consprop(
         self,
         constraints: Incomplete,
         nusefulconss: Incomplete,
         nmarkedconss: Incomplete,
         proptiming: Incomplete,
-    ) -> None: ...
+    ) -> None:
+        """
+        calls propagation method of constraint handler
+        """
     def conspresol(
         self,
         constraints: Incomplete,
@@ -440,28 +744,76 @@ class Conshdlr:
         nnewchgcoefs: Incomplete,
         nnewchgsides: Incomplete,
         result_dict: Incomplete,
-    ) -> None: ...
-    def consresprop(self) -> None: ...
+    ) -> None:
+        """
+        calls presolving method of constraint handler
+        """
+    def consresprop(self) -> None:
+        """
+        sets propagation conflict resolving method of constraint handler
+        """
     def conslock(
         self,
         constraint: Constraint,
         locktype: Incomplete,
         nlockspos: Incomplete,
         nlocksneg: Incomplete,
-    ) -> None: ...
-    def consactive(self, constraint: Constraint) -> None: ...
-    def consdeactive(self, constraint: Constraint) -> None: ...
-    def consenable(self, constraint: Constraint) -> None: ...
-    def consdisable(self, constraint: Constraint) -> None: ...
-    def consdelvars(self, constraints: Incomplete) -> None: ...
-    def consprint(self, constraint: Constraint) -> None: ...
-    def conscopy(self) -> Incomplete: ...
-    def consparse(self) -> None: ...
-    def consgetvars(self, constraint: Constraint) -> None: ...
-    def consgetnvars(self, constraint: Constraint) -> int: ...
-    def consgetdivebdchgs(self) -> None: ...
-    def consgetpermsymgraph(self) -> None: ...
-    def consgetsignedpermsymgraph(self) -> None: ...
+    ) -> None:
+        """
+        variable rounding lock method of constraint handler
+        """
+    def consactive(self, constraint: Constraint) -> None:
+        """
+        sets activation notification method of constraint handler
+        """
+    def consdeactive(self, constraint: Constraint) -> None:
+        """
+        sets deactivation notification method of constraint handler
+        """
+    def consenable(self, constraint: Constraint) -> None:
+        """
+        sets enabling notification method of constraint handler
+        """
+    def consdisable(self, constraint: Constraint) -> None:
+        """
+        sets disabling notification method of constraint handler
+        """
+    def consdelvars(self, constraints: Incomplete) -> None:
+        """
+        calls variable deletion method of constraint handler
+        """
+    def consprint(self, constraint: Constraint) -> None:
+        """
+        sets constraint display method of constraint handler
+        """
+    def conscopy(self) -> Incomplete:
+        """
+        sets copy method of both the constraint handler and each associated constraint
+        """
+    def consparse(self) -> None:
+        """
+        sets constraint parsing method of constraint handler
+        """
+    def consgetvars(self, constraint: Constraint) -> None:
+        """
+        sets constraint variable getter method of constraint handler
+        """
+    def consgetnvars(self, constraint: Constraint) -> int:
+        """
+        sets constraint variable number getter method of constraint handler
+        """
+    def consgetdivebdchgs(self) -> None:
+        """
+        calls diving solution enforcement callback of constraint handler, if it exists
+        """
+    def consgetpermsymgraph(self) -> None:
+        """
+        permutation symmetry detection graph getter callback, if it exists
+        """
+    def consgetsignedpermsymgraph(self) -> None:
+        """
+        signed permutation symmetry detection graph getter callback, if it exists
+        """
 
 ############
 # cutsel.pxi
@@ -470,15 +822,25 @@ class Conshdlr:
 class Cutsel:
     model: Incomplete
     def cutselfree(self):
-        """frees memory of cut selector"""
+        """
+        frees memory of cut selector
+        """
     def cutselinit(self):
-        """executed after the problem is transformed. use this call to initialize cut selector data."""
+        """
+        executed after the problem is transformed. use this call to initialize cut selector data.
+        """
     def cutselexit(self):
-        """executed before the transformed problem is freed"""
+        """
+        executed before the transformed problem is freed
+        """
     def cutselinitsol(self):
-        """executed when the presolving is finished and the branch-and-bound process is about to begin"""
+        """
+        executed when the presolving is finished and the branch-and-bound process is about to begin
+        """
     def cutselexitsol(self):
-        """executed before the branch-and-bound process is freed"""
+        """
+        executed before the branch-and-bound process is freed
+        """
     def cutselselect(
         self,
         cuts: Incomplete,
@@ -486,7 +848,9 @@ class Cutsel:
         root: Incomplete,
         maxnselectedcuts: Incomplete,
     ):
-        """first method called in each iteration in the main solving loop."""
+        """
+        first method called in each iteration in the main solving loop.
+        """
 
 ###########
 # event.pxi
@@ -496,21 +860,37 @@ class Eventhdlr:
     model: Incomplete
     name: Incomplete
     def eventcopy(self):
-        """sets copy callback for all events of this event handler"""
+        """
+        sets copy callback for all events of this event handler
+        """
     def eventfree(self):
-        """calls destructor and frees memory of event handler"""
+        """
+        calls destructor and frees memory of event handler
+        """
     def eventinit(self):
-        """initializes event handler"""
+        """
+        initializes event handler
+        """
     def eventexit(self):
-        """calls exit method of event handler"""
+        """
+        calls exit method of event handler
+        """
     def eventinitsol(self):
-        """informs event handler that the branch and bound process is being started"""
+        """
+        informs event handler that the branch and bound process is being started
+        """
     def eventexitsol(self):
-        """informs event handler that the branch and bound process data is being freed"""
+        """
+        informs event handler that the branch and bound process data is being freed
+        """
     def eventdelete(self):
-        """sets callback to free specific event data"""
+        """
+        sets callback to free specific event data
+        """
     def eventexec(self, event: Incomplete):
-        """calls execution method of event handler"""
+        """
+        calls execution method of event handler
+        """
 
 ###############
 # heuristic.pxi
@@ -520,17 +900,29 @@ class Heur:
     model: Incomplete
     name: Incomplete
     def heurfree(self):
-        """calls destructor and frees memory of primal heuristic"""
+        """
+        calls destructor and frees memory of primal heuristic
+        """
     def heurinit(self):
-        """initializes primal heuristic"""
+        """
+        initializes primal heuristic
+        """
     def heurexit(self):
-        """calls exit method of primal heuristic"""
+        """
+        calls exit method of primal heuristic
+        """
     def heurinitsol(self):
-        """informs primal heuristic that the branch and bound process is being started"""
+        """
+        informs primal heuristic that the branch and bound process is being started
+        """
     def heurexitsol(self):
-        """informs primal heuristic that the branch and bound process data is being freed"""
+        """
+        informs primal heuristic that the branch and bound process data is being freed
+        """
     def heurexec(self, heurtiming: Incomplete, nodeinfeasible: Incomplete):
-        """should the heuristic the executed at the given depth, frequency, timing,..."""
+        """
+        should the heuristic the executed at the given depth, frequency, timing,...
+        """
 
 ############
 # presol.pxi
@@ -539,17 +931,29 @@ class Heur:
 class Presol:
     model: Incomplete
     def presolfree(self):
-        """frees memory of presolver"""
+        """
+        frees memory of presolver
+        """
     def presolinit(self):
-        """initializes presolver"""
+        """
+        initializes presolver
+        """
     def presolexit(self):
-        """deinitializes presolver"""
+        """
+        deinitializes presolver
+        """
     def presolinitpre(self):
-        """informs presolver that the presolving process is being started"""
+        """
+        informs presolver that the presolving process is being started
+        """
     def presolexitpre(self):
-        """informs presolver that the presolving process is finished"""
+        """
+        informs presolver that the presolving process is finished
+        """
     def presolexec(self, nrounds: Incomplete, presoltiming: Incomplete):
-        """executes presolver"""
+        """
+        executes presolver
+        """
 
 ############
 # pricer.pxi
@@ -558,19 +962,33 @@ class Presol:
 class Pricer:
     model: Incomplete
     def pricerfree(self):
-        """calls destructor and frees memory of variable pricer"""
+        """
+        calls destructor and frees memory of variable pricer
+        """
     def pricerinit(self):
-        """initializes variable pricer"""
+        """
+        initializes variable pricer
+        """
     def pricerexit(self):
-        """calls exit method of variable pricer"""
+        """
+        calls exit method of variable pricer
+        """
     def pricerinitsol(self):
-        """informs variable pricer that the branch and bound process is being started"""
+        """
+        informs variable pricer that the branch and bound process is being started
+        """
     def pricerexitsol(self):
-        """informs variable pricer that the branch and bound process data is being freed"""
+        """
+        informs variable pricer that the branch and bound process data is being freed
+        """
     def pricerredcost(self):
-        """calls reduced cost pricing method of variable pricer"""
+        """
+        calls reduced cost pricing method of variable pricer
+        """
     def pricerfarkas(self):
-        """calls Farkas pricing method of variable pricer"""
+        """
+        calls Farkas pricing method of variable pricer
+        """
 
 ################
 # propagator.pxi
@@ -579,25 +997,43 @@ class Pricer:
 class Prop:
     model: Incomplete
     def propfree(self):
-        """calls destructor and frees memory of propagator"""
+        """
+        calls destructor and frees memory of propagator
+        """
     def propinit(self):
-        """initializes propagator"""
+        """
+        initializes propagator
+        """
     def propexit(self):
-        """calls exit method of propagator"""
+        """
+        calls exit method of propagator
+        """
     def propinitsol(self):
-        """informs propagator that the prop and bound process is being started"""
+        """
+        informs propagator that the prop and bound process is being started
+        """
     def propexitsol(self, restart: Incomplete):
-        """informs propagator that the prop and bound process data is being freed"""
+        """
+        informs propagator that the prop and bound process data is being freed
+        """
     def propinitpre(self):
-        """informs propagator that the presolving process is being started"""
+        """
+        informs propagator that the presolving process is being started
+        """
     def propexitpre(self):
-        """informs propagator that the presolving process is finished"""
+        """
+        informs propagator that the presolving process is finished
+        """
     def proppresol(
         self, nrounds: Incomplete, presoltiming: Incomplete, result_dict: Incomplete
     ):
-        """executes presolving method of propagator"""
+        """
+        executes presolving method of propagator
+        """
     def propexec(self, proptiming: Incomplete):
-        """calls execution method of propagator"""
+        """
+        calls execution method of propagator
+        """
     def propresprop(
         self,
         confvar: Incomplete,
@@ -605,7 +1041,9 @@ class Prop:
         bdtype: Incomplete,
         relaxedbd: Incomplete,
     ):
-        """resolves the given conflicting bound, that was reduced by the given propagator"""
+        """
+        resolves the given conflicting bound, that was reduced by the given propagator
+        """
 
 ##########
 # sepa.pxi
@@ -615,19 +1053,33 @@ class Sepa:
     model: Incomplete
     name: Incomplete
     def sepafree(self):
-        """calls destructor and frees memory of separator"""
+        """
+        calls destructor and frees memory of separator
+        """
     def sepainit(self):
-        """initializes separator"""
+        """
+        initializes separator
+        """
     def sepaexit(self):
-        """calls exit method of separator"""
+        """
+        calls exit method of separator
+        """
     def sepainitsol(self):
-        """informs separator that the branch and bound process is being started"""
+        """
+        informs separator that the branch and bound process is being started
+        """
     def sepaexitsol(self):
-        """informs separator that the branch and bound process data is being freed"""
+        """
+        informs separator that the branch and bound process data is being freed
+        """
     def sepaexeclp(self):
-        """calls LP separation method of separator"""
+        """
+        calls LP separation method of separator
+        """
     def sepaexecsol(self, solution: Incomplete):
-        """calls primal solution separation method of separator"""
+        """
+        calls primal solution separation method of separator
+        """
 
 ############
 # reader.pxi
@@ -637,9 +1089,13 @@ class Reader:
     model: Incomplete
     name: Incomplete
     def readerfree(self):
-        """calls destructor and frees memory of reader"""
+        """
+        calls destructor and frees memory of reader
+        """
     def readerread(self, filename: Incomplete):
-        """calls read method of reader"""
+        """
+        calls read method of reader
+        """
     def readerwrite(
         self,
         file: Incomplete,
@@ -659,7 +1115,9 @@ class Reader:
         startnconss: Incomplete,
         genericnames: Incomplete,
     ):
-        """calls write method of reader"""
+        """
+        calls write method of reader
+        """
 
 ###########
 # relax.pxi
@@ -669,17 +1127,29 @@ class Relax:
     model: Incomplete
     name: Incomplete
     def relaxfree(self):
-        """calls destructor and frees memory of relaxation handler"""
+        """
+        calls destructor and frees memory of relaxation handler
+        """
     def relaxinit(self):
-        """initializes relaxation handler"""
+        """
+        initializes relaxation handler
+        """
     def relaxexit(self):
-        """calls exit method of relaxation handler"""
+        """
+        calls exit method of relaxation handler
+        """
     def relaxinitsol(self):
-        """informs relaxaton handler that the branch and bound process is being started"""
+        """
+        informs relaxaton handler that the branch and bound process is being started
+        """
     def relaxexitsol(self):
-        """informs relaxation handler that the branch and bound process data is being freed"""
+        """
+        informs relaxation handler that the branch and bound process data is being freed
+        """
     def relaxexec(self):
-        """callls execution method of relaxation handler"""
+        """
+        callls execution method of relaxation handler
+        """
 
 #############
 # nodesel.pxi
@@ -688,17 +1158,29 @@ class Relax:
 class Nodesel:
     model: Incomplete
     def nodefree(self):
-        """frees memory of node selector"""
+        """
+        frees memory of node selector
+        """
     def nodeinit(self):
-        """executed after the problem is transformed. use this call to initialize node selector data."""
+        """
+        executed after the problem is transformed. use this call to initialize node selector data.
+        """
     def nodeexit(self):
-        """executed before the transformed problem is freed"""
+        """
+        executed before the transformed problem is freed
+        """
     def nodeinitsol(self):
-        """executed when the presolving is finished and the branch-and-bound process is about to begin"""
+        """
+        executed when the presolving is finished and the branch-and-bound process is about to begin
+        """
     def nodeexitsol(self):
-        """executed before the branch-and-bound process is freed"""
+        """
+        executed before the branch-and-bound process is freed
+        """
     def nodeselect(self):
-        """first method called in each iteration in the main solving loop."""
+        """
+        first method called in each iteration in the main solving loop.
+        """
     def nodecomp(self, node1: Incomplete, node2: Incomplete):
         """
         compare two leaves of the current branching tree
@@ -939,28 +1421,152 @@ def PY_SCIP_CALL(rc: int) -> None: ...
 
 class Event:
     data: object
-    def getType(self) -> PY_SCIP_EVENTTYPE: ...
-    def getName(self) -> str: ...  # one of the keys of SCIP_EVENTTYPE
-    def getNewBound(self) -> float: ...
-    def getOldBound(self) -> float: ...
-    def getVar(self) -> Variable: ...
-    def getNode(self) -> Node: ...
-    def getRow(self) -> Row: ...
+    def getType(self) -> PY_SCIP_EVENTTYPE:
+        """
+        Gets type of event.
+
+        Returns
+        -------
+        PY_SCIP_EVENTTYPE
+        """
+    def getName(self) -> str:
+        """
+        Gets name of event.
+
+        Returns
+        -------
+        str
+        """
+    def getNewBound(self) -> float:
+        """
+        Gets new bound for a bound change event.
+
+        Returns
+        -------
+        float
+        """
+    def getOldBound(self) -> float:
+        """
+        Gets old bound for a bound change event.
+
+        Returns
+        -------
+        float
+        """
+    def getVar(self) -> Variable:
+        """
+        Gets variable for a variable event (var added, var deleted, var fixed,
+        objective value or domain change, domain hole added or removed).
+
+        Returns
+        -------
+        Variable
+        """
+    def getNode(self) -> Node:
+        """
+        Gets node for a node or LP event.
+
+        Returns
+        -------
+        Node
+        """
+    def getRow(self) -> Row:
+        """
+        Gets row for a row event.
+
+        Returns
+        -------
+        Row
+        """
     @override
     def __hash__(self) -> int: ...
 
 class Column:
     data: object
     def __init__(self) -> None: ...
-    def getLPPos(self) -> int: ...
-    def getBasisStatus(self) -> L["lower", "basic", "upper", "zero"]: ...
-    def isIntegral(self) -> bool: ...
-    def getVar(self) -> Variable: ...
-    def getPrimsol(self) -> float: ...
-    def getLb(self) -> float: ...
-    def getUb(self) -> float: ...
-    def getObjCoeff(self) -> float: ...
-    def getAge(self) -> int: ...
+    def getLPPos(self) -> int:
+        """
+        Gets position of column in current LP, or -1 if it is not in LP.
+
+        Returns
+        -------
+        int
+        """
+    def getBasisStatus(self) -> L["lower", "basic", "upper", "zero"]:
+        """
+        Gets the basis status of a column in the LP solution
+
+        Returns
+        -------
+        str
+            Possible values are "lower", "basic", "upper", and "zero"
+
+        Raises
+        ------
+        Exception
+            If SCIP returns an unknown basis status
+
+        Notes
+        -----
+        Returns basis status "zero" for columns not in the current SCIP LP.
+        """
+    def isIntegral(self) -> bool:
+        """
+        Returns whether the associated variable is of integral type (binary, integer, implicit integer).
+
+        Returns
+        -------
+        bool
+        """
+    def getVar(self) -> Variable:
+        """
+        Gets variable this column represents.
+
+        Returns
+        -------
+        Variable
+        """
+    def getPrimsol(self) -> float:
+        """
+        Gets the primal LP solution of a column.
+
+        Returns
+        -------
+        float
+        """
+    def getLb(self) -> float:
+        """
+        Gets lower bound of column.
+
+        Returns
+        -------
+        float
+        """
+    def getUb(self) -> float:
+        """
+        Gets upper bound of column.
+
+        Returns
+        -------
+        float
+        """
+    def getObjCoeff(self) -> float:
+        """
+        Gets objective value coefficient of a column.
+
+        Returns
+        -------
+        float
+        """
+    def getAge(self) -> int:
+        """
+        Gets the age of the column, i.e., the total number of successive times a column was in the LP
+        and was 0.0 in the solution.
+
+        Returns
+        -------
+        int
+        """
     @override
     def __hash__(self) -> int: ...
 
@@ -968,24 +1574,161 @@ class Row:
     data: object
     @property
     def name(self) -> str: ...
-    def getLhs(self) -> float: ...
-    def getRhs(self) -> float: ...
-    def getConstant(self) -> float: ...
-    def getLPPos(self) -> int: ...
-    def getBasisStatus(self) -> L["lower", "basic", "upper"]: ...
-    def isIntegral(self) -> bool: ...
-    def isLocal(self) -> bool: ...
-    def isModifiable(self) -> bool: ...
-    def isRemovable(self) -> bool: ...
-    def isInGlobalCutpool(self) -> bool: ...
-    def getOrigintype(self) -> PY_SCIP_ROWORIGINTYPE: ...
-    def getConsOriginConshdlrtype(self) -> str: ...
-    def getNNonz(self) -> int: ...
-    def getNLPNonz(self) -> int: ...
-    def getCols(self) -> list[Column]: ...
-    def getVals(self) -> list[float]: ...
-    def getAge(self) -> int: ...
-    def getNorm(self) -> float: ...
+    def getLhs(self) -> float:
+        """
+        Returns the left hand side of row.
+
+        Returns
+        -------
+        float
+        """
+    def getRhs(self) -> float:
+        """
+        Returns the right hand side of row.
+
+        Returns
+        -------
+        float
+        """
+    def getConstant(self) -> float:
+        """
+        Gets constant shift of row.
+
+        Returns
+        -------
+        float
+        """
+    def getLPPos(self) -> int:
+        """
+        Gets position of row in current LP, or -1 if it is not in LP.
+
+        Returns
+        -------
+        int
+        """
+    def getBasisStatus(self) -> L["lower", "basic", "upper"]:
+        """
+        Gets the basis status of a row in the LP solution.
+
+        Returns
+        -------
+        str
+            Possible values are "lower", "basic", and "upper"
+
+        Raises
+        ------
+        Exception
+            If SCIP returns an unknown or "zero" basis status
+
+        Notes
+        -----
+        Returns basis status "basic" for rows not in the current SCIP LP.
+        """
+    def isIntegral(self) -> bool:
+        """
+        Returns TRUE iff the activity of the row (without the row's constant)
+        is always integral in a feasible solution.
+
+        Returns
+        -------
+        bool
+        """
+    def isLocal(self) -> bool:
+        """
+        Returns TRUE iff the row is only valid locally.
+
+        Returns
+        -------
+        bool
+        """
+    def isModifiable(self) -> bool:
+        """
+        Returns TRUE iff row is modifiable during node processing (subject to column generation).
+
+        Returns
+        -------
+        bool
+        """
+    def isRemovable(self) -> bool:
+        """
+        Returns TRUE iff row is removable from the LP (due to aging or cleanup).
+
+        Returns
+        -------
+        bool
+        """
+    def isInGlobalCutpool(self) -> bool:
+        """
+        Return TRUE iff row is a member of the global cut pool.
+
+        Returns
+        -------
+        bool
+        """
+    def getOrigintype(self) -> PY_SCIP_ROWORIGINTYPE:
+        """
+        Returns type of origin that created the row.
+
+        Returns
+        -------
+        PY_SCIP_ROWORIGINTYPE
+        """
+    def getConsOriginConshdlrtype(self) -> str:
+        """
+        Returns type of constraint handler that created the row.
+
+        Returns
+        -------
+        str
+        """
+    def getNNonz(self) -> int:
+        """
+        Get number of nonzero entries in row vector.
+
+        Returns
+        -------
+        int
+        """
+    def getNLPNonz(self) -> int:
+        """
+        Get number of nonzero entries in row vector that correspond to columns currently in the SCIP LP.
+
+        Returns
+        -------
+        int
+        """
+    def getCols(self) -> list[Column]:
+        """
+        Gets list with columns of nonzero entries
+
+        Returns
+        -------
+        list of Column
+        """
+    def getVals(self) -> list[float]:
+        """
+        Gets list with coefficients of nonzero entries.
+
+        Returns
+        -------
+        list of int
+        """
+    def getAge(self) -> int:
+        """
+        Gets the age of the row. (The consecutive times the row has been non-active in the LP).
+
+        Returns
+        -------
+        int
+        """
+    def getNorm(self) -> float:
+        """
+        Gets Euclidean norm of row vector.
+
+        Returns
+        -------
+        float
+        """
     @override
     def __hash__(self) -> int: ...
 
@@ -993,11 +1736,46 @@ class NLRow:
     data: object
     @property
     def name(self) -> str: ...
-    def getConstant(self) -> float: ...
-    def getLinearTerms(self) -> list[tuple[Variable, float]]: ...
-    def getLhs(self) -> float: ...
-    def getRhs(self) -> float: ...
-    def getDualsol(self) -> float: ...
+    def getConstant(self) -> float:
+        """
+        Returns the constant of a nonlinear row.
+
+        Returns
+        -------
+        float
+        """
+    def getLinearTerms(self) -> list[tuple[Variable, float]]:
+        """
+        Returns a list of tuples (var, coef) representing the linear part of a nonlinear row.
+
+        Returns
+        -------
+        list of tuple
+        """
+    def getLhs(self) -> float:
+        """
+        Returns the left hand side of a nonlinear row.
+
+        Returns
+        -------
+        float
+        """
+    def getRhs(self) -> float:
+        """
+        Returns the right hand side of a nonlinear row.
+
+        Returns
+        -------
+        float
+        """
+    def getDualsol(self) -> float:
+        """
+        Gets the dual NLP solution of a nonlinear row.
+
+        Returns
+        -------
+        float
+        """
     @override
     def __hash__(self) -> int: ...
 
@@ -1006,41 +1784,208 @@ class Solution:
     def __init__(self, raise_error: bool = False) -> None: ...
     def __getitem__(self, /, expr: Expr) -> float: ...
     def __setitem__(self, /, var: Variable, value: float) -> None: ...
-    def getOrigin(self) -> PY_SCIP_SOLORIGIN: ...
-    def retransform(self) -> None: ...
-    def translate(self, target: Model) -> Solution: ...
+    def getOrigin(self) -> PY_SCIP_SOLORIGIN:
+        """
+        Returns origin of solution: where to retrieve uncached elements.
+
+        Returns
+        -------
+        PY_SCIP_SOLORIGIN
+        """
+    def retransform(self) -> None:
+        """
+        retransforms solution to original problem space
+        """
+    def translate(self, target: Model) -> Solution:
+        """
+        translate solution to a target model solution
+
+        Parameters
+        ----------
+        target : Model
+
+        Returns
+        -------
+        targetSol: Solution
+        """
 
 class BoundChange:
-    def getNewBound(self) -> float: ...
-    def getVar(self) -> Variable: ...
+    def getNewBound(self) -> float:
+        """
+        Returns the new value of the bound in the bound change.
+
+        Returns
+        -------
+        float
+        """
+    def getVar(self) -> Variable:
+        """
+        Returns the variable of the bound change.
+
+        Returns
+        -------
+        Variable
+        """
     # TODO: enum? (0 = branching, 1 = consinfer, 2 = propinfer)
-    def getBoundchgtype(self) -> int: ...
+    def getBoundchgtype(self) -> int:
+        """
+        Returns the bound change type of the bound change.
+
+        Returns
+        -------
+        int
+            (0 = branching, 1 = consinfer, 2 = propinfer)
+        """
     # TODO: enum? (0 = lower, 1 = upper)
-    def getBoundtype(self) -> int: ...
-    def isRedundant(self) -> bool: ...
+    def getBoundtype(self) -> int:
+        """
+        Returns the bound type of the bound change.
+
+        Returns
+        -------
+        int
+            (0 = lower, 1 = upper)
+        """
+    def isRedundant(self) -> bool:
+        """
+        Returns whether the bound change is redundant due to a more global bound that is at least as strong.
+
+        Returns
+        -------
+        bool
+        """
 
 class DomainChanges:
-    def getBoundchgs(self) -> list[BoundChange]: ...
+    def getBoundchgs(self) -> list[BoundChange]:
+        """
+        Returns the bound changes in the domain change.
+
+        Returns
+        -------
+        list of BoundChange
+        """
 
 class Node:
     data: object
-    def getParent(self) -> Node | None: ...
-    def getNumber(self) -> int: ...
-    def getDepth(self) -> int: ...
-    def getType(self) -> PY_SCIP_NODETYPE: ...
-    def getLowerbound(self) -> float: ...
-    def getEstimate(self) -> float: ...
-    def getAddedConss(self) -> list[Constraint]: ...
-    def getNAddedConss(self) -> int: ...
-    def isActive(self) -> bool: ...
-    def isPropagatedAgain(self) -> bool: ...
-    def getNParentBranchings(self) -> int: ...
+    def getParent(self) -> Node | None:
+        """
+        Retrieve parent node (or None if the node has no parent node).
+
+        Returns
+        -------
+        Node
+        """
+    def getNumber(self) -> int:
+        """
+        Retrieve number of node.
+
+        Returns
+        -------
+        int
+        """
+    def getDepth(self) -> int:
+        """
+        Retrieve depth of node.
+
+        Returns
+        -------
+        int
+        """
+    def getType(self) -> PY_SCIP_NODETYPE:
+        """
+        Retrieve type of node.
+
+        Returns
+        -------
+        PY_SCIP_NODETYPE
+        """
+    def getLowerbound(self) -> float:
+        """
+        Retrieve lower bound of node.
+
+        Returns
+        -------
+        float
+        """
+    def getEstimate(self) -> float:
+        """
+        Retrieve the estimated value of the best feasible solution in subtree of the node.
+
+        Returns
+        -------
+        float
+        """
+    def getAddedConss(self) -> list[Constraint]:
+        """
+        Retrieve all constraints added at this node.
+
+        Returns
+        -------
+        list of Constraint
+        """
+    def getNAddedConss(self) -> int:
+        """
+        Retrieve number of added constraints at this node.
+
+        Returns
+        -------
+        int
+        """
+    def isActive(self) -> bool:
+        """
+        Is the node in the path to the current node?
+
+        Returns
+        -------
+        bool
+        """
+    def isPropagatedAgain(self) -> bool:
+        """
+        Is the node marked to be propagated again?
+
+        Returns
+        -------
+        bool
+        """
+    def getNParentBranchings(self) -> int:
+        """
+        Retrieve the number of variable branchings that were performed in the parent node to create this node.
+
+        Returns
+        -------
+        int
+        """
     # TODO: the ints are SCIP_BOUNDTYPEs
     def getParentBranchings(
         self,
-    ) -> tuple[list[Variable], list[float], list[int]] | None: ...
-    def getNDomchg(self) -> tuple[int, int, int]: ...
-    def getDomchg(self) -> DomainChanges | None: ...
+    ) -> tuple[list[Variable], list[float], list[int]] | None:
+        """
+        Retrieve the set of variable branchings that were performed in the parent node to create this node.
+
+        Returns
+        -------
+        list of Variable
+        list of float
+        list of int
+        """
+    def getNDomchg(self) -> tuple[int, int, int]:
+        """
+        Retrieve the number of bound changes due to branching, constraint propagation, and propagation.
+
+        Returns
+        -------
+        nbranchings : int
+        nconsprop : int
+        nprop : int
+        """
+    def getDomchg(self) -> DomainChanges | None:
+        """
+        Retrieve domain changes for this node.
+
+        Returns
+        -------
+        DomainChanges
+        """
     @override
     def __hash__(self) -> int: ...
 
@@ -1049,41 +1994,257 @@ class Variable(Expr):
     @property
     def name(self) -> str: ...
     def ptr(self) -> int: ...
-    def vtype(self) -> _VTypesLong: ...
-    def isOriginal(self) -> bool: ...
-    def isInLP(self) -> bool: ...
-    def getIndex(self) -> int: ...
-    def getCol(self) -> Column: ...
-    def getLbOriginal(self) -> float: ...
-    def getUbOriginal(self) -> float: ...
-    def getLbGlobal(self) -> float: ...
-    def getUbGlobal(self) -> float: ...
-    def getLbLocal(self) -> float: ...
-    def getUbLocal(self) -> float: ...
-    def getObj(self) -> float: ...
-    def getLPSol(self) -> float: ...
-    def getAvgSol(self) -> float: ...
-    def varMayRound(self, direction: L["down", "up"] = "down") -> bool: ...
+    def vtype(self) -> _VTypesLong:
+        """
+        Retrieve the variables type (BINARY, INTEGER, IMPLINT or CONTINUOUS)
+
+        Returns
+        -------
+        str
+            "BINARY", "INTEGER", "CONTINUOUS", or "IMPLINT
+        """
+    def isOriginal(self) -> bool:
+        """
+        Retrieve whether the variable belongs to the original problem
+
+        Returns
+        -------
+        bool
+        """
+    def isInLP(self) -> bool:
+        """
+        Retrieve whether the variable is a COLUMN variable that is member of the current LP.
+
+        Returns
+        -------
+        bool
+        """
+    def getIndex(self) -> int:
+        """
+        Retrieve the unique index of the variable.
+
+        Returns
+        -------
+        int
+        """
+    def getCol(self) -> Column:
+        """
+        Retrieve column of COLUMN variable.
+
+        Returns
+        -------
+        Column
+        """
+    def getLbOriginal(self) -> float:
+        """
+        Retrieve original lower bound of variable.
+
+        Returns
+        -------
+        float
+        """
+    def getUbOriginal(self) -> float:
+        """
+        Retrieve original upper bound of variable.
+
+        Returns
+        -------
+        float
+        """
+    def getLbGlobal(self) -> float:
+        """
+        Retrieve global lower bound of variable.
+
+        Returns
+        -------
+        float
+        """
+    def getUbGlobal(self) -> float:
+        """
+        Retrieve global upper bound of variable.
+
+        Returns
+        -------
+        float
+        """
+    def getLbLocal(self) -> float:
+        """
+        Retrieve current lower bound of variable.
+
+        Returns
+        -------
+        float
+        """
+    def getUbLocal(self) -> float:
+        """
+        Retrieve current upper bound of variable.
+
+        Returns
+        -------
+        float
+        """
+    def getObj(self) -> float:
+        """
+        Retrieve current objective value of variable.
+
+        Returns
+        -------
+        float
+        """
+    def getLPSol(self) -> float:
+        """
+        Retrieve the current LP solution value of variable.
+
+        Returns
+        -------
+        float
+        """
+    def getAvgSol(self) -> float:
+        """
+        Get the weighted average solution of variable in all feasible primal solutions found.
+
+        Returns
+        -------
+        float
+        """
+    def varMayRound(self, direction: L["down", "up"] = "down") -> bool:
+        """
+        Checks whether it is possible to round variable up / down and stay feasible for the relaxation.
+
+        Parameters
+        ----------
+        direction : str
+            "up" or "down"
+
+        Returns
+        -------
+        bool
+        """
 
 class Constraint:
     data: object
     @property
     def name(self) -> str: ...
-    def isOriginal(self) -> bool: ...
-    def isInitial(self) -> bool: ...
-    def isSeparated(self) -> bool: ...
-    def isEnforced(self) -> bool: ...
-    def isChecked(self) -> bool: ...
-    def isPropagated(self) -> bool: ...
-    def isLocal(self) -> bool: ...
-    def isModifiable(self) -> bool: ...
-    def isDynamic(self) -> bool: ...
-    def isRemovable(self) -> bool: ...
-    def isStickingAtNode(self) -> bool: ...
-    def isActive(self) -> bool: ...
-    def isLinear(self) -> bool: ...
-    def isNonlinear(self) -> bool: ...
-    def getConshdlrName(self) -> str: ...
+    def isOriginal(self) -> bool:
+        """
+        Retrieve whether the constraint belongs to the original problem.
+
+        Returns
+        -------
+        bool
+        """
+    def isInitial(self) -> bool:
+        """
+        Returns True if the relaxation of the constraint should be in the initial LP.
+
+        Returns
+        -------
+        bool
+        """
+    def isSeparated(self) -> bool:
+        """
+        Returns True if constraint should be separated during LP processing.
+
+        Returns
+        -------
+        bool
+        """
+    def isEnforced(self) -> bool:
+        """
+        Returns True if constraint should be enforced during node processing.
+
+        Returns
+        -------
+        bool
+        """
+    def isChecked(self) -> bool:
+        """
+        Returns True if constraint should be checked for feasibility.
+
+        Returns
+        -------
+        bool
+        """
+    def isPropagated(self) -> bool:
+        """
+        Returns True if constraint should be propagated during node processing.
+
+        Returns
+        -------
+        bool
+        """
+    def isLocal(self) -> bool:
+        """
+        Returns True if constraint is only locally valid or not added to any (sub)problem.
+
+        Returns
+        -------
+        bool
+        """
+    def isModifiable(self) -> bool:
+        """
+        Returns True if constraint is modifiable (subject to column generation).
+
+        Returns
+        -------
+        bool
+        """
+    def isDynamic(self) -> bool:
+        """
+        Returns True if constraint is subject to aging.
+
+        Returns
+        -------
+        bool
+        """
+    def isRemovable(self) -> bool:
+        """
+        Returns True if constraint's relaxation should be removed from the LP due to aging or cleanup.
+
+        Returns
+        -------
+        bool
+        """
+    def isStickingAtNode(self) -> bool:
+        """
+        Returns True if constraint is only locally valid or not added to any (sub)problem.
+
+        Returns
+        -------
+        bool
+        """
+    def isActive(self) -> bool:
+        """
+        Returns True iff constraint is active in the current node.
+
+        Returns
+        -------
+        bool
+        """
+    def isLinear(self) -> bool:
+        """
+        Returns True if constraint is linear
+
+        Returns
+        -------
+        bool
+        """
+    def isNonlinear(self) -> bool:
+        """
+        Returns True if constraint is nonlinear.
+
+        Returns
+        -------
+        bool
+        """
+    def getConshdlrName(self) -> str:
+        """
+        Return the constraint handler's name.
+
+        Returns
+        -------
+        str
+        """
     @override
     def __hash__(self) -> int: ...
 
@@ -1106,89 +2267,689 @@ class Model:
         events: Iterable[PY_SCIP_EVENTTYPE],
         name: str = "eventhandler",
         description: str = "",
-    ) -> None: ...
+    ) -> None:
+        """
+        Attach an event handler to the model using a callback function.
+
+        Parameters
+        ----------
+        callback : callable
+            The callback function to be called when an event occurs.
+            The callback function should have the following signature:
+            callback(model, event)
+        events : list of SCIP_EVENTTYPE
+            List of event types to attach the event handler to.
+        name : str, optional
+            Name of the event handler. If not provided, a unique default name will be generated.
+        description : str, optional
+            Description of the event handler. If not provided, an empty string will be used.
+        """
     @override
     def __hash__(self) -> int: ...
     @staticmethod
-    def from_ptr(capsule: CapsuleType, take_ownership: bool) -> Model: ...
-    def to_ptr(self, give_ownership: bool) -> CapsuleType: ...
-    def includeDefaultPlugins(self) -> None: ...
-    def createProbBasic(self, problemName: str = "model") -> None: ...
-    def freeProb(self) -> None: ...
-    def freeTransform(self) -> None: ...
-    def version(self) -> float: ...
-    def printVersion(self) -> None: ...
-    def printExternalCodeVersions(self) -> None: ...
-    def getProbName(self) -> str: ...
-    def getTotalTime(self) -> float: ...
-    def getSolvingTime(self) -> float: ...
-    def getReadingTime(self) -> float: ...
-    def getPresolvingTime(self) -> float: ...
-    def getNLPIterations(self) -> int: ...
-    def getNNodes(self) -> int: ...
-    def getNTotalNodes(self) -> int: ...
-    def getNFeasibleLeaves(self) -> int: ...
-    def getNInfeasibleLeaves(self) -> int: ...
-    def getNLeaves(self) -> int: ...
-    def getNChildren(self) -> int: ...
-    def getNSiblings(self) -> int: ...
-    def getCurrentNode(self) -> Node: ...
-    def getGap(self) -> float: ...
-    def getDepth(self) -> int: ...
-    def infinity(self) -> float: ...
-    def epsilon(self) -> float: ...
-    def feastol(self) -> float: ...
-    def feasFrac(self, value: float) -> float: ...
-    def frac(self, value: float) -> float: ...
-    def feasFloor(self, value: float) -> float: ...
-    def feasCeil(self, value: float) -> float: ...
-    def feasRound(self, value: float) -> float: ...
-    def isZero(self, value: float) -> bool: ...
-    def isFeasZero(self, value: float) -> bool: ...
-    def isInfinity(self, value: float) -> bool: ...
-    def isFeasNegative(self, value: float) -> bool: ...
-    def isFeasIntegral(self, value: float) -> bool: ...
-    def isEQ(self, val1: float, val2: float) -> bool: ...
-    def isFeasEQ(self, val1: float, val2: float) -> bool: ...
-    def isLE(self, val1: float, val2: float) -> bool: ...
-    def isLT(self, val1: float, val2: float) -> bool: ...
-    def isGE(self, val1: float, val2: float) -> bool: ...
-    def isGT(self, val1: float, val2: float) -> bool: ...
-    def getCondition(self, exact: bool = False) -> float: ...
-    def enableReoptimization(self, enable: bool = True) -> None: ...
-    def lpiGetIterations(self) -> int: ...
-    def setMinimize(self) -> None: ...
-    def setMaximize(self) -> None: ...
-    def setObjlimit(self, objlimit: float) -> None: ...
-    def getObjlimit(self) -> float: ...
+    def from_ptr(capsule: CapsuleType, take_ownership: bool) -> Model:
+        """
+        Create a Model from a given pointer.
+
+        Parameters
+        ----------
+        capsule
+            The PyCapsule containing the SCIP pointer under the name "scip"
+        take_ownership : bool
+            Whether the newly created Model assumes ownership of the
+            underlying Scip pointer (see ``_freescip``)
+
+        Returns
+        -------
+        Model
+        """
+    def to_ptr(self, give_ownership: bool) -> CapsuleType:
+        """
+        Return the underlying Scip pointer to the current Model.
+
+        Parameters
+        ----------
+        give_ownership : bool
+            Whether the current Model gives away ownership of the
+            underlying Scip pointer (see ``_freescip``)
+
+        Returns
+        -------
+        capsule
+            The underlying pointer to the current Model, wrapped in a
+            PyCapsule under the name "scip".
+        """
+    def includeDefaultPlugins(self) -> None:
+        """
+        Includes all default plug-ins into SCIP.
+        """
+    def createProbBasic(self, problemName: str = "model") -> None:
+        """
+        Create new problem instance with given name.
+
+        Parameters
+        ----------
+        problemName : str, optional
+            name of model or problem (Default value = 'model')
+        """
+    def freeProb(self) -> None:
+        """
+        Frees problem and solution process data.
+        """
+    def freeTransform(self) -> None:
+        """
+        Frees all solution process data including presolving and
+        transformed problem, only original problem is kept.
+        """
+    def version(self) -> float:
+        """
+        Retrieve SCIP version.
+
+        Returns
+        -------
+        float
+        """
+    def printVersion(self) -> None:
+        """
+        Print version, copyright information and compile mode.
+        """
+    def printExternalCodeVersions(self) -> None:
+        """
+        Print external code versions, e.g. symmetry, non-linear solver, lp solver.
+        """
+    def getProbName(self) -> str:
+        """
+        Retrieve problem name.
+
+        Returns
+        -------
+        str
+        """
+    def getTotalTime(self) -> float:
+        """
+        Retrieve the current total SCIP time in seconds,
+        i.e. the total time since the SCIP instance has been created.
+
+        Returns
+        -------
+        float
+        """
+    def getSolvingTime(self) -> float:
+        """
+        Retrieve the current solving time in seconds.
+
+        Returns
+        -------
+        float
+        """
+    def getReadingTime(self) -> float:
+        """
+        Retrieve the current reading time in seconds.
+
+        Returns
+        -------
+        float
+        """
+    def getPresolvingTime(self) -> float:
+        """
+        Returns the current presolving time in seconds.
+
+        Returns
+        -------
+        float
+        """
+    def getNLPIterations(self) -> int:
+        """
+        Returns the total number of LP iterations so far.
+
+        Returns
+        -------
+        int
+        """
+    def getNNodes(self) -> int:
+        """
+        Gets number of processed nodes in current run, including the focus node.
+
+        Returns
+        -------
+        int
+        """
+    def getNTotalNodes(self) -> int:
+        """
+        Gets number of processed nodes in all runs, including the focus node.
+
+        Returns
+        -------
+        int
+        """
+    def getNFeasibleLeaves(self) -> int:
+        """
+        Retrieve number of leaf nodes processed with feasible relaxation solution.
+
+        Returns
+        -------
+        int
+        """
+    def getNInfeasibleLeaves(self) -> int:
+        """
+        Gets number of infeasible leaf nodes processed.
+
+        Returns
+        -------
+        int
+        """
+    def getNLeaves(self) -> int:
+        """
+        Gets number of leaves in the tree.
+
+        Returns
+        -------
+        int
+        """
+    def getNChildren(self) -> int:
+        """
+        Gets number of children of focus node.
+
+        Returns
+        -------
+        int
+        """
+    def getNSiblings(self) -> int:
+        """
+        Gets number of siblings of focus node.
+
+        Returns
+        -------
+        int
+        """
+    def getCurrentNode(self) -> Node:
+        """
+        Retrieve current node.
+
+        Returns
+        -------
+        Node
+        """
+    def getGap(self) -> float:
+        """
+        Retrieve the gap,
+        i.e. abs((primalbound - dualbound)/min(abs(primalbound),abs(dualbound)))
+
+        Returns
+        -------
+        float
+        """
+    def getDepth(self) -> int:
+        """
+        Retrieve the depth of the current node.
+
+        Returns
+        -------
+        int
+        """
+    def infinity(self) -> float:
+        """
+        Retrieve SCIP's infinity value.
+
+        Returns
+        -------
+        int
+        """
+    def epsilon(self) -> float:
+        """
+        Retrieve epsilon for e.g. equality checks.
+
+        Returns
+        -------
+        float
+        """
+    def feastol(self) -> float:
+        """
+        Retrieve feasibility tolerance.
+
+        Returns
+        -------
+        float
+        """
+    def feasFrac(self, value: float) -> float:
+        """
+        Returns fractional part of value, i.e. x - floor(x) in feasible tolerance: x - floor(x+feastol).
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        float
+        """
+    def frac(self, value: float) -> float:
+        """
+        Returns fractional part of value, i.e. x - floor(x) in epsilon tolerance: x - floor(x+eps).
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        float
+        """
+    def feasFloor(self, value: float) -> float:
+        """
+        Rounds value + feasibility tolerance down to the next integer.
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        float
+        """
+    def feasCeil(self, value: float) -> float:
+        """
+        Rounds value - feasibility tolerance up to the next integer.
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        float
+        """
+    def feasRound(self, value: float) -> float:
+        """
+        Rounds value to the nearest integer in feasibility tolerance.
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        float
+        """
+    def isZero(self, value: float) -> bool:
+        """
+        Returns whether abs(value) < eps.
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        bool
+        """
+    def isFeasZero(self, value: float) -> bool:
+        """
+        Returns whether abs(value) < feastol.
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        bool
+        """
+    def isInfinity(self, value: float) -> bool:
+        """
+        Returns whether value is SCIP's infinity.
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        bool
+        """
+    def isFeasNegative(self, value: float) -> bool:
+        """
+        Returns whether value < -feastol.
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        bool
+        """
+    def isFeasIntegral(self, value: float) -> bool:
+        """
+        Returns whether value is integral within the LP feasibility bounds.
+
+        Parameters
+        ----------
+        value : float
+
+        Returns
+        -------
+        bool
+        """
+    def isEQ(self, val1: float, val2: float) -> bool:
+        """
+        Checks, if values are in range of epsilon.
+
+        Parameters
+        ----------
+        val1 : float
+        val2 : float
+
+        Returns
+        -------
+        bool
+        """
+    def isFeasEQ(self, val1: float, val2: float) -> bool:
+        """
+        Checks, if relative difference of values is in range of feasibility tolerance.
+
+        Parameters
+        ----------
+        val1 : float
+        val2 : float
+
+        Returns
+        -------
+        bool
+        """
+    def isLE(self, val1: float, val2: float) -> bool:
+        """
+        Returns whether val1 <= val2 + eps.
+
+        Parameters
+        ----------
+        val1 : float
+        val2 : float
+
+        Returns
+        -------
+        bool
+        """
+    def isLT(self, val1: float, val2: float) -> bool:
+        """
+        Returns whether val1 < val2 - eps.
+
+        Parameters
+        ----------
+        val1 : float
+        val2 : float
+
+        Returns
+        -------
+        bool
+        """
+    def isGE(self, val1: float, val2: float) -> bool:
+        """
+        Returns whether val1 >= val2 - eps.
+
+        Parameters
+        ----------
+        val1 : float
+        val2 : float
+
+        Returns
+        -------
+        bool
+        """
+    def isGT(self, val1: float, val2: float) -> bool:
+        """
+        Returns whether val1 > val2 + eps.
+
+        Parameters
+        ----------
+        val1 : float
+        val2 : foat
+
+        Returns
+        -------
+        bool
+        """
+    def getCondition(self, exact: bool = False) -> float:
+        """
+        Get the current LP's condition number.
+
+        Parameters
+        ----------
+        exact : bool, optional
+            whether to get an estimate or the exact value (Default value = False)
+
+        Returns
+        -------
+        float
+        """
+    def enableReoptimization(self, enable: bool = True) -> None:
+        """
+        Include specific heuristics and branching rules for reoptimization.
+
+        Parameters
+        ----------
+        enable : bool, optional
+            True to enable and False to disable
+        """
+    def lpiGetIterations(self) -> int:
+        """
+        Get the iteration count of the last solved LP.
+
+        Returns
+        -------
+        int
+        """
+    def setMinimize(self) -> None:
+        """
+        Set the objective sense to minimization.
+        """
+    def setMaximize(self) -> None:
+        """
+        Set the objective sense to maximization.
+        """
+    def setObjlimit(self, objlimit: float) -> None:
+        """
+        Set a limit on the objective function.
+        Only solutions with objective value better than this limit are accepted.
+
+        Parameters
+        ----------
+        objlimit : float
+            limit on the objective function
+        """
+    def getObjlimit(self) -> float:
+        """
+        Returns current limit on objective function.
+
+        Returns
+        -------
+        float
+        """
     def setObjective(
         self,
         expr: Expr | SupportsFloat,
         sense: L["minimize", "maximize"] = "minimize",
         clear: bool | L["true"] = "true",  # TODO: typo?
-    ) -> None: ...
-    def getObjective(self) -> Expr: ...
-    def addObjoffset(self, offset: float, solutions: bool = False) -> None: ...
-    def getObjoffset(self, original: bool = True) -> float: ...
-    def setObjIntegral(self) -> None: ...
-    def getLocalEstimate(self, original: bool = False) -> float: ...
-    def setPresolve(self, setting: PY_SCIP_PARAMSETTING) -> None: ...
-    def setProbName(self, name: str) -> None: ...
-    def setSeparating(self, setting: PY_SCIP_PARAMSETTING) -> None: ...
-    def setHeuristics(self, setting: PY_SCIP_PARAMSETTING) -> None: ...
-    def setHeurTiming(self, heurname: str, heurtiming: PY_SCIP_HEURTIMING) -> None: ...
-    def getHeurTiming(self, heurname: str) -> PY_SCIP_HEURTIMING: ...
-    def disablePropagation(self, onlyroot: bool = False) -> None: ...
+    ) -> None:
+        """
+        Establish the objective function as a linear expression.
+
+        Parameters
+        ----------
+        expr : Expr or float
+            the objective function SCIP Expr, or constant value
+        sense : str, optional
+            the objective sense ("minimize" or "maximize") (Default value = 'minimize')
+        clear : bool, optional
+            set all other variables objective coefficient to zero (Default value = 'true')
+        """
+    def getObjective(self) -> Expr:
+        """
+        Retrieve objective function as Expr.
+
+        Returns
+        -------
+        Expr
+        """
+    def addObjoffset(self, offset: float, solutions: bool = False) -> None:
+        """
+        Add constant offset to objective.
+
+        Parameters
+        ----------
+        offset : float
+            offset to add
+        solutions : bool, optional
+            add offset also to existing solutions (Default value = False)
+        """
+    def getObjoffset(self, original: bool = True) -> float:
+        """
+        Retrieve constant objective offset
+
+        Parameters
+        ----------
+        original : bool, optional
+            offset of original or transformed problem (Default value = True)
+
+        Returns
+        -------
+        float
+        """
+    def setObjIntegral(self) -> None:
+        """
+        Informs SCIP that the objective value is always integral in every feasible solution.
+
+        Notes
+        -----
+        This function should be used to inform SCIP that the objective function is integral,
+        helping to improve the performance. This is useful when using column generation.
+        If no column generation (pricing) is used, SCIP automatically detects whether the objective
+        function is integral or can be scaled to be integral. However, in any case, the user has to
+        make sure that no variable is added during the solving process that destroys this property.
+        """
+    def getLocalEstimate(self, original: bool = False) -> float:
+        """
+        Gets estimate of best primal solution w.r.t. original or transformed problem contained in current subtree.
+
+        Parameters
+        ----------
+        original : bool, optional
+            get estimate of original or transformed problem (Default value = False)
+
+        Returns
+        -------
+        float
+        """
+    def setPresolve(self, setting: PY_SCIP_PARAMSETTING) -> None:
+        """
+        Set presolving parameter settings.
+
+
+        Parameters
+        ----------
+        setting : SCIP_PARAMSETTING
+            the parameter settings, e.g. SCIP_PARAMSETTING.OFF
+        """
+    def setProbName(self, name: str) -> None:
+        """
+        Set problem name.
+
+        Parameters
+        ----------
+        name : str
+        """
+    def setSeparating(self, setting: PY_SCIP_PARAMSETTING) -> None:
+        """
+        Set separating parameter settings.
+
+        Parameters
+        ----------
+        setting : SCIP_PARAMSETTING
+            the parameter settings, e.g. SCIP_PARAMSETTING.OFF
+        """
+    def setHeuristics(self, setting: PY_SCIP_PARAMSETTING) -> None:
+        """
+        Set heuristics parameter settings.
+
+        Parameters
+        ----------
+        setting : SCIP_PARAMSETTING
+            the parameter settings, e.g. SCIP_PARAMSETTING.OFF
+        """
+    def setHeurTiming(self, heurname: str, heurtiming: PY_SCIP_HEURTIMING) -> None:
+        """
+        Set the timing of a heuristic
+
+        Parameters
+        ----------
+        heurname : string, name of the heuristic
+        heurtiming : PY_SCIP_HEURTIMING
+                   positions in the node solving loop where heuristic should be executed
+        """
+    def getHeurTiming(self, heurname: str) -> PY_SCIP_HEURTIMING:
+        """
+        Get the timing of a heuristic
+
+        Parameters
+        ----------
+        heurname : string, name of the heuristic
+
+        Returns
+        -------
+        PY_SCIP_HEURTIMING
+                   positions in the node solving loop where heuristic should be executed
+        """
+    def disablePropagation(self, onlyroot: bool = False) -> None:
+        """
+        Disables propagation in SCIP to avoid modifying the original problem during transformation.
+
+        Parameters
+        ----------
+        onlyroot : bool, optional
+            use propagation when root processing is finished (Default value = False)
+        """
     def printProblem(
         self, ext: str = ".cip", trans: bool = False, genericnames: bool = False
-    ) -> None: ...
+    ) -> None:
+        """
+        Write current model/problem to standard output.
+
+        Parameters
+        ----------
+        ext   : str, optional
+            the extension to be used (Default value = '.cip').
+            Should have an extension corresponding to one of the readable file formats,
+            described in https://www.scipopt.org/doc/html/group__FILEREADERS.php.
+        trans : bool, optional
+            indicates whether the transformed problem is written to file (Default value = False)
+        genericnames : bool, optional
+            indicates whether the problem should be written with generic variable
+            and constraint names (Default value = False)
+        """
     def writeProblem(
         self,
         filename: str | bytes | os.PathLike[Any] = "model.cip",
         trans: bool = False,
         genericnames: bool = False,
         verbose: bool = True,
-    ) -> None: ...
+    ) -> None:
+        """
+        Write current model/problem to a file.
+
+        Parameters
+        ----------
+        filename : str, optional
+            the name of the file to be used (Default value = 'model.cip').
+            Should have an extension corresponding to one of the readable file formats,
+            described in https://www.scipopt.org/doc/html/group__FILEREADERS.php.
+        trans : bool, optional
+            indicates whether the transformed problem is written to file (Default value = False)
+        genericnames : bool, optional
+            indicates whether the problem should be written with generic variable
+            and constraint names (Default value = False)
+        verbose : bool, optional
+            indicates whether a success message should be printed
+        """
     def addVar(
         self,
         /,
@@ -1224,7 +2985,6 @@ class Model:
         Returns
         -------
         Variable
-
         """
     def getTransformedVar(self, var):
         """
@@ -1238,7 +2998,6 @@ class Model:
         Returns
         -------
         Variable
-
         """
     def addVarLocks(self, var, nlocksdown, nlocksup):
         """
@@ -1252,7 +3011,6 @@ class Model:
             new number of down locks
         nlocksup : int
             new number of up locks
-
         """
     def fixVar(self, var, val):
         """
@@ -1271,7 +3029,6 @@ class Model:
             Is the fixing infeasible?
         fixed : bool
             Was the fixing performed?
-
         """
     def delVar(self, var):
         """
@@ -1286,7 +3043,6 @@ class Model:
         -------
         deleted : bool
             Whether deleting was successfull
-
         """
     def tightenVarLb(self, var, lb, force=...):
         """
@@ -1307,7 +3063,6 @@ class Model:
             Whether new domain is empty
         tightened : bool
             Whether the bound was tightened
-
         """
     def tightenVarUb(self, var, ub, force=...):
         """
@@ -1328,7 +3083,6 @@ class Model:
             Whether new domain is empty
         tightened : bool
             Whether the bound was tightened
-
         """
     def tightenVarUbGlobal(self, var, ub, force=...):
         """
@@ -1349,10 +3103,10 @@ class Model:
             Whether new domain is empty
         tightened : bool
             Whether the bound was tightened
-
         """
     def tightenVarLbGlobal(self, var, lb, force=...):
-        """Tighten the global lower bound, if the bound is tighter.
+        """
+        Tighten the global lower bound, if the bound is tighter.
 
         Parameters
         ----------
@@ -1369,7 +3123,6 @@ class Model:
             Whether new domain is empty
         tightened : bool
             Whether the bound was tightened
-
         """
     def chgVarLb(self, var, lb):
         """
@@ -1381,10 +3134,10 @@ class Model:
             variable to change bound of
         lb : float or None
             new lower bound (set to None for -infinity)
-
         """
     def chgVarUb(self, var, ub):
-        """Changes the upper bound of the specified variable.
+        """
+        Changes the upper bound of the specified variable.
 
         Parameters
         ----------
@@ -1392,10 +3145,10 @@ class Model:
             variable to change bound of
         lb : float or None
             new upper bound (set to None for +infinity)
-
         """
     def chgVarLbGlobal(self, var, lb):
-        """Changes the global lower bound of the specified variable.
+        """
+        Changes the global lower bound of the specified variable.
 
         Parameters
         ----------
@@ -1403,10 +3156,10 @@ class Model:
             variable to change bound of
         lb : float or None
             new lower bound (set to None for -infinity)
-
         """
     def chgVarUbGlobal(self, var, ub):
-        """Changes the global upper bound of the specified variable.
+        """
+        Changes the global upper bound of the specified variable.
 
         Parameters
         ----------
@@ -1414,10 +3167,10 @@ class Model:
             variable to change bound of
         lb : float or None
             new upper bound (set to None for +infinity)
-
         """
     def chgVarLbNode(self, node, var, lb):
-        """Changes the lower bound of the specified variable at the given node.
+        """
+        Changes the lower bound of the specified variable at the given node.
 
         Parameters
         ----------
@@ -1427,10 +3180,10 @@ class Model:
             variable to change bound of
         lb : float or None
             new lower bound (set to None for -infinity)
-
         """
     def chgVarUbNode(self, node, var, ub):
-        """Changes the upper bound of the specified variable at the given node.
+        """
+        Changes the upper bound of the specified variable at the given node.
 
         Parameters
         ----------
@@ -1440,7 +3193,6 @@ class Model:
             variable to change bound of
         lb : float or None
             new upper bound (set to None for +infinity)
-
         """
     def chgVarType(self, var, vtype):
         """
@@ -1451,9 +3203,8 @@ class Model:
         var : Variable
             variable to change type of
         vtype : str
-            new variable type. \'C\' or "CONTINUOUS", \'I\' or "INTEGER",
-            \'B\' or "BINARY", and \'M\' "IMPLINT".
-
+            new variable type. 'C' or "CONTINUOUS", 'I' or "INTEGER",
+            'B' or "BINARY", and 'M' "IMPLINT".
         """
     def getVars(self, transformed=...):
         """
@@ -1467,7 +3218,6 @@ class Model:
         Returns
         -------
         list of Variable
-
         """
     def getNVars(self, transformed=...):
         """
@@ -1481,7 +3231,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNIntVars(self):
         """
@@ -1490,7 +3239,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNBinVars(self):
         """
@@ -1499,7 +3247,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNImplVars(self):
         """
@@ -1508,7 +3255,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNContVars(self):
         """
@@ -1517,7 +3263,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getVarDict(self, transformed=...):
         """
@@ -1531,7 +3276,6 @@ class Model:
         Returns
         -------
         dict of str to float
-
         """
     def updateNodeLowerbound(self, node, lb):
         """
@@ -1544,10 +3288,11 @@ class Model:
             the node to update
         lb : float
             new bound (if greater) for the node
-
         """
     def relax(self):
-        """Relaxes the integrality restrictions of the model."""
+        """
+        Relaxes the integrality restrictions of the model.
+        """
     def getBestChild(self):
         """
         Gets the best child of the focus node w.r.t. the node selection strategy.
@@ -1555,7 +3300,6 @@ class Model:
         Returns
         -------
         Node
-
         """
     def getBestSibling(self):
         """
@@ -1564,7 +3308,6 @@ class Model:
         Returns
         -------
         Node
-
         """
     def getPrioChild(self):
         """
@@ -1574,40 +3317,39 @@ class Model:
         Returns
         -------
         Node
-
         """
     def getPrioSibling(self):
-        """Gets the best sibling of the focus node w.r.t.
+        """
+        Gets the best sibling of the focus node w.r.t.
         the node selection priority assigned by the branching rule.
 
         Returns
         -------
         Node
-
         """
     def getBestLeaf(self):
-        """Gets the best leaf from the node queue w.r.t. the node selection strategy.
+        """
+        Gets the best leaf from the node queue w.r.t. the node selection strategy.
 
         Returns
         -------
         Node
-
         """
     def getBestNode(self):
-        """Gets the best node from the tree (child, sibling, or leaf) w.r.t. the node selection strategy.
+        """
+        Gets the best node from the tree (child, sibling, or leaf) w.r.t. the node selection strategy.
 
         Returns
         -------
         Node
-
         """
     def getBestboundNode(self):
-        """Gets the node with smallest lower bound from the tree (child, sibling, or leaf).
+        """
+        Gets the node with smallest lower bound from the tree (child, sibling, or leaf).
 
         Returns
         -------
         Node
-
         """
     def getOpenNodes(self):
         """
@@ -1621,10 +3363,11 @@ class Model:
             list of all open children nodes
         siblings : list of Node
             list of all open sibling nodes
-
         """
     def repropagateNode(self, node):
-        """Marks the given node to be propagated again the next time a node of its subtree is processed."""
+        """
+        Marks the given node to be propagated again the next time a node of its subtree is processed.
+        """
     def getLPSolstat(self):
         """
         Gets solution status of current LP.
@@ -1632,7 +3375,6 @@ class Model:
         Returns
         -------
         SCIP_LPSOLSTAT
-
         """
     def constructLP(self):
         """
@@ -1644,7 +3386,6 @@ class Model:
         -------
         cutoff : bool
             Can the node be cutoff?
-
         """
     def getLPObjVal(self):
         """
@@ -1653,7 +3394,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getLPColsData(self):
         """
@@ -1662,7 +3402,6 @@ class Model:
         Returns
         -------
         list of Column
-
         """
     def getLPRowsData(self):
         """
@@ -1671,7 +3410,6 @@ class Model:
         Returns
         -------
         list of Row
-
         """
     def getNLPRows(self):
         """
@@ -1680,7 +3418,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNLPCols(self):
         """
@@ -1689,7 +3426,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getLPBasisInd(self):
         """
@@ -1699,7 +3435,6 @@ class Model:
         Returns
         -------
         list of int
-
         """
     def getLPBInvRow(self, row):
         """
@@ -1713,7 +3448,6 @@ class Model:
         Returns
         -------
         list of float
-
         """
     def getLPBInvARow(self, row):
         """
@@ -1727,7 +3461,6 @@ class Model:
         Returns
         -------
         list of float
-
         """
     def isLPSolBasic(self):
         """
@@ -1736,7 +3469,6 @@ class Model:
         Returns
         -------
         bool
-
         """
     def allColsInLP(self):
         """
@@ -1746,7 +3478,6 @@ class Model:
         Returns
         -------
         bool
-
         """
     def getColRedCost(self, col):
         """
@@ -1759,7 +3490,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def createEmptyRowSepa(
         self, sepa, name=..., lhs=..., rhs=..., local=..., modifiable=..., removable=...
@@ -1787,7 +3517,6 @@ class Model:
         Returns
         -------
         Row
-
         """
     def createEmptyRowUnspec(
         self, name=..., lhs=..., rhs=..., local=..., modifiable=..., removable=...
@@ -1813,7 +3542,6 @@ class Model:
         Returns
         -------
         Row
-
         """
     def getRowActivity(self, row):
         """
@@ -1826,7 +3554,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getRowLPActivity(self, row):
         """
@@ -1839,7 +3566,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def releaseRow(self, row):
         """
@@ -1848,7 +3574,6 @@ class Model:
         Parameters
         ----------
         row : Row
-
         """
     def cacheRowExtensions(self, row):
         """
@@ -1862,7 +3587,6 @@ class Model:
         Parameters
         ----------
         row : Row
-
         """
     def flushRowExtensions(self, row):
         """
@@ -1872,7 +3596,6 @@ class Model:
         Parameters
         ----------
         row : Row
-
         """
     def addVarToRow(self, row, var, value):
         """
@@ -1886,7 +3609,6 @@ class Model:
             Variable which will be added to the row
         value : float
             Coefficient on the variable when placed in the row
-
         """
     def printRow(self, row):
         """
@@ -1895,7 +3617,6 @@ class Model:
         Parameters
         ----------
         row : Row
-
         """
     def getRowNumIntCols(self, row):
         """
@@ -1908,7 +3629,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getRowObjParallelism(self, row):
         """
@@ -1921,7 +3641,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getRowParallelism(self, row1, row2, orthofunc=...):
         """
@@ -1939,7 +3658,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getRowDualSol(self, row):
         """
@@ -1952,7 +3670,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def addPoolCut(self, row):
         """
@@ -1961,7 +3678,6 @@ class Model:
         Parameters
         ----------
         row : Row
-
         """
     def getCutEfficacy(self, cut, sol=...):
         """
@@ -1976,7 +3692,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def isCutEfficacious(self, cut, sol=...):
         """
@@ -1991,7 +3706,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getCutLPSolCutoffDistance(self, cut, sol):
         """
@@ -2005,7 +3719,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def addCut(self, cut, forcecut=...):
         """
@@ -2022,7 +3735,6 @@ class Model:
         -------
         infeasible : bool
             Whether the cut has been detected to be infeasible from local bounds
-
         """
     def getNCuts(self):
         """
@@ -2031,7 +3743,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNCutsApplied(self):
         """
@@ -2040,7 +3751,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNSepaRounds(self):
         """
@@ -2050,12 +3760,11 @@ class Model:
         Returns
         -------
         int
-
         """
     def separateSol(self, sol=..., pretendroot=..., allowlocal=..., onlydelayed=...):
         """
         Separates the given primal solution or the current LP solution by calling
-        the separators and constraint handlers\' separation methods;
+        the separators and constraint handlers' separation methods;
         the generated cuts are stored in the separation storage and can be accessed
         with the methods SCIPgetCuts() and SCIPgetNCuts();
         after evaluating the cuts, you have to call SCIPclearCuts() in order to remove the cuts from the
@@ -2079,7 +3788,6 @@ class Model:
             whether a separator was delayed
         cutoff : bool
             whether the node can be cut off
-
         """
     def createConsFromExpr(
         self,
@@ -2134,7 +3842,6 @@ class Model:
         -------
         Constraint
             The created Constraint object.
-
         """
     def addCons(
         self,
@@ -2186,7 +3893,6 @@ class Model:
         -------
         Constraint
             The created and added Constraint object.
-
         """
     def addConss(
         self,
@@ -2203,7 +3909,8 @@ class Model:
         removable=...,
         stickingatnode=...,
     ):
-        """Adds multiple linear or quadratic constraints.
+        """
+        Adds multiple linear or quadratic constraints.
 
         Each of the constraints is added to the model using Model.addCons().
 
@@ -2245,7 +3952,6 @@ class Model:
         -------
         list of Constraint
             The created and added Constraint objects.
-
         """
     def addConsDisjunction(
         self,
@@ -2289,7 +3995,6 @@ class Model:
         -------
         Constraint
             The created disjunction constraint
-
         """
     def addConsElemDisjunction(self, disj_cons, cons):
         """
@@ -2306,7 +4011,6 @@ class Model:
         -------
         disj_cons : Constraint
             The disjunction constraint with `cons` appended.
-
         """
     def getConsNVars(self, constraint):
         """
@@ -2325,7 +4029,6 @@ class Model:
         ------
         TypeError
             If the associated constraint handler does not have this functionality
-
         """
     def getConsVars(self, constraint):
         """
@@ -2339,7 +4042,6 @@ class Model:
         Returns
         -------
         list of Variable
-
         """
     def printCons(self, constraint):
         """
@@ -2348,7 +4050,6 @@ class Model:
         Parameters
         ----------
         constraint : Constraint
-
         """
     def addExprNonlinear(self, cons, expr, coef):
         """
@@ -2359,7 +4060,6 @@ class Model:
         cons : Constraint
         expr : Expr or GenExpr
         coef : float
-
         """
     def addConsCoeff(self, cons, var, coeff):
         """
@@ -2373,7 +4073,6 @@ class Model:
             variable to be added
         coeff : float
             coefficient of new variable
-
         """
     def addConsNode(self, node, cons, validnode=...):
         """
@@ -2387,7 +4086,6 @@ class Model:
             the constraint to add to the node
         validnode : Node or None, optional
             more global node where cons is also valid. (Default=None)
-
         """
     def addConsLocal(self, cons, validnode=...):
         """
@@ -2399,7 +4097,6 @@ class Model:
             the constraint to add to the current node
         validnode : Node or None, optional
             more global node where cons is also valid. (Default=None)
-
         """
     def addConsSOS1(
         self,
@@ -2465,7 +4162,6 @@ class Model:
         -------
         Constraint
             The newly created SOS1 constraint
-
         """
     def addConsSOS2(
         self,
@@ -2517,7 +4213,6 @@ class Model:
         -------
         Constraint
             The newly created SOS2 constraint
-
         """
     def addConsAnd(
         self,
@@ -2570,7 +4265,6 @@ class Model:
         -------
         Constraint
             The newly created AND constraint
-
         """
     def addConsOr(
         self,
@@ -2623,7 +4317,6 @@ class Model:
         -------
         Constraint
             The newly created OR constraint
-
         """
     def addConsXor(
         self,
@@ -2676,7 +4369,6 @@ class Model:
         -------
         Constraint
             The newly created XOR constraint
-
         """
     def addConsCardinality(
         self,
@@ -2696,7 +4388,7 @@ class Model:
         stickingatnode=...,
     ):
         """
-        Add a cardinality constraint that allows at most \'cardval\' many nonzero variables.
+        Add a cardinality constraint that allows at most 'cardval' many nonzero variables.
 
         Parameters
         ----------
@@ -2737,7 +4429,6 @@ class Model:
         -------
         Constraint
             The newly created Cardinality constraint
-
         """
     def addConsIndicator(
         self,
@@ -2755,7 +4446,8 @@ class Model:
         removable=...,
         stickingatnode=...,
     ):
-        """Add an indicator constraint for the linear inequality `cons`.
+        """
+        Add an indicator constraint for the linear inequality `cons`.
 
         The `binvar` argument models the redundancy of the linear constraint. A solution for which
         `binvar` is 1 must satisfy the constraint.
@@ -2794,7 +4486,6 @@ class Model:
         -------
         Constraint
             The newly created Indicator constraint
-
         """
     def getSlackVarIndicator(self, cons):
         """
@@ -2809,7 +4500,6 @@ class Model:
         Returns
         -------
         Variable
-
         """
     def addPyCons(self, cons):
         """
@@ -2819,7 +4509,6 @@ class Model:
         ----------
         cons : Constraint
             constraint to add
-
         """
     def addVarSOS1(self, cons, var, weight):
         """
@@ -2833,7 +4522,6 @@ class Model:
             new variable
         weight : weight
             weight of new variable
-
         """
     def appendVarSOS1(self, cons, var):
         """
@@ -2845,7 +4533,6 @@ class Model:
             SOS1 constraint
         var : Variable
             variable to append
-
         """
     def addVarSOS2(self, cons, var, weight):
         """
@@ -2859,7 +4546,6 @@ class Model:
             new variable
         weight : weight
             weight of new variable
-
         """
     def appendVarSOS2(self, cons, var):
         """
@@ -2871,7 +4557,6 @@ class Model:
             SOS2 constraint
         var : Variable
             variable to append
-
         """
     def setInitial(self, cons, newInit):
         """
@@ -2881,7 +4566,6 @@ class Model:
         ----------
         cons : Constraint
         newInit : bool
-
         """
     def setRemovable(self, cons, newRem):
         """
@@ -2891,7 +4575,6 @@ class Model:
         ----------
         cons : Constraint
         newRem : bool
-
         """
     def setEnforced(self, cons, newEnf):
         """
@@ -2901,7 +4584,6 @@ class Model:
         ----------
         cons : Constraint
         newEnf : bool
-
         """
     def setCheck(self, cons, newCheck):
         """
@@ -2911,7 +4593,6 @@ class Model:
         ----------
         cons : Constraint
         newCheck : bool
-
         """
     def chgRhs(self, cons, rhs):
         """
@@ -2923,7 +4604,6 @@ class Model:
             linear or quadratic constraint
         rhs : float or None
             new right-hand side (set to None for +infinity)
-
         """
     def chgLhs(self, cons, lhs):
         """
@@ -2935,7 +4615,6 @@ class Model:
             linear or quadratic constraint
         lhs : float or None
             new left-hand side (set to None for -infinity)
-
         """
     def getRhs(self, cons):
         """
@@ -2949,7 +4628,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getLhs(self, cons):
         """
@@ -2963,7 +4641,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def chgCoefLinear(self, cons, var, value):
         """
@@ -2980,7 +4657,6 @@ class Model:
             variable of constraint entry
         value : float
             new coefficient of constraint entry
-
         """
     def delCoefLinear(self, cons, var):
         """
@@ -2994,7 +4670,6 @@ class Model:
             linear constraint
         var : Variable
             variable of constraint entry
-
         """
     def addCoefLinear(self, cons, var, value):
         """
@@ -3008,7 +4683,6 @@ class Model:
             variable of constraint entry
         value : float
             coefficient of constraint entry
-
         """
     def getActivity(self, cons, sol=...):
         """
@@ -3025,7 +4699,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getSlack(self, cons, sol=..., side=...):
         """
@@ -3044,7 +4717,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getTransformedCons(self, cons):
         """
@@ -3057,7 +4729,6 @@ class Model:
         Returns
         -------
         Constraint
-
         """
     def isNLPConstructed(self):
         """
@@ -3066,7 +4737,6 @@ class Model:
         Returns
         -------
         bool
-
         """
     def getNNlRows(self):
         """
@@ -3075,7 +4745,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNlRows(self):
         """
@@ -3084,7 +4753,6 @@ class Model:
         Returns
         -------
         list of NLRow
-
         """
     def getNlRowSolActivity(self, nlrow, sol=...):
         """
@@ -3099,7 +4767,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getNlRowSolFeasibility(self, nlrow, sol=...):
         """
@@ -3114,7 +4781,6 @@ class Model:
         Returns
         -------
         bool
-
         """
     def getNlRowActivityBounds(self, nlrow):
         """
@@ -3127,7 +4793,6 @@ class Model:
         Returns
         -------
         tuple of float
-
         """
     def printNlRow(self, nlrow):
         """
@@ -3136,7 +4801,6 @@ class Model:
         Parameters
         ----------
         nlrow : NLRow
-
         """
     def checkQuadraticNonlinear(self, cons):
         """
@@ -3149,7 +4813,6 @@ class Model:
         Returns
         -------
         bool
-
         """
     def getTermsQuadratic(self, cons):
         """
@@ -3164,7 +4827,6 @@ class Model:
         bilinterms : list of tuple
         quadterms : list of tuple
         linterms : list of tuple
-
         """
     def setRelaxSolVal(self, var, val):
         """
@@ -3174,7 +4836,6 @@ class Model:
         ----------
         var : Variable
         val : float
-
         """
     def getConss(self, transformed=...):
         """
@@ -3188,7 +4849,6 @@ class Model:
         Returns
         -------
         list of Constraint
-
         """
     def getNConss(self, transformed=...):
         """
@@ -3202,7 +4862,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def delCons(self, cons):
         """
@@ -3212,7 +4871,6 @@ class Model:
         ----------
         cons : Constraint
             constraint to be deleted
-
         """
     def delConsLocal(self, cons):
         """
@@ -3222,7 +4880,6 @@ class Model:
         ----------
         cons : Constraint
             constraint to be deleted
-
         """
     def getValsLinear(self, cons):
         """
@@ -3236,7 +4893,6 @@ class Model:
         Returns
         -------
         dict of str to float
-
         """
     def getRowLinear(self, cons):
         """
@@ -3251,7 +4907,6 @@ class Model:
         Returns
         -------
         Row
-
         """
     def getDualsolLinear(self, cons):
         """
@@ -3265,7 +4920,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getDualMultiplier(self, cons):
         """
@@ -3279,7 +4933,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getDualfarkasLinear(self, cons):
         """
@@ -3293,7 +4946,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getVarRedcost(self, var):
         """
@@ -3307,7 +4959,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getDualSolVal(self, cons, boundconstraint=...):
         """
@@ -3324,18 +4975,25 @@ class Model:
         Returns
         -------
         float
-
         """
     def optimize(self):
-        """Optimize the problem."""
+        """
+        Optimize the problem.
+        """
     def optimizeNogil(self):
-        """Optimize the problem without GIL."""
+        """
+        Optimize the problem without GIL.
+        """
     def solveConcurrent(self):
-        """Transforms, presolves, and solves problem using additional solvers which emphasize on
+        """
+        Transforms, presolves, and solves problem using additional solvers which emphasize on
         finding solutions.
-        WARNING: This feature is still experimental and prone to some errors."""
+        WARNING: This feature is still experimental and prone to some errors.
+        """
     def presolve(self):
-        """Presolve the problem."""
+        """
+        Presolve the problem.
+        """
     def initBendersDefault(self, subproblems):
         """
         Initialises the default Benders' decomposition with a dictionary of subproblems.
@@ -3344,18 +5002,20 @@ class Model:
         ----------
         subproblems : Model or dict of object to Model
             a single Model instance or dictionary of Model instances
-
         """
     def computeBestSolSubproblems(self):
-        """Solves the subproblems with the best solution to the master problem.
+        """
+        Solves the subproblems with the best solution to the master problem.
         Afterwards, the best solution from each subproblem can be queried to get
         the solution to the original problem.
         If the user wants to resolve the subproblems, they must free them by
         calling freeBendersSubproblems()
         """
     def freeBendersSubproblems(self):
-        """Calls the free subproblem function for the Benders' decomposition.
-        This will free all subproblems for all decompositions."""
+        """
+        Calls the free subproblem function for the Benders' decomposition.
+        This will free all subproblems for all decompositions.
+        """
     def updateBendersLowerbounds(self, lowerbounds, benders=...):
         """
         Updates the subproblem lower bounds for benders using
@@ -3366,7 +5026,6 @@ class Model:
         ----------
         lowerbounds : dict of int to float
         benders : Benders or None, optional
-
         """
     def activateBenders(self, benders, nsubproblems):
         """
@@ -3378,7 +5037,6 @@ class Model:
             the Benders' decomposition to which the subproblem belongs to
         nsubproblems : int
             the number of subproblems in the Benders' decomposition
-
         """
     def addBendersSubproblem(self, benders, subproblem):
         """
@@ -3391,7 +5049,6 @@ class Model:
             the Benders' decomposition to which the subproblem belongs to
         subproblem : Model
             the subproblem to add to the decomposition
-
         """
     def setBendersSubproblemIsConvex(self, benders, probnumber, isconvex=...):
         """
@@ -3405,7 +5062,6 @@ class Model:
             the problem number of the subproblem that the convexity will be set for
         isconvex : bool, optional
             flag to indicate whether the subproblem is convex (default=True)
-
         """
     def setupBendersSubproblem(
         self, probnumber, benders=..., solution=..., checktype=...
@@ -3424,7 +5080,6 @@ class Model:
         checktype : PY_SCIP_BENDERSENFOTYPE
             the type of solution check that prompted the solving of the Benders' subproblems, either
             PY_SCIP_BENDERSENFOTYPE: LP, RELAX, PSEUDO or CHECK. Default is LP.
-
         """
     def solveBendersSubproblem(self, probnumber, solvecip, benders=..., solution=...):
         """
@@ -3448,7 +5103,6 @@ class Model:
             returns whether the current subproblem is infeasible
         objective : float or None
             the objective function value of the subproblem, can be None
-
         """
     def getBendersSubproblem(self, probnumber, benders=...):
         """
@@ -3466,7 +5120,6 @@ class Model:
         Returns
         -------
         Model
-
         """
     def getBendersVar(self, var, benders=..., probnumber=...):
         """
@@ -3485,7 +5138,6 @@ class Model:
         Returns
         -------
         Variable or None
-
         """
     def getBendersAuxiliaryVar(self, probnumber, benders=...):
         """
@@ -3501,7 +5153,6 @@ class Model:
         Returns
         -------
         Variable
-
         """
     def checkBendersSubproblemOptimality(self, solution, probnumber, benders=...):
         """
@@ -3520,7 +5171,6 @@ class Model:
         -------
         optimal : bool
             flag to indicate whether the current subproblem is optimal for the master
-
         """
     def includeBendersDefaultCuts(self, benders):
         """
@@ -3530,7 +5180,6 @@ class Model:
         ----------
         benders : Benders
             the Benders' decomposition that the default cuts will be applied to
-
         """
     def includeEventhdlr(self, eventhdlr, name, desc):
         """
@@ -3544,7 +5193,6 @@ class Model:
             name of event handler
         desc : str
             description of event handler
-
         """
     def includePricer(self, pricer, name, desc, priority=..., delay=...):
         """
@@ -3563,7 +5211,6 @@ class Model:
         delay : bool, optional
             should the pricer be delayed until no other pricers or already existing problem variables
             with negative reduced costs are found? (Default value = True)
-
         """
     def includeConshdlr(
         self,
@@ -3621,7 +5268,6 @@ class Model:
              should be executed (Default value = SCIP_PROPTIMING.BEFORELP)
         presoltiming : PY_SCIP_PRESOLTIMING
             timing mask of the constraint handler's presolving method (Default value = SCIP_PRESOLTIMING.MEDIUM)
-
         """
     def copyLargeNeighborhoodSearch(self, to_fix, fix_vals):
         """
@@ -3641,21 +5287,21 @@ class Model:
         """
     def translateSubSol(self, sub_model, sol, heur):
         """
-                \t\tTranslates a solution of a model copy into a solution of the main model
-        \t\t
-                \t\tParameters
-                \t\t----------
-                \t\tsub_model : Model
-                \t\t\tThe python-wrapper of the subscip
-                \t\tsol : Solution
-                \t\t\tThe python-wrapper of the solution of the subscip
-                \t\theur : Heur
-                \t\t\tThe python-wrapper of the heuristic that found the solution
-        \t\t
-                \t\tReturns
-                \t\t-------   \t\t
-                \t\tsolution : Solution
-                \t\t\tThe corresponding solution in the main model
+        Translates a solution of a model copy into a solution of the main model
+
+        Parameters
+        ----------
+        sub_model : Model
+                The python-wrapper of the subscip
+        sol : Solution
+                The python-wrapper of the solution of the subscip
+        heur : Heur
+                The python-wrapper of the heuristic that found the solution
+
+        Returns
+        -------
+        solution : Solution
+                The corresponding solution in the main model
         """
     def createCons(
         self,
@@ -3705,7 +5351,6 @@ class Model:
         Returns
         -------
         Constraint
-
         """
     def includePresol(self, presol, name, desc, priority, maxrounds, timing=...):
         """
@@ -3725,7 +5370,6 @@ class Model:
             maximal number of presolving rounds the presolver participates in (-1: no limit)
         timing : PY_SCIP_PRESOLTIMING, optional
              timing mask of presolver (Default value = SCIP_PRESOLTIMING_FAST)
-
         """
     def includeSepa(
         self,
@@ -3771,7 +5415,6 @@ class Model:
             does the separator use a secondary SCIP instance? (Default value = False)
         delay : bool, optional
             should separator be delayed if other separators found cuts? (Default value = False)
-
         """
     def includeReader(self, reader, name, desc, ext):
         """
@@ -3787,7 +5430,6 @@ class Model:
             description of reader
         ext : str
             file extension of reader
-
         """
     def includeProp(
         self,
@@ -3827,7 +5469,6 @@ class Model:
             frequency for calling propagator (Default value = 1)
         delay : bool, optional
             should propagator be delayed if other propagators have found reductions? (Default value = True)
-
         """
     def includeHeur(
         self,
@@ -3868,7 +5509,6 @@ class Model:
             (Default value = SCIP_HEURTIMING_BEFORENODE)
         usessubscip : bool, optional
             does the heuristic use a secondary SCIP instance? (Default value = False)
-
         """
     def includeRelax(self, relax, name, desc, priority=..., freq=...):
         """
@@ -3886,7 +5526,6 @@ class Model:
             priority of the relaxation handler (negative: after LP, non-negative: before LP, Default value = 10000)
         freq : int, optional
             frequency for calling relaxation handler
-
         """
     def includeCutsel(self, cutsel, name, desc, priority):
         """
@@ -3902,7 +5541,6 @@ class Model:
             description of cut selector
         priority : int
             priority of the cut selector
-
         """
     def includeBranchrule(
         self, branchrule, name, desc, priority, maxdepth, maxbounddist
@@ -3926,7 +5564,6 @@ class Model:
             maximal relative distance from current node's dual bound to primal bound
             compared to best node's dual bound for applying branching rule
             (0.0: only on current best node, 1.0: on all nodes)
-
         """
     def includeNodesel(self, nodesel, name, desc, stdpriority, memsavepriority):
         """
@@ -3944,7 +5581,6 @@ class Model:
             priority of the node selector in standard mode
         memsavepriority : int
             priority of the node selector in memory saving mode
-
         """
     def includeBenders(
         self,
@@ -3979,7 +5615,6 @@ class Model:
         shareaux : bool, optional
             should the Benders' decomposition share the auxiliary variables of the
             highest priority Benders' decomposition
-
         """
     def includeBenderscut(
         self, benders, benderscut, name, desc, priority=..., islpcut=...
@@ -4002,7 +5637,6 @@ class Model:
         islpcut : bool, optional
             is this cutting method suitable for generating cuts for convex relaxations?
             (Default = True)
-
         """
     def getLPBranchCands(self):
         """
@@ -4026,7 +5660,6 @@ class Model:
             number of candidates with maximal priority
         int
             number of fractional implicit integer variables
-
         """
     def getPseudoBranchCands(self):
         """
@@ -4041,7 +5674,6 @@ class Model:
             number of pseudo branching candidates
         int
             number of candidates with maximal priority
-
         """
     def branchVar(self, variable):
         """
@@ -4060,7 +5692,6 @@ class Model:
             Node created for the equal child (middle child). Only exists if branch variable is integer
         Node
             Node created for the up (right) branch
-
         """
     def branchVarVal(self, variable, value):
         """
@@ -4081,7 +5712,6 @@ class Model:
             Node created for the equal child (middle child). Only exists if the branch variable is integer
         Node
             Node created for the up (right) branch
-
         """
     def calcNodeselPriority(self, variable, branchdir, targetvalue):
         """
@@ -4102,7 +5732,6 @@ class Model:
         -------
         int
             node selection priority for moving the given variable's LP value to the given target value
-
         """
     def calcChildEstimate(self, variable, targetvalue):
         """
@@ -4121,7 +5750,6 @@ class Model:
         -------
         float
             objective estimate of the best solution in the subtree after applying the given branching
-
         """
     def createChild(self, nodeselprio, estimate):
         """
@@ -4138,15 +5766,18 @@ class Model:
         -------
         Node
             the child which was created
-
         """
     def startDive(self):
-        """Initiates LP diving.
+        """
+        Initiates LP diving.
         It allows the user to change the LP in several ways, solve, change again, etc,
         without affecting the actual LP. When endDive() is called,
-        SCIP will undo all changes done and recover the LP it had before startDive."""
+        SCIP will undo all changes done and recover the LP it had before startDive.
+        """
     def endDive(self):
-        """Quits probing and resets bounds and constraints to the focus node's environment."""
+        """
+        Quits probing and resets bounds and constraints to the focus node's environment.
+        """
     def chgVarObjDive(self, var, newobj):
         """
         Changes (column) variable's objective value in current dive.
@@ -4155,7 +5786,6 @@ class Model:
         ----------
         var : Variable
         newobj : float
-
         """
     def chgVarLbDive(self, var, newbound):
         """
@@ -4165,7 +5795,6 @@ class Model:
         ----------
         var : Variable
         newbound : float
-
         """
     def chgVarUbDive(self, var, newbound):
         """
@@ -4175,7 +5804,6 @@ class Model:
         ----------
         var : Variable
         newbound : float
-
         """
     def getVarLbDive(self, var):
         """
@@ -4188,7 +5816,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getVarUbDive(self, var):
         """
@@ -4201,7 +5828,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def chgRowLhsDive(self, row, newlhs):
         """
@@ -4212,7 +5838,6 @@ class Model:
         ----------
         row : Row
         newlhs : float
-
         """
     def chgRowRhsDive(self, row, newrhs):
         """
@@ -4223,7 +5848,6 @@ class Model:
         ----------
         row : Row
         newrhs : float
-
         """
     def addRowDive(self, row):
         """
@@ -4232,7 +5856,6 @@ class Model:
         Parameters
         ----------
         row : Row
-
         """
     def solveDiveLP(self, itlim=...):
         """
@@ -4249,7 +5872,6 @@ class Model:
             whether an unresolved lp error occured
         cutoff : bool
             whether the LP was infeasible or the objective limit was reached
-
         """
     def inRepropagation(self):
         """
@@ -4258,16 +5880,19 @@ class Model:
         Returns
         -------
         bool
-
         """
     def startProbing(self):
-        """Initiates probing, making methods SCIPnewProbingNode(), SCIPbacktrackProbing(), SCIPchgVarLbProbing(),
+        """
+        Initiates probing, making methods SCIPnewProbingNode(), SCIPbacktrackProbing(), SCIPchgVarLbProbing(),
         SCIPchgVarUbProbing(), SCIPfixVarProbing(), SCIPpropagateProbing(), SCIPsolveProbingLP(), etc available.
         """
     def endProbing(self):
-        """Quits probing and resets bounds and constraints to the focus node's environment."""
+        """
+        Quits probing and resets bounds and constraints to the focus node's environment.
+        """
     def newProbingNode(self):
-        """Creates a new probing sub node, whose changes can be undone by backtracking to a higher node in the
+        """
+        Creates a new probing sub node, whose changes can be undone by backtracking to a higher node in the
         probing path with a call to backtrackProbing().
         """
     def backtrackProbing(self, probingdepth):
@@ -4278,12 +5903,15 @@ class Model:
         ----------
         probingdepth : int
             probing depth of the node in the probing path that should be reactivated
-
         """
     def getProbingDepth(self):
-        """Returns the current probing depth."""
+        """
+        Returns the current probing depth.
+        """
     def chgVarObjProbing(self, var, newobj):
-        """Changes (column) variable's objective value during probing mode."""
+        """
+        Changes (column) variable's objective value during probing mode.
+        """
     def chgVarLbProbing(self, var, lb):
         """
         Changes the variable lower bound during probing mode.
@@ -4294,7 +5922,6 @@ class Model:
             variable to change bound of
         lb : float or None
             new lower bound (set to None for -infinity)
-
         """
     def chgVarUbProbing(self, var, ub):
         """
@@ -4306,7 +5933,6 @@ class Model:
             variable to change bound of
         ub : float or None
             new upper bound (set to None for +infinity)
-
         """
     def fixVarProbing(self, var, fixedval):
         """
@@ -4316,7 +5942,6 @@ class Model:
         ----------
         var : Variable
         fixedval : float
-
         """
     def isObjChangedProbing(self):
         """
@@ -4325,7 +5950,6 @@ class Model:
         Returns
         -------
         bool
-
         """
     def inProbing(self):
         """
@@ -4335,7 +5959,6 @@ class Model:
         Returns
         -------
         bool
-
         """
     def solveProbingLP(self, itlim=...):
         """
@@ -4353,7 +5976,6 @@ class Model:
             if an unresolved lp error occured
         cutoff : bool
             whether the LP was infeasible or the objective limit was reached
-
         """
     def applyCutsProbing(self):
         """
@@ -4366,7 +5988,6 @@ class Model:
         -------
         cutoff : bool
             whether an empty domain was created
-
         """
     def propagateProbing(self, maxproprounds):
         """
@@ -4386,12 +6007,15 @@ class Model:
             whether the probing node can be cutoff
         ndomredsfound : int
             number of domain reductions found
-
         """
     def interruptSolve(self):
-        """Interrupt the solving process as soon as possible."""
+        """
+        Interrupt the solving process as soon as possible.
+        """
     def restartSolve(self):
-        """Restarts the solving process as soon as possible."""
+        """
+        Restarts the solving process as soon as possible.
+        """
     def writeLP(self, filename=...):
         """
         Writes current LP to a file.
@@ -4400,7 +6024,6 @@ class Model:
         ----------
         filename : str, optional
             file name (Default value = "LP.lp")
-
         """
     def createSol(self, heur=..., initlp=...):
         """
@@ -4416,7 +6039,6 @@ class Model:
         Returns
         -------
         Solution
-
         """
     def createPartialSol(self, heur=...):
         """
@@ -4430,7 +6052,6 @@ class Model:
         Returns
         -------
         Solution
-
         """
     def createOrigSol(self, heur=...):
         """
@@ -4444,7 +6065,6 @@ class Model:
         Returns
         -------
         Solution
-
         """
     def printBestSol(self, write_zeros=...):
         """
@@ -4454,7 +6074,6 @@ class Model:
         ----------
         write_zeros : bool, optional
             include variables that are set to zero (Default = False)
-
         """
     def printSol(self, solution=..., write_zeros=...):
         """
@@ -4466,7 +6085,6 @@ class Model:
             solution to print (default = None)
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
-
         """
     def writeBestSol(self, filename=..., write_zeros=...):
         """
@@ -4478,7 +6096,6 @@ class Model:
             name of the output file (Default="origprob.sol")
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
-
         """
     def writeBestTransSol(self, filename=..., write_zeros=...):
         """
@@ -4490,7 +6107,6 @@ class Model:
             name of the output file (Default="transprob.sol")
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
-
         """
     def writeSol(self, solution, filename=..., write_zeros=...):
         """
@@ -4504,7 +6120,6 @@ class Model:
             name of the output file (Default="origprob.sol")
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
-
         """
     def writeTransSol(self, solution, filename=..., write_zeros=...):
         """
@@ -4518,7 +6133,6 @@ class Model:
             name of the output file (Default="transprob.sol")
         write_zeros : bool, optional
             include variables that are set to zero (Default=False)
-
         """
     def readSol(self, filename):
         """
@@ -4528,7 +6142,6 @@ class Model:
         ----------
         filename : str
             name of the input file
-
         """
     def readSolFile(self, filename):
         """
@@ -4545,7 +6158,6 @@ class Model:
         Returns
         -------
         Solution
-
         """
     def setSolVal(self, solution, var, val):
         """
@@ -4559,7 +6171,6 @@ class Model:
             variable in the solution
         val : float
             value of the specified variable
-
         """
     def trySol(
         self,
@@ -4595,7 +6206,6 @@ class Model:
         -------
         stored : bool
             whether given solution was feasible and good enough to keep
-
         """
     def checkSol(
         self,
@@ -4631,7 +6241,6 @@ class Model:
         -------
         feasible : bool
             whether the given solution was feasible or not
-
         """
     def addSol(self, solution, free=...):
         """
@@ -4648,7 +6257,6 @@ class Model:
         -------
         stored : bool
             stores whether given solution was good enough to keep
-
         """
     def freeSol(self, solution):
         """
@@ -4658,7 +6266,6 @@ class Model:
         ----------
         solution : Solution
             solution to be freed
-
         """
     def getNSols(self):
         """
@@ -4669,7 +6276,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNSolsFound(self):
         """
@@ -4678,7 +6284,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNLimSolsFound(self):
         """
@@ -4687,7 +6292,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNBestSolsFound(self):
         """
@@ -4697,7 +6301,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getSols(self):
         """
@@ -4706,7 +6309,6 @@ class Model:
         Returns
         -------
         list of Solution
-
         """
     def getBestSol(self):
         """
@@ -4715,7 +6317,6 @@ class Model:
         Returns
         -------
         Solution or None
-
         """
     def getSolObjVal(self, sol, original=...):
         """
@@ -4730,7 +6331,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getSolTime(self, sol):
         """
@@ -4743,7 +6343,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getObjVal(self, original=...):
         """
@@ -4757,7 +6356,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getSolVal(self, sol, expr):
         """
@@ -4777,7 +6375,6 @@ class Model:
         Notes
         -----
         A variable is also an expression.
-
         """
     def getVal(self, expr):
         """
@@ -4796,7 +6393,6 @@ class Model:
         Notes
         -----
         A variable is also an expression.
-
         """
     def hasPrimalRay(self):
         """
@@ -4805,7 +6401,6 @@ class Model:
         Returns
         -------
         bool
-
         """
     def getPrimalRayVal(self, var):
         """
@@ -4818,7 +6413,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getPrimalRay(self):
         """
@@ -4827,7 +6421,6 @@ class Model:
         Returns
         -------
         list of float
-
         """
     def getPrimalbound(self):
         """
@@ -4836,7 +6429,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getDualbound(self):
         """
@@ -4845,7 +6437,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getDualboundRoot(self):
         """
@@ -4854,7 +6445,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def writeName(self, var):
         """
@@ -4863,7 +6453,6 @@ class Model:
         Parameters
         ----------
         var : Variable
-
         """
     def getStage(self):
         """
@@ -4872,7 +6461,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getStageName(self):
         """
@@ -4881,7 +6469,6 @@ class Model:
         Returns
         -------
         str
-
         """
     def getStatus(self):
         """
@@ -4891,7 +6478,6 @@ class Model:
         -------
         str
             The status of SCIP.
-
         """
     def getObjectiveSense(self):
         """
@@ -4900,7 +6486,6 @@ class Model:
         Returns
         -------
         str
-
         """
     def catchEvent(self, eventtype, eventhdlr):
         """
@@ -4910,7 +6495,6 @@ class Model:
         ----------
         eventtype : PY_SCIP_EVENTTYPE
         eventhdlr : Eventhdlr
-
         """
     def dropEvent(self, eventtype, eventhdlr):
         """
@@ -4920,7 +6504,6 @@ class Model:
         ----------
         eventtype : PY_SCIP_EVENTTYPE
         eventhdlr : Eventhdlr
-
         """
     def catchVarEvent(self, var, eventtype, eventhdlr):
         """
@@ -4931,7 +6514,6 @@ class Model:
         var : Variable
         eventtype : PY_SCIP_EVENTTYPE
         eventhdlr : Eventhdlr
-
         """
     def dropVarEvent(self, var, eventtype, eventhdlr):
         """
@@ -4942,7 +6524,6 @@ class Model:
         var : Variable
         eventtype : PY_SCIP_EVENTTYPE
         eventhdlr : Eventhdlr
-
         """
     def catchRowEvent(self, row, eventtype, eventhdlr):
         """
@@ -4953,7 +6534,6 @@ class Model:
         row : Row
         eventtype : PY_SCIP_EVENTTYPE
         eventhdlr : Eventhdlr
-
         """
     def dropRowEvent(self, row, eventtype, eventhdlr):
         """
@@ -4964,10 +6544,11 @@ class Model:
         row : Row
         eventtype : PY_SCIP_EVENTTYPE
         eventhdlr : Eventhdlr
-
         """
     def printStatistics(self):
-        """Print statistics."""
+        """
+        Print statistics.
+        """
     def writeStatistics(self, filename=...):
         """
         Write statistics to a file.
@@ -4976,7 +6557,6 @@ class Model:
         ----------
         filename : str, optional
             name of the output file (Default = "origprob.stats")
-
         """
     def getNLPs(self):
         """
@@ -4985,7 +6565,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def hideOutput(self, quiet=...):
         """
@@ -4995,10 +6574,11 @@ class Model:
         ----------
         quiet : bool, optional
             hide output? (Default value = True)
-
         """
     def redirectOutput(self):
-        """Send output to python instead of terminal."""
+        """
+        Send output to python instead of terminal.
+        """
     def setLogfile(self, path):
         """
         Sets the log file name for the currently installed message handler.
@@ -5007,7 +6587,6 @@ class Model:
         ----------
         path : str or None
             name of log file, or None (no log)
-
         """
     def setBoolParam(self, name, value):
         """
@@ -5019,7 +6598,6 @@ class Model:
             name of parameter
         value : bool
             value of parameter
-
         """
     def setIntParam(self, name, value):
         """
@@ -5031,7 +6609,6 @@ class Model:
             name of parameter
         value : int
             value of parameter
-
         """
     def setLongintParam(self, name, value):
         """
@@ -5043,7 +6620,6 @@ class Model:
             name of parameter
         value : int
             value of parameter
-
         """
     def setRealParam(self, name, value):
         """
@@ -5055,7 +6631,6 @@ class Model:
             name of parameter
         value : float
             value of parameter
-
         """
     def setCharParam(self, name, value):
         """
@@ -5067,7 +6642,6 @@ class Model:
             name of parameter
         value : str
             value of parameter
-
         """
     def setStringParam(self, name, value):
         """
@@ -5079,10 +6653,10 @@ class Model:
             name of parameter
         value : str
             value of parameter
-
         """
     def setParam(self, name, value):
-        """Set a parameter with value in int, bool, real, long, char or str.
+        """
+        Set a parameter with value in int, bool, real, long, char or str.
 
         Parameters
         ----------
@@ -5090,7 +6664,6 @@ class Model:
             name of parameter
         value : object
             value of parameter
-
         """
     def getParam(self, name):
         """
@@ -5105,7 +6678,6 @@ class Model:
         Returns
         -------
         object
-
         """
     def getParams(self):
         """
@@ -5116,7 +6688,6 @@ class Model:
         -------
         dict of str to object
             dict mapping parameter names to their values.
-
         """
     def setParams(self, params):
         """
@@ -5126,7 +6697,6 @@ class Model:
         ----------
         params : dict of str to object
             dict mapping parameter names to their values.
-
         """
     def readParams(self, file):
         """
@@ -5136,7 +6706,6 @@ class Model:
         ----------
         file : str
             file to read
-
         """
     def writeParams(self, filename=..., comments=..., onlychanged=..., verbose=...):
         """
@@ -5152,7 +6721,6 @@ class Model:
             write only modified parameters (Default value = True)
         verbose : bool, optional
             indicates whether a success message should be printed
-
         """
     def resetParam(self, name):
         """
@@ -5162,10 +6730,11 @@ class Model:
         ----------
         name : str
             parameter to reset
-
         """
     def resetParams(self):
-        """Reset parameter settings to their default values."""
+        """
+        Reset parameter settings to their default values.
+        """
     def setEmphasis(self, paraemphasis, quiet=...):
         """
         Set emphasis settings
@@ -5176,7 +6745,6 @@ class Model:
             emphasis to set
         quiet : bool, optional
             hide output? (Default value = True)
-
         """
     def readProblem(self, filename, extension=...):
         """
@@ -5188,10 +6756,11 @@ class Model:
             problem file name
         extension : str or None
             specify file extension/type (Default value = None)
-
         """
     def count(self):
-        """Counts the number of feasible points of problem."""
+        """
+        Counts the number of feasible points of problem.
+        """
     def getNReaders(self):
         """
         Get number of currently available readers.
@@ -5199,7 +6768,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getNCountedSols(self):
         """
@@ -5208,12 +6776,15 @@ class Model:
         Returns
         -------
         int
-
         """
     def setParamsCountsols(self):
-        """Sets SCIP parameters such that a valid counting process is possible."""
+        """
+        Sets SCIP parameters such that a valid counting process is possible.
+        """
     def freeReoptSolve(self):
-        """Frees all solution process data and prepares for reoptimization."""
+        """
+        Frees all solution process data and prepares for reoptimization.
+        """
     def chgReoptObjective(self, coeffs, sense=...):
         """
         Establish the objective function as a linear expression.
@@ -5224,7 +6795,6 @@ class Model:
             the coefficients
         sense : str
             the objective sense (Default value = 'minimize')
-
         """
     def chgVarBranchPriority(self, var, priority):
         """
@@ -5238,16 +6808,19 @@ class Model:
             variable to change priority of
         priority : int
             the new priority of the variable (the default branching priority is 0)
-
         """
     def startStrongbranch(self):
-        """Start strong branching. Needs to be called before any strong branching. Must also later end strong branching.
+        """
+        Start strong branching. Needs to be called before any strong branching. Must also later end strong branching.
         TODO: Propagation option has currently been disabled via Python.
         If propagation is enabled then strong branching is not done on the LP, but on additionally created nodes
-        (has some overhead)."""
+        (has some overhead).
+        """
     def endStrongbranch(self):
-        """End strong branching. Needs to be called if startStrongBranching was called previously.
-        Between these calls the user can access all strong branching functionality."""
+        """
+        End strong branching. Needs to be called if startStrongBranching was called previously.
+        Between these calls the user can access all strong branching functionality.
+        """
     def getVarStrongbranchLast(self, var):
         """
         Get the results of the last strong branching call on this variable (potentially was called
@@ -5272,7 +6845,6 @@ class Model:
             The solution value of the variable at the last strong branching call
         lpobjval : float
             The LP objective value at the time of the last strong branching call
-
         """
     def getVarStrongbranchNode(self, var):
         """
@@ -5286,7 +6858,6 @@ class Model:
         Returns
         -------
         int
-
         """
     def getVarStrongbranch(self, var, itlim, idempotent=..., integral=...):
         """
@@ -5323,7 +6894,6 @@ class Model:
             store whether a conflict constraint was created for an infeasible upwards branch
         lperror : bool
             whether an unresolved LP error occurred in the solving process
-
         """
     def updateVarPseudocost(self, var, valdelta, objdelta, weight):
         """
@@ -5342,7 +6912,6 @@ class Model:
             The change in objective value of the LP after valdelta change of the variable
         weight : float
             the weight in range (0,1] of how the update affects the stored weighted sum.
-
         """
     def getBranchScoreMultiple(self, var, gains):
         """
@@ -5359,7 +6928,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getTreesizeEstimation(self):
         """
@@ -5368,7 +6936,6 @@ class Model:
         Returns
         -------
         float
-
         """
     def getBipartiteGraphRepresentation(
         self,
@@ -5414,7 +6981,6 @@ class Model:
         row_features : list of list
         dict
             The feature mappings for the columns, edges, and rows
-
         """
 
 @dataclasses.dataclass

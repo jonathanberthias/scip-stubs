@@ -40,6 +40,11 @@ repos:
         language: system
         entry: uv run --frozen --offline tool/method_order.py
         pass_filenames: false
+      - id: docstrings
+        name: Check docstrings
+        language: system
+        entry: uv run --frozen --offline tool/docstrings.py --fix
+        pass_filenames: false
       - id: stubtest-allowlist
         name: Check allowlist is up to date
         language: system
