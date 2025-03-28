@@ -4,6 +4,7 @@
 #    "scip-stubs[pyscipopt]",
 #    "typing-extensions",
 # ]
+# requires-python = ">=3.9"
 #
 # [tool.uv.sources]
 # scip-stubs = {path = ".."}
