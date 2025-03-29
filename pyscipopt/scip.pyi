@@ -91,11 +91,22 @@ class Term:
 CONST: Term
 
 @overload
-def buildGenExprObj(expr: Expr) -> SumExpr: ...
+def buildGenExprObj(expr: Expr) -> SumExpr:
+    """
+    helper function to generate an object of type GenExpr
+    """
+
 @overload
-def buildGenExprObj(expr: GenExpr[_OpT]) -> GenExpr[_OpT]: ...
+def buildGenExprObj(expr: GenExpr[_OpT]) -> GenExpr[_OpT]:
+    """
+    helper function to generate an object of type GenExpr
+    """
+
 @overload
-def buildGenExprObj(expr: SupportsFloat) -> Constant: ...
+def buildGenExprObj(expr: SupportsFloat) -> Constant:
+    """
+    helper function to generate an object of type GenExpr
+    """
 
 # This case is valid at runtime if expr is the string repr of a real number
 # (i.e., float(expr) does not raise), but expr is not converted to a float
@@ -183,13 +194,32 @@ class ExprCons:
     def __le__(self, other: SupportsFloat, /) -> ExprCons: ...
 
 @overload
-def quicksum(termlist: Iterable[Expr | SupportsFloat]) -> Expr: ...  # type: ignore[overload-overlap]
+def quicksum(termlist: Iterable[Expr | SupportsFloat]) -> Expr:  # type: ignore[overload-overlap]
+    """
+    add linear expressions and constants much faster than Python's sum
+    by avoiding intermediate data structures and adding terms inplace
+    """
+
 @overload
-def quicksum(termlist: Iterable[Expr | SupportsFloat | GenExpr[Any]]) -> SumExpr: ...
+def quicksum(termlist: Iterable[Expr | SupportsFloat | GenExpr[Any]]) -> SumExpr:
+    """
+    add linear expressions and constants much faster than Python's sum
+    by avoiding intermediate data structures and adding terms inplace
+    """
+
 @overload
-def quickprod(termlist: Iterable[Expr | SupportsFloat]) -> Expr: ...  # type: ignore[overload-overlap]
+def quickprod(termlist: Iterable[Expr | SupportsFloat]) -> Expr:  # type: ignore[overload-overlap]
+    """
+    multiply linear expressions and constants by avoiding intermediate
+    data structures and multiplying terms inplace
+    """
+
 @overload
-def quickprod(termlist: Iterable[Expr | SupportsFloat | GenExpr[Any]]) -> ProdExpr: ...
+def quickprod(termlist: Iterable[Expr | SupportsFloat | GenExpr[Any]]) -> ProdExpr:
+    """
+    multiply linear expressions and constants by avoiding intermediate
+    data structures and multiplying terms inplace
+    """
 
 class GenExpr(Generic[_OpT]):
     _op: _OpT
@@ -249,17 +279,48 @@ class Constant(GenExpr[L["const"]]):
     number: float
     def __init__(self, /, number: float) -> None: ...
 
-def exp(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["exp"]]: ...
-def log(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["log"]]: ...
-def sqrt(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["sqrt"]]: ...
-def sin(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["sin"]]: ...
-def cos(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["cos"]]: ...
+def exp(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["exp"]]:
+    """
+    returns expression with exp-function
+    """
+
+def log(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["log"]]:
+    """
+    returns expression with log-function
+    """
+
+def sqrt(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["sqrt"]]:
+    """
+    returns expression with sqrt-function
+    """
+
+def sin(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["sin"]]:
+    """
+    returns expression with sin-function
+    """
+
+def cos(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["cos"]]:
+    """
+    returns expression with cos-function
+    """
 
 _Node: TypeAlias = tuple[str, list[Variable | float]]
 
-def expr_to_nodes(expr: GenExpr[Any]) -> list[_Node]: ...
-def value_to_array(val: float, nodes: list[_Node]) -> int: ...
-def expr_to_array(expr: GenExpr[Any], nodes: list[Node]) -> int: ...
+def expr_to_nodes(expr: GenExpr[Any]) -> list[_Node]:
+    """
+    transforms tree to an array of nodes. each node is an operator and the position of the
+    children of that operator (i.e. the other nodes) in the array
+    """
+
+def value_to_array(val: float, nodes: list[_Node]) -> int:
+    """
+    adds a given value to an array
+    """
+
+def expr_to_array(expr: GenExpr[Any], nodes: list[Node]) -> int:
+    """
+    adds expression to array
+    """
 
 ########
 # lp.pxi
@@ -7034,7 +7095,21 @@ class Statistics:
     @property
     def n_presolved_maximal_cons(self) -> int: ...
 
-def readStatistics(filename: os.PathLike[Any]) -> Statistics: ...
+def readStatistics(filename: os.PathLike[Any]) -> Statistics:
+    """
+    Given a .stats file of a solved model, reads it and returns an instance of the Statistics class
+    holding some statistics.
+
+    Parameters
+    ----------
+    filename : str
+        name of the input file
+
+    Returns
+    -------
+    Statistics
+    """
+
 def is_memory_freed() -> bool: ...
 def print_memory_in_use() -> None: ...
 
