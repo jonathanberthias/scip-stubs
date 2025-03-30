@@ -17,6 +17,7 @@ import re
 import sys
 import textwrap
 from collections import defaultdict
+from itertools import chain
 from pathlib import Path
 from typing import cast
 
@@ -67,14 +68,20 @@ class DocstringImputer(VisitorBasedCodemodCommand):
         cleaned = remove_trailing_spaces(
             textwrap.indent(inspect.cleandoc(docstring), indent)
         )
-        new_function_body = updated_node.body.with_changes(
-            body=[
-                cst.SimpleStatementLine(
-                    body=[cst.Expr(cst.SimpleString(f'"""\n{cleaned}\n{indent}"""'))]
+        docstring_expr = cst.Expr(cst.SimpleString(f'"""\n{cleaned}\n{indent}"""'))
+        if isinstance(updated_node.body, cst.IndentedBlock):
+            new_function_body = updated_node.body.with_changes(
+                body=[cst.SimpleStatementLine(body=[docstring_expr])]
+            )
+            function_with_new_docstring = updated_node.with_changes(
+                body=new_function_body
+            )
+        else:
+            function_with_new_docstring = updated_node.with_changes(
+                body=cst.IndentedBlock(
+                    body=[cst.SimpleStatementLine(body=[docstring_expr])]
                 )
-            ]
-        )
-        function_with_new_docstring = updated_node.with_changes(body=new_function_body)
+            )
         if not updated_node.deep_equals(function_with_new_docstring):
             if self.fix:
                 self.warn(f"Updating docstring for {qualname}")
@@ -103,7 +110,7 @@ def load_scip_source() -> list[str]:
     venv_lib = Path(__file__).absolute().parent.parent / ".venv/lib"
     pyscipopt = venv_lib.glob("python*/site-packages/pyscipopt")
     scip_dir = next(pyscipopt)
-    sources = scip_dir.glob("*.pxi")
+    sources = chain(scip_dir.rglob("*.py"), scip_dir.rglob("*.pxi"))
 
     scip_lines = []
     for scip_file in sources:
@@ -163,27 +170,38 @@ def collect_global_functions(file: Path) -> set[str]:
 
 
 def main(fix: bool):
-    stub_file = Path(__file__).parent.parent / "pyscipopt" / "scip.pyi"
+    exit_code = 0
+
+    root = Path(__file__).parent.parent
     scip_source = load_scip_source()
     docstrings = parse_docstrings(scip_source)
+    source_classes = set(docstrings) - {GLOBAL_NAMESPACE}
+    source_functions = set(docstrings[GLOBAL_NAMESPACE])
 
-    classes = collect_classes(stub_file)
-    assert set(docstrings).difference([GLOBAL_NAMESPACE]) == set(classes)
+    stub_files = Path(__file__).parent.parent.joinpath("pyscipopt").rglob("*.pyi")
+    for stub_file in stub_files:
+        classes = collect_classes(stub_file)
+        missing_classes = set(classes) - source_classes
+        assert not missing_classes, missing_classes
 
-    functions = collect_global_functions(stub_file)
-    assert set(docstrings[GLOBAL_NAMESPACE]) == functions - LAMBDA_FUNCTIONS_IN_SOURCE
+        functions = collect_global_functions(stub_file)
+        missing_fns = functions - source_functions - LAMBDA_FUNCTIONS_IN_SOURCE
+        assert not missing_fns, missing_fns
 
-    imputer = DocstringImputer(CodemodContext(), docstrings, fix=fix)
-    new_source = exec_transform_with_prettyprint(imputer, stub_file.read_text())
-    if fix and new_source == stub_file.read_text():
-        print("No changes")
-    elif fix:
-        assert new_source is not None
-        stub_file.write_text(new_source)
-        exit(1)
-    elif imputer.errors:
-        print("\n".join(imputer.errors), file=sys.stderr)
-        exit(1)
+        imputer = DocstringImputer(CodemodContext(), docstrings, fix=fix)
+        new_source = exec_transform_with_prettyprint(imputer, stub_file.read_text())
+        path = stub_file.relative_to(root)
+        if fix and new_source == stub_file.read_text():
+            print(f"{path}: No changes")
+        elif fix:
+            assert new_source is not None
+            stub_file.write_text(new_source)
+            exit_code = 1
+        else:
+            for error in imputer.errors:
+                print(f"{path}: {error}", file=sys.stderr)
+                exit_code = 1
+    exit(exit_code)
 
 
 if __name__ == "__main__":
