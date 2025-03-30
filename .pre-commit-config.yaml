@@ -3,6 +3,23 @@ repos:
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
+  - repo: local
+    hooks:
+      - id: stubtest-allowlist
+        name: Check allowlist is up to date
+        language: system
+        entry: uv run --frozen --offline tool/stubtest.py
+        pass_filenames: false
+      - id: method-order
+        name: Check method order
+        language: system
+        entry: uv run --frozen --offline tool/method_order.py
+        pass_filenames: false
+      - id: docstrings
+        name: Check docstrings
+        language: system
+        entry: uv run --frozen --offline tool/docstrings.py
+        pass_filenames: false
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -33,20 +50,3 @@ repos:
     hooks:
       - id: uv-lock
       - id: uv-sync
-  - repo: local
-    hooks:
-      - id: method-order
-        name: Check method order
-        language: system
-        entry: uv run --frozen --offline tool/method_order.py
-        pass_filenames: false
-      - id: docstrings
-        name: Check docstrings
-        language: system
-        entry: uv run --frozen --offline tool/docstrings.py --fix
-        pass_filenames: false
-      - id: stubtest-allowlist
-        name: Check allowlist is up to date
-        language: system
-        entry: uv run --frozen --offline tool/stubtest.py
-        pass_filenames: false

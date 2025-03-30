@@ -11,8 +11,7 @@ def add_piecewise_linear_cons(
     a: list,
     b: list,
 ) -> pyscipopt.scip.Constraint:
-    """
-    add constraint of the form y = f(x), where f is a piecewise linear function
+    """add constraint of the form y = f(x), where f is a piecewise linear function
 
     :param model: pyscipopt model to add the constraint to
     :param X: x variable

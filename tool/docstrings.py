@@ -14,12 +14,11 @@ from __future__ import annotations
 
 import inspect
 import re
-import sys
 import textwrap
 from collections import defaultdict
 from itertools import chain
 from pathlib import Path
-from typing import cast
+from typing import NoReturn, cast
 
 import libcst as cst
 from libcst.codemod import (
@@ -39,56 +38,45 @@ def remove_trailing_spaces(text: str) -> str:
 
 
 class DocstringImputer(VisitorBasedCodemodCommand):
-    def __init__(
-        self, context: CodemodContext, docstrings: dict[str, dict[str, str]], fix: bool
-    ):
+    def __init__(self, context: CodemodContext, docstrings: dict[str, dict[str, str]]):
         super().__init__(context)
         self.docstrings = docstrings
-        self.fix = fix
         self.current_context: str = GLOBAL_NAMESPACE
-        self.errors: list[str] = []
 
     @override
     def leave_FunctionDef(
         self, original_node: cst.FunctionDef, updated_node: cst.FunctionDef
     ) -> cst.FunctionDef:
-        if self.current_context == GLOBAL_NAMESPACE:
-            indent = INDENT
-            qualname = updated_node.name.value
+        docstring = self.docstrings[self.current_context].get(
+            updated_node.name.value, ""
+        )
+
+        if isinstance(updated_node.body, cst.SimpleStatementSuite):
+            trailing_whitespace_or_header = updated_node.body.trailing_whitespace
+        elif isinstance(updated_node.body, cst.IndentedBlock):
+            trailing_whitespace_or_header = updated_node.body.header
         else:
-            indent = 2 * INDENT
-            qualname = f"{self.current_context}.{updated_node.name.value}"
+            raise RuntimeError(f"Unexpected body type: {type(updated_node.body)}")
 
-        docstring = self.docstrings[self.current_context].get(updated_node.name.value)
         if not docstring:
-            if updated_node.get_docstring():
-                self.errors.append(f"Unexpected docstring at {qualname}")
-            return updated_node
+            return updated_node.with_changes(
+                body=cst.SimpleStatementSuite(
+                    body=[cst.Expr(cst.Ellipsis())],
+                    trailing_whitespace=trailing_whitespace_or_header,
+                )
+            )
 
+        indent = INDENT if self.current_context == GLOBAL_NAMESPACE else 2 * INDENT
         cleaned = remove_trailing_spaces(
             textwrap.indent(inspect.cleandoc(docstring), indent)
         )
-        docstring_expr = cst.Expr(cst.SimpleString(f'"""\n{cleaned}\n{indent}"""'))
-        if isinstance(updated_node.body, cst.IndentedBlock):
-            new_function_body = updated_node.body.with_changes(
-                body=[cst.SimpleStatementLine(body=[docstring_expr])]
+        docstring_expr = cst.Expr(cst.SimpleString(cleaned.lstrip()))
+        return updated_node.with_changes(
+            body=cst.IndentedBlock(
+                body=[cst.SimpleStatementLine(body=[docstring_expr])],
+                header=trailing_whitespace_or_header,
             )
-            function_with_new_docstring = updated_node.with_changes(
-                body=new_function_body
-            )
-        else:
-            function_with_new_docstring = updated_node.with_changes(
-                body=cst.IndentedBlock(
-                    body=[cst.SimpleStatementLine(body=[docstring_expr])]
-                )
-            )
-        if not updated_node.deep_equals(function_with_new_docstring):
-            if self.fix:
-                self.warn(f"Updating docstring for {qualname}")
-                return function_with_new_docstring
-            else:
-                self.errors.append(f"Docstring mismatch at {qualname}")
-        return updated_node
+        )
 
     @override
     def visit_ClassDef(self, node: cst.ClassDef) -> None:
@@ -151,12 +139,16 @@ FUNCTION_DOCSTRING_RE = re.compile(
     r"""(def ((?:__)?[a-zA-Z]\w+)\(.*?:\s*(["']{3}.*?["']{3})?(?:...)?(?:[# \w]*)(?=\n\s*def|$))""",
     re.DOTALL | re.MULTILINE,
 )
+NORMALIZE_QUOTES_RE = re.compile(r"'''(.*?)'''", re.DOTALL)
 
 
 def parse_docstrings_in_context(lines: list[str]) -> dict[str, str]:
     source = "\n".join(lines)
     funcs = cast(list[tuple[str, str, str]], re.findall(FUNCTION_DOCSTRING_RE, source))
-    return {fname: docstring.strip(" '\"\n") for _func, fname, docstring in funcs}
+    return {
+        fname: NORMALIZE_QUOTES_RE.sub(r'"""\1"""', docstring.strip())
+        for _func, fname, docstring in funcs
+    }
 
 
 def collect_classes(file: Path) -> list[str]:
@@ -169,7 +161,7 @@ def collect_global_functions(file: Path) -> set[str]:
     return set(global_fn_def.findall(file.read_text()))
 
 
-def main(fix: bool):
+def main() -> NoReturn:
     exit_code = 0
 
     root = Path(__file__).parent.parent
@@ -188,22 +180,21 @@ def main(fix: bool):
         missing_fns = functions - source_functions - LAMBDA_FUNCTIONS_IN_SOURCE
         assert not missing_fns, missing_fns
 
-        imputer = DocstringImputer(CodemodContext(), docstrings, fix=fix)
-        new_source = exec_transform_with_prettyprint(imputer, stub_file.read_text())
+        imputer = DocstringImputer(CodemodContext(), docstrings)
+        new_source = exec_transform_with_prettyprint(
+            imputer,
+            stub_file.read_text(),
+            format_code=True,
+            formatter_args=["ruff", "format", "--stdin-filename", stub_file.name, "-"],
+        )
         path = stub_file.relative_to(root)
-        if fix and new_source == stub_file.read_text():
-            print(f"{path}: No changes")
-        elif fix:
+        if new_source != stub_file.read_text():
             assert new_source is not None
+            print(f"{path}: Updating docstrings")
             stub_file.write_text(new_source)
             exit_code = 1
-        else:
-            for error in imputer.errors:
-                print(f"{path}: {error}", file=sys.stderr)
-                exit_code = 1
     exit(exit_code)
 
 
 if __name__ == "__main__":
-    fix = len(sys.argv) > 1 and sys.argv[1] == "--fix"
-    main(fix)
+    main()
