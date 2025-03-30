@@ -35,7 +35,7 @@ def main() -> int:
         "pyscipopt",
     ]
     print(*cmd)
-    result = subprocess.run(cmd, check=False, env={"FORCE_COLOR": "1", **os.environ})
+    result = subprocess.run(cmd, check=False, env={"FORCE_COLOR": "1", **os.environ})  # noqa: S603
     return result.returncode
 
 

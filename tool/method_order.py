@@ -3,12 +3,13 @@ Variant of stubtest that just checks the methods in classes
 and ensures the order is the same in the source and in the stubs.
 """
 
+from __future__ import annotations
+
 import difflib
 import re
 import sys
 from collections import defaultdict
 from pathlib import Path
-from typing import Dict, List
 
 # Methods that are in the source .pxi files but not in the stubs
 IGNORES = [
@@ -27,10 +28,10 @@ IGNORES = [
 ]
 
 
-def get_methods_by_class(lines: List[str]) -> Dict[str, List[str]]:
+def get_methods_by_class(lines: list[str]) -> dict[str, list[str]]:
     classes: defaultdict[str, list[str]] = defaultdict(list)
     current_class = None
-    for i, line in enumerate(lines):
+    for line in lines:
         m = re.match(r"^(?:cdef )?class (\w+)", line)
         if m:
             current_class = m.group(1)
@@ -54,7 +55,7 @@ def get_methods_by_class(lines: List[str]) -> Dict[str, List[str]]:
     return dict(classes)
 
 
-def load_scip_source() -> List[str]:
+def load_scip_source() -> list[str]:
     venv_lib = Path(__file__).absolute().parent.parent / ".venv/lib"
     pyscipopt = venv_lib.glob("python*/site-packages/pyscipopt")
     scip_dir = next(pyscipopt)
@@ -66,7 +67,7 @@ def load_scip_source() -> List[str]:
     return scip_lines
 
 
-def load_stub_source() -> List[str]:
+def load_stub_source() -> list[str]:
     stub_file = Path(__file__).parent.parent / "pyscipopt/scip.pyi"
     return stub_file.read_text().splitlines()
 
@@ -144,4 +145,4 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         reorder(sys.argv[1])
     else:
-        exit(compare())
+        sys.exit(compare())

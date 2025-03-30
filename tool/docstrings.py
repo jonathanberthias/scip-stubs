@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import inspect
 import re
+import sys
 import textwrap
 from collections import defaultdict
 from itertools import chain
@@ -38,7 +39,9 @@ def remove_trailing_spaces(text: str) -> str:
 
 
 class DocstringImputer(VisitorBasedCodemodCommand):
-    def __init__(self, context: CodemodContext, docstrings: dict[str, dict[str, str]]):
+    def __init__(
+        self, context: CodemodContext, docstrings: dict[str, dict[str, str]]
+    ) -> None:
         super().__init__(context)
         self.docstrings = docstrings
         self.current_context: str = GLOBAL_NAMESPACE
@@ -56,7 +59,7 @@ class DocstringImputer(VisitorBasedCodemodCommand):
         elif isinstance(updated_node.body, cst.IndentedBlock):
             trailing_whitespace_or_header = updated_node.body.header
         else:
-            raise RuntimeError(f"Unexpected body type: {type(updated_node.body)}")
+            raise TypeError(f"Unexpected body type: {type(updated_node.body)}")
 
         if not docstring:
             return updated_node.with_changes(
@@ -144,7 +147,9 @@ NORMALIZE_QUOTES_RE = re.compile(r"'''(.*?)'''", re.DOTALL)
 
 def parse_docstrings_in_context(lines: list[str]) -> dict[str, str]:
     source = "\n".join(lines)
-    funcs = cast(list[tuple[str, str, str]], re.findall(FUNCTION_DOCSTRING_RE, source))
+    funcs = cast(
+        "list[tuple[str, str, str]]", re.findall(FUNCTION_DOCSTRING_RE, source)
+    )
     return {
         fname: NORMALIZE_QUOTES_RE.sub(r'"""\1"""', docstring.strip())
         for _func, fname, docstring in funcs
@@ -193,7 +198,7 @@ def main() -> NoReturn:
             print(f"{path}: Updating docstrings")
             stub_file.write_text(new_source)
             exit_code = 1
-    exit(exit_code)
+    sys.exit(exit_code)
 
 
 if __name__ == "__main__":

@@ -21,7 +21,7 @@ _VTypes: TypeAlias = L[
     "C", "CONTINUOUS",
     "B", "BINARY",
     "I", "INTEGER",
-    "M", "IMPLINT"
+    "M", "IMPLINT",
 ]  # fmt: skip
 _VTypesLong: TypeAlias = L["CONTINUOUS", "BINARY", "INTEGER", "IMPLINT"]
 
