@@ -2852,7 +2852,7 @@ class Model:
         Variable
 
         """
-    def getTransformedVar(self, var):
+    def getTransformedVar(self, var: Variable) -> Variable:
         """
         Retrieve the transformed variable.
 
@@ -2866,7 +2866,7 @@ class Model:
         Variable
 
         """
-    def addVarLocks(self, var, nlocksdown, nlocksup):
+    def addVarLocks(self, var: Variable, nlocksdown: int, nlocksup: int) -> None:
         """
         Adds given values to lock numbers of variable for rounding.
 
@@ -2880,7 +2880,7 @@ class Model:
             new number of up locks
 
         """
-    def fixVar(self, var, val):
+    def fixVar(self, var: Variable, val: float) -> tuple[bool, bool]:
         """
         Fixes the variable var to the value val if possible.
 
@@ -2899,7 +2899,7 @@ class Model:
             Was the fixing performed?
 
         """
-    def delVar(self, var):
+    def delVar(self, var: Variable) -> bool:
         """
         Delete a variable.
 
@@ -2914,7 +2914,9 @@ class Model:
             Whether deleting was successfull
 
         """
-    def tightenVarLb(self, var, lb, force=...):
+    def tightenVarLb(
+        self, var: Variable, lb: float, force: bool = False
+    ) -> tuple[bool, bool]:
         """
         Tighten the lower bound in preprocessing or current node, if the bound is tighter.
 
@@ -2935,7 +2937,9 @@ class Model:
             Whether the bound was tightened
 
         """
-    def tightenVarUb(self, var, ub, force=...):
+    def tightenVarUb(
+        self, var: Variable, ub: float, force: bool = False
+    ) -> tuple[bool, bool]:
         """
         Tighten the upper bound in preprocessing or current node, if the bound is tighter.
 
@@ -2956,7 +2960,9 @@ class Model:
             Whether the bound was tightened
 
         """
-    def tightenVarUbGlobal(self, var, ub, force=...):
+    def tightenVarUbGlobal(
+        self, var: Variable, ub: float, force: bool = False
+    ) -> tuple[bool, bool]:
         """
         Tighten the global upper bound, if the bound is tighter.
 
@@ -2977,7 +2983,9 @@ class Model:
             Whether the bound was tightened
 
         """
-    def tightenVarLbGlobal(self, var, lb, force=...):
+    def tightenVarLbGlobal(
+        self, var: Variable, lb: float, force: bool = False
+    ) -> tuple[bool, bool]:
         """Tighten the global lower bound, if the bound is tighter.
 
         Parameters
@@ -2997,7 +3005,7 @@ class Model:
             Whether the bound was tightened
 
         """
-    def chgVarLb(self, var, lb):
+    def chgVarLb(self, var: Variable, lb: float | None) -> None:
         """
         Changes the lower bound of the specified variable.
 
@@ -3009,7 +3017,7 @@ class Model:
             new lower bound (set to None for -infinity)
 
         """
-    def chgVarUb(self, var, ub):
+    def chgVarUb(self, var: Variable, ub: float | None) -> None:
         """Changes the upper bound of the specified variable.
 
         Parameters
@@ -3020,7 +3028,7 @@ class Model:
             new upper bound (set to None for +infinity)
 
         """
-    def chgVarLbGlobal(self, var, lb):
+    def chgVarLbGlobal(self, var: Variable, lb: float | None) -> None:
         """Changes the global lower bound of the specified variable.
 
         Parameters
@@ -3031,7 +3039,7 @@ class Model:
             new lower bound (set to None for -infinity)
 
         """
-    def chgVarUbGlobal(self, var, ub):
+    def chgVarUbGlobal(self, var: Variable, ub: float | None) -> None:
         """Changes the global upper bound of the specified variable.
 
         Parameters
@@ -3042,7 +3050,7 @@ class Model:
             new upper bound (set to None for +infinity)
 
         """
-    def chgVarLbNode(self, node, var, lb):
+    def chgVarLbNode(self, node: Node, var: Variable, lb: float | None) -> None:
         """Changes the lower bound of the specified variable at the given node.
 
         Parameters
@@ -3055,7 +3063,7 @@ class Model:
             new lower bound (set to None for -infinity)
 
         """
-    def chgVarUbNode(self, node, var, ub):
+    def chgVarUbNode(self, node: Node, var: Variable, ub: float | None) -> None:
         """Changes the upper bound of the specified variable at the given node.
 
         Parameters
@@ -3068,7 +3076,7 @@ class Model:
             new upper bound (set to None for +infinity)
 
         """
-    def chgVarType(self, var, vtype):
+    def chgVarType(self, var: Variable, vtype: _VTypes) -> None:
         """
         Changes the type of a variable.
 
@@ -3081,7 +3089,7 @@ class Model:
             'B' or "BINARY", and 'M' "IMPLINT".
 
         """
-    def getVars(self, transformed=...):
+    def getVars(self, transformed: bool = False) -> list[Variable]:
         """
         Retrieve all variables.
 
@@ -3095,7 +3103,7 @@ class Model:
         list of Variable
 
         """
-    def getNVars(self, transformed=...):
+    def getNVars(self, transformed: bool = True) -> int:
         """
         Retrieve number of variables in the problems.
 
@@ -3109,7 +3117,7 @@ class Model:
         int
 
         """
-    def getNIntVars(self):
+    def getNIntVars(self) -> int:
         """
         Gets number of integer active problem variables.
 
@@ -3118,7 +3126,7 @@ class Model:
         int
 
         """
-    def getNBinVars(self):
+    def getNBinVars(self) -> int:
         """
         Gets number of binary active problem variables.
 
@@ -3127,7 +3135,7 @@ class Model:
         int
 
         """
-    def getNImplVars(self):
+    def getNImplVars(self) -> int:
         """
         Gets number of implicit integer active problem variables.
 
@@ -3136,7 +3144,7 @@ class Model:
         int
 
         """
-    def getNContVars(self):
+    def getNContVars(self) -> int:
         """
         Gets number of continuous active problem variables.
 
@@ -3145,7 +3153,7 @@ class Model:
         int
 
         """
-    def getVarDict(self, transformed=...):
+    def getVarDict(self, transformed: bool = False) -> dict[str, float]:
         """
         Gets dictionary with variables names as keys and current variable values as items.
 
@@ -3159,7 +3167,7 @@ class Model:
         dict of str to float
 
         """
-    def updateNodeLowerbound(self, node, lb):
+    def updateNodeLowerbound(self, node: Node, lb: float) -> None:
         """
         If given value is larger than the node's lower bound (in transformed problem),
         sets the node's lower bound to the new value.
@@ -3172,9 +3180,9 @@ class Model:
             new bound (if greater) for the node
 
         """
-    def relax(self):
+    def relax(self) -> None:
         """Relaxes the integrality restrictions of the model."""
-    def getBestChild(self):
+    def getBestChild(self) -> Node:
         """
         Gets the best child of the focus node w.r.t. the node selection strategy.
 
@@ -3183,7 +3191,7 @@ class Model:
         Node
 
         """
-    def getBestSibling(self):
+    def getBestSibling(self) -> Node:
         """
         Gets the best sibling of the focus node w.r.t. the node selection strategy.
 
@@ -3192,7 +3200,7 @@ class Model:
         Node
 
         """
-    def getPrioChild(self):
+    def getPrioChild(self) -> Node:
         """
         Gets the best child of the focus node w.r.t. the node selection priority
         assigned by the branching rule.
@@ -3202,7 +3210,7 @@ class Model:
         Node
 
         """
-    def getPrioSibling(self):
+    def getPrioSibling(self) -> Node:
         """Gets the best sibling of the focus node w.r.t.
         the node selection priority assigned by the branching rule.
 
@@ -3211,7 +3219,7 @@ class Model:
         Node
 
         """
-    def getBestLeaf(self):
+    def getBestLeaf(self) -> Node:
         """Gets the best leaf from the node queue w.r.t. the node selection strategy.
 
         Returns
@@ -3219,7 +3227,7 @@ class Model:
         Node
 
         """
-    def getBestNode(self):
+    def getBestNode(self) -> Node:
         """Gets the best node from the tree (child, sibling, or leaf) w.r.t. the node selection strategy.
 
         Returns
@@ -3227,7 +3235,7 @@ class Model:
         Node
 
         """
-    def getBestboundNode(self):
+    def getBestboundNode(self) -> Node:
         """Gets the node with smallest lower bound from the tree (child, sibling, or leaf).
 
         Returns
@@ -3235,7 +3243,7 @@ class Model:
         Node
 
         """
-    def getOpenNodes(self):
+    def getOpenNodes(self) -> tuple[list[Node], list[Node], list[Node]]:
         """
         Access to all data of open nodes (leaves, children, and siblings).
 
@@ -3249,9 +3257,9 @@ class Model:
             list of all open sibling nodes
 
         """
-    def repropagateNode(self, node):
+    def repropagateNode(self, node: Node) -> None:
         """Marks the given node to be propagated again the next time a node of its subtree is processed."""
-    def getLPSolstat(self):
+    def getLPSolstat(self) -> PY_SCIP_LPSOLSTAT:
         """
         Gets solution status of current LP.
 
@@ -3260,7 +3268,7 @@ class Model:
         SCIP_LPSOLSTAT
 
         """
-    def constructLP(self):
+    def constructLP(self) -> bool:
         """
         Makes sure that the LP of the current node is loaded and
         may be accessed through the LP information methods.
@@ -3272,7 +3280,7 @@ class Model:
             Can the node be cutoff?
 
         """
-    def getLPObjVal(self):
+    def getLPObjVal(self) -> float:
         """
         Gets objective value of current LP (which is the sum of column and loose objective value).
 
@@ -3281,7 +3289,7 @@ class Model:
         float
 
         """
-    def getLPColsData(self):
+    def getLPColsData(self) -> list[Column]:
         """
         Retrieve current LP columns.
 
@@ -3290,7 +3298,7 @@ class Model:
         list of Column
 
         """
-    def getLPRowsData(self):
+    def getLPRowsData(self) -> list[Row]:
         """
         Retrieve current LP rows.
 
@@ -3299,7 +3307,7 @@ class Model:
         list of Row
 
         """
-    def getNLPRows(self):
+    def getNLPRows(self) -> int:
         """
         Retrieve the number of rows currently in the LP.
 
@@ -3308,7 +3316,7 @@ class Model:
         int
 
         """
-    def getNLPCols(self):
+    def getNLPCols(self) -> int:
         """
         Retrieve the number of columns currently in the LP.
 
@@ -3317,7 +3325,7 @@ class Model:
         int
 
         """
-    def getLPBasisInd(self):
+    def getLPBasisInd(self) -> list[int]:
         """
         Gets all indices of basic columns and rows:
         index i >= 0 corresponds to column i, index i < 0 to row -i-1
@@ -3327,7 +3335,7 @@ class Model:
         list of int
 
         """
-    def getLPBInvRow(self, row):
+    def getLPBInvRow(self, row: int) -> list[float]:
         """
         Gets a row from the inverse basis matrix B^-1
 
@@ -3341,7 +3349,7 @@ class Model:
         list of float
 
         """
-    def getLPBInvARow(self, row):
+    def getLPBInvARow(self, row: int) -> list[float]:
         """
         Gets a row from B^-1 * A.
 
@@ -3355,7 +3363,7 @@ class Model:
         list of float
 
         """
-    def isLPSolBasic(self):
+    def isLPSolBasic(self) -> bool:
         """
         Returns whether the current LP solution is basic, i.e. is defined by a valid simplex basis.
 
@@ -3364,7 +3372,7 @@ class Model:
         bool
 
         """
-    def allColsInLP(self):
+    def allColsInLP(self) -> bool:
         """
         Checks if all columns, i.e. every variable with non-empty column is present in the LP.
         This is not True when performing pricing for instance.
@@ -3374,7 +3382,7 @@ class Model:
         bool
 
         """
-    def getColRedCost(self, col):
+    def getColRedCost(self, col: Column) -> float:
         """
         Gets the reduced cost of the column in the current LP.
 
