@@ -3396,8 +3396,15 @@ class Model:
 
         """
     def createEmptyRowSepa(
-        self, sepa, name=..., lhs=..., rhs=..., local=..., modifiable=..., removable=...
-    ):
+        self,
+        sepa: Sepa,
+        name: str = "row",
+        lhs: float | None = 0.0,
+        rhs: float | None = None,
+        local: bool = True,
+        modifiable: bool = False,
+        removable: bool = True,
+    ) -> Row:
         """
         Creates and captures an LP row without any coefficients from a separator.
 
@@ -3424,8 +3431,14 @@ class Model:
 
         """
     def createEmptyRowUnspec(
-        self, name=..., lhs=..., rhs=..., local=..., modifiable=..., removable=...
-    ):
+        self,
+        name: str = "row",
+        lhs: float | None = 0.0,
+        rhs: float | None = None,
+        local: bool = True,
+        modifiable: bool = False,
+        removable: bool = True,
+    ) -> Row:
         """
         Creates and captures an LP row without any coefficients from an unspecified source.
 
@@ -3449,7 +3462,7 @@ class Model:
         Row
 
         """
-    def getRowActivity(self, row):
+    def getRowActivity(self, row: Row) -> float:
         """
         Returns the activity of a row in the last LP or pseudo solution.
 
@@ -3462,7 +3475,7 @@ class Model:
         float
 
         """
-    def getRowLPActivity(self, row):
+    def getRowLPActivity(self, row: Row) -> float:
         """
         Returns the activity of a row in the last LP solution.
 
@@ -3475,7 +3488,7 @@ class Model:
         float
 
         """
-    def releaseRow(self, row):
+    def releaseRow(self, row: Row) -> None:
         """
         Decreases usage counter of LP row, and frees memory if necessary.
 
@@ -3484,7 +3497,7 @@ class Model:
         row : Row
 
         """
-    def cacheRowExtensions(self, row):
+    def cacheRowExtensions(self, row: Row) -> None:
         """
         Informs row that all subsequent additions of variables to the row
         should be cached and not directly applied;
@@ -3498,7 +3511,7 @@ class Model:
         row : Row
 
         """
-    def flushRowExtensions(self, row):
+    def flushRowExtensions(self, row: Row) -> None:
         """
         Flushes all cached row extensions after a call of cacheRowExtensions()
         and merges coefficients with equal columns into a single coefficient
@@ -3508,7 +3521,7 @@ class Model:
         row : Row
 
         """
-    def addVarToRow(self, row, var, value):
+    def addVarToRow(self, row: Row, var: Variable, value: float) -> None:
         """
         Resolves variable to columns and adds them with the coefficient to the row.
 
@@ -3522,7 +3535,7 @@ class Model:
             Coefficient on the variable when placed in the row
 
         """
-    def printRow(self, row):
+    def printRow(self, row: Row) -> None:
         """
         Prints row.
 
@@ -3531,7 +3544,7 @@ class Model:
         row : Row
 
         """
-    def getRowNumIntCols(self, row):
+    def getRowNumIntCols(self, row: Row) -> int:
         """
         Returns number of intergal columns in the row.
 
@@ -3544,7 +3557,7 @@ class Model:
         int
 
         """
-    def getRowObjParallelism(self, row):
+    def getRowObjParallelism(self, row: Row) -> float:
         """
         Returns 1 if the row is parallel, and 0 if orthogonal.
 
@@ -3557,7 +3570,9 @@ class Model:
         float
 
         """
-    def getRowParallelism(self, row1, row2, orthofunc=...):
+    def getRowParallelism(
+        self, row1: Row, row2: Row, orthofunc: L["d", "e", 100, 101] = 101
+    ) -> float:
         """
         Returns the degree of parallelism between hyplerplanes. 1 if perfectly parallel, 0 if orthogonal.
         For two row vectors v, w the parallelism is calculated as: abs(v*w)/(abs(v)*abs(w)).
@@ -3575,7 +3590,7 @@ class Model:
         float
 
         """
-    def getRowDualSol(self, row):
+    def getRowDualSol(self, row: Row) -> float:
         """
         Gets the dual LP solution of a row.
 
@@ -3588,7 +3603,7 @@ class Model:
         float
 
         """
-    def addPoolCut(self, row):
+    def addPoolCut(self, row: Row) -> None:
         """
         If not already existing, adds row to global cut pool.
 
@@ -3597,7 +3612,7 @@ class Model:
         row : Row
 
         """
-    def getCutEfficacy(self, cut, sol=...):
+    def getCutEfficacy(self, cut: Row, sol: Solution | None = None) -> float:
         """
         Returns efficacy of the cut with respect to the given primal solution or the
         current LP solution: e = -feasibility/norm
@@ -3612,7 +3627,7 @@ class Model:
         float
 
         """
-    def isCutEfficacious(self, cut, sol=...):
+    def isCutEfficacious(self, cut: Row, sol: Solution | None = None) -> bool:
         """
         Returns whether the cut's efficacy with respect to the given primal solution or the
         current LP solution is greater than the minimal cut efficacy.
@@ -3627,7 +3642,7 @@ class Model:
         float
 
         """
-    def getCutLPSolCutoffDistance(self, cut, sol):
+    def getCutLPSolCutoffDistance(self, cut: Row, sol: Solution) -> float:
         """
         Returns row's cutoff distance in the direction of the given primal solution.
 
@@ -3641,7 +3656,7 @@ class Model:
         float
 
         """
-    def addCut(self, cut, forcecut=...):
+    def addCut(self, cut: Row, forcecut: bool = False) -> bool:
         """
         Adds cut to separation storage and returns whether cut has been detected to be infeasible for local bounds.
 
@@ -3658,7 +3673,7 @@ class Model:
             Whether the cut has been detected to be infeasible from local bounds
 
         """
-    def getNCuts(self):
+    def getNCuts(self) -> int:
         """
         Retrieve total number of cuts in storage.
 
@@ -3667,7 +3682,7 @@ class Model:
         int
 
         """
-    def getNCutsApplied(self):
+    def getNCutsApplied(self) -> int:
         """
         Retrieve number of currently applied cuts.
 
@@ -3676,7 +3691,7 @@ class Model:
         int
 
         """
-    def getNSepaRounds(self):
+    def getNSepaRounds(self) -> int:
         """
         Retrieve the number of separation rounds that have been performed
         at the current node.
@@ -3686,7 +3701,13 @@ class Model:
         int
 
         """
-    def separateSol(self, sol=..., pretendroot=..., allowlocal=..., onlydelayed=...):
+    def separateSol(
+        self,
+        sol: Solution | None = None,
+        pretendroot: bool = False,
+        allowlocal: bool = True,
+        onlydelayed: bool = False,
+    ) -> tuple[bool, bool]:
         """
         Separates the given primal solution or the current LP solution by calling
         the separators and constraint handlers' separation methods;
@@ -3717,19 +3738,19 @@ class Model:
         """
     def createConsFromExpr(
         self,
-        cons,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        modifiable=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        cons: ExprCons,
+        name: str = "",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        modifiable: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Create a linear or nonlinear constraint without adding it to the SCIP problem.
         This is useful for creating disjunction constraints without also enforcing the individual constituents.
@@ -3772,19 +3793,19 @@ class Model:
         """
     def addCons(
         self,
-        cons,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        modifiable=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        cons: ExprCons,
+        name: str = "",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        modifiable: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Add a linear or nonlinear constraint.
 
@@ -3824,19 +3845,19 @@ class Model:
         """
     def addConss(
         self,
-        conss,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        modifiable=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        conss: Iterable[ExprCons],
+        name: str | Iterable[str] = "",
+        initial: bool | Iterable[bool] = True,
+        separate: bool | Iterable[bool] = True,
+        enforce: bool | Iterable[bool] = True,
+        check: bool | Iterable[bool] = True,
+        propagate: bool | Iterable[bool] = True,
+        local: bool | Iterable[bool] = False,
+        modifiable: bool | Iterable[bool] = False,
+        dynamic: bool | Iterable[bool] = False,
+        removable: bool | Iterable[bool] = False,
+        stickingatnode: bool | Iterable[bool] = False,
+    ) -> list[Constraint]:
         """Adds multiple linear or quadratic constraints.
 
         Each of the constraints is added to the model using Model.addCons().
@@ -3883,16 +3904,16 @@ class Model:
         """
     def addConsDisjunction(
         self,
-        conss,
-        name=...,
-        initial=...,
-        relaxcons=...,
-        enforce=...,
-        check=...,
-        local=...,
-        modifiable=...,
-        dynamic=...,
-    ):
+        conss: Iterable[ExprCons],
+        name: str = "",
+        initial: bool = True,
+        relaxcons: Constraint | None = None,
+        enforce: bool = True,
+        check: bool = True,
+        local: bool = False,
+        modifiable: bool = False,
+        dynamic: bool = False,
+    ) -> Constraint:
         """
         Add a disjunction constraint.
 
@@ -3925,7 +3946,9 @@ class Model:
             The created disjunction constraint
 
         """
-    def addConsElemDisjunction(self, disj_cons, cons):
+    def addConsElemDisjunction(
+        self, disj_cons: Constraint, cons: Constraint
+    ) -> Constraint:
         """
         Appends a constraint to a disjunction.
 
