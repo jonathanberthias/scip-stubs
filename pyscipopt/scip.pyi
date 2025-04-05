@@ -3965,7 +3965,7 @@ class Model:
             The disjunction constraint with `cons` appended.
 
         """
-    def getConsNVars(self, constraint):
+    def getConsNVars(self, constraint: Constraint) -> int:
         """
         Gets number of variables in a constraint.
 
@@ -3984,7 +3984,7 @@ class Model:
             If the associated constraint handler does not have this functionality
 
         """
-    def getConsVars(self, constraint):
+    def getConsVars(self, constraint: Constraint) -> list[Variable]:
         """
         Gets variables in a constraint.
 
@@ -3998,7 +3998,7 @@ class Model:
         list of Variable
 
         """
-    def printCons(self, constraint):
+    def printCons(self, constraint: Constraint) -> None:
         """
         Print the constraint
 
@@ -4007,7 +4007,9 @@ class Model:
         constraint : Constraint
 
         """
-    def addExprNonlinear(self, cons, expr, coef):
+    def addExprNonlinear(
+        self, cons: Constraint, expr: Expr | GenExpr[Any], coef: float
+    ) -> None:
         """
         Add coef*expr to nonlinear constraint.
 
@@ -4018,7 +4020,7 @@ class Model:
         coef : float
 
         """
-    def addConsCoeff(self, cons, var, coeff):
+    def addConsCoeff(self, cons: Constraint, var: Variable, coeff: float) -> None:
         """
         Add coefficient to the linear constraint (if non-zero).
 
@@ -4032,7 +4034,9 @@ class Model:
             coefficient of new variable
 
         """
-    def addConsNode(self, node, cons, validnode=...):
+    def addConsNode(
+        self, node: Node, cons: Constraint, validnode: Node | None = None
+    ) -> None:
         """
         Add a constraint to the given node.
 
@@ -4046,7 +4050,7 @@ class Model:
             more global node where cons is also valid. (Default=None)
 
         """
-    def addConsLocal(self, cons, validnode=...):
+    def addConsLocal(self, cons: Constraint, validnode: Node | None = None) -> None:
         """
         Add a constraint to the current node.
 
@@ -4060,19 +4064,19 @@ class Model:
         """
     def addConsSOS1(
         self,
-        vars,
-        weights=...,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        vars: Sequence[Variable],
+        weights: Sequence[float] | None = None,
+        name: str = "SOS1cons",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Add an SOS1 constraint.
 
@@ -4126,19 +4130,19 @@ class Model:
         """
     def addConsSOS2(
         self,
-        vars,
-        weights=...,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        vars: Sequence[Variable],
+        weights: Sequence[float] | None = None,
+        name: str = "SOS2cons",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Add an SOS2 constraint.
 
@@ -4178,20 +4182,20 @@ class Model:
         """
     def addConsAnd(
         self,
-        vars,
-        resvar,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        modifiable=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        vars: Sequence[Variable],
+        resvar: Variable,
+        name: str = "ANDcons",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        modifiable: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Add an AND-constraint.
 
@@ -4231,20 +4235,20 @@ class Model:
         """
     def addConsOr(
         self,
-        vars,
-        resvar,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        modifiable=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        vars: Sequence[Variable],
+        resvar: Variable,
+        name: str = "ORcons",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        modifiable: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Add an OR-constraint.
 
@@ -4284,20 +4288,20 @@ class Model:
         """
     def addConsXor(
         self,
-        vars,
-        rhsvar,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        modifiable=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        vars: Sequence[Variable],
+        rhsvar: bool,
+        name: str = "XORcons",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        modifiable: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Add a XOR-constraint.
 
@@ -4337,21 +4341,21 @@ class Model:
         """
     def addConsCardinality(
         self,
-        consvars,
-        cardval,
-        indvars=...,
-        weights=...,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        consvars: Sequence[Variable],
+        cardval: int,
+        indvars: Sequence[Variable] | None = None,
+        weights: Sequence[float] | None = None,
+        name: str = "CardinalityCons",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Add a cardinality constraint that allows at most 'cardval' many nonzero variables.
 
@@ -4398,20 +4402,20 @@ class Model:
         """
     def addConsIndicator(
         self,
-        cons,
-        binvar=...,
-        activeone=...,
-        name=...,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        cons: ExprCons,
+        binvar: Variable | None = None,
+        activeone: bool = True,
+        name: str = "",
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """Add an indicator constraint for the linear inequality `cons`.
 
         The `binvar` argument models the redundancy of the linear constraint. A solution for which
@@ -4453,7 +4457,7 @@ class Model:
             The newly created Indicator constraint
 
         """
-    def getSlackVarIndicator(self, cons):
+    def getSlackVarIndicator(self, cons: Constraint) -> Variable:
         """
         Get slack variable of an indicator constraint.
 
@@ -4468,7 +4472,7 @@ class Model:
         Variable
 
         """
-    def addPyCons(self, cons):
+    def addPyCons(self, cons: Constraint) -> None:
         """
         Adds a customly created cons.
 
@@ -4478,7 +4482,7 @@ class Model:
             constraint to add
 
         """
-    def addVarSOS1(self, cons, var, weight):
+    def addVarSOS1(self, cons: Constraint, var: Variable, weight: float) -> None:
         """
         Add variable to SOS1 constraint.
 
@@ -4492,7 +4496,7 @@ class Model:
             weight of new variable
 
         """
-    def appendVarSOS1(self, cons, var):
+    def appendVarSOS1(self, cons: Constraint, var: Variable) -> None:
         """
         Append variable to SOS1 constraint.
 
@@ -4504,7 +4508,7 @@ class Model:
             variable to append
 
         """
-    def addVarSOS2(self, cons, var, weight):
+    def addVarSOS2(self, cons: Constraint, var: Variable, weight: float) -> None:
         """
         Add variable to SOS2 constraint.
 
@@ -4518,7 +4522,7 @@ class Model:
             weight of new variable
 
         """
-    def appendVarSOS2(self, cons, var):
+    def appendVarSOS2(self, cons: Constraint, var: Variable) -> None:
         """
         Append variable to SOS2 constraint.
 
