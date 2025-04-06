@@ -14,7 +14,7 @@ from typing import (
 )
 
 from _typeshed import Incomplete
-from typing_extensions import CapsuleType, Self, TypeAlias, override
+from typing_extensions import CapsuleType, Self, TypeAlias, deprecated, override
 from typing_extensions import Literal as L
 
 _VTypes: TypeAlias = L[
@@ -4534,7 +4534,7 @@ class Model:
             variable to append
 
         """
-    def setInitial(self, cons, newInit):
+    def setInitial(self, cons: Constraint, newInit: bool) -> None:
         """
         Set "initial" flag of a constraint.
 
@@ -4544,7 +4544,7 @@ class Model:
         newInit : bool
 
         """
-    def setRemovable(self, cons, newRem):
+    def setRemovable(self, cons: Constraint, newRem: bool) -> None:
         """
         Set "removable" flag of a constraint.
 
@@ -4554,7 +4554,7 @@ class Model:
         newRem : bool
 
         """
-    def setEnforced(self, cons, newEnf):
+    def setEnforced(self, cons: Constraint, newEnf: bool) -> None:
         """
         Set "enforced" flag of a constraint.
 
@@ -4564,7 +4564,7 @@ class Model:
         newEnf : bool
 
         """
-    def setCheck(self, cons, newCheck):
+    def setCheck(self, cons: Constraint, newCheck: bool) -> None:
         """
         Set "check" flag of a constraint.
 
@@ -4574,7 +4574,7 @@ class Model:
         newCheck : bool
 
         """
-    def chgRhs(self, cons, rhs):
+    def chgRhs(self, cons: Constraint, rhs: float | None) -> None:
         """
         Change right-hand side value of a constraint.
 
@@ -4586,7 +4586,7 @@ class Model:
             new right-hand side (set to None for +infinity)
 
         """
-    def chgLhs(self, cons, lhs):
+    def chgLhs(self, cons: Constraint, lhs: float | None) -> None:
         """
         Change left-hand side value of a constraint.
 
@@ -4598,7 +4598,7 @@ class Model:
             new left-hand side (set to None for -infinity)
 
         """
-    def getRhs(self, cons):
+    def getRhs(self, cons: Constraint) -> float:
         """
         Retrieve right-hand side value of a constraint.
 
@@ -4612,7 +4612,7 @@ class Model:
         float
 
         """
-    def getLhs(self, cons):
+    def getLhs(self, cons: Constraint) -> None:
         """
         Retrieve left-hand side value of a constraint.
 
@@ -4626,7 +4626,7 @@ class Model:
         float
 
         """
-    def chgCoefLinear(self, cons, var, value):
+    def chgCoefLinear(self, cons: Constraint, var: Variable, value: float) -> None:
         """
         Changes coefficient of variable in linear constraint;
         deletes the variable if coefficient is zero; adds variable if not yet contained in the constraint
@@ -4643,7 +4643,7 @@ class Model:
             new coefficient of constraint entry
 
         """
-    def delCoefLinear(self, cons, var):
+    def delCoefLinear(self, cons: Constraint, var: Variable) -> None:
         """
         Deletes variable from linear constraint
         This method may only be called during problem creation stage for an original constraint and variable.
@@ -4657,7 +4657,7 @@ class Model:
             variable of constraint entry
 
         """
-    def addCoefLinear(self, cons, var, value):
+    def addCoefLinear(self, cons: Constraint, var: Variable, value: float):
         """
         Adds coefficient to linear constraint (if it is not zero)
 
@@ -4671,7 +4671,7 @@ class Model:
             coefficient of constraint entry
 
         """
-    def getActivity(self, cons, sol=...):
+    def getActivity(self, cons: Constraint, sol: Solution | None = None) -> float:
         """
         Retrieve activity of given constraint.
         Can only be called after solving is completed.
@@ -4688,7 +4688,12 @@ class Model:
         float
 
         """
-    def getSlack(self, cons, sol=..., side=...):
+    def getSlack(
+        self,
+        cons: Constraint,
+        sol: Solution | None = None,
+        side: L["lhs", "rhs"] | None = None,
+    ) -> float:
         """
         Retrieve slack of given constraint.
         Can only be called after solving is completed.
@@ -4707,7 +4712,7 @@ class Model:
         float
 
         """
-    def getTransformedCons(self, cons):
+    def getTransformedCons(self, cons: Constraint) -> Constraint:
         """
         Retrieve transformed constraint.
 
@@ -4720,7 +4725,7 @@ class Model:
         Constraint
 
         """
-    def isNLPConstructed(self):
+    def isNLPConstructed(self) -> bool:
         """
         Returns whether SCIP's internal NLP has been constructed.
 
@@ -4729,7 +4734,7 @@ class Model:
         bool
 
         """
-    def getNNlRows(self):
+    def getNNlRows(self) -> int:
         """
         Gets current number of nonlinear rows in SCIP's internal NLP.
 
@@ -4738,7 +4743,7 @@ class Model:
         int
 
         """
-    def getNlRows(self):
+    def getNlRows(self) -> list[NLRow]:
         """
         Returns a list with the nonlinear rows in SCIP's internal NLP.
 
@@ -4747,7 +4752,7 @@ class Model:
         list of NLRow
 
         """
-    def getNlRowSolActivity(self, nlrow, sol=...):
+    def getNlRowSolActivity(self, nlrow: NLRow, sol: Solution | None = None) -> float:
         """
         Gives the activity of a nonlinear row for a given primal solution.
 
@@ -4762,7 +4767,9 @@ class Model:
         float
 
         """
-    def getNlRowSolFeasibility(self, nlrow, sol=...):
+    def getNlRowSolFeasibility(
+        self, nlrow: NLRow, sol: Solution | None = None
+    ) -> float:
         """
         Gives the feasibility of a nonlinear row for a given primal solution
 
@@ -4777,7 +4784,7 @@ class Model:
         bool
 
         """
-    def getNlRowActivityBounds(self, nlrow):
+    def getNlRowActivityBounds(self, nlrow: NLRow) -> tuple[float, float]:
         """
         Gives the minimal and maximal activity of a nonlinear row w.r.t. the variable's bounds.
 
@@ -4790,7 +4797,7 @@ class Model:
         tuple of float
 
         """
-    def printNlRow(self, nlrow):
+    def printNlRow(self, nlrow: NLRow) -> None:
         """
         Prints nonlinear row.
 
@@ -4799,7 +4806,7 @@ class Model:
         nlrow : NLRow
 
         """
-    def checkQuadraticNonlinear(self, cons):
+    def checkQuadraticNonlinear(self, cons: Constraint) -> bool:
         """
         Returns if the given constraint is quadratic.
 
@@ -4812,7 +4819,13 @@ class Model:
         bool
 
         """
-    def getTermsQuadratic(self, cons):
+    def getTermsQuadratic(
+        self, cons: Constraint
+    ) -> tuple[
+        list[tuple[Variable, Variable, float]],
+        list[tuple[Variable, float, float]],
+        list[tuple[Variable, float]],
+    ]:
         """
         Retrieve bilinear, quadratic, and linear terms of a quadratic constraint.
 
@@ -4827,7 +4840,7 @@ class Model:
         linterms : list of tuple
 
         """
-    def setRelaxSolVal(self, var, val):
+    def setRelaxSolVal(self, var: Variable, val: float) -> None:
         """
         Sets the value of the given variable in the global relaxation solution.
 
@@ -4837,7 +4850,7 @@ class Model:
         val : float
 
         """
-    def getConss(self, transformed=...):
+    def getConss(self, transformed: bool = True) -> list[Constraint]:
         """
         Retrieve all constraints.
 
@@ -4851,7 +4864,7 @@ class Model:
         list of Constraint
 
         """
-    def getNConss(self, transformed=...):
+    def getNConss(self, transformed: bool = True) -> int:
         """
         Retrieve number of all constraints.
 
@@ -4865,7 +4878,7 @@ class Model:
         int
 
         """
-    def delCons(self, cons):
+    def delCons(self, cons: Constraint) -> None:
         """
         Delete constraint from the model
 
@@ -4875,7 +4888,7 @@ class Model:
             constraint to be deleted
 
         """
-    def delConsLocal(self, cons):
+    def delConsLocal(self, cons: Constraint) -> None:
         """
         Delete constraint from the current node and its children.
 
@@ -4885,7 +4898,7 @@ class Model:
             constraint to be deleted
 
         """
-    def getValsLinear(self, cons):
+    def getValsLinear(self, cons: Constraint) -> dict[str, float]:
         """
         Retrieve the coefficients of a linear constraint
 
@@ -4899,7 +4912,7 @@ class Model:
         dict of str to float
 
         """
-    def getRowLinear(self, cons):
+    def getRowLinear(self, cons: Constraint) -> Row:
         """
         Retrieve the linear relaxation of the given linear constraint as a row.
         may return NULL if no LP row was yet created; the user must not modify the row!
@@ -4914,7 +4927,7 @@ class Model:
         Row
 
         """
-    def getDualsolLinear(self, cons):
+    def getDualsolLinear(self, cons: Constraint) -> float:
         """
         Retrieve the dual solution to a linear constraint.
 
@@ -4928,7 +4941,10 @@ class Model:
         float
 
         """
-    def getDualMultiplier(self, cons):
+    @deprecated(
+        "model.getDualMultiplier(cons) is deprecated: please use model.getDualsolLinear(cons)"
+    )
+    def getDualMultiplier(self, cons: Constraint) -> float:
         """
         DEPRECATED: Retrieve the dual solution to a linear constraint.
 
@@ -4942,7 +4958,7 @@ class Model:
         float
 
         """
-    def getDualfarkasLinear(self, cons):
+    def getDualfarkasLinear(self, cons: Constraint) -> float:
         """
         Retrieve the dual farkas value to a linear constraint.
 
@@ -4956,7 +4972,7 @@ class Model:
         float
 
         """
-    def getVarRedcost(self, var):
+    def getVarRedcost(self, var: Variable) -> float:
         """
         Retrieve the reduced cost of a variable.
 
@@ -4970,7 +4986,7 @@ class Model:
         float
 
         """
-    def getDualSolVal(self, cons, boundconstraint=...):
+    def getDualSolVal(self, cons: Constraint, boundconstraint: bool = False) -> float:
         """
         Returns dual solution value of a constraint.
 
@@ -4987,15 +5003,15 @@ class Model:
         float
 
         """
-    def optimize(self):
+    def optimize(self) -> None:
         """Optimize the problem."""
-    def optimizeNogil(self):
+    def optimizeNogil(self) -> None:
         """Optimize the problem without GIL."""
-    def solveConcurrent(self):
+    def solveConcurrent(self) -> None:
         """Transforms, presolves, and solves problem using additional solvers which emphasize on
         finding solutions.
         WARNING: This feature is still experimental and prone to some errors."""
-    def presolve(self):
+    def presolve(self) -> None:
         """Presolve the problem."""
     def initBendersDefault(self, subproblems):
         """
