@@ -5013,7 +5013,7 @@ class Model:
         WARNING: This feature is still experimental and prone to some errors."""
     def presolve(self) -> None:
         """Presolve the problem."""
-    def initBendersDefault(self, subproblems):
+    def initBendersDefault(self, subproblems: Model | dict[Any, Model]) -> None:
         """
         Initialises the default Benders' decomposition with a dictionary of subproblems.
 
@@ -5023,17 +5023,19 @@ class Model:
             a single Model instance or dictionary of Model instances
 
         """
-    def computeBestSolSubproblems(self):
+    def computeBestSolSubproblems(self) -> None:
         """Solves the subproblems with the best solution to the master problem.
         Afterwards, the best solution from each subproblem can be queried to get
         the solution to the original problem.
         If the user wants to resolve the subproblems, they must free them by
         calling freeBendersSubproblems()
         """
-    def freeBendersSubproblems(self):
+    def freeBendersSubproblems(self) -> None:
         """Calls the free subproblem function for the Benders' decomposition.
         This will free all subproblems for all decompositions."""
-    def updateBendersLowerbounds(self, lowerbounds, benders=...):
+    def updateBendersLowerbounds(
+        self, lowerbounds: dict[int, float], benders: Benders | None = None
+    ) -> None:
         """
         Updates the subproblem lower bounds for benders using
         the lowerbounds dict. If benders is None, then the default
@@ -5045,7 +5047,7 @@ class Model:
         benders : Benders or None, optional
 
         """
-    def activateBenders(self, benders, nsubproblems):
+    def activateBenders(self, benders: Benders, nsubproblems: int) -> None:
         """
         Activates the Benders' decomposition plugin with the input name.
 
@@ -5057,7 +5059,7 @@ class Model:
             the number of subproblems in the Benders' decomposition
 
         """
-    def addBendersSubproblem(self, benders, subproblem):
+    def addBendersSubproblem(self, benders: Benders, subproblem: Model) -> None:
         """
         Adds a subproblem to the Benders' decomposition given by the input
         name.
@@ -5070,7 +5072,9 @@ class Model:
             the subproblem to add to the decomposition
 
         """
-    def setBendersSubproblemIsConvex(self, benders, probnumber, isconvex=...):
+    def setBendersSubproblemIsConvex(
+        self, benders: Benders, probnumber: int, isconvex: bool = True
+    ) -> None:
         """
         Sets a flag indicating whether the subproblem is convex.
 
@@ -5085,8 +5089,12 @@ class Model:
 
         """
     def setupBendersSubproblem(
-        self, probnumber, benders=..., solution=..., checktype=...
-    ):
+        self,
+        probnumber: int,
+        benders: Benders | None = None,
+        solution: Solution | None = None,
+        checktype: PY_SCIP_BENDERSENFOTYPE = ...,
+    ) -> None:
         """
         Sets up the Benders' subproblem given the master problem solution.
 
@@ -5103,7 +5111,13 @@ class Model:
             PY_SCIP_BENDERSENFOTYPE: LP, RELAX, PSEUDO or CHECK. Default is LP.
 
         """
-    def solveBendersSubproblem(self, probnumber, solvecip, benders=..., solution=...):
+    def solveBendersSubproblem(
+        self,
+        probnumber: int,
+        solvecip: bool,
+        benders: Benders | None = None,
+        solution: Solution | None = None,
+    ) -> tuple[bool, float | None]:
         """
         Solves the Benders' decomposition subproblem. The convex relaxation will be solved unless
         the parameter solvecip is set to True.
@@ -5127,7 +5141,9 @@ class Model:
             the objective function value of the subproblem, can be None
 
         """
-    def getBendersSubproblem(self, probnumber, benders=...):
+    def getBendersSubproblem(
+        self, probnumber: int, benders: Benders | None = None
+    ) -> Model:
         """
         Returns a Model object that wraps around the SCIP instance of the subproblem.
         NOTE: This Model object is just a place holder and SCIP instance will not be
@@ -5145,7 +5161,9 @@ class Model:
         Model
 
         """
-    def getBendersVar(self, var, benders=..., probnumber=...):
+    def getBendersVar(
+        self, var: Variable, benders: Benders | None = None, probnumber: int = -1
+    ) -> Variable | None:
         """
         Returns the variable for the subproblem or master problem
         depending on the input probnumber.
@@ -5164,7 +5182,9 @@ class Model:
         Variable or None
 
         """
-    def getBendersAuxiliaryVar(self, probnumber, benders=...):
+    def getBendersAuxiliaryVar(
+        self, probnumber: int, benders: Benders | None = None
+    ) -> Variable:
         """
         Returns the auxiliary variable that is associated with the input problem number
 
@@ -5180,7 +5200,9 @@ class Model:
         Variable
 
         """
-    def checkBendersSubproblemOptimality(self, solution, probnumber, benders=...):
+    def checkBendersSubproblemOptimality(
+        self, solution: Solution, probnumber: int, benders: Benders | None = None
+    ) -> bool:
         """
         Returns whether the subproblem is optimal w.r.t the master problem auxiliary variables.
 
@@ -5199,7 +5221,7 @@ class Model:
             flag to indicate whether the current subproblem is optimal for the master
 
         """
-    def includeBendersDefaultCuts(self, benders):
+    def includeBendersDefaultCuts(self, benders: Benders) -> None:
         """
         Includes the default Benders' decomposition cuts to the custom Benders' decomposition plugin.
 
@@ -5209,7 +5231,7 @@ class Model:
             the Benders' decomposition that the default cuts will be applied to
 
         """
-    def includeEventhdlr(self, eventhdlr, name, desc):
+    def includeEventhdlr(self, eventhdlr: Eventhdlr, name: str, desc: str) -> None:
         """
         Include an event handler.
 
@@ -5223,7 +5245,14 @@ class Model:
             description of event handler
 
         """
-    def includePricer(self, pricer, name, desc, priority=..., delay=...):
+    def includePricer(
+        self,
+        pricer: Pricer,
+        name: str,
+        desc: str,
+        priority: int = 1,
+        delay: bool = True,
+    ) -> None:
         """
         Include a pricer.
 
@@ -5244,22 +5273,22 @@ class Model:
         """
     def includeConshdlr(
         self,
-        conshdlr,
-        name,
-        desc,
-        sepapriority=...,
-        enfopriority=...,
-        chckpriority=...,
-        sepafreq=...,
-        propfreq=...,
-        eagerfreq=...,
-        maxprerounds=...,
-        delaysepa=...,
-        delayprop=...,
-        needscons=...,
-        proptiming=...,
-        presoltiming=...,
-    ):
+        conshdlr: Conshdlr,
+        name: str,
+        desc: str,
+        sepapriority: int = 0,
+        enfopriority: int = 0,
+        chckpriority: int = 0,
+        sepafreq: int = -1,
+        propfreq: int = -1,
+        eagerfreq: int = 100,
+        maxprerounds: int = -1,
+        delaysepa: bool = False,
+        delayprop: bool = False,
+        needscons: bool = True,
+        proptiming: PY_SCIP_PROPTIMING = ...,
+        presoltiming: PY_SCIP_PRESOLTIMING = ...,
+    ) -> None:
         """
         Include a constraint handler.
 
