@@ -5093,7 +5093,7 @@ class Model:
         probnumber: int,
         benders: Benders | None = None,
         solution: Solution | None = None,
-        checktype: PY_SCIP_BENDERSENFOTYPE = ...,
+        checktype: PY_SCIP_BENDERSENFOTYPE = PY_SCIP_BENDERSENFOTYPE.LP,
     ) -> None:
         """
         Sets up the Benders' subproblem given the master problem solution.
@@ -5286,8 +5286,8 @@ class Model:
         delaysepa: bool = False,
         delayprop: bool = False,
         needscons: bool = True,
-        proptiming: PY_SCIP_PROPTIMING = ...,
-        presoltiming: PY_SCIP_PRESOLTIMING = ...,
+        proptiming: PY_SCIP_PROPTIMING = PY_SCIP_PROPTIMING.BEFORELP,
+        presoltiming: PY_SCIP_PRESOLTIMING = PY_SCIP_PRESOLTIMING.MEDIUM,
     ) -> None:
         """
         Include a constraint handler.

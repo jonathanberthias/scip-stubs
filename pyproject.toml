@@ -60,6 +60,7 @@ extend-ignore = [
     "ANN",  # temporary, until we fix the type annotations
     "ERA",
     "N",
+    "PYI011", # "complex" default values
     "PYI021", # let's keep the docstrings so that they show up in tooltips
 ]
 "tests/*" = [
