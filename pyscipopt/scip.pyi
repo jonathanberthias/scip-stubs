@@ -5329,7 +5329,9 @@ class Model:
             timing mask of the constraint handler's presolving method (Default value = SCIP_PRESOLTIMING.MEDIUM)
 
         """
-    def copyLargeNeighborhoodSearch(self, to_fix, fix_vals):
+    def copyLargeNeighborhoodSearch(
+        self, to_fix: Sequence[Variable], fix_vals: Sequence[float]
+    ) -> Model:
         """
         Creates a configured copy of the transformed problem and applies provided fixings intended for LNS heuristics.
 
@@ -5345,7 +5347,7 @@ class Model:
         model : Model
             A model containing the created copy
         """
-    def translateSubSol(self, sub_model, sol, heur):
+    def translateSubSol(self, sub_model: Model, sol: Solution, heur: Heur) -> Solution:
         """
         Translates a solution of a model copy into a solution of the main model
 
@@ -5365,19 +5367,19 @@ class Model:
         """
     def createCons(
         self,
-        conshdlr,
-        name,
-        initial=...,
-        separate=...,
-        enforce=...,
-        check=...,
-        propagate=...,
-        local=...,
-        modifiable=...,
-        dynamic=...,
-        removable=...,
-        stickingatnode=...,
-    ):
+        conshdlr: Conshdlr,
+        name: str,
+        initial: bool = True,
+        separate: bool = True,
+        enforce: bool = True,
+        check: bool = True,
+        propagate: bool = True,
+        local: bool = False,
+        modifiable: bool = False,
+        dynamic: bool = False,
+        removable: bool = False,
+        stickingatnode: bool = False,
+    ) -> Constraint:
         """
         Create a constraint of a custom constraint handler.
 
@@ -5413,7 +5415,15 @@ class Model:
         Constraint
 
         """
-    def includePresol(self, presol, name, desc, priority, maxrounds, timing=...):
+    def includePresol(
+        self,
+        presol: Presol,
+        name: str,
+        desc: str,
+        priority: int,
+        maxrounds: int,
+        timing: PY_SCIP_PRESOLTIMING = PY_SCIP_PRESOLTIMING.FAST,
+    ) -> None:
         """
         Include a presolver.
 
@@ -5435,15 +5445,15 @@ class Model:
         """
     def includeSepa(
         self,
-        sepa,
-        name,
-        desc,
-        priority=...,
-        freq=...,
-        maxbounddist=...,
-        usessubscip=...,
-        delay=...,
-    ):
+        sepa: Sepa,
+        name: str,
+        desc: str,
+        priority: int = 0,
+        freq: int = 10,
+        maxbounddist: float = 1.0,
+        usessubscip: bool = False,
+        delay: bool = False,
+    ) -> None:
         """
         Include a separator
 
@@ -5479,7 +5489,7 @@ class Model:
             should separator be delayed if other separators found cuts? (Default value = False)
 
         """
-    def includeReader(self, reader, name, desc, ext):
+    def includeReader(self, reader: Reader, name: str, desc: str, ext: str) -> None:
         """
         Include a reader.
 
@@ -5497,17 +5507,17 @@ class Model:
         """
     def includeProp(
         self,
-        prop,
-        name,
-        desc,
-        presolpriority,
-        presolmaxrounds,
-        proptiming,
-        presoltiming=...,
-        priority=...,
-        freq=...,
-        delay=...,
-    ):
+        prop: Prop,
+        name: str,
+        desc: str,
+        presolpriority: int,
+        presolmaxrounds: int,
+        proptiming: PY_SCIP_PROPTIMING,
+        presoltiming: PY_SCIP_PRESOLTIMING = PY_SCIP_PRESOLTIMING.FAST,
+        priority: int = 1,
+        freq: int = 1,
+        delay: bool = True,
+    ) -> None:
         """
         Include a propagator.
 
@@ -5537,17 +5547,17 @@ class Model:
         """
     def includeHeur(
         self,
-        heur,
-        name,
-        desc,
-        dispchar,
-        priority=...,
-        freq=...,
-        freqofs=...,
-        maxdepth=...,
-        timingmask=...,
-        usessubscip=...,
-    ):
+        heur: Heur,
+        name: str,
+        desc: str,
+        dispchar: str,
+        priority: int = 10000,
+        freq: int = 1,
+        freqofs: int = 0,
+        maxdepth: int = -1,
+        timingmask: PY_SCIP_HEURTIMING = PY_SCIP_HEURTIMING.BEFORENODE,
+        usessubscip: bool = False,
+    ) -> None:
         """
         Include a primal heuristic.
 
@@ -5576,7 +5586,9 @@ class Model:
             does the heuristic use a secondary SCIP instance? (Default value = False)
 
         """
-    def includeRelax(self, relax, name, desc, priority=..., freq=...):
+    def includeRelax(
+        self, relax: Relax, name: str, desc: str, priority: int = 10000, freq: int = 1
+    ) -> None:
         """
         Include a relaxation handler.
 
@@ -5594,7 +5606,9 @@ class Model:
             frequency for calling relaxation handler
 
         """
-    def includeCutsel(self, cutsel, name, desc, priority):
+    def includeCutsel(
+        self, cutsel: Cutsel, name: str, desc: str, priority: int
+    ) -> None:
         """
         Include a cut selector.
 
@@ -5611,8 +5625,14 @@ class Model:
 
         """
     def includeBranchrule(
-        self, branchrule, name, desc, priority, maxdepth, maxbounddist
-    ):
+        self,
+        branchrule: Branchrule,
+        name: str,
+        desc: str,
+        priority: int,
+        maxdepth: int,
+        maxbounddist: float,
+    ) -> None:
         """
         Include a branching rule.
 
@@ -5634,7 +5654,14 @@ class Model:
             (0.0: only on current best node, 1.0: on all nodes)
 
         """
-    def includeNodesel(self, nodesel, name, desc, stdpriority, memsavepriority):
+    def includeNodesel(
+        self,
+        nodesel: Nodesel,
+        name: str,
+        desc: str,
+        stdpriority: int,
+        memsavepriority: int,
+    ) -> None:
         """
         Include a node selector.
 
@@ -5654,15 +5681,15 @@ class Model:
         """
     def includeBenders(
         self,
-        benders,
-        name,
-        desc,
-        priority=...,
-        cutlp=...,
-        cutpseudo=...,
-        cutrelax=...,
-        shareaux=...,
-    ):
+        benders: Benders,
+        name: str,
+        desc: str,
+        priority: int = 1,
+        cutlp: bool = True,
+        cutpseudo: bool = True,
+        cutrelax: bool = True,
+        shareaux: bool = False,
+    ) -> None:
         """
         Include a Benders' decomposition.
 
@@ -5688,8 +5715,14 @@ class Model:
 
         """
     def includeBenderscut(
-        self, benders, benderscut, name, desc, priority=..., islpcut=...
-    ):
+        self,
+        benders: Benders,
+        benderscut: Benderscut,
+        name: str,
+        desc: str,
+        priority: int = 1,
+        islpcut: bool = True,
+    ) -> None:
         """
         Include a Benders' decomposition cutting method
 

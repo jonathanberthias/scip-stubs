@@ -17,6 +17,9 @@ pyscipopt.scip.SumExpr.__init__
 # Stubs use enums whereas runtime has only ints
 pyscipopt(.scip)?.Model.includeConshdlr
 pyscipopt(.scip)?.Model.setupBendersSubproblem
+pyscipopt(.scip)?.Model.includeHeur
+pyscipopt(.scip)?.Model.includeProp
+pyscipopt(.scip)?.Model.includePresol
 
 # Catch-all for issues in recipes/ module
 pyscipopt.recipes.*
