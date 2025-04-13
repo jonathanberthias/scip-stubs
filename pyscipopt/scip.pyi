@@ -1,6 +1,6 @@
 import dataclasses
 import os
-from collections.abc import Callable
+from collections.abc import Callable, Mapping
 from enum import IntEnum
 from typing import (
     Any,
@@ -6688,7 +6688,7 @@ class Model:
         str
 
         """
-    def catchEvent(self, eventtype, eventhdlr):
+    def catchEvent(self, eventtype: PY_SCIP_EVENTTYPE, eventhdlr: Eventhdlr) -> None:
         """
         Catches a global (not variable or row dependent) event.
 
@@ -6698,7 +6698,7 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def dropEvent(self, eventtype, eventhdlr):
+    def dropEvent(self, eventtype: PY_SCIP_EVENTTYPE, eventhdlr: Eventhdlr) -> None:
         """
         Drops a global event (stops tracking the event).
 
@@ -6708,7 +6708,9 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def catchVarEvent(self, var, eventtype, eventhdlr):
+    def catchVarEvent(
+        self, var: Variable, eventtype: PY_SCIP_EVENTTYPE, eventhdlr: Eventhdlr
+    ) -> None:
         """
         Catches an objective value or domain change event on the given transformed variable.
 
@@ -6719,7 +6721,9 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def dropVarEvent(self, var, eventtype, eventhdlr):
+    def dropVarEvent(
+        self, var: Variable, eventtype: PY_SCIP_EVENTTYPE, eventhdlr: Eventhdlr
+    ) -> None:
         """
         Drops an objective value or domain change event (stops tracking the event) on the given transformed variable.
 
@@ -6730,7 +6734,9 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def catchRowEvent(self, row, eventtype, eventhdlr):
+    def catchRowEvent(
+        self, row: Row, eventtype: PY_SCIP_EVENTTYPE, eventhdlr: Eventhdlr
+    ) -> None:
         """
         Catches a row coefficient, constant, or side change event on the given row.
 
@@ -6741,7 +6747,9 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def dropRowEvent(self, row, eventtype, eventhdlr):
+    def dropRowEvent(
+        self, row: Row, eventtype: PY_SCIP_EVENTTYPE, eventhdlr: Eventhdlr
+    ) -> None:
         """
         Drops a row coefficient, constant, or side change event (stops tracking the event) on the given row.
 
@@ -6752,9 +6760,11 @@ class Model:
         eventhdlr : Eventhdlr
 
         """
-    def printStatistics(self):
+    def printStatistics(self) -> None:
         """Print statistics."""
-    def writeStatistics(self, filename=...):
+    def writeStatistics(
+        self, filename: str | bytes | os.PathLike[AnyStr] = "origprob.stats"
+    ):
         """
         Write statistics to a file.
 
@@ -6764,7 +6774,7 @@ class Model:
             name of the output file (Default = "origprob.stats")
 
         """
-    def getNLPs(self):
+    def getNLPs(self) -> int:
         """
         Gets total number of LPs solved so far.
 
@@ -6773,7 +6783,7 @@ class Model:
         int
 
         """
-    def hideOutput(self, quiet=...):
+    def hideOutput(self, quiet: bool = True):
         """
         Hide the output.
 
@@ -6783,9 +6793,9 @@ class Model:
             hide output? (Default value = True)
 
         """
-    def redirectOutput(self):
+    def redirectOutput(self) -> None:
         """Send output to python instead of terminal."""
-    def setLogfile(self, path):
+    def setLogfile(self, path: str | bytes | os.PathLike[AnyStr] | None) -> None:
         """
         Sets the log file name for the currently installed message handler.
 
@@ -6795,7 +6805,7 @@ class Model:
             name of log file, or None (no log)
 
         """
-    def setBoolParam(self, name, value):
+    def setBoolParam(self, name: str, value: float) -> None:
         """
         Set a boolean-valued parameter.
 
@@ -6807,7 +6817,7 @@ class Model:
             value of parameter
 
         """
-    def setIntParam(self, name, value):
+    def setIntParam(self, name: str, value: int) -> None:
         """
         Set an int-valued parameter.
 
@@ -6819,7 +6829,7 @@ class Model:
             value of parameter
 
         """
-    def setLongintParam(self, name, value):
+    def setLongintParam(self, name: str, value: int) -> None:
         """
         Set a long-valued parameter.
 
@@ -6831,7 +6841,7 @@ class Model:
             value of parameter
 
         """
-    def setRealParam(self, name, value):
+    def setRealParam(self, name: str, value: float) -> None:
         """
         Set a real-valued parameter.
 
@@ -6843,7 +6853,7 @@ class Model:
             value of parameter
 
         """
-    def setCharParam(self, name, value):
+    def setCharParam(self, name: str, value: str) -> None:
         """
         Set a char-valued parameter.
 
@@ -6855,7 +6865,7 @@ class Model:
             value of parameter
 
         """
-    def setStringParam(self, name, value):
+    def setStringParam(self, name: str, value: str) -> None:
         """
         Set a string-valued parameter.
 
@@ -6867,7 +6877,7 @@ class Model:
             value of parameter
 
         """
-    def setParam(self, name, value):
+    def setParam(self, name: str, value: object) -> None:
         """Set a parameter with value in int, bool, real, long, char or str.
 
         Parameters
@@ -6878,7 +6888,7 @@ class Model:
             value of parameter
 
         """
-    def getParam(self, name):
+    def getParam(self, name: str) -> bool | float | str:
         """
         Get the value of a parameter of type
         int, bool, real, long, char or str.
@@ -6893,7 +6903,7 @@ class Model:
         object
 
         """
-    def getParams(self):
+    def getParams(self) -> dict[str, bool | float | str]:
         """
         Gets the values of all parameters as a dict mapping parameter names
         to their values.
@@ -6904,7 +6914,7 @@ class Model:
             dict mapping parameter names to their values.
 
         """
-    def setParams(self, params):
+    def setParams(self, params: Mapping[str, bool | float | str]) -> None:
         """
         Sets multiple parameters at once.
 
@@ -6914,7 +6924,7 @@ class Model:
             dict mapping parameter names to their values.
 
         """
-    def readParams(self, file):
+    def readParams(self, file: str | bytes | os.PathLike[AnyStr]) -> None:
         """
         Read an external parameter file.
 
@@ -6924,7 +6934,13 @@ class Model:
             file to read
 
         """
-    def writeParams(self, filename=..., comments=..., onlychanged=..., verbose=...):
+    def writeParams(
+        self,
+        filename: str | os.PathLike[AnyStr] = "param.set",
+        comments: bool = True,
+        onlychanged: bool = True,
+        verbose: bool = True,
+    ) -> None:
         """
         Write parameter settings to an external file.
 
@@ -6940,7 +6956,7 @@ class Model:
             indicates whether a success message should be printed
 
         """
-    def resetParam(self, name):
+    def resetParam(self, name: str) -> None:
         """
         Reset parameter setting to its default value
 
@@ -6950,9 +6966,11 @@ class Model:
             parameter to reset
 
         """
-    def resetParams(self):
+    def resetParams(self) -> None:
         """Reset parameter settings to their default values."""
-    def setEmphasis(self, paraemphasis, quiet=...):
+    def setEmphasis(
+        self, paraemphasis: PY_SCIP_PARAMEMPHASIS, quiet: bool = True
+    ) -> None:
         """
         Set emphasis settings
 
@@ -6964,7 +6982,9 @@ class Model:
             hide output? (Default value = True)
 
         """
-    def readProblem(self, filename, extension=...):
+    def readProblem(
+        self, filename: str | bytes | os.PathLike[AnyStr], extension: str | None = None
+    ) -> None:
         """
         Read a problem instance from an external file.
 
@@ -6976,9 +6996,9 @@ class Model:
             specify file extension/type (Default value = None)
 
         """
-    def count(self):
+    def count(self) -> None:
         """Counts the number of feasible points of problem."""
-    def getNReaders(self):
+    def getNReaders(self) -> int:
         """
         Get number of currently available readers.
 
@@ -6987,7 +7007,7 @@ class Model:
         int
 
         """
-    def getNCountedSols(self):
+    def getNCountedSols(self) -> int:
         """
         Get number of feasible solution.
 
@@ -6996,11 +7016,13 @@ class Model:
         int
 
         """
-    def setParamsCountsols(self):
+    def setParamsCountsols(self) -> None:
         """Sets SCIP parameters such that a valid counting process is possible."""
-    def freeReoptSolve(self):
+    def freeReoptSolve(self) -> None:
         """Frees all solution process data and prepares for reoptimization."""
-    def chgReoptObjective(self, coeffs, sense=...):
+    def chgReoptObjective(
+        self, coeffs: Expr, sense: L["minimize", "maximize"] = "minimize"
+    ) -> None:
         """
         Establish the objective function as a linear expression.
 
@@ -7012,7 +7034,7 @@ class Model:
             the objective sense (Default value = 'minimize')
 
         """
-    def chgVarBranchPriority(self, var, priority):
+    def chgVarBranchPriority(self, var: Variable, priority: int) -> None:
         """
         Sets the branch priority of the variable.
         Variables with higher branch priority are always preferred to variables with
@@ -7026,15 +7048,17 @@ class Model:
             the new priority of the variable (the default branching priority is 0)
 
         """
-    def startStrongbranch(self):
+    def startStrongbranch(self) -> None:
         """Start strong branching. Needs to be called before any strong branching. Must also later end strong branching.
         TODO: Propagation option has currently been disabled via Python.
         If propagation is enabled then strong branching is not done on the LP, but on additionally created nodes
         (has some overhead)."""
-    def endStrongbranch(self):
+    def endStrongbranch(self) -> None:
         """End strong branching. Needs to be called if startStrongBranching was called previously.
         Between these calls the user can access all strong branching functionality."""
-    def getVarStrongbranchLast(self, var):
+    def getVarStrongbranchLast(
+        self, var: Variable
+    ) -> tuple[float, float, bool, bool, float, float]:
         """
         Get the results of the last strong branching call on this variable (potentially was called
         at another node).
@@ -7060,7 +7084,7 @@ class Model:
             The LP objective value at the time of the last strong branching call
 
         """
-    def getVarStrongbranchNode(self, var):
+    def getVarStrongbranchNode(self, var: Variable) -> int:
         """
         Get the node number from the last time strong branching was called on the variable.
 
@@ -7074,7 +7098,13 @@ class Model:
         int
 
         """
-    def getVarStrongbranch(self, var, itlim, idempotent=..., integral=...):
+    def getVarStrongbranch(
+        self,
+        var: Variable,
+        itlim: int,
+        idempotent: bool = False,
+        integral: bool = False,
+    ) -> tuple[float, float, bool, bool, bool, bool, bool, bool, bool]:
         """
         Strong branches and gets information on column variable.
 
@@ -7111,7 +7141,9 @@ class Model:
             whether an unresolved LP error occurred in the solving process
 
         """
-    def updateVarPseudocost(self, var, valdelta, objdelta, weight):
+    def updateVarPseudocost(
+        self, var: Variable, valdelta: float, objdelta: float, weight: float
+    ) -> None:
         """
         Updates the pseudo costs of the given variable and the global pseudo costs after a change of valdelta
         in the variable's solution value and resulting change of objdelta in the LP's objective value.
@@ -7130,7 +7162,7 @@ class Model:
             the weight in range (0,1] of how the update affects the stored weighted sum.
 
         """
-    def getBranchScoreMultiple(self, var, gains):
+    def getBranchScoreMultiple(self, var: Variable, gains: list[float]) -> float:
         """
         Calculates the branching score out of the gain predictions for a branching with
         arbitrarily many children.
@@ -7147,7 +7179,7 @@ class Model:
         float
 
         """
-    def getTreesizeEstimation(self):
+    def getTreesizeEstimation(self) -> float:
         """
         Get an estimate of the final tree size.
 
@@ -7158,12 +7190,17 @@ class Model:
         """
     def getBipartiteGraphRepresentation(
         self,
-        prev_col_features=...,
-        prev_edge_features=...,
-        prev_row_features=...,
-        static_only=...,
-        suppress_warnings=...,
-    ):
+        prev_col_features: Sequence[Sequence[float]] | None = None,
+        prev_edge_features: Sequence[Sequence[float]] | None = None,
+        prev_row_features: Sequence[Sequence[float]] | None = None,
+        static_only=False,
+        suppress_warnings=False,
+    ) -> tuple[
+        list[list[float | None]],
+        list[list[float]],
+        list[list[float]],
+        dict[str, dict[str, int]],
+    ]:
         """
         This function generates the bipartite graph representation of an LP, which was first used in
         the following paper:
