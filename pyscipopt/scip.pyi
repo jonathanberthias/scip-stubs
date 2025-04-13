@@ -179,7 +179,7 @@ class ExprCons:
     def __le__(self, other: SupportsFloat, /) -> ExprCons: ...
 
 @overload
-def quicksum(termlist: Iterable[Expr | SupportsFloat]) -> Expr:  # type: ignore[overload-overlap]
+def quicksum(termlist: Iterable[Expr | SupportsFloat]) -> Expr:  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
     """add linear expressions and constants much faster than Python's sum
     by avoiding intermediate data structures and adding terms inplace
     """
@@ -191,7 +191,7 @@ def quicksum(termlist: Iterable[Expr | SupportsFloat | GenExpr[Any]]) -> SumExpr
     """
 
 @overload
-def quickprod(termlist: Iterable[Expr | SupportsFloat]) -> Expr:  # type: ignore[overload-overlap]
+def quickprod(termlist: Iterable[Expr | SupportsFloat]) -> Expr:  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
     """multiply linear expressions and constants by avoiding intermediate
     data structures and multiplying terms inplace
     """
@@ -238,7 +238,7 @@ class ProdExpr(GenExpr[L["prod"]]):
 
 class VarExpr(GenExpr[L["var"]]):
     var: Variable
-    children: list[Variable]  # type: ignore[assignment]
+    children: list[Variable]  # type: ignore[assignment]  # pyright: ignore[reportIncompatibleVariableOverride]
     def __init__(self, /, var: Variable) -> None: ...
 
 class PowExpr(GenExpr[L["**"]]):
