@@ -5743,7 +5743,9 @@ class Model:
             (Default = True)
 
         """
-    def getLPBranchCands(self):
+    def getLPBranchCands(
+        self,
+    ) -> tuple[list[Variable], list[float], list[float], int, int, int]:
         """
         Gets branching candidates for LP solution branching (fractional variables) along with solution values,
         fractionalities, and number of branching candidates; The number of branching candidates does NOT account
@@ -5767,7 +5769,7 @@ class Model:
             number of fractional implicit integer variables
 
         """
-    def getPseudoBranchCands(self):
+    def getPseudoBranchCands(self) -> tuple[list[Variable], int, int]:
         """
         Gets branching candidates for pseudo solution branching (non-fixed variables)
         along with the number of candidates.
@@ -5782,7 +5784,7 @@ class Model:
             number of candidates with maximal priority
 
         """
-    def branchVar(self, variable):
+    def branchVar(self, variable: Variable) -> tuple[Node, Node | None, Node]:
         """
         Branch on a non-continuous variable.
 
@@ -5801,7 +5803,9 @@ class Model:
             Node created for the up (right) branch
 
         """
-    def branchVarVal(self, variable, value):
+    def branchVarVal(
+        self, variable: Variable, value: float
+    ) -> tuple[Node, Node | None, None]:
         """
         Branches on variable using a value which separates the domain of the variable.
 
@@ -5822,7 +5826,9 @@ class Model:
             Node created for the up (right) branch
 
         """
-    def calcNodeselPriority(self, variable, branchdir, targetvalue):
+    def calcNodeselPriority(
+        self, variable: Variable, branchdir: PY_SCIP_BRANCHDIR, targetvalue: float
+    ) -> int:
         """
         Calculates the node selection priority for moving the given variable's LP value
         to the given target value;
@@ -5843,7 +5849,7 @@ class Model:
             node selection priority for moving the given variable's LP value to the given target value
 
         """
-    def calcChildEstimate(self, variable, targetvalue):
+    def calcChildEstimate(self, variable: Variable, targetvalue: float) -> float:
         """
         Calculates an estimate for the objective of the best feasible solution
         contained in the subtree after applying the given branching;
@@ -5862,7 +5868,7 @@ class Model:
             objective estimate of the best solution in the subtree after applying the given branching
 
         """
-    def createChild(self, nodeselprio, estimate):
+    def createChild(self, nodeselprio: int, estimate: float) -> Node:
         """
         Create a child node of the focus node.
 
@@ -5879,14 +5885,14 @@ class Model:
             the child which was created
 
         """
-    def startDive(self):
+    def startDive(self) -> None:
         """Initiates LP diving.
         It allows the user to change the LP in several ways, solve, change again, etc,
         without affecting the actual LP. When endDive() is called,
         SCIP will undo all changes done and recover the LP it had before startDive."""
-    def endDive(self):
+    def endDive(self) -> None:
         """Quits probing and resets bounds and constraints to the focus node's environment."""
-    def chgVarObjDive(self, var, newobj):
+    def chgVarObjDive(self, var: Variable, newobj: float) -> None:
         """
         Changes (column) variable's objective value in current dive.
 
@@ -5896,7 +5902,7 @@ class Model:
         newobj : float
 
         """
-    def chgVarLbDive(self, var, newbound):
+    def chgVarLbDive(self, var: Variable, newbound: float) -> None:
         """
         Changes variable's current lb in current dive.
 
@@ -5906,7 +5912,7 @@ class Model:
         newbound : float
 
         """
-    def chgVarUbDive(self, var, newbound):
+    def chgVarUbDive(self, var: Variable, newbound: float) -> None:
         """
         Changes variable's current ub in current dive.
 
@@ -5916,7 +5922,7 @@ class Model:
         newbound : float
 
         """
-    def getVarLbDive(self, var):
+    def getVarLbDive(self, var: Variable) -> float:
         """
         Returns variable's current lb in current dive.
 
@@ -5929,7 +5935,7 @@ class Model:
         float
 
         """
-    def getVarUbDive(self, var):
+    def getVarUbDive(self, var: Variable) -> float:
         """
         Returns variable's current ub in current dive.
 
@@ -5942,7 +5948,7 @@ class Model:
         float
 
         """
-    def chgRowLhsDive(self, row, newlhs):
+    def chgRowLhsDive(self, row: Row, newlhs: float) -> None:
         """
         Changes row lhs in current dive, change will be undone after diving
         ends, for permanent changes use SCIPchgRowLhs().
@@ -5953,7 +5959,7 @@ class Model:
         newlhs : float
 
         """
-    def chgRowRhsDive(self, row, newrhs):
+    def chgRowRhsDive(self, row: Row, newrhs: float) -> None:
         """
         Changes row rhs in current dive, change will be undone after diving
         ends. For permanent changes use SCIPchgRowRhs().
@@ -5964,7 +5970,7 @@ class Model:
         newrhs : float
 
         """
-    def addRowDive(self, row):
+    def addRowDive(self, row: Row) -> None:
         """
         Adds a row to the LP in current dive.
 
@@ -5973,7 +5979,7 @@ class Model:
         row : Row
 
         """
-    def solveDiveLP(self, itlim=...):
+    def solveDiveLP(self, itlim: int = -1) -> tuple[bool, bool]:
         """
         Solves the LP of the current dive. No separation or pricing is applied.
 
@@ -5990,7 +5996,7 @@ class Model:
             whether the LP was infeasible or the objective limit was reached
 
         """
-    def inRepropagation(self):
+    def inRepropagation(self) -> bool:
         """
         Returns if the current node is already solved and only propagated again.
 
@@ -5999,17 +6005,17 @@ class Model:
         bool
 
         """
-    def startProbing(self):
+    def startProbing(self) -> None:
         """Initiates probing, making methods SCIPnewProbingNode(), SCIPbacktrackProbing(), SCIPchgVarLbProbing(),
         SCIPchgVarUbProbing(), SCIPfixVarProbing(), SCIPpropagateProbing(), SCIPsolveProbingLP(), etc available.
         """
-    def endProbing(self):
+    def endProbing(self) -> None:
         """Quits probing and resets bounds and constraints to the focus node's environment."""
-    def newProbingNode(self):
+    def newProbingNode(self) -> None:
         """Creates a new probing sub node, whose changes can be undone by backtracking to a higher node in the
         probing path with a call to backtrackProbing().
         """
-    def backtrackProbing(self, probingdepth):
+    def backtrackProbing(self, probingdepth: int) -> None:
         """
         Undoes all changes to the problem applied in probing up to the given probing depth.
 
@@ -6019,11 +6025,11 @@ class Model:
             probing depth of the node in the probing path that should be reactivated
 
         """
-    def getProbingDepth(self):
+    def getProbingDepth(self) -> int:
         """Returns the current probing depth."""
-    def chgVarObjProbing(self, var, newobj):
+    def chgVarObjProbing(self, var: Variable, newobj: float) -> None:
         """Changes (column) variable's objective value during probing mode."""
-    def chgVarLbProbing(self, var, lb):
+    def chgVarLbProbing(self, var: Variable, lb: float | None) -> None:
         """
         Changes the variable lower bound during probing mode.
 
@@ -6035,7 +6041,7 @@ class Model:
             new lower bound (set to None for -infinity)
 
         """
-    def chgVarUbProbing(self, var, ub):
+    def chgVarUbProbing(self, var: Variable, ub: float | None) -> None:
         """
         Changes the variable upper bound during probing mode.
 
@@ -6047,7 +6053,7 @@ class Model:
             new upper bound (set to None for +infinity)
 
         """
-    def fixVarProbing(self, var, fixedval):
+    def fixVarProbing(self, var: Variable, fixedval: float) -> None:
         """
         Fixes a variable at the current probing node.
 
@@ -6057,7 +6063,7 @@ class Model:
         fixedval : float
 
         """
-    def isObjChangedProbing(self):
+    def isObjChangedProbing(self) -> bool:
         """
         Returns whether the objective function has changed during probing mode.
 
@@ -6066,7 +6072,7 @@ class Model:
         bool
 
         """
-    def inProbing(self):
+    def inProbing(self) -> bool:
         """
         Returns whether we are in probing mode;
         probing mode is activated via startProbing() and stopped via endProbing().
@@ -6076,7 +6082,7 @@ class Model:
         bool
 
         """
-    def solveProbingLP(self, itlim=...):
+    def solveProbingLP(self, itlim: int = -1) -> tuple[bool, bool]:
         """
         Solves the LP at the current probing node (cannot be applied at preprocessing stage)
         no separation or pricing is applied.
@@ -6094,7 +6100,7 @@ class Model:
             whether the LP was infeasible or the objective limit was reached
 
         """
-    def applyCutsProbing(self):
+    def applyCutsProbing(self) -> bool:
         """
         Applies the cuts in the separation storage to the LP and clears the storage afterwards;
         this method can only be applied during probing; the user should resolve the probing LP afterwards
@@ -6107,7 +6113,7 @@ class Model:
             whether an empty domain was created
 
         """
-    def propagateProbing(self, maxproprounds):
+    def propagateProbing(self, maxproprounds: int) -> tuple[bool, int]:
         """
         Applies domain propagation on the probing sub problem, that was changed after SCIPstartProbing() was called;
         the propagated domains of the variables can be accessed with the usual bound accessing calls SCIPvarGetLbLocal()
@@ -6127,9 +6133,9 @@ class Model:
             number of domain reductions found
 
         """
-    def interruptSolve(self):
+    def interruptSolve(self) -> None:
         """Interrupt the solving process as soon as possible."""
-    def restartSolve(self):
+    def restartSolve(self) -> None:
         """Restarts the solving process as soon as possible."""
     def writeLP(self, filename=...):
         """
