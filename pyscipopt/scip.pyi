@@ -4,6 +4,7 @@ from collections.abc import Callable
 from enum import IntEnum
 from typing import (
     Any,
+    AnyStr,
     Generic,
     Iterable,
     Iterator,
@@ -2792,7 +2793,7 @@ class Model:
         """
     def writeProblem(
         self,
-        filename: str | bytes | os.PathLike[Any] = "model.cip",
+        filename: str | bytes | os.PathLike[AnyStr] = "model.cip",
         trans: bool = False,
         genericnames: bool = False,
         verbose: bool = True,
@@ -6137,7 +6138,7 @@ class Model:
         """Interrupt the solving process as soon as possible."""
     def restartSolve(self) -> None:
         """Restarts the solving process as soon as possible."""
-    def writeLP(self, filename=...):
+    def writeLP(self, filename: str | bytes | os.PathLike[AnyStr] = "LP.lp"):
         """
         Writes current LP to a file.
 
@@ -6147,7 +6148,7 @@ class Model:
             file name (Default value = "LP.lp")
 
         """
-    def createSol(self, heur=..., initlp=...):
+    def createSol(self, heur: Heur | None = None, initlp: bool = False) -> Solution:
         """
         Create a new primal solution in the transformed space.
 
@@ -6163,7 +6164,7 @@ class Model:
         Solution
 
         """
-    def createPartialSol(self, heur=...):
+    def createPartialSol(self, heur: Heur | None = None) -> Solution:
         """
         Create a partial primal solution, initialized to unknown values.
 
@@ -6177,7 +6178,7 @@ class Model:
         Solution
 
         """
-    def createOrigSol(self, heur=...):
+    def createOrigSol(self, heur: Heur | None = None) -> Solution:
         """
         Create a new primal solution in the original space.
 
@@ -6191,7 +6192,7 @@ class Model:
         Solution
 
         """
-    def printBestSol(self, write_zeros=...):
+    def printBestSol(self, write_zeros: bool = False) -> None:
         """
         Prints the best feasible primal solution.
 
@@ -6201,7 +6202,9 @@ class Model:
             include variables that are set to zero (Default = False)
 
         """
-    def printSol(self, solution=..., write_zeros=...):
+    def printSol(
+        self, solution: Solution | None = None, write_zeros: bool = False
+    ) -> None:
         """
         Print the given primal solution.
 
@@ -6213,7 +6216,11 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def writeBestSol(self, filename=..., write_zeros=...):
+    def writeBestSol(
+        self,
+        filename: str | bytes | os.PathLike[AnyStr] = "origprob.sol",
+        write_zeros: bool = False,
+    ) -> None:
         """
         Write the best feasible primal solution to a file.
 
@@ -6225,7 +6232,11 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def writeBestTransSol(self, filename=..., write_zeros=...):
+    def writeBestTransSol(
+        self,
+        filename: str | bytes | os.PathLike[AnyStr] = "transprob.sol",
+        write_zeros: bool = False,
+    ) -> None:
         """
         Write the best feasible primal solution for the transformed problem to a file.
 
@@ -6237,7 +6248,12 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def writeSol(self, solution, filename=..., write_zeros=...):
+    def writeSol(
+        self,
+        solution: Solution,
+        filename: str | bytes | os.PathLike[AnyStr] = "origprob.sol",
+        write_zeros: bool = False,
+    ) -> None:
         """
         Write the given primal solution to a file.
 
@@ -6251,7 +6267,12 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def writeTransSol(self, solution, filename=..., write_zeros=...):
+    def writeTransSol(
+        self,
+        solution: Solution,
+        filename: str | bytes | os.PathLike[AnyStr] = "transprob.sol",
+        write_zeros: bool = False,
+    ) -> None:
         """
         Write the given transformed primal solution to a file.
 
@@ -6265,7 +6286,7 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def readSol(self, filename):
+    def readSol(self, filename: str | bytes | os.PathLike[AnyStr]) -> None:
         """
         Reads a given solution file, problem has to be transformed in advance.
 
@@ -6275,7 +6296,7 @@ class Model:
             name of the input file
 
         """
-    def readSolFile(self, filename):
+    def readSolFile(self, filename: str | bytes | os.PathLike[AnyStr]) -> Solution:
         """
         Reads a given solution file.
 
@@ -6292,7 +6313,7 @@ class Model:
         Solution
 
         """
-    def setSolVal(self, solution, var, val):
+    def setSolVal(self, solution: Solution, var: Variable, val: float) -> None:
         """
         Set a variable in a solution.
 
@@ -6308,14 +6329,14 @@ class Model:
         """
     def trySol(
         self,
-        solution,
-        printreason=...,
-        completely=...,
-        checkbounds=...,
-        checkintegrality=...,
-        checklprows=...,
-        free=...,
-    ):
+        solution: Solution,
+        printreason: bool = True,
+        completely: bool = False,
+        checkbounds: bool = True,
+        checkintegrality: bool = True,
+        checklprows: bool = True,
+        free: bool = True,
+    ) -> bool:
         """
         Check given primal solution for feasibility and try to add it to the storage.
 
@@ -6344,14 +6365,14 @@ class Model:
         """
     def checkSol(
         self,
-        solution,
-        printreason=...,
-        completely=...,
-        checkbounds=...,
-        checkintegrality=...,
-        checklprows=...,
-        original=...,
-    ):
+        solution: Solution,
+        printreason: bool = True,
+        completely: bool = False,
+        checkbounds: bool = True,
+        checkintegrality: bool = True,
+        checklprows: bool = True,
+        original: bool = False,
+    ) -> bool:
         """
         Check given primal solution for feasibility without adding it to the storage.
 
@@ -6378,7 +6399,7 @@ class Model:
             whether the given solution was feasible or not
 
         """
-    def addSol(self, solution, free=...):
+    def addSol(self, solution: Solution, free: bool = True) -> bool:
         """
         Try to add a solution to the storage.
 
@@ -6395,7 +6416,7 @@ class Model:
             stores whether given solution was good enough to keep
 
         """
-    def freeSol(self, solution):
+    def freeSol(self, solution: Solution) -> None:
         """
         Free given solution
 
@@ -6405,7 +6426,7 @@ class Model:
             solution to be freed
 
         """
-    def getNSols(self):
+    def getNSols(self) -> int:
         """
         Gets number of feasible primal solutions stored in the solution storage in case the problem is transformed;
         in case the problem stage is SCIP_STAGE_PROBLEM, the number of solution in the original solution candidate
@@ -6416,7 +6437,7 @@ class Model:
         int
 
         """
-    def getNSolsFound(self):
+    def getNSolsFound(self) -> int:
         """
         Gets number of feasible primal solutions found so far.
 
@@ -6425,7 +6446,7 @@ class Model:
         int
 
         """
-    def getNLimSolsFound(self):
+    def getNLimSolsFound(self) -> int:
         """
         Gets number of feasible primal solutions respecting the objective limit found so far.
 
@@ -6434,7 +6455,7 @@ class Model:
         int
 
         """
-    def getNBestSolsFound(self):
+    def getNBestSolsFound(self) -> int:
         """
         Gets number of feasible primal solutions found so far,
         that improved the primal bound at the time they were found.
@@ -6444,7 +6465,7 @@ class Model:
         int
 
         """
-    def getSols(self):
+    def getSols(self) -> list[Solution]:
         """
         Retrieve list of all feasible primal solutions stored in the solution storage.
 
@@ -6453,7 +6474,7 @@ class Model:
         list of Solution
 
         """
-    def getBestSol(self):
+    def getBestSol(self) -> Solution | None:
         """
         Retrieve currently best known feasible primal solution.
 
@@ -6462,7 +6483,7 @@ class Model:
         Solution or None
 
         """
-    def getSolObjVal(self, sol, original=...):
+    def getSolObjVal(self, sol: Solution | None, original: bool = True) -> float:
         """
         Retrieve the objective value of the solution.
 
@@ -6477,7 +6498,7 @@ class Model:
         float
 
         """
-    def getSolTime(self, sol):
+    def getSolTime(self, sol: Solution) -> float:
         """
         Get clock time when this solution was found.
 
@@ -6490,7 +6511,7 @@ class Model:
         float
 
         """
-    def getObjVal(self, original=...):
+    def getObjVal(self, original: bool = True) -> float:
         """
         Retrieve the objective value of the best solution.
 
@@ -6504,7 +6525,7 @@ class Model:
         float
 
         """
-    def getSolVal(self, sol, expr):
+    def getSolVal(self, sol: Solution | None, expr: Expr) -> float:
         """
         Retrieve value of given variable or expression in the given solution or in
         the LP/pseudo solution if sol == None
@@ -6524,7 +6545,7 @@ class Model:
         A variable is also an expression.
 
         """
-    def getVal(self, expr):
+    def getVal(self, expr: Expr) -> float:
         """
         Retrieve the value of the given variable or expression in the best known solution.
         Can only be called after solving is completed.
@@ -6543,7 +6564,7 @@ class Model:
         A variable is also an expression.
 
         """
-    def hasPrimalRay(self):
+    def hasPrimalRay(self) -> bool:
         """
         Returns whether a primal ray is stored that proves unboundedness of the LP relaxation.
 
@@ -6552,7 +6573,7 @@ class Model:
         bool
 
         """
-    def getPrimalRayVal(self, var):
+    def getPrimalRayVal(self, var: Variable) -> float:
         """
         Gets value of given variable in primal ray causing unboundedness of the LP relaxation.
 
@@ -6565,7 +6586,7 @@ class Model:
         float
 
         """
-    def getPrimalRay(self):
+    def getPrimalRay(self) -> list[float]:
         """
         Gets primal ray causing unboundedness of the LP relaxation.
 
@@ -6574,7 +6595,7 @@ class Model:
         list of float
 
         """
-    def getPrimalbound(self):
+    def getPrimalbound(self) -> float:
         """
         Retrieve the best primal bound.
 
@@ -6583,7 +6604,7 @@ class Model:
         float
 
         """
-    def getDualbound(self):
+    def getDualbound(self) -> float:
         """
         Retrieve the best dual bound.
 
@@ -6592,7 +6613,7 @@ class Model:
         float
 
         """
-    def getDualboundRoot(self):
+    def getDualboundRoot(self) -> float:
         """
         Retrieve the best root dual bound.
 
@@ -6601,7 +6622,7 @@ class Model:
         float
 
         """
-    def writeName(self, var):
+    def writeName(self, var: Variable) -> None:
         """
         Write the name of the variable to the std out.
 
@@ -6610,7 +6631,7 @@ class Model:
         var : Variable
 
         """
-    def getStage(self):
+    def getStage(self) -> PY_SCIP_STAGE:
         """
         Retrieve current SCIP stage.
 
@@ -6619,7 +6640,7 @@ class Model:
         int
 
         """
-    def getStageName(self):
+    def getStageName(self) -> str:
         """
         Returns name of current stage as string.
 
@@ -6628,7 +6649,27 @@ class Model:
         str
 
         """
-    def getStatus(self):
+    def getStatus(
+        self,
+    ) -> L[
+        "optimal",
+        "timelimit",
+        "infeasible",
+        "unbounded",
+        "userinterrupt",
+        "inforunbd",
+        "nodelimit",
+        "totalnodelimit",
+        "stallnodelimit",
+        "gaplimit",
+        "memlimit",
+        "sollimit",
+        "bestsollimit",
+        "restartlimit",
+        "primallimit",
+        "duallimit",
+        "unknown",
+    ]:
         """
         Retrieve solution status.
 
@@ -6638,7 +6679,7 @@ class Model:
             The status of SCIP.
 
         """
-    def getObjectiveSense(self):
+    def getObjectiveSense(self) -> L["maximize", "minimize", "unknown"]:
         """
         Retrieve objective sense.
 
