@@ -1,0 +1,10 @@
+extend = "../../pyproject.toml"
+
+[lint]
+extend-ignore = [
+    "TC",   # type-checking block
+    "NPY",  # legacy numpy usage
+    "PERF", # perf advice
+    "S101", # assert
+    "T201", # print
+]
