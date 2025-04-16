@@ -3,15 +3,11 @@ name = "scip-stubs"
 version = "5.3.0.0"
 description = "Type annotations for PySCIPOpt"
 readme = "README.md"
-authors = [
-    { name = "Jonathan Berthias", email = "jvberthias@gmail.com" }
-]
+authors = [{ name = "Jonathan Berthias", email = "jvberthias@gmail.com" }]
 requires-python = ">=3.8"
 
 [project.optional-dependencies]
-pyscipopt = [
-    "pyscipopt>=5.3.0",
-]
+pyscipopt = ["pyscipopt>=5.3.0"]
 
 [build-system]
 requires = ["hatchling"]
@@ -51,22 +47,22 @@ extend-ignore = [
     "D",
     "FIX",
     "E501",
-    "N817",  # CamelCase name imported as acronym
+    "N817",   # CamelCase name imported as acronym
     "TD",
 ]
 [tool.ruff.lint.per-file-ignores]
 "pyscipopt/*.pyi" = [
     "A002",
-    "ANN",  # temporary, until we fix the type annotations
+    "ANN",    # temporary, until we fix the type annotations
     "ERA",
     "N",
     "PYI011", # "complex" default values
     "PYI021", # let's keep the docstrings so that they show up in tooltips
 ]
 "tests/*" = [
-    "B015",  # pointless comparison
-    "B018",  # useless expression
-    "ERA",  # commented code
+    "B015",    # pointless comparison
+    "B018",    # useless expression
+    "ERA",     # commented code
     "PLR0124", # name compared with itself
     "PLR2004", # magic value in comparison
 ]
@@ -74,7 +70,7 @@ extend-ignore = [
     "EM",
     "INP001",
     "S101",
-    "T201",  # print statements
+    "T201",   # print statements
     "TRY003",
 ]
 [tool.ruff.lint.isort]
