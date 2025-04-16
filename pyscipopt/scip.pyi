@@ -4658,7 +4658,7 @@ class Model:
             variable of constraint entry
 
         """
-    def addCoefLinear(self, cons: Constraint, var: Variable, value: float):
+    def addCoefLinear(self, cons: Constraint, var: Variable, value: float) -> None:
         """
         Adds coefficient to linear constraint (if it is not zero)
 
@@ -6138,7 +6138,7 @@ class Model:
         """Interrupt the solving process as soon as possible."""
     def restartSolve(self) -> None:
         """Restarts the solving process as soon as possible."""
-    def writeLP(self, filename: str | bytes | os.PathLike[AnyStr] = "LP.lp"):
+    def writeLP(self, filename: str | bytes | os.PathLike[AnyStr] = "LP.lp") -> None:
         """
         Writes current LP to a file.
 
@@ -6764,7 +6764,7 @@ class Model:
         """Print statistics."""
     def writeStatistics(
         self, filename: str | bytes | os.PathLike[AnyStr] = "origprob.stats"
-    ):
+    ) -> None:
         """
         Write statistics to a file.
 
@@ -6783,7 +6783,7 @@ class Model:
         int
 
         """
-    def hideOutput(self, quiet: bool = True):
+    def hideOutput(self, quiet: bool = True) -> None:
         """
         Hide the output.
 
@@ -7193,8 +7193,8 @@ class Model:
         prev_col_features: Sequence[Sequence[float]] | None = None,
         prev_edge_features: Sequence[Sequence[float]] | None = None,
         prev_row_features: Sequence[Sequence[float]] | None = None,
-        static_only=False,
-        suppress_warnings=False,
+        static_only: bool = False,
+        suppress_warnings: bool = False,
     ) -> tuple[
         list[list[float | None]],
         list[list[float]],
