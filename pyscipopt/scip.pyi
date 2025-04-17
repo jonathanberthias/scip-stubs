@@ -5806,7 +5806,7 @@ class Model:
         """
     def branchVarVal(
         self, variable: Variable, value: float
-    ) -> tuple[Node, Node | None, None]:
+    ) -> tuple[Node, Node | None, Node]:
         """
         Branches on variable using a value which separates the domain of the variable.
 
