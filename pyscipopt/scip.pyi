@@ -10,8 +10,10 @@ from typing import (
     Iterator,
     Sequence,
     SupportsFloat,
+    TypedDict,
     TypeVar,
     overload,
+    type_check_only,
 )
 
 from _typeshed import Incomplete
@@ -687,25 +689,30 @@ class Conshdlr:
 # cutsel.pxi
 ############
 
+@type_check_only
+class CutSelSelectReturnTD(TypedDict, total=False):  # all entries are optional
+    result: L[PY_SCIP_RESULT.SUCCESS, PY_SCIP_RESULT.DIDNOTFIND]
+    # default: DIDNOTFIND
+    cuts: Sequence[Row]
+    # default: input cuts that may be reordered in-place
+    nselectedcuts: int
+    # default: 0
+
 class Cutsel:
-    model: Incomplete
-    def cutselfree(self):
+    model: Model
+    def cutselfree(self) -> None:
         """frees memory of cut selector"""
-    def cutselinit(self):
+    def cutselinit(self) -> None:
         """executed after the problem is transformed. use this call to initialize cut selector data."""
-    def cutselexit(self):
+    def cutselexit(self) -> None:
         """executed before the transformed problem is freed"""
-    def cutselinitsol(self):
+    def cutselinitsol(self) -> None:
         """executed when the presolving is finished and the branch-and-bound process is about to begin"""
-    def cutselexitsol(self):
+    def cutselexitsol(self) -> None:
         """executed before the branch-and-bound process is freed"""
     def cutselselect(
-        self,
-        cuts: Incomplete,
-        forcedcuts: Incomplete,
-        root: Incomplete,
-        maxnselectedcuts: Incomplete,
-    ):
+        self, cuts: list[Row], forcedcuts: list[Row], root: bool, maxnselectedcuts: int
+    ) -> CutSelSelectReturnTD:
         """first method called in each iteration in the main solving loop."""
 
 ###########

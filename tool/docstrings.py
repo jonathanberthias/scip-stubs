@@ -12,6 +12,7 @@
 
 from __future__ import annotations
 
+import ast
 import inspect
 import re
 import sys
@@ -19,7 +20,7 @@ import textwrap
 from collections import defaultdict
 from itertools import chain
 from pathlib import Path
-from typing import NoReturn, cast
+from typing import TYPE_CHECKING, NoReturn, cast
 
 import libcst as cst
 from libcst.codemod import (
@@ -28,6 +29,9 @@ from libcst.codemod import (
     exec_transform_with_prettyprint,
 )
 from typing_extensions import override
+
+if TYPE_CHECKING:
+    from collections.abc import MutableMapping
 
 GLOBAL_NAMESPACE = "global_ns"
 INDENT = " " * 4
@@ -116,9 +120,9 @@ def parse_docstrings(source_pxi_lines: list[str]) -> dict[str, dict[str, str]]:
     """
     class_start_re = re.compile(r"(?:cdef )?class (\w+)[\(\)\[\]\"\*\w]*:")
 
-    docstrings = defaultdict(dict)
+    docstrings: MutableMapping[str, dict[str, str]] = defaultdict(dict)
     current_context: str = GLOBAL_NAMESPACE
-    current_context_lines = []
+    current_context_lines: list[str] = []
 
     for line in source_pxi_lines:
         if line and not line.startswith(" ") and not line.startswith("\t"):
@@ -156,9 +160,27 @@ def parse_docstrings_in_context(lines: list[str]) -> dict[str, str]:
     }
 
 
+class ClassCollector(ast.NodeVisitor):
+    def __init__(self) -> None:
+        super().__init__()
+        self.classes: list[str] = []
+
+    @override
+    def visit_ClassDef(self, node: ast.ClassDef) -> None:
+        for deco in node.decorator_list:
+            if isinstance(deco, ast.Name) and deco.id == "type_check_only":
+                break
+        else:
+            self.classes.append(node.name)
+        self.generic_visit(node)
+
+
 def collect_classes(file: Path) -> list[str]:
-    class_def_re = re.compile(r"class (\w+)[\(:)]")
-    return class_def_re.findall(file.read_text())
+    visitor = ClassCollector()
+    with file.open("r") as f:
+        tree = ast.parse(f.read())
+    visitor.visit(tree)
+    return visitor.classes
 
 
 def collect_global_functions(file: Path) -> set[str]:
