@@ -954,21 +954,25 @@ class Relax:
 # nodesel.pxi
 #############
 
+@type_check_only
+class NodeselNodeselectTD(TypedDict):
+    selnode: Node
+
 class Nodesel:
     model: Incomplete
-    def nodefree(self):
+    def nodefree(self) -> None:
         """frees memory of node selector"""
-    def nodeinit(self):
+    def nodeinit(self) -> None:
         """executed after the problem is transformed. use this call to initialize node selector data."""
-    def nodeexit(self):
+    def nodeexit(self) -> None:
         """executed before the transformed problem is freed"""
-    def nodeinitsol(self):
+    def nodeinitsol(self) -> None:
         """executed when the presolving is finished and the branch-and-bound process is about to begin"""
-    def nodeexitsol(self):
+    def nodeexitsol(self) -> None:
         """executed before the branch-and-bound process is freed"""
-    def nodeselect(self):
+    def nodeselect(self) -> NodeselNodeselectTD:
         """first method called in each iteration in the main solving loop."""
-    def nodecomp(self, node1: Incomplete, node2: Incomplete):
+    def nodecomp(self, node1: Node, node2: Node) -> int:
         """
         compare two leaves of the current branching tree
 
@@ -3232,7 +3236,7 @@ class Model:
         """
     def relax(self) -> None:
         """Relaxes the integrality restrictions of the model."""
-    def getBestChild(self) -> Node:
+    def getBestChild(self) -> Node | None:
         """
         Gets the best child of the focus node w.r.t. the node selection strategy.
 
@@ -3241,7 +3245,7 @@ class Model:
         Node
 
         """
-    def getBestSibling(self) -> Node:
+    def getBestSibling(self) -> Node | None:
         """
         Gets the best sibling of the focus node w.r.t. the node selection strategy.
 
@@ -3250,7 +3254,7 @@ class Model:
         Node
 
         """
-    def getPrioChild(self) -> Node:
+    def getPrioChild(self) -> Node | None:
         """
         Gets the best child of the focus node w.r.t. the node selection priority
         assigned by the branching rule.
@@ -3260,7 +3264,7 @@ class Model:
         Node
 
         """
-    def getPrioSibling(self) -> Node:
+    def getPrioSibling(self) -> Node | None:
         """Gets the best sibling of the focus node w.r.t.
         the node selection priority assigned by the branching rule.
 
@@ -3269,7 +3273,7 @@ class Model:
         Node
 
         """
-    def getBestLeaf(self) -> Node:
+    def getBestLeaf(self) -> Node | None:
         """Gets the best leaf from the node queue w.r.t. the node selection strategy.
 
         Returns
@@ -3277,7 +3281,7 @@ class Model:
         Node
 
         """
-    def getBestNode(self) -> Node:
+    def getBestNode(self) -> Node | None:
         """Gets the best node from the tree (child, sibling, or leaf) w.r.t. the node selection strategy.
 
         Returns
@@ -3285,7 +3289,7 @@ class Model:
         Node
 
         """
-    def getBestboundNode(self) -> Node:
+    def getBestboundNode(self) -> Node | None:
         """Gets the node with smallest lower bound from the tree (child, sibling, or leaf).
 
         Returns
