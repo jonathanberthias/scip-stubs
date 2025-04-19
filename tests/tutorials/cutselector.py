@@ -1,10 +1,10 @@
 from __future__ import annotations
-from typing_extensions import override
 
 from typing import TYPE_CHECKING
 
-from pyscipopt import Model, SCIP_RESULT
+from pyscipopt import SCIP_RESULT, Model
 from pyscipopt.scip import Cutsel, Row
+from typing_extensions import override
 
 if TYPE_CHECKING:
     from pyscipopt.scip import CutSelSelectReturnTD

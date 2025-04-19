@@ -1,9 +1,10 @@
 from __future__ import annotations
+
+from typing import TYPE_CHECKING
+from typing import Literal as L
+
+from pyscipopt import SCIP_RESULT, Branchrule, Model
 from typing_extensions import override
-
-
-from pyscipopt import Model, Branchrule, SCIP_RESULT
-from typing import TYPE_CHECKING, Literal as L
 
 if TYPE_CHECKING:
     from pyscipopt.scip import BranchRuleExecTD

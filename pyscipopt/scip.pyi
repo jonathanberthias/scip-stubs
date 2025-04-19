@@ -547,11 +547,11 @@ _BranchRuleAllowedResultsCommon: TypeAlias = L[
 ]
 
 @type_check_only
-class BranchRuleExecTD(TypedDict, total=False):
+class BranchRuleExecTD(TypedDict):
     result: _BranchRuleAllowedResultsCommon | L[PY_SCIP_RESULT.SEPARATED]
 
 @type_check_only
-class BranchRuleExecPsTD(TypedDict, total=False):
+class BranchRuleExecPsTD(TypedDict):
     result: _BranchRuleAllowedResultsCommon
 
 class Branchrule:
@@ -855,22 +855,35 @@ class Prop:
 # sepa.pxi
 ##########
 
+@type_check_only
+class SepaExecResultTD(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.CONSADDED,
+        PY_SCIP_RESULT.REDUCEDDOM,
+        PY_SCIP_RESULT.SEPARATED,
+        PY_SCIP_RESULT.NEWROUND,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.DELAYED,
+    ]
+
 class Sepa:
-    model: Incomplete
-    name: Incomplete
-    def sepafree(self):
+    model: Model
+    name: str
+    def sepafree(self) -> None:
         """calls destructor and frees memory of separator"""
-    def sepainit(self):
+    def sepainit(self) -> None:
         """initializes separator"""
-    def sepaexit(self):
+    def sepaexit(self) -> None:
         """calls exit method of separator"""
-    def sepainitsol(self):
+    def sepainitsol(self) -> None:
         """informs separator that the branch and bound process is being started"""
-    def sepaexitsol(self):
+    def sepaexitsol(self) -> None:
         """informs separator that the branch and bound process data is being freed"""
-    def sepaexeclp(self):
+    def sepaexeclp(self) -> SepaExecResultTD:
         """calls LP separation method of separator"""
-    def sepaexecsol(self, solution: Incomplete):
+    def sepaexecsol(self, solution: Solution) -> SepaExecResultTD:
         """calls primal solution separation method of separator"""
 
 ############
