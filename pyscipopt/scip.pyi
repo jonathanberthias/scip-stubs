@@ -760,20 +760,32 @@ class Eventhdlr:
 # heuristic.pxi
 ###############
 
+@type_check_only
+class HeurExecResultTD(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.FOUNDSOL,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.DELAYED,
+        PY_SCIP_RESULT.UNBOUNDED,
+    ]
+
 class Heur:
-    model: Incomplete
-    name: Incomplete
-    def heurfree(self):
+    model: Model
+    name: str
+    def heurfree(self) -> None:
         """calls destructor and frees memory of primal heuristic"""
-    def heurinit(self):
+    def heurinit(self) -> None:
         """initializes primal heuristic"""
-    def heurexit(self):
+    def heurexit(self) -> None:
         """calls exit method of primal heuristic"""
-    def heurinitsol(self):
+    def heurinitsol(self) -> None:
         """informs primal heuristic that the branch and bound process is being started"""
-    def heurexitsol(self):
+    def heurexitsol(self) -> None:
         """informs primal heuristic that the branch and bound process data is being freed"""
-    def heurexec(self, heurtiming: Incomplete, nodeinfeasible: Incomplete):
+    def heurexec(
+        self, heurtiming: PY_SCIP_HEURTIMING, nodeinfeasible: bool
+    ) -> HeurExecResultTD:
         """should the heuristic the executed at the given depth, frequency, timing,..."""
 
 ############
