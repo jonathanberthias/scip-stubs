@@ -3,7 +3,10 @@ from typing_extensions import override
 
 
 from pyscipopt import Model, Branchrule, SCIP_RESULT
-from typing import Literal as L
+from typing import TYPE_CHECKING, Literal as L
+
+if TYPE_CHECKING:
+    from pyscipopt.scip import BranchRuleExecTD
 
 scip = Model()
 
@@ -20,7 +23,7 @@ class MostInfBranchRule(Branchrule):
         self.scip = scip
 
     @override
-    def branchexeclp(self, allowaddcons: bool) -> dict[L["result"], SCIP_RESULT]:
+    def branchexeclp(self, allowaddcons: bool) -> BranchRuleExecTD:
         # Get the branching candidates. Only consider the number of priority candidates (they are sorted to be first)
         # The implicit integer candidates in general shouldn't be branched on. Unless specified by the user
         # npriocands and ncands are the same (npriocands are variables that have been designated as priorities)
@@ -67,7 +70,7 @@ class StrongBranchingRule(Branchrule):
         self.scip = scip
 
     @override
-    def branchexeclp(self, allowaddcons: bool) -> dict[L["result"], SCIP_RESULT]:
+    def branchexeclp(self, allowaddcons: bool) -> BranchRuleExecTD:
         (
             branch_cands,
             branch_cand_sols,

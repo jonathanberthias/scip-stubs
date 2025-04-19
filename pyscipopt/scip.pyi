@@ -537,6 +537,23 @@ class Benderscut:
 # branchrule.pxi
 ################
 
+_BranchRuleAllowedResultsCommon: TypeAlias = L[
+    PY_SCIP_RESULT.CUTOFF,
+    PY_SCIP_RESULT.CONSADDED,  # only allowed if allowaddcons is True
+    PY_SCIP_RESULT.REDUCEDDOM,
+    PY_SCIP_RESULT.BRANCHED,
+    PY_SCIP_RESULT.DIDNOTFIND,
+    PY_SCIP_RESULT.DIDNOTRUN,
+]
+
+@type_check_only
+class BranchRuleExecTD(TypedDict, total=False):
+    result: _BranchRuleAllowedResultsCommon | L[PY_SCIP_RESULT.SEPARATED]
+
+@type_check_only
+class BranchRuleExecPsTD(TypedDict, total=False):
+    result: _BranchRuleAllowedResultsCommon
+
 class Branchrule:
     model: Model
     def branchfree(self) -> None:
@@ -549,11 +566,11 @@ class Branchrule:
         """informs branching rule that the branch and bound process is being started"""
     def branchexitsol(self) -> None:
         """informs branching rule that the branch and bound process data is being freed"""
-    def branchexeclp(self, allowaddcons: bool) -> Incomplete:
+    def branchexeclp(self, allowaddcons: L[True]) -> BranchRuleExecTD:
         """executes branching rule for fractional LP solution"""
-    def branchexecext(self, allowaddcons: bool) -> Incomplete:
+    def branchexecext(self, allowaddcons: L[True]) -> BranchRuleExecTD:
         """executes branching rule for external branching candidates"""
-    def branchexecps(self, allowaddcons: bool) -> Incomplete:
+    def branchexecps(self, allowaddcons: L[True]) -> BranchRuleExecPsTD:
         """executes branching rule for not completely fixed pseudo solution"""
 
 ##############
