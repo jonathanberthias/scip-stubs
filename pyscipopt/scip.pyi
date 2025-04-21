@@ -17,7 +17,14 @@ from typing import (
 )
 
 from _typeshed import Incomplete
-from typing_extensions import CapsuleType, Self, TypeAlias, deprecated, override
+from typing_extensions import (
+    CapsuleType,
+    NotRequired,
+    Self,
+    TypeAlias,
+    deprecated,
+    override,
+)
 from typing_extensions import Literal as L
 
 _VTypes: TypeAlias = L[
@@ -577,102 +584,190 @@ class Branchrule:
 # conshdlr.pxi
 ##############
 
+@type_check_only
+class ConshdlrConsTransRes(TypedDict):
+    targetcons: NotRequired[Constraint]
+
+@type_check_only
+class ConshdlrConsInitLpRes(TypedDict):
+    infeasible: bool
+
+@type_check_only
+class ConshdlrConsSepaRes(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.CONSADDED,
+        PY_SCIP_RESULT.REDUCEDDOM,
+        PY_SCIP_RESULT.SEPARATED,
+        PY_SCIP_RESULT.NEWROUND,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.DELAYED,
+    ]
+
+@type_check_only
+class ConshdlrEnfoRes(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.CONSADDED,
+        PY_SCIP_RESULT.REDUCEDDOM,
+        PY_SCIP_RESULT.SEPARATED,
+        PY_SCIP_RESULT.SOLVELP,
+        PY_SCIP_RESULT.BRANCHED,
+        PY_SCIP_RESULT.INFEASIBLE,
+        PY_SCIP_RESULT.FEASIBLE,
+    ]
+
+@type_check_only
+class ConshdlrEnfoPsRes(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.CONSADDED,
+        PY_SCIP_RESULT.REDUCEDDOM,
+        PY_SCIP_RESULT.BRANCHED,
+        PY_SCIP_RESULT.SOLVELP,
+        PY_SCIP_RESULT.INFEASIBLE,
+        PY_SCIP_RESULT.FEASIBLE,
+        PY_SCIP_RESULT.DIDNOTRUN,
+    ]
+
+@type_check_only
+class ConshdlrConsCheckRes(TypedDict):
+    result: L[PY_SCIP_RESULT.FEASIBLE, PY_SCIP_RESULT.INFEASIBLE]
+
+@type_check_only
+class ConshdlrConsPropRes(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.REDUCEDDOM,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.DELAYED,
+        PY_SCIP_RESULT.DELAYNODE,
+    ]
+
+@type_check_only
+class ConshdlrConsPresolResultDict(TypedDict):
+    nfixedvars: int
+    naggrvars: int
+    nchgvartypes: int
+    nchgbds: int
+    naddholes: int
+    ndelconss: int
+    naddconss: int
+    nupgdconss: int
+    nchgcoefs: int
+    nchgsides: int
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.UNBOUNDED,
+        PY_SCIP_RESULT.SUCCESS,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.DELAYED,
+    ]
+
+@type_check_only
+class ConshdlrConsGetnVarsRes(TypedDict):
+    nvars: int
+    success: bool
+
 class Conshdlr:
     model: Model
     name: str
     def consfree(self) -> None:
         """calls destructor and frees memory of constraint handler"""
-    def consinit(self, constraints: Incomplete) -> None:
+    def consinit(self, constraints: list[Constraint]) -> None:
         """calls initialization method of constraint handler"""
-    def consexit(self, constraints: Incomplete) -> None:
+    def consexit(self, constraints: list[Constraint]) -> None:
         """calls exit method of constraint handler"""
-    def consinitpre(self, constraints: Incomplete) -> None:
+    def consinitpre(self, constraints: list[Constraint]) -> None:
         """informs constraint handler that the presolving process is being started"""
-    def consexitpre(self, constraints: Incomplete) -> None:
+    def consexitpre(self, constraints: list[Constraint]) -> None:
         """informs constraint handler that the presolving is finished"""
-    def consinitsol(self, constraints: Incomplete) -> None:
+    def consinitsol(self, constraints: list[Constraint]) -> None:
         """informs constraint handler that the branch and bound process is being started"""
-    def consexitsol(self, constraints: Incomplete, restart: Incomplete) -> None:
+    def consexitsol(self, constraints: list[Constraint], restart: bool) -> None:
         """informs constraint handler that the branch and bound process data is being freed"""
     def consdelete(self, constraint: Constraint) -> None:
         """sets method of constraint handler to free specific constraint data"""
-    def constrans(self, sourceconstraint: Constraint) -> None:
+    def constrans(self, sourceconstraint: Constraint) -> ConshdlrConsTransRes:
         """sets method of constraint handler to transform constraint data into data belonging to the transformed problem"""
-    def consinitlp(self, constraints: Incomplete) -> None:
+    def consinitlp(self, constraints: list[Constraint]) -> ConshdlrConsInitLpRes:
         """calls LP initialization method of constraint handler to separate all initial active constraints"""
-    def conssepalp(self, constraints: Incomplete, nusefulconss: Incomplete) -> None:
+    def conssepalp(self, constraints: list[Constraint], nusefulconss: int) -> None:
         """calls separator method of constraint handler to separate LP solution"""
     def conssepasol(
-        self, constraints: Incomplete, nusefulconss: Incomplete, solution: Incomplete
-    ) -> None:
+        self, constraints: list[Constraint], nusefulconss: int, solution: Solution
+    ) -> ConshdlrConsSepaRes:
         """calls separator method of constraint handler to separate given primal solution"""
     def consenfolp(
-        self,
-        constraints: Incomplete,
-        nusefulconss: Incomplete,
-        solinfeasible: Incomplete,
-    ) -> None:
+        self, constraints: list[Constraint], nusefulconss: int, solinfeasible: bool
+    ) -> ConshdlrEnfoRes:
         """calls enforcing method of constraint handler for LP solution for all constraints added"""
     def consenforelax(
         self,
-        solution: Incomplete,
-        constraints: Incomplete,
-        nusefulconss: Incomplete,
-        solinfeasible: Incomplete,
-    ) -> None:
+        solution: Solution,
+        constraints: list[Constraint],
+        nusefulconss: int,
+        solinfeasible: bool,
+    ) -> ConshdlrEnfoRes:
         """calls enforcing method of constraint handler for a relaxation solution for all constraints added"""
     def consenfops(
         self,
-        constraints: Incomplete,
-        nusefulconss: Incomplete,
-        solinfeasible: Incomplete,
-        objinfeasible: Incomplete,
-    ) -> None:
+        constraints: list[Constraint],
+        nusefulconss: int,
+        solinfeasible: bool,
+        objinfeasible: bool,
+    ) -> ConshdlrEnfoPsRes:
         """calls enforcing method of constraint handler for pseudo solution for all constraints added"""
     def conscheck(
         self,
-        constraints: Incomplete,
-        solution: Incomplete,
-        checkintegrality: Incomplete,
-        checklprows: Incomplete,
-        printreason: Incomplete,
-        completely: Incomplete,
-    ) -> Incomplete:
+        constraints: list[Constraint],
+        solution: Solution,
+        checkintegrality: bool,
+        checklprows: bool,
+        printreason: bool,
+        completely: bool,
+    ) -> ConshdlrConsCheckRes:
         """calls feasibility check method of constraint handler"""
     def consprop(
         self,
-        constraints: Incomplete,
-        nusefulconss: Incomplete,
-        nmarkedconss: Incomplete,
-        proptiming: Incomplete,
-    ) -> None:
+        constraints: list[Constraint],
+        nusefulconss: int,
+        nmarkedconss: int,
+        proptiming: PY_SCIP_PROPTIMING,
+    ) -> ConshdlrConsPropRes:
         """calls propagation method of constraint handler"""
     def conspresol(
         self,
-        constraints: Incomplete,
-        nrounds: Incomplete,
-        presoltiming: Incomplete,
-        nnewfixedvars: Incomplete,
-        nnewaggrvars: Incomplete,
-        nnewchgvartypes: Incomplete,
-        nnewchgbds: Incomplete,
-        nnewholes: Incomplete,
-        nnewdelconss: Incomplete,
-        nnewaddconss: Incomplete,
-        nnewupgdconss: Incomplete,
-        nnewchgcoefs: Incomplete,
-        nnewchgsides: Incomplete,
-        result_dict: Incomplete,
+        constraints: list[Constraint],
+        nrounds: int,
+        presoltiming: PY_SCIP_PRESOLTIMING,
+        nnewfixedvars: int,
+        nnewaggrvars: int,
+        nnewchgvartypes: int,
+        nnewchgbds: int,
+        nnewholes: int,
+        nnewdelconss: int,
+        nnewaddconss: int,
+        nnewupgdconss: int,
+        nnewchgcoefs: int,
+        nnewchgsides: int,
+        result_dict: ConshdlrConsPresolResultDict,
     ) -> None:
         """calls presolving method of constraint handler"""
     def consresprop(self) -> None:
         """sets propagation conflict resolving method of constraint handler"""
     def conslock(
         self,
-        constraint: Constraint,
-        locktype: Incomplete,
-        nlockspos: Incomplete,
-        nlocksneg: Incomplete,
+        constraint: Constraint | None,
+        # 0 == LockType.MODEL
+        # 1 == LockType.CONFLICT
+        # The enum is not available in PySCIPOpt
+        locktype: L[0, 1],
+        nlockspos: int,
+        nlocksneg: int,
     ) -> None:
         """variable rounding lock method of constraint handler"""
     def consactive(self, constraint: Constraint) -> None:
@@ -683,17 +778,17 @@ class Conshdlr:
         """sets enabling notification method of constraint handler"""
     def consdisable(self, constraint: Constraint) -> None:
         """sets disabling notification method of constraint handler"""
-    def consdelvars(self, constraints: Incomplete) -> None:
+    def consdelvars(self, constraints: list[Constraint]) -> None:
         """calls variable deletion method of constraint handler"""
     def consprint(self, constraint: Constraint) -> None:
         """sets constraint display method of constraint handler"""
-    def conscopy(self) -> Incomplete:
+    def conscopy(self) -> None:
         """sets copy method of both the constraint handler and each associated constraint"""
     def consparse(self) -> None:
         """sets constraint parsing method of constraint handler"""
     def consgetvars(self, constraint: Constraint) -> None:
         """sets constraint variable getter method of constraint handler"""
-    def consgetnvars(self, constraint: Constraint) -> int:
+    def consgetnvars(self, constraint: Constraint) -> ConshdlrConsGetnVarsRes:
         """sets constraint variable number getter method of constraint handler"""
     def consgetdivebdchgs(self) -> None:
         """calls diving solution enforcement callback of constraint handler, if it exists"""
@@ -1985,6 +2080,7 @@ class Variable(Expr):
 
         """
 
+# TODO: make Constraint generic over type of `data`
 class Constraint:
     data: object
     @property
