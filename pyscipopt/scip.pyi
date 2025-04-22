@@ -27,9 +27,6 @@ from typing_extensions import (
 )
 from typing_extensions import Literal as L
 
-# Type of the `data` attribute associated to various classes
-_DataT_co = TypeVar("_DataT_co", covariant=True, default=None)
-
 _VTypes: TypeAlias = L[
     "C", "CONTINUOUS",
     "B", "BINARY",
@@ -675,64 +672,50 @@ class ConshdlrConsGetnVarsRes(TypedDict):
     nvars: int
     success: bool
 
-class Conshdlr(Generic[_DataT_co]):
+class Conshdlr:
     model: Model
     name: str
     def consfree(self) -> None:
         """calls destructor and frees memory of constraint handler"""
-    def consinit(self, constraints: list[Constraint[_DataT_co]]) -> None:
+    def consinit(self, constraints: list[Constraint]) -> None:
         """calls initialization method of constraint handler"""
-    def consexit(self, constraints: list[Constraint[_DataT_co]]) -> None:
+    def consexit(self, constraints: list[Constraint]) -> None:
         """calls exit method of constraint handler"""
-    def consinitpre(self, constraints: list[Constraint[_DataT_co]]) -> None:
+    def consinitpre(self, constraints: list[Constraint]) -> None:
         """informs constraint handler that the presolving process is being started"""
-    def consexitpre(self, constraints: list[Constraint[_DataT_co]]) -> None:
+    def consexitpre(self, constraints: list[Constraint]) -> None:
         """informs constraint handler that the presolving is finished"""
-    def consinitsol(self, constraints: list[Constraint[_DataT_co]]) -> None:
+    def consinitsol(self, constraints: list[Constraint]) -> None:
         """informs constraint handler that the branch and bound process is being started"""
-    def consexitsol(
-        self, constraints: list[Constraint[_DataT_co]], restart: bool
-    ) -> None:
+    def consexitsol(self, constraints: list[Constraint], restart: bool) -> None:
         """informs constraint handler that the branch and bound process data is being freed"""
-    def consdelete(self, constraint: Constraint[_DataT_co]) -> None:
+    def consdelete(self, constraint: Constraint) -> None:
         """sets method of constraint handler to free specific constraint data"""
-    def constrans(
-        self, sourceconstraint: Constraint[_DataT_co]
-    ) -> ConshdlrConsTransRes:
+    def constrans(self, sourceconstraint: Constraint) -> ConshdlrConsTransRes:
         """sets method of constraint handler to transform constraint data into data belonging to the transformed problem"""
-    def consinitlp(
-        self, constraints: list[Constraint[_DataT_co]]
-    ) -> ConshdlrConsInitLpRes:
+    def consinitlp(self, constraints: list[Constraint]) -> ConshdlrConsInitLpRes:
         """calls LP initialization method of constraint handler to separate all initial active constraints"""
-    def conssepalp(
-        self, constraints: list[Constraint[_DataT_co]], nusefulconss: int
-    ) -> None:
+    def conssepalp(self, constraints: list[Constraint], nusefulconss: int) -> None:
         """calls separator method of constraint handler to separate LP solution"""
     def conssepasol(
-        self,
-        constraints: list[Constraint[_DataT_co]],
-        nusefulconss: int,
-        solution: Solution,
+        self, constraints: list[Constraint], nusefulconss: int, solution: Solution
     ) -> ConshdlrConsSepaRes:
         """calls separator method of constraint handler to separate given primal solution"""
     def consenfolp(
-        self,
-        constraints: list[Constraint[_DataT_co]],
-        nusefulconss: int,
-        solinfeasible: bool,
+        self, constraints: list[Constraint], nusefulconss: int, solinfeasible: bool
     ) -> ConshdlrEnfoRes:
         """calls enforcing method of constraint handler for LP solution for all constraints added"""
     def consenforelax(
         self,
         solution: Solution,
-        constraints: list[Constraint[_DataT_co]],
+        constraints: list[Constraint],
         nusefulconss: int,
         solinfeasible: bool,
     ) -> ConshdlrEnfoRes:
         """calls enforcing method of constraint handler for a relaxation solution for all constraints added"""
     def consenfops(
         self,
-        constraints: list[Constraint[_DataT_co]],
+        constraints: list[Constraint],
         nusefulconss: int,
         solinfeasible: bool,
         objinfeasible: bool,
@@ -740,7 +723,7 @@ class Conshdlr(Generic[_DataT_co]):
         """calls enforcing method of constraint handler for pseudo solution for all constraints added"""
     def conscheck(
         self,
-        constraints: list[Constraint[_DataT_co]],
+        constraints: list[Constraint],
         solution: Solution,
         checkintegrality: bool,
         checklprows: bool,
@@ -750,7 +733,7 @@ class Conshdlr(Generic[_DataT_co]):
         """calls feasibility check method of constraint handler"""
     def consprop(
         self,
-        constraints: list[Constraint[_DataT_co]],
+        constraints: list[Constraint],
         nusefulconss: int,
         nmarkedconss: int,
         proptiming: PY_SCIP_PROPTIMING,
@@ -758,7 +741,7 @@ class Conshdlr(Generic[_DataT_co]):
         """calls propagation method of constraint handler"""
     def conspresol(
         self,
-        constraints: list[Constraint[_DataT_co]],
+        constraints: list[Constraint],
         nrounds: int,
         presoltiming: PY_SCIP_PRESOLTIMING,
         nnewfixedvars: int,
@@ -778,7 +761,7 @@ class Conshdlr(Generic[_DataT_co]):
         """sets propagation conflict resolving method of constraint handler"""
     def conslock(
         self,
-        constraint: Constraint[_DataT_co] | None,
+        constraint: Constraint | None,
         # 0 == LockType.MODEL
         # 1 == LockType.CONFLICT
         # The enum is not available in PySCIPOpt
@@ -787,27 +770,25 @@ class Conshdlr(Generic[_DataT_co]):
         nlocksneg: int,
     ) -> None:
         """variable rounding lock method of constraint handler"""
-    def consactive(self, constraint: Constraint[_DataT_co]) -> None:
+    def consactive(self, constraint: Constraint) -> None:
         """sets activation notification method of constraint handler"""
-    def consdeactive(self, constraint: Constraint[_DataT_co]) -> None:
+    def consdeactive(self, constraint: Constraint) -> None:
         """sets deactivation notification method of constraint handler"""
-    def consenable(self, constraint: Constraint[_DataT_co]) -> None:
+    def consenable(self, constraint: Constraint) -> None:
         """sets enabling notification method of constraint handler"""
-    def consdisable(self, constraint: Constraint[_DataT_co]) -> None:
+    def consdisable(self, constraint: Constraint) -> None:
         """sets disabling notification method of constraint handler"""
-    def consdelvars(self, constraints: list[Constraint[_DataT_co]]) -> None:
+    def consdelvars(self, constraints: list[Constraint]) -> None:
         """calls variable deletion method of constraint handler"""
-    def consprint(self, constraint: Constraint[_DataT_co]) -> None:
+    def consprint(self, constraint: Constraint) -> None:
         """sets constraint display method of constraint handler"""
     def conscopy(self) -> None:
         """sets copy method of both the constraint handler and each associated constraint"""
     def consparse(self) -> None:
         """sets constraint parsing method of constraint handler"""
-    def consgetvars(self, constraint: Constraint[_DataT_co]) -> None:
+    def consgetvars(self, constraint: Constraint) -> None:
         """sets constraint variable getter method of constraint handler"""
-    def consgetnvars(
-        self, constraint: Constraint[_DataT_co]
-    ) -> ConshdlrConsGetnVarsRes:
+    def consgetnvars(self, constraint: Constraint) -> ConshdlrConsGetnVarsRes:
         """sets constraint variable number getter method of constraint handler"""
     def consgetdivebdchgs(self) -> None:
         """calls diving solution enforcement callback of constraint handler, if it exists"""
@@ -2099,8 +2080,12 @@ class Variable(Expr):
 
         """
 
-class Constraint(Generic[_DataT_co]):
-    data: _DataT_co
+# TODO: make Constraint generic over type of `data`
+# This can't be done only in the stubs as the Constraint class
+# is not generic and thus can't be indexed by a type variable.
+# Attempted in commit 5897e49
+class Constraint:
+    data: Any
     @property
     def name(self) -> str: ...
     def isOriginal(self) -> bool:
@@ -4625,7 +4610,7 @@ class Model:
             The newly created Indicator constraint
 
         """
-    def getSlackVarIndicator(self, cons: Constraint[_DataT_co]) -> Variable:
+    def getSlackVarIndicator(self, cons: Constraint) -> Variable:
         """
         Get slack variable of an indicator constraint.
 
@@ -4640,7 +4625,7 @@ class Model:
         Variable
 
         """
-    def addPyCons(self, cons: Constraint[_DataT_co]) -> None:
+    def addPyCons(self, cons: Constraint) -> None:
         """
         Adds a customly created cons.
 
@@ -4650,9 +4635,7 @@ class Model:
             constraint to add
 
         """
-    def addVarSOS1(
-        self, cons: Constraint[_DataT_co], var: Variable, weight: float
-    ) -> None:
+    def addVarSOS1(self, cons: Constraint, var: Variable, weight: float) -> None:
         """
         Add variable to SOS1 constraint.
 
@@ -4666,7 +4649,7 @@ class Model:
             weight of new variable
 
         """
-    def appendVarSOS1(self, cons: Constraint[_DataT_co], var: Variable) -> None:
+    def appendVarSOS1(self, cons: Constraint, var: Variable) -> None:
         """
         Append variable to SOS1 constraint.
 
@@ -4678,9 +4661,7 @@ class Model:
             variable to append
 
         """
-    def addVarSOS2(
-        self, cons: Constraint[_DataT_co], var: Variable, weight: float
-    ) -> None:
+    def addVarSOS2(self, cons: Constraint, var: Variable, weight: float) -> None:
         """
         Add variable to SOS2 constraint.
 
@@ -4694,7 +4675,7 @@ class Model:
             weight of new variable
 
         """
-    def appendVarSOS2(self, cons: Constraint[_DataT_co], var: Variable) -> None:
+    def appendVarSOS2(self, cons: Constraint, var: Variable) -> None:
         """
         Append variable to SOS2 constraint.
 
@@ -4706,7 +4687,7 @@ class Model:
             variable to append
 
         """
-    def setInitial(self, cons: Constraint[_DataT_co], newInit: bool) -> None:
+    def setInitial(self, cons: Constraint, newInit: bool) -> None:
         """
         Set "initial" flag of a constraint.
 
@@ -4716,7 +4697,7 @@ class Model:
         newInit : bool
 
         """
-    def setRemovable(self, cons: Constraint[_DataT_co], newRem: bool) -> None:
+    def setRemovable(self, cons: Constraint, newRem: bool) -> None:
         """
         Set "removable" flag of a constraint.
 
@@ -4726,7 +4707,7 @@ class Model:
         newRem : bool
 
         """
-    def setEnforced(self, cons: Constraint[_DataT_co], newEnf: bool) -> None:
+    def setEnforced(self, cons: Constraint, newEnf: bool) -> None:
         """
         Set "enforced" flag of a constraint.
 
@@ -4736,7 +4717,7 @@ class Model:
         newEnf : bool
 
         """
-    def setCheck(self, cons: Constraint[_DataT_co], newCheck: bool) -> None:
+    def setCheck(self, cons: Constraint, newCheck: bool) -> None:
         """
         Set "check" flag of a constraint.
 
@@ -4746,7 +4727,7 @@ class Model:
         newCheck : bool
 
         """
-    def chgRhs(self, cons: Constraint[_DataT_co], rhs: float | None) -> None:
+    def chgRhs(self, cons: Constraint, rhs: float | None) -> None:
         """
         Change right-hand side value of a constraint.
 
@@ -4758,7 +4739,7 @@ class Model:
             new right-hand side (set to None for +infinity)
 
         """
-    def chgLhs(self, cons: Constraint[_DataT_co], lhs: float | None) -> None:
+    def chgLhs(self, cons: Constraint, lhs: float | None) -> None:
         """
         Change left-hand side value of a constraint.
 
@@ -4770,7 +4751,7 @@ class Model:
             new left-hand side (set to None for -infinity)
 
         """
-    def getRhs(self, cons: Constraint[_DataT_co]) -> float:
+    def getRhs(self, cons: Constraint) -> float:
         """
         Retrieve right-hand side value of a constraint.
 
@@ -4784,7 +4765,7 @@ class Model:
         float
 
         """
-    def getLhs(self, cons: Constraint[_DataT_co]) -> None:
+    def getLhs(self, cons: Constraint) -> None:
         """
         Retrieve left-hand side value of a constraint.
 
@@ -4798,9 +4779,7 @@ class Model:
         float
 
         """
-    def chgCoefLinear(
-        self, cons: Constraint[_DataT_co], var: Variable, value: float
-    ) -> None:
+    def chgCoefLinear(self, cons: Constraint, var: Variable, value: float) -> None:
         """
         Changes coefficient of variable in linear constraint;
         deletes the variable if coefficient is zero; adds variable if not yet contained in the constraint
@@ -4817,7 +4796,7 @@ class Model:
             new coefficient of constraint entry
 
         """
-    def delCoefLinear(self, cons: Constraint[_DataT_co], var: Variable) -> None:
+    def delCoefLinear(self, cons: Constraint, var: Variable) -> None:
         """
         Deletes variable from linear constraint
         This method may only be called during problem creation stage for an original constraint and variable.
@@ -4831,9 +4810,7 @@ class Model:
             variable of constraint entry
 
         """
-    def addCoefLinear(
-        self, cons: Constraint[_DataT_co], var: Variable, value: float
-    ) -> None:
+    def addCoefLinear(self, cons: Constraint, var: Variable, value: float) -> None:
         """
         Adds coefficient to linear constraint (if it is not zero)
 
@@ -4847,9 +4824,7 @@ class Model:
             coefficient of constraint entry
 
         """
-    def getActivity(
-        self, cons: Constraint[_DataT_co], sol: Solution | None = None
-    ) -> float:
+    def getActivity(self, cons: Constraint, sol: Solution | None = None) -> float:
         """
         Retrieve activity of given constraint.
         Can only be called after solving is completed.
@@ -4868,7 +4843,7 @@ class Model:
         """
     def getSlack(
         self,
-        cons: Constraint[_DataT_co],
+        cons: Constraint,
         sol: Solution | None = None,
         side: L["lhs", "rhs"] | None = None,
     ) -> float:
@@ -4890,7 +4865,7 @@ class Model:
         float
 
         """
-    def getTransformedCons(self, cons: Constraint[_DataT_co]) -> Constraint:
+    def getTransformedCons(self, cons: Constraint) -> Constraint:
         """
         Retrieve transformed constraint.
 
@@ -5451,7 +5426,7 @@ class Model:
         """
     def includeConshdlr(
         self,
-        conshdlr: Conshdlr[_DataT_co],
+        conshdlr: Conshdlr,
         name: str,
         desc: str,
         sepapriority: int = 0,
@@ -5545,7 +5520,7 @@ class Model:
         """
     def createCons(
         self,
-        conshdlr: Conshdlr[_DataT_co],
+        conshdlr: Conshdlr,
         name: str,
         initial: bool = True,
         separate: bool = True,
@@ -5557,7 +5532,7 @@ class Model:
         dynamic: bool = False,
         removable: bool = False,
         stickingatnode: bool = False,
-    ) -> Constraint[_DataT_co]:
+    ) -> Constraint:
         """
         Create a constraint of a custom constraint handler.
 
