@@ -851,23 +851,23 @@ class Cutsel:
 ###########
 
 class Eventhdlr:
-    model: Incomplete
-    name: Incomplete
-    def eventcopy(self):
+    model: Model
+    name: str
+    def eventcopy(self) -> None:
         """sets copy callback for all events of this event handler"""
-    def eventfree(self):
+    def eventfree(self) -> None:
         """calls destructor and frees memory of event handler"""
-    def eventinit(self):
+    def eventinit(self) -> None:
         """initializes event handler"""
-    def eventexit(self):
+    def eventexit(self) -> None:
         """calls exit method of event handler"""
-    def eventinitsol(self):
+    def eventinitsol(self) -> None:
         """informs event handler that the branch and bound process is being started"""
-    def eventexitsol(self):
+    def eventexitsol(self) -> None:
         """informs event handler that the branch and bound process data is being freed"""
-    def eventdelete(self):
+    def eventdelete(self) -> None:
         """sets callback to free specific event data"""
-    def eventexec(self, event: Incomplete):
+    def eventexec(self, event: Event) -> None:
         """calls execution method of event handler"""
 
 ###############
