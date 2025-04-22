@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
-import networkx  # type: ignore[import-not-found]  # pyright: ignore[reportMissingModuleSource]
+import networkx  # type: ignore[import-untyped]
 import numpy as np
 from pyscipopt import SCIP_RESULT, Conshdlr, Constraint, Model, Variable, quicksum
 from pyscipopt.scip import Constraint, Solution
@@ -38,14 +38,18 @@ for i in range(n):
     )
 
 
+class Vars(TypedDict):
+    vars: dict[int, dict[int, Variable]]
+
+
 # subtour elimination constraint handler
-class SEC(Conshdlr):
+class SEC(Conshdlr[Vars]):
     # method for creating a constraint of this constraint handler type
     def createCons(
         self, name: str, variables: dict[int, dict[int, Variable]]
-    ) -> Constraint:
+    ) -> Constraint[Vars]:
         model: Model = self.model
-        cons: Constraint = model.createCons(self, name)
+        cons: Constraint[Vars] = model.createCons(self, name)
 
         # data relevant for the constraint; in this case we only need to know which
         # variables cannot form a subtour
@@ -55,10 +59,10 @@ class SEC(Conshdlr):
     # find subtours in the graph induced by the edges {i,j} for which x[i][j] is positive
     # at the given solution; when solution is None, the LP solution is used
     def find_subtours(
-        self, cons: Constraint, solution: Solution | None = None
+        self, cons: Constraint[Vars], solution: Solution | None = None
     ) -> list[list[int]]:
         edges = []
-        x: dict[int, dict[int, Variable]] = cons.data["vars"]  # type: ignore[index]  # pyright: ignore[reportIndexIssue]
+        x: dict[int, dict[int, Variable]] = cons.data["vars"]
 
         for i in list(x.keys()):
             for j in list(x[i].keys()):
@@ -78,7 +82,7 @@ class SEC(Conshdlr):
     @override
     def conscheck(
         self,
-        constraints: list[Constraint],
+        constraints: list[Constraint[Vars]],
         solution: Solution,
         checkintegrality: bool,
         checklprows: bool,
@@ -97,7 +101,10 @@ class SEC(Conshdlr):
     # adds constraints forbidding all the found subtours
     @override
     def consenfolp(
-        self, constraints: list[Constraint], nusefulconss: int, solinfeasible: bool
+        self,
+        constraints: list[Constraint[Vars]],
+        nusefulconss: int,
+        solinfeasible: bool,
     ) -> ConshdlrEnfoRes:
         consadded = False
 
@@ -106,7 +113,7 @@ class SEC(Conshdlr):
 
             # if there are subtours
             if subtours:
-                x: dict[int, dict[int, Variable]] = cons.data["vars"]  # type: ignore[index]  # pyright: ignore[reportIndexIssue]
+                x: dict[int, dict[int, Variable]] = cons.data["vars"]
 
                 # add subtour elimination constraint for each subtour
                 for S in subtours:
@@ -126,7 +133,7 @@ class SEC(Conshdlr):
     @override
     def conslock(
         self,
-        constraint: Constraint | None,
+        constraint: Constraint[Vars] | None,
         locktype: int,
         nlockspos: int,
         nlocksneg: int,
@@ -144,7 +151,7 @@ scip.includeConshdlr(
 )
 
 # create a subtour elimination constraint
-cons: Constraint = conshdlr.createCons("no_subtour_cons", x)
+cons: Constraint[Vars] = conshdlr.createCons("no_subtour_cons", x)
 
 # add constraint to SCIP
 scip.addPyCons(cons)
