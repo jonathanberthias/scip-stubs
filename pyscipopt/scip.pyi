@@ -2960,7 +2960,7 @@ class Model:
         """
     def writeProblem(
         self,
-        filename: str | bytes | os.PathLike[AnyStr] = "model.cip",
+        filename: str | os.PathLike[str] = "model.cip",
         trans: bool = False,
         genericnames: bool = False,
         verbose: bool = True,
@@ -6315,7 +6315,7 @@ class Model:
         """Interrupt the solving process as soon as possible."""
     def restartSolve(self) -> None:
         """Restarts the solving process as soon as possible."""
-    def writeLP(self, filename: str | bytes | os.PathLike[AnyStr] = "LP.lp") -> None:
+    def writeLP(self, filename: str | os.PathLike[str] = "LP.lp") -> None:
         """
         Writes current LP to a file.
 
@@ -6463,7 +6463,7 @@ class Model:
             include variables that are set to zero (Default=False)
 
         """
-    def readSol(self, filename: str | bytes | os.PathLike[AnyStr]) -> None:
+    def readSol(self, filename: str | os.PathLike[str]) -> None:
         """
         Reads a given solution file, problem has to be transformed in advance.
 
@@ -6473,7 +6473,7 @@ class Model:
             name of the input file
 
         """
-    def readSolFile(self, filename: str | bytes | os.PathLike[AnyStr]) -> Solution:
+    def readSolFile(self, filename: str | os.PathLike[str]) -> Solution:
         """
         Reads a given solution file.
 
@@ -6972,7 +6972,7 @@ class Model:
         """
     def redirectOutput(self) -> None:
         """Send output to python instead of terminal."""
-    def setLogfile(self, path: str | bytes | os.PathLike[AnyStr] | None) -> None:
+    def setLogfile(self, path: str | None) -> None:
         """
         Sets the log file name for the currently installed message handler.
 
@@ -7101,7 +7101,7 @@ class Model:
             dict mapping parameter names to their values.
 
         """
-    def readParams(self, file: str | bytes | os.PathLike[AnyStr]) -> None:
+    def readParams(self, file: str | os.PathLike[str]) -> None:
         """
         Read an external parameter file.
 
@@ -7113,7 +7113,7 @@ class Model:
         """
     def writeParams(
         self,
-        filename: str | os.PathLike[AnyStr] = "param.set",
+        filename: str | os.PathLike[str] = "param.set",
         comments: bool = True,
         onlychanged: bool = True,
         verbose: bool = True,
@@ -7160,7 +7160,7 @@ class Model:
 
         """
     def readProblem(
-        self, filename: str | bytes | os.PathLike[AnyStr], extension: str | None = None
+        self, filename: str | os.PathLike[str], extension: str | None = None
     ) -> None:
         """
         Read a problem instance from an external file.
@@ -7468,7 +7468,7 @@ class Statistics:
     @property
     def n_presolved_maximal_cons(self) -> int: ...
 
-def readStatistics(filename: os.PathLike[Any]) -> Statistics:
+def readStatistics(filename: str | bytes | os.PathLike[AnyStr]) -> Statistics:
     """
     Given a .stats file of a solved model, reads it and returns an instance of the Statistics class
     holding some statistics.

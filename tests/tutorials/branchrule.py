@@ -56,7 +56,7 @@ class MostInfBranchRule(Branchrule):
 most_inf_branch_rule = MostInfBranchRule(scip)
 scip.includeBranchrule(
     most_inf_branch_rule,
-    "mostinf",
+    "mostinfeasible",
     "custom most infeasible branching rule",
     priority=10000000,
     maxdepth=-1,

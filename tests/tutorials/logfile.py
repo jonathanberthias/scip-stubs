@@ -23,7 +23,7 @@ scip.hideOutput()
 scip.redirectOutput()
 
 path_to_file = Path("out.log")
-scip.setLogfile(path_to_file)
+scip.setLogfile(str(path_to_file))
 
 
 # SCIP Statistics
