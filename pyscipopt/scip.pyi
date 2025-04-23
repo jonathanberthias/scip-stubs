@@ -977,21 +977,31 @@ class Presol:
 # pricer.pxi
 ############
 
+@type_check_only
+class PricerRedcostRes(TypedDict):
+    result: L[PY_SCIP_RESULT.DIDNOTRUN, PY_SCIP_RESULT.SUCCESS]
+    lowerbound: float
+    stopearly: bool
+
+@type_check_only
+class PricerFarkasRes(TypedDict):
+    result: L[PY_SCIP_RESULT.DIDNOTRUN, PY_SCIP_RESULT.SUCCESS]
+
 class Pricer:
-    model: Incomplete
-    def pricerfree(self):
+    model: Model
+    def pricerfree(self) -> None:
         """calls destructor and frees memory of variable pricer"""
-    def pricerinit(self):
+    def pricerinit(self) -> None:
         """initializes variable pricer"""
-    def pricerexit(self):
+    def pricerexit(self) -> None:
         """calls exit method of variable pricer"""
-    def pricerinitsol(self):
+    def pricerinitsol(self) -> None:
         """informs variable pricer that the branch and bound process is being started"""
-    def pricerexitsol(self):
+    def pricerexitsol(self) -> None:
         """informs variable pricer that the branch and bound process data is being freed"""
-    def pricerredcost(self):
+    def pricerredcost(self) -> PricerRedcostRes:
         """calls reduced cost pricing method of variable pricer"""
-    def pricerfarkas(self):
+    def pricerfarkas(self) -> PricerFarkasRes:
         """calls Farkas pricing method of variable pricer"""
 
 ################
