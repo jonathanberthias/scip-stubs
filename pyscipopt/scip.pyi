@@ -563,9 +563,19 @@ class Benders:
 # benderscut.pxi
 ################
 
+@type_check_only
+class BenderscutExecRes(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.CONSADDED,
+        PY_SCIP_RESULT.FEASIBLE,
+        PY_SCIP_RESULT.SEPARATED,
+    ]
+
 class Benderscut:
-    benders: Benders
     model: Model
+    benders: Benders
     name: str
     def benderscutfree(self) -> None: ...
     def benderscutinit(self) -> None: ...
@@ -573,8 +583,11 @@ class Benderscut:
     def benderscutinitsol(self) -> None: ...
     def benderscutexitsol(self) -> None: ...
     def benderscutexec(
-        self, solution: Incomplete, probnumber: Incomplete, enfotype: Incomplete
-    ) -> Incomplete: ...
+        self,
+        solution: Solution | None,
+        probnumber: int,
+        enfotype: PY_SCIP_BENDERSENFOTYPE,
+    ) -> BenderscutExecRes: ...
 
 ################
 # branchrule.pxi
