@@ -479,6 +479,37 @@ class LP:
 # benders.pxi
 #############
 
+@type_check_only
+class BendersPresubsolveRes(TypedDict):
+    infeasible: NotRequired[bool]  # default: False
+    auxviol: NotRequired[bool]  # default: False
+    skipsolve: NotRequired[bool]  # default: False
+    result: L[
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.FEASIBLE,
+        PY_SCIP_RESULT.INFEASIBLE,
+        PY_SCIP_RESULT.CONSADDED,
+        PY_SCIP_RESULT.SEPARATED,
+    ]
+
+@type_check_only
+class BendersSolvesubRes(TypedDict):
+    objective: float
+    result: L[
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.FEASIBLE,
+        PY_SCIP_RESULT.INFEASIBLE,
+        PY_SCIP_RESULT.UNBOUNDED,
+    ]
+
+@type_check_only
+class BendersPostsolveRes(TypedDict):
+    merged: bool
+
+@type_check_only
+class BendersGetvarRes(TypedDict):
+    mappedvar: Variable | None
+
 class Benders:
     model: Model
     name: str
@@ -496,31 +527,36 @@ class Benders:
         """informs Benders decomposition that the branch and bound process is being started"""
     def bendersexitsol(self) -> None:
         """informs Benders decomposition that the branch and bound process data is being freed"""
-    def benderscreatesub(self, probnumber: int) -> Incomplete:
+    def benderscreatesub(self, probnumber: int) -> None:
         """creates the subproblems and registers it with the Benders decomposition struct"""
     def benderspresubsolve(
-        self, solution: Incomplete, enfotype: Incomplete, checkint: Incomplete
-    ) -> Incomplete:
+        self,
+        solution: Solution | None,
+        enfotype: PY_SCIP_BENDERSENFOTYPE,
+        checkint: bool,
+    ) -> BendersPresubsolveRes:
         """sets the pre subproblem solve callback of Benders decomposition"""
     def benderssolvesubconvex(
-        self, solution: Incomplete, probnumber: Incomplete, onlyconvex: Incomplete
-    ) -> Incomplete:
+        self, solution: Solution | None, probnumber: int, onlyconvex: bool
+    ) -> BendersSolvesubRes:
         """sets convex solve callback of Benders decomposition"""
-    def benderssolvesub(self, solution: Incomplete, probnumber: int) -> Incomplete:
+    def benderssolvesub(
+        self, solution: Solution | None, probnumber: int
+    ) -> BendersSolvesubRes:
         """sets solve callback of Benders decomposition"""
     def benderspostsolve(
         self,
-        solution: Incomplete,
-        enfotype: Incomplete,
-        mergecandidates: Incomplete,
-        npriomergecands: Incomplete,
-        checkint: Incomplete,
-        infeasible: Incomplete,
-    ) -> None:
+        solution: Solution | None,
+        enfotype: PY_SCIP_BENDERSENFOTYPE,
+        mergecandidates: list[int],
+        npriomergecands: int,
+        checkint: bool,
+        infeasible: bool,
+    ) -> BendersPostsolveRes:
         """sets post-solve callback of Benders decomposition"""
-    def bendersfreesub(self, probnumber: int) -> Incomplete:
+    def bendersfreesub(self, probnumber: int) -> None:
         """frees the subproblems"""
-    def bendersgetvar(self, variable: Variable, probnumber: int) -> Variable:
+    def bendersgetvar(self, variable: Variable, probnumber: int) -> BendersGetvarRes:
         """Returns the corresponding master or subproblem variable for the given variable. This provides a call back for the variable mapping between the master and subproblems."""
 
 ################
