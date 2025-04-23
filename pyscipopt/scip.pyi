@@ -936,19 +936,41 @@ class Heur:
 # presol.pxi
 ############
 
+@type_check_only
+class PresolExecRes(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.UNBOUNDED,
+        PY_SCIP_RESULT.SUCCESS,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.DIDNOTRUN,
+    ]
+    nnewfixedvars: NotRequired[int]  # default: 0
+    nnewaggrvars: NotRequired[int]  # default: 0
+    nnewchgvartypes: NotRequired[int]  # default: 0
+    nnewchgbds: NotRequired[int]  # default: 0
+    nnewaddholes: NotRequired[int]  # default: 0
+    nnewdelconss: NotRequired[int]  # default: 0
+    nnewaddconss: NotRequired[int]  # default: 0
+    nnewupgdconss: NotRequired[int]  # default: 0
+    nnewchgcoefs: NotRequired[int]  # default: 0
+    nnewchgsides: NotRequired[int]  # default: 0
+
 class Presol:
-    model: Incomplete
-    def presolfree(self):
+    model: Model
+    def presolfree(self) -> None:
         """frees memory of presolver"""
-    def presolinit(self):
+    def presolinit(self) -> None:
         """initializes presolver"""
-    def presolexit(self):
+    def presolexit(self) -> None:
         """deinitializes presolver"""
-    def presolinitpre(self):
+    def presolinitpre(self) -> None:
         """informs presolver that the presolving process is being started"""
-    def presolexitpre(self):
+    def presolexitpre(self) -> None:
         """informs presolver that the presolving process is finished"""
-    def presolexec(self, nrounds: Incomplete, presoltiming: Incomplete):
+    def presolexec(
+        self, nrounds: int, presoltiming: PY_SCIP_PRESOLTIMING
+    ) -> PresolExecRes:
         """executes presolver"""
 
 ############
