@@ -21,5 +21,9 @@ pyscipopt(.scip)?.Model.includeHeur
 pyscipopt(.scip)?.Model.includeProp
 pyscipopt(.scip)?.Model.includePresol
 
+# The Python base method used by stubtest does not have the same parameters
+# as the one called from Cython - let's assume Cython is correct
+pyscipopt(.scip)?.Prop.proppresol
+
 # Catch-all for issues in recipes/ module
 pyscipopt.recipes.*

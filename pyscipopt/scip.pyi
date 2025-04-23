@@ -1008,35 +1008,85 @@ class Pricer:
 # propagator.pxi
 ################
 
+@type_check_only
+class PropPresolResultDict(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.UNBOUNDED,
+        PY_SCIP_RESULT.SUCCESS,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.DIDNOTRUN,
+    ]
+    nfixedvars: int
+    naggrvars: int
+    nchgvartypes: int
+    nchgbds: int
+    naddholes: int
+    ndelconss: int
+    naddconss: int
+    nupgdconss: int
+    nchgcoefs: int
+    nchgsides: int
+
+@type_check_only
+class PropExecRes(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.REDUCEDDOM,
+        PY_SCIP_RESULT.DIDNOTFIND,
+        PY_SCIP_RESULT.DIDNOTRUN,
+        PY_SCIP_RESULT.DELAYED,
+        PY_SCIP_RESULT.DELAYNODE,
+    ]
+
+@type_check_only
+class PropResPropRes(TypedDict):
+    result: L[PY_SCIP_RESULT.SUCCESS, PY_SCIP_RESULT.DIDNOTFIND]
+
 class Prop:
-    model: Incomplete
-    def propfree(self):
+    model: Model
+    def propfree(self) -> None:
         """calls destructor and frees memory of propagator"""
-    def propinit(self):
+    def propinit(self) -> None:
         """initializes propagator"""
-    def propexit(self):
+    def propexit(self) -> None:
         """calls exit method of propagator"""
-    def propinitsol(self):
+    def propinitsol(self) -> None:
         """informs propagator that the prop and bound process is being started"""
-    def propexitsol(self, restart: Incomplete):
+    def propexitsol(self, restart: bool) -> None:
         """informs propagator that the prop and bound process data is being freed"""
-    def propinitpre(self):
+    def propinitpre(self) -> None:
         """informs propagator that the presolving process is being started"""
-    def propexitpre(self):
+    def propexitpre(self) -> None:
         """informs propagator that the presolving process is finished"""
     def proppresol(
-        self, nrounds: Incomplete, presoltiming: Incomplete, result_dict: Incomplete
-    ):
+        self,
+        nrounds: int,
+        presoltiming: PY_SCIP_PRESOLTIMING,
+        nnewfixedvars: int,
+        nnewaggrvars: int,
+        nnewchgvartypes: int,
+        nnewchgbds: int,
+        nnewholes: int,
+        nnewdelconss: int,
+        nnewaddconss: int,
+        nnewupgdconss: int,
+        nnewchgcoefs: int,
+        nnewchgsides: int,
+        result_dict: PropPresolResultDict,
+    ) -> None:
         """executes presolving method of propagator"""
-    def propexec(self, proptiming: Incomplete):
+    def propexec(self, proptiming: PY_SCIP_PROPTIMING) -> PropExecRes:
         """calls execution method of propagator"""
     def propresprop(
         self,
-        confvar: Incomplete,
-        inferinfo: Incomplete,
-        bdtype: Incomplete,
-        relaxedbd: Incomplete,
-    ):
+        confvar: Variable,
+        inferinfo: int,
+        # 0 == SCIP_BOUNDTYPE_LOWER
+        # 1 == SCIP_BOUNDTYPE_UPPER
+        bdtype: L[0, 1],
+        relaxedbd: float,
+    ) -> PropResPropRes:
         """resolves the given conflicting bound, that was reduced by the given propagator"""
 
 ##########
