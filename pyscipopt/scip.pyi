@@ -2,6 +2,7 @@ import dataclasses
 import os
 from collections.abc import Callable, Mapping
 from enum import IntEnum
+from io import TextIOWrapper
 from typing import (
     Any,
     AnyStr,
@@ -1128,32 +1129,39 @@ class Sepa:
 # reader.pxi
 ############
 
+@type_check_only
+class ReaderRes(TypedDict):
+    result: NotRequired[L[PY_SCIP_RESULT.DIDNOTRUN, PY_SCIP_RESULT.SUCCESS]]
+    # default: DIDNOTRUN
+
 class Reader:
-    model: Incomplete
-    name: Incomplete
-    def readerfree(self):
+    model: Model
+    name: str
+    def readerfree(self) -> None:
         """calls destructor and frees memory of reader"""
-    def readerread(self, filename: Incomplete):
+    def readerread(self, filename: str) -> ReaderRes:
         """calls read method of reader"""
     def readerwrite(
         self,
-        file: Incomplete,
-        name: Incomplete,
-        transformed: Incomplete,
-        objsense: Incomplete,
-        objscale: Incomplete,
-        objoffset: Incomplete,
-        binvars: Incomplete,
-        intvars: Incomplete,
-        implvars: Incomplete,
-        contvars: Incomplete,
-        fixedvars: Incomplete,
-        startnvars: Incomplete,
-        conss: Incomplete,
-        maxnconss: Incomplete,
-        startnconss: Incomplete,
-        genericnames: Incomplete,
-    ):
+        file: TextIOWrapper,
+        name: str,
+        transformed: bool,
+        # -1 == SCIP_OBJSENSE_MAXIMIZE
+        # +1 == SCIP_OBJSENSE_MINIMIZE
+        objsense: L[-1, 1],
+        objscale: float,
+        objoffset: float,
+        binvars: list[Variable],
+        intvars: list[Variable],
+        implvars: list[Variable],
+        contvars: list[Variable],
+        fixedvars: list[Variable],
+        startnvars: int,
+        conss: list[Constraint],
+        maxnconss: int,
+        startnconss: int,
+        genericnames: bool,
+    ) -> ReaderRes:
         """calls write method of reader"""
 
 ###########
