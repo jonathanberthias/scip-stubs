@@ -1,16 +1,10 @@
-import pyscipopt.scip
-from pyscipopt.scip import Constraint as Constraint
-from pyscipopt.scip import Model as Model
-from pyscipopt.scip import Variable as Variable
-from pyscipopt.scip import quicksum as quicksum
+from collections.abc import Sequence
+
+from pyscipopt import Constraint, Model, Variable
 
 def add_piecewise_linear_cons(
-    model: pyscipopt.scip.Model,
-    X: pyscipopt.scip.Variable,
-    Y: pyscipopt.scip.Variable,
-    a: list,
-    b: list,
-) -> pyscipopt.scip.Constraint:
+    model: Model, X: Variable, Y: Variable, a: Sequence[float], b: Sequence[float]
+) -> Constraint:
     """add constraint of the form y = f(x), where f is a piecewise linear function
 
     :param model: pyscipopt model to add the constraint to

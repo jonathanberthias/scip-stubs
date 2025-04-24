@@ -1,7 +1,14 @@
-import pyscipopt.scip
-from pyscipopt.scip import Model as Model
+from typing import Any
+from typing import Literal as L
 
-def set_nonlinear_objective(model: pyscipopt.scip.Model, expr, sense: str = ...):
+from pyscipopt import Model
+from pyscipopt.scip import Expr, GenExpr
+
+def set_nonlinear_objective(
+    model: Model,
+    expr: Expr | GenExpr[Any],
+    sense: L["minimize", "maximize"] = "minimize",
+) -> None:
     """
     Takes a nonlinear expression and performs an epigraph reformulation.
     """

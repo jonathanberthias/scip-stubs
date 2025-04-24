@@ -1,9 +1,6 @@
-import pyscipopt.scip
-from pyscipopt import SCIP_EVENTTYPE as SCIP_EVENTTYPE
-from pyscipopt.scip import Eventhdlr as Eventhdlr
-from pyscipopt.scip import Model as Model
+from pyscipopt import Model
 
-def attach_primal_dual_evolution_eventhdlr(model: pyscipopt.scip.Model):
+def attach_primal_dual_evolution_eventhdlr(model: Model) -> Model:
     """
     Attaches an event handler to a given SCIP model that collects primal and dual solutions,
     along with the solving time when they were found.
