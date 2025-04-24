@@ -17,7 +17,6 @@ from typing import (
     type_check_only,
 )
 
-from _typeshed import Incomplete
 from typing_extensions import (
     CapsuleType,
     NotRequired,
@@ -1168,20 +1167,33 @@ class Reader:
 # relax.pxi
 ###########
 
+@type_check_only
+class RelaxExecRes(TypedDict):
+    result: L[
+        PY_SCIP_RESULT.CUTOFF,
+        PY_SCIP_RESULT.CONSADDED,
+        PY_SCIP_RESULT.REDUCEDDOM,
+        PY_SCIP_RESULT.SEPARATED,
+        PY_SCIP_RESULT.SUCCESS,
+        PY_SCIP_RESULT.SUSPENDED,
+        PY_SCIP_RESULT.DIDNOTRUN,
+    ]
+    lowerbound: float
+
 class Relax:
-    model: Incomplete
-    name: Incomplete
-    def relaxfree(self):
+    model: Model
+    name: str
+    def relaxfree(self) -> None:
         """calls destructor and frees memory of relaxation handler"""
-    def relaxinit(self):
+    def relaxinit(self) -> None:
         """initializes relaxation handler"""
-    def relaxexit(self):
+    def relaxexit(self) -> None:
         """calls exit method of relaxation handler"""
-    def relaxinitsol(self):
+    def relaxinitsol(self) -> None:
         """informs relaxaton handler that the branch and bound process is being started"""
-    def relaxexitsol(self):
+    def relaxexitsol(self) -> None:
         """informs relaxation handler that the branch and bound process data is being freed"""
-    def relaxexec(self):
+    def relaxexec(self) -> RelaxExecRes:
         """callls execution method of relaxation handler"""
 
 #############
@@ -1193,7 +1205,7 @@ class NodeselNodeselectTD(TypedDict):
     selnode: Node
 
 class Nodesel:
-    model: Incomplete
+    model: Model
     def nodefree(self) -> None:
         """frees memory of node selector"""
     def nodeinit(self) -> None:
@@ -2366,7 +2378,7 @@ class Constraint:
     def __hash__(self) -> int: ...
 
 class Model:
-    data: Incomplete
+    data: Any
     def __init__(
         self,
         problemName: str = "model",
