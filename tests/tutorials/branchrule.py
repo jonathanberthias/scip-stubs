@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
-from typing import Literal as L
 
 from pyscipopt import SCIP_RESULT, Branchrule, Model
 from typing_extensions import override
