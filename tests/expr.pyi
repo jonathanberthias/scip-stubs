@@ -164,11 +164,11 @@ e // 2  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 2 // e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 
 # Expr.__pow__
-assert_type(e**0, Expr | Literal[1] | PowExpr)  # actually returns Literal[1]
-assert_type(e**2, Expr | Literal[1] | PowExpr)  # actually returns Expr
-assert_type(e**1.5, Expr | Literal[1] | PowExpr)  # actually returns PowExpr
-assert_type(e**d, Expr | Literal[1] | PowExpr)
-assert_type(e**-1, Expr | Literal[1] | PowExpr)  # actually returns PowExpr
+assert_type(e**0, Literal[1])  # special case
+assert_type(e**2, Expr | PowExpr)  # actually returns Expr
+assert_type(e**1.5, Expr | PowExpr)  # actually returns PowExpr
+assert_type(e**d, Expr | PowExpr)
+assert_type(e**-1, Expr | PowExpr)  # actually returns PowExpr
 
 e**e  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 e ** "a"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
@@ -210,7 +210,8 @@ e >= "1"  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 e == "1"  # FIXME: this should be an error
 
 # Expr is not hashable
-{e}  # type: ignore[arg-type] # pyright: ignore[reportUnhashable]
+# FIXME: mypy doesn't catch this?
+{e}  # pyright: ignore[reportUnhashable]
 
 # ExprCons.__init__
 ExprCons(e)
