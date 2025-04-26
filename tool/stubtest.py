@@ -2,7 +2,7 @@
 # requires-python = ">=3.8"
 # dependencies = [
 #     "scip-stubs",
-#     "pyscipopt==5.4.0",
+#     "pyscipopt==5.4.1",
 #     "mypy[faster-cache]",
 # ]
 #
