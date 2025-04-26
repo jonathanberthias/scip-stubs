@@ -4165,7 +4165,7 @@ class Model:
         removable: bool | Iterable[bool] = False,
         stickingatnode: bool | Iterable[bool] = False,
     ) -> list[Constraint]:
-        """Adds multiple linear or quadratic constraints.
+        """Adds multiple constraints.
 
         Each of the constraints is added to the model using Model.addCons().
 
@@ -4888,7 +4888,7 @@ class Model:
         Parameters
         ----------
         cons : Constraint
-            linear or quadratic constraint
+            constraint to change the right-hand side from
         rhs : float or None
             new right-hand side (set to None for +infinity)
 
@@ -4900,7 +4900,7 @@ class Model:
         Parameters
         ----------
         cons : Constraint
-            linear or quadratic constraint
+            constraint to change the left-hand side from
         lhs : float or None
             new left-hand side (set to None for -infinity)
 
@@ -4912,7 +4912,7 @@ class Model:
         Parameters
         ----------
         cons : Constraint
-            linear or quadratic constraint
+            constraint to get the right-hand side from
 
         Returns
         -------
@@ -4926,7 +4926,7 @@ class Model:
         Parameters
         ----------
         cons : Constraint
-            linear or quadratic constraint
+            linear or nonlinear constraint
 
         Returns
         -------
@@ -4986,7 +4986,7 @@ class Model:
         Parameters
         ----------
         cons : Constraint
-            linear or quadratic constraint
+            linear constraint
         sol : Solution or None, optional
             solution to compute activity of, None to use current node's solution (Default value = None)
 
@@ -5008,7 +5008,7 @@ class Model:
         Parameters
         ----------
         cons : Constraint
-            linear or quadratic constraint
+            linear constraint
         sol : Solution or None, optional
             solution to compute slack of, None to use current node's solution (Default value = None)
         side : str or None, optional
