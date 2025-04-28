@@ -107,10 +107,13 @@ def reorder(classname: str) -> None:
     stub_source_lines = load_stub_source()
     scip_methods = get_methods_by_class(scip_source_lines)[classname]
 
-    if f"class {classname}:" in stub_source_lines:
-        class_start = stub_source_lines.index(f"class {classname}:")
-    elif f"cdef class {classname}:" in stub_source_lines:
-        class_start = stub_source_lines.index(f"cdef class {classname}:")
+    classdef_re = re.compile(rf"(cdef )?class {classname}[\(:]")
+
+    class_start = 0
+    for i, line in enumerate(stub_source_lines):
+        if classdef_re.match(line):
+            class_start = i
+            break
     else:
         raise ValueError(f"Class {classname} not found in stub")
     stub_source_lines = stub_source_lines[class_start + 1 :]

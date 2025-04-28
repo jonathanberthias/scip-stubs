@@ -6,6 +6,9 @@
 # ]
 # requires-python = ">=3.9"
 #
+# [tool.uv]
+# reinstall-package = ["scip-stubs"]
+#
 # [tool.uv.sources]
 # scip-stubs = {path = ".."}
 # ///
@@ -15,12 +18,12 @@ from __future__ import annotations
 import ast
 import inspect
 import re
+import site
 import sys
 import textwrap
-from collections import defaultdict
 from itertools import chain
 from pathlib import Path
-from typing import TYPE_CHECKING, NoReturn, cast
+from typing import NoReturn, cast
 
 import libcst as cst
 from libcst.codemod import (
@@ -29,9 +32,6 @@ from libcst.codemod import (
     exec_transform_with_prettyprint,
 )
 from typing_extensions import override
-
-if TYPE_CHECKING:
-    from collections.abc import MutableMapping
 
 GLOBAL_NAMESPACE = "global_ns"
 INDENT = " " * 4
@@ -102,9 +102,8 @@ class DocstringImputer(VisitorBasedCodemodCommand):
 
 
 def load_scip_source() -> list[str]:
-    venv_lib = Path(__file__).absolute().parent.parent / ".venv/lib"
-    pyscipopt = venv_lib.glob("python*/site-packages/pyscipopt")
-    scip_dir = next(pyscipopt)
+    site_packages = Path(site.getsitepackages()[0])
+    scip_dir = site_packages / "pyscipopt"
     sources = chain(scip_dir.rglob("*.py"), scip_dir.rglob("*.pxi"))
 
     scip_lines = []
@@ -118,11 +117,11 @@ def parse_docstrings(source_pxi_lines: list[str]) -> dict[str, dict[str, str]]:
 
     We can't use libcst since this applies to Cython code.
     """
-    class_start_re = re.compile(r"(?:cdef )?class (\w+)[\(\)\[\]\"\*\w]*:")
+    class_start_re = re.compile(r"(?:cdef )?class (\w+)[\(\)\[\]\"\*.\w]*:")
 
-    docstrings: MutableMapping[str, dict[str, str]] = defaultdict(dict)
     current_context: str = GLOBAL_NAMESPACE
     current_context_lines: list[str] = []
+    docstrings: dict[str, dict[str, str]] = {GLOBAL_NAMESPACE: {}}
 
     for line in source_pxi_lines:
         if line and not line.startswith(" ") and not line.startswith("\t"):
@@ -135,6 +134,7 @@ def parse_docstrings(source_pxi_lines: list[str]) -> dict[str, dict[str, str]]:
         if current_context == GLOBAL_NAMESPACE and (m := class_start_re.match(line)):
             # Start of class definition
             current_context = m.group(1)
+            docstrings[current_context] = {}
             continue
         if current_context:
             current_context_lines.append(line)

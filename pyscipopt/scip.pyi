@@ -17,6 +17,8 @@ from typing import (
     type_check_only,
 )
 
+import numpy as np
+from _typeshed import Incomplete
 from typing_extensions import (
     CapsuleType,
     NotRequired,
@@ -1232,6 +1234,43 @@ class Nodesel:
           value > 0, if node 1 comes after (is worse than) node 2.
         """
 
+############
+# matrix.pxi
+############
+
+class MatrixExpr(np.ndarray):  # type: ignore[type-arg]
+    @override
+    def sum(self, **kwargs: Incomplete) -> Expr: ...  # type: ignore[override]
+    @override
+    def __le__(self, other: Incomplete) -> MatrixExprCons: ...
+    @override
+    def __ge__(self, other: Incomplete) -> MatrixExprCons: ...
+    @override
+    def __eq__(self, other: Incomplete) -> MatrixExprCons: ...  # type: ignore[override]
+    @override
+    def __add__(self, other: Incomplete) -> MatrixExpr: ...
+    @override
+    def __iadd__(self, other: Incomplete) -> Self: ...
+    @override
+    def __mul__(self, other: Incomplete) -> MatrixExpr: ...
+    @override
+    def __truediv__(self, other: Incomplete) -> MatrixExpr: ...  # type: ignore[override]
+    @override
+    def __rtruediv__(self, other: Incomplete) -> MatrixExpr: ...  # type: ignore[override]
+    @override
+    def __pow__(self, other: Incomplete) -> MatrixExpr: ...
+    @override
+    def __sub__(self, other: Incomplete) -> MatrixExpr: ...  # type: ignore[override]
+    @override
+    def __radd__(self, other: Incomplete) -> MatrixExpr: ...
+    @override
+    def __rmul__(self, other: Incomplete) -> MatrixExpr: ...
+    @override
+    def __rsub__(self, other: Incomplete) -> MatrixExpr: ...  # type: ignore[override]
+
+class MatrixGenExpr(MatrixExpr): ...
+class MatrixExprCons(np.ndarray): ...  # type: ignore[type-arg]
+
 ##########
 # scip.pxi
 ##########
@@ -2234,6 +2273,142 @@ class Variable(Expr):
 
         """
 
+class MatrixVariable(MatrixExpr):
+    def vtype(self) -> Incomplete:
+        """
+        Retrieve the matrix variables type (BINARY, INTEGER, IMPLINT or CONTINUOUS)
+
+        Returns
+        -------
+        np.ndarray
+            A matrix containing "BINARY", "INTEGER", "CONTINUOUS", or "IMPLINT"
+
+        """
+    def isInLP(self) -> Incomplete:
+        """
+        Retrieve whether the matrix variable is a COLUMN variable that is member of the current LP.
+
+        Returns
+        -------
+        np.ndarray
+            An array of bools
+
+        """
+    def getIndex(self) -> Incomplete:
+        """
+        Retrieve the unique index of the matrix variable.
+
+        Returns
+        -------
+        np.ndarray
+            An array of integers. No two should be the same
+        """
+    def getCol(self) -> Incomplete:
+        """
+        Retrieve matrix of columns of COLUMN variables.
+
+        Returns
+        -------
+        np.ndarray
+            An array of Column objects
+        """
+    def getLbOriginal(self) -> Incomplete:
+        """
+        Retrieve original lower bound of matrix variable.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getUbOriginal(self) -> Incomplete:
+        """
+        Retrieve original upper bound of matrixvariable.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getLbGlobal(self) -> Incomplete:
+        """
+        Retrieve global lower bound of matrix variable.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getUbGlobal(self) -> Incomplete:
+        """
+        Retrieve global upper bound of matrix variable.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getLbLocal(self) -> Incomplete:
+        """
+        Retrieve current lower bound of matrix variable.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getUbLocal(self) -> Incomplete:
+        """
+        Retrieve current upper bound of matrix variable.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getObj(self) -> Incomplete:
+        """
+        Retrieve current objective value of matrix variable.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getLPSol(self) -> Incomplete:
+        """
+        Retrieve the current LP solution value of matrix variable.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getAvgSol(self) -> Incomplete:
+        """
+        Get the weighted average solution of matrix variable in all feasible primal solutions found.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def varMayRound(self, direction: Incomplete = "down") -> Incomplete:
+        """
+        Checks whether it is possible to round variable up / down and stay feasible for the relaxation.
+
+        Parameters
+        ----------
+        direction : str
+            "up" or "down"
+
+        Returns
+        -------
+        np.ndarray
+            An array of bools
+
+        """
+
 # TODO: make Constraint generic over type of `data`
 # This can't be done only in the stubs as the Constraint class
 # is not generic and thus can't be indexed by a type variable.
@@ -2380,6 +2555,134 @@ class Constraint:
     @override
     def __hash__(self) -> int: ...
 
+class MatrixConstraint(np.ndarray):  # type: ignore[type-arg]
+    def isInitial(self) -> Incomplete:
+        """
+        Returns True if the relaxation of the constraint should be in the initial LP.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isSeparated(self) -> Incomplete:
+        """
+        Returns True if constraint should be separated during LP processing.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isEnforced(self) -> Incomplete:
+        """
+        Returns True if constraint should be enforced during node processing.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isChecked(self) -> Incomplete:
+        """
+        Returns True if constraint should be checked for feasibility.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isPropagated(self) -> Incomplete:
+        """
+        Returns True if constraint should be propagated during node processing.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isLocal(self) -> Incomplete:
+        """
+        Returns True if constraint is only locally valid or not added to any (sub)problem.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isModifiable(self) -> Incomplete:
+        """
+        Returns True if constraint is modifiable (subject to column generation).
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isDynamic(self) -> Incomplete:
+        """
+        Returns True if constraint is subject to aging.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isRemovable(self) -> Incomplete:
+        """
+        Returns True if constraint's relaxation should be removed from the LP due to aging or cleanup.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isStickingAtNode(self) -> Incomplete:
+        """
+        Returns True if constraint is only locally valid or not added to any (sub)problem.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isActive(self) -> Incomplete:
+        """
+        Returns True iff constraint is active in the current node.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isLinear(self) -> Incomplete:
+        """
+        Returns True if constraint is linear
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def isNonlinear(self) -> Incomplete:
+        """
+        Returns True if constraint is nonlinear.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+    def getConshdlrName(self) -> Incomplete:
+        """
+        Return the constraint handler's name.
+
+        Returns
+        -------
+        np.ndarray
+
+        """
+
 class Model:
     data: Any
     def __init__(
@@ -2477,6 +2780,33 @@ class Model:
         Returns
         -------
         float
+
+        """
+    def getMajorVersion(self) -> int:
+        """
+        Retrieve SCIP major version.
+
+        Returns
+        -------
+        int
+
+        """
+    def getMinorVersion(self) -> int:
+        """
+        Retrieve SCIP minor version.
+
+        Returns
+        -------
+        int
+
+        """
+    def getTechVersion(self) -> int:
+        """
+        Retrieve SCIP technical version.
+
+        Returns
+        -------
+        int
 
         """
     def printVersion(self) -> None:
@@ -2628,6 +2958,14 @@ class Model:
         -------
         int
 
+        """
+    def cutoffNode(self, node: Node) -> Incomplete:
+        """
+        marks node and whole subtree to be cut off from the branch and bound tree.
+
+        Parameters
+        ----------
+        node : Node
         """
     def infinity(self) -> float:
         """
@@ -3157,6 +3495,45 @@ class Model:
         Returns
         -------
         Variable
+
+        """
+    def addMatrixVar(
+        self,
+        shape: int | tuple,  # type: ignore[type-arg]
+        name: str | np.ndarray = "",  # type: ignore[type-arg]
+        vtype: str | np.ndarray = "C",  # type: ignore[type-arg]
+        lb: float | np.ndarray | None = 0.0,  # type: ignore[type-arg]
+        ub: float | np.ndarray | None = None,  # type: ignore[type-arg]
+        obj: float | np.ndarray | None = 0.0,  # type: ignore[type-arg]
+        pricedVar: bool | np.ndarray = False,  # type: ignore[type-arg]
+        pricedVarScore: float | np.ndarray | None = 1.0,  # type: ignore[type-arg]
+    ) -> MatrixVariable:
+        """
+        Create a new matrix of variable. Default matrix variables are non-negative and continuous.
+
+        Parameters
+        ----------
+        shape : int or tuple
+            the shape of the resultant MatrixVariable
+        name : str or np.ndarray, optional
+            name of the matrix variable, generic if empty (Default value = '')
+        vtype : str or np.ndarray, optional
+            type of the matrix variable: 'C' continuous, 'I' integer, 'B' binary, and 'M' implicit integer
+            (Default value = 'C')
+        lb : float or np.ndarray or None, optional
+            lower bound of the matrix variable, use None for -infinity (Default value = 0.0)
+        ub : float or np.ndarray or None, optional
+            upper bound of the matrix variable, use None for +infinity (Default value = None)
+        obj : float or np.ndarray, optional
+            objective value of matrix variable (Default value = 0.0)
+        pricedVar : bool or np.ndarray, optional
+            is the matrix variable a pricing candidate? (Default value = False)
+        pricedVarScore : float or np.ndarray, optional
+            score of matrix variable in case it is priced, the higher the better (Default value = 1.0)
+
+        Returns
+        -------
+        MatrixVariable
 
         """
     def getTransformedVar(self, var: Variable) -> Variable:
@@ -4207,6 +4584,58 @@ class Model:
         -------
         list of Constraint
             The created and added Constraint objects.
+
+        """
+    def addMatrixCons(
+        self,
+        cons: MatrixExprCons,
+        name: str | np.ndarray = "",  # type: ignore[type-arg]
+        initial: bool | np.ndarray = True,  # type: ignore[type-arg]
+        separate: bool | np.ndarray = True,  # type: ignore[type-arg]
+        enforce: bool | np.ndarray = True,  # type: ignore[type-arg]
+        check: bool | np.ndarray = True,  # type: ignore[type-arg]
+        propagate: bool | np.ndarray = True,  # type: ignore[type-arg]
+        local: bool | np.ndarray = False,  # type: ignore[type-arg]
+        modifiable: bool | np.ndarray = False,  # type: ignore[type-arg]
+        dynamic: bool | np.ndarray = False,  # type: ignore[type-arg]
+        removable: bool | np.ndarray = False,  # type: ignore[type-arg]
+        stickingatnode: bool | np.ndarray = False,  # type: ignore[type-arg]
+    ) -> Incomplete:
+        """
+        Add a linear or nonlinear matrix constraint.
+
+        Parameters
+        ----------
+        cons : MatrixExprCons
+            The matrix expression constraint that is not yet an actual constraint
+        name : str or np.ndarray, optional
+            the name of the matrix constraint, generic name if empty (Default value = "")
+        initial : bool or np.ndarray, optional
+            should the LP relaxation of constraint be in the initial LP? (Default value = True)
+        separate : bool or np.ndarray, optional
+            should the matrix constraint be separated during LP processing? (Default value = True)
+        enforce : bool or np.ndarray, optional
+            should the matrix constraint be enforced during node processing? (Default value = True)
+        check : bool or np.ndarray, optional
+            should the matrix constraint be checked for feasibility? (Default value = True)
+        propagate : bool or np.ndarray, optional
+            should the matrix constraint be propagated during node processing? (Default value = True)
+        local : bool or np.ndarray, optional
+            is the matrix constraint only valid locally? (Default value = False)
+        modifiable : bool or np.ndarray, optional
+            is the matrix constraint modifiable (subject to column generation)? (Default value = False)
+        dynamic : bool or np.ndarray, optional
+            is the matrix constraint subject to aging? (Default value = False)
+        removable : bool or np.ndarray, optional
+            should the relaxation be removed from the LP due to aging or cleanup? (Default value = False)
+        stickingatnode : bool or np.ndarray, optional
+            should the matrix constraints always be kept at the node where it was added,
+            even if it may be moved to a more global node? (Default value = False)
+
+        Returns
+        -------
+        MatrixConstraint
+            The created and added MatrixConstraint object.
 
         """
     def addConsDisjunction(
