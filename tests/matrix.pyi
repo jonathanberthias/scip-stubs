@@ -67,7 +67,7 @@ assert_type(x / arr, MatrixExpr)
 
 # MatrixExpr.__pow__
 assert_type(x**2, MatrixExpr)
-x**v  # type: ignore[operator]  # pyright: ignore[reportGeneralTypeIssues]
+x**v  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
 assert_type(x**d, MatrixExpr)
 assert_type(x**arr, MatrixExpr)
 
@@ -75,25 +75,31 @@ assert_type(x**arr, MatrixExpr)
 assert_type(2 + x, MatrixExpr)
 assert_type(v + x, MatrixExpr)
 assert_type(d + x, MatrixExpr)
-assert_type(arr + x, MatrixExpr)
+# FIXME: this uses the numpy array addition, not our __radd__
+assert_type(arr + x, MatrixExpr)  # type: ignore[assert-type]  # pyright: ignore[reportAssertTypeFailure]
 
 # MatrixExpr.__rsub__
 assert_type(2 - x, MatrixExpr)
 assert_type(v - x, MatrixExpr)
 assert_type(d - x, MatrixExpr)
-assert_type(arr - x, MatrixExpr)
+# FIXME: this uses the numpy array subtraction, not our __rsub__
+assert_type(arr - x, MatrixExpr)  # type: ignore[assert-type]  # pyright: ignore[reportAssertTypeFailure]
 
 # MatrixExpr.__rmul__
 assert_type(2 * x, MatrixExpr)
-v * x  # type: ignore[operator]  # pyright: ignore[reportGeneralTypeIssues]
-assert_type(d * x, MatrixExpr)
-assert_type(arr * x, MatrixExpr)
+v * x  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
+# FIXME: this works at runtime
+d * x  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
+# FIXME: this uses the numpy array multiplication, not our __rmul__
+assert_type(arr * x, MatrixExpr)  # type: ignore[assert-type]  # pyright: ignore[reportAssertTypeFailure]
 
 # MatrixExpr.__rtruediv__
 assert_type(2 / x, MatrixExpr)
-v / x  # type: ignore[operator]  # pyright: ignore[reportGeneralTypeIssues]
-d / x  # type: ignore[operator]  # pyright: ignore[reportGeneralTypeIssues]
-assert_type(arr / x, MatrixExpr)
+v / x  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
+# Note: this doesn't work at runtime, as opposed to mul
+d / x  # type: ignore[operator]  # pyright: ignore[reportOperatorIssue]
+# FIXME: this uses the numpy array division, not our __rtruediv__
+assert_type(arr / x, MatrixExpr)  # type: ignore[assert-type]  # pyright: ignore[reportAssertTypeFailure]
 
 # MatrixExpr.__iadd__
 def iadd() -> None:

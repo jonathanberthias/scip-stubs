@@ -28,3 +28,15 @@ the keys required to force the developer to be explicit. For instance, this was
 done for the result keys which would default to `DIDNOTRUN` at runtime. To get
 correctly type-checked code, the plugin methods must return
 `{"result": SCIP_RESULT.DIDNOTRUN}`.
+
+3. **Allowed numeric values**
+
+Many inputs to operations on `Expr` go through the `_is_number` check which just
+calls `float` on the input. This allows a lot of things to work at runtime.
+For instance, decimals, fractions and even strings can be valid.
+However, allowing any string is type-unsafe, so it is not included in the stubs.
+For the rest, `SupportsFloat` works well. The issue is that _all_ NumPy arrays
+satisfy this protocol, meaning any array is allowed anywhere a scalar is accepted.
+To avoid that, it was finally decided to only allow `float` in those places, and
+it is up to the user to convert the inputs to floats before using operations
+on `Expr`.

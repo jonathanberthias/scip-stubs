@@ -106,7 +106,8 @@ assert_type(abs(e), UnaryExpr[L["abs"]])
 # Expr.__(r)add__
 assert_type(e + e, Expr)
 assert_type(e + 1, Expr)
-assert_type(e + d, Expr)
+# FIXME: this works at runtime
+e + d  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 assert_type(1 + e, Expr)
 
 assert_type(x + x, Expr)
@@ -142,7 +143,8 @@ e5 += 1j  # type: ignore[call-overload] # pyright: ignore[reportOperatorIssue]
 # Expr.__(r)mul__
 assert_type(e * 1, Expr)
 assert_type(1 * e, Expr)
-assert_type(e * d, Expr)
+# FIXME: this works at runtime
+e * d  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 assert_type(d * e, Expr)
 assert_type(e * e, Expr)
 
