@@ -21,6 +21,7 @@ import numpy as np
 from _typeshed import Incomplete
 from typing_extensions import (
     CapsuleType,
+    Never,
     NotRequired,
     Self,
     TypeAlias,
@@ -1238,38 +1239,55 @@ class Nodesel:
 # matrix.pxi
 ############
 
-class MatrixExpr(np.ndarray):  # type: ignore[type-arg]
+_Shape: TypeAlias = tuple[Any, ...]
+_NumberArray: TypeAlias = (
+    np.ndarray[_Shape, np.dtype[np.integer[Any]]]
+    | np.ndarray[_Shape, np.dtype[np.floating[Any]]]
+)
+_MatrixCompRhs: TypeAlias = SupportsFloat | Variable | _NumberArray
+_MatrixOpRhs: TypeAlias = (
+    SupportsFloat | Expr | GenExpr[Any] | MatrixExpr | _NumberArray
+)
+
+class MatrixExpr(np.ndarray[_Shape, np.dtype[np.object_]]):
+    # Only the initial argument makes sense, all the other arguments will most likely
+    # lead to an error
     @override
-    def sum(self, **kwargs: Incomplete) -> Expr: ...  # type: ignore[override]
+    def sum(  # type: ignore[override]
+        self, *, initial: SupportsFloat | None = None, **kwargs: Never
+    ) -> Expr: ...
     @override
-    def __le__(self, other: Incomplete) -> MatrixExprCons: ...
+    def __le__(self, other: _MatrixCompRhs) -> MatrixExprCons: ...  # type: ignore[override]
     @override
-    def __ge__(self, other: Incomplete) -> MatrixExprCons: ...
+    def __ge__(self, other: _MatrixCompRhs) -> MatrixExprCons: ...  # type: ignore[override]
     @override
-    def __eq__(self, other: Incomplete) -> MatrixExprCons: ...  # type: ignore[override]
+    def __eq__(self, other: _MatrixCompRhs) -> MatrixExprCons: ...  # type: ignore[override]
     @override
-    def __add__(self, other: Incomplete) -> MatrixExpr: ...
+    def __add__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
+    # Re noqa: this __iadd__ can change the type of self, e.g. adding a float to a MatrixVariable
+    # changes self to a MatrixExpr, so Self is not a correct return type
+    # However, it causes errors at the call-site unless allow-redefinition is set
     @override
-    def __iadd__(self, other: Incomplete) -> Self: ...
+    def __iadd__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]  # noqa: PYI034
     @override
-    def __mul__(self, other: Incomplete) -> MatrixExpr: ...
+    def __mul__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
     @override
-    def __truediv__(self, other: Incomplete) -> MatrixExpr: ...  # type: ignore[override]
+    def __truediv__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
     @override
-    def __rtruediv__(self, other: Incomplete) -> MatrixExpr: ...  # type: ignore[override]
+    def __rtruediv__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
     @override
-    def __pow__(self, other: Incomplete) -> MatrixExpr: ...
+    def __pow__(self, other: SupportsFloat | _NumberArray) -> MatrixExpr: ...  # type: ignore[override]
     @override
-    def __sub__(self, other: Incomplete) -> MatrixExpr: ...  # type: ignore[override]
+    def __sub__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
     @override
-    def __radd__(self, other: Incomplete) -> MatrixExpr: ...
+    def __radd__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
     @override
-    def __rmul__(self, other: Incomplete) -> MatrixExpr: ...
+    def __rmul__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
     @override
-    def __rsub__(self, other: Incomplete) -> MatrixExpr: ...  # type: ignore[override]
+    def __rsub__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
 
 class MatrixGenExpr(MatrixExpr): ...
-class MatrixExprCons(np.ndarray): ...  # type: ignore[type-arg]
+class MatrixExprCons(np.ndarray[_Shape, np.dtype[np.object_]]): ...
 
 ##########
 # scip.pxi
@@ -2555,7 +2573,7 @@ class Constraint:
     @override
     def __hash__(self) -> int: ...
 
-class MatrixConstraint(np.ndarray):  # type: ignore[type-arg]
+class MatrixConstraint(np.ndarray[_Shape, np.dtype[np.object_]]):
     def isInitial(self) -> Incomplete:
         """
         Returns True if the relaxation of the constraint should be in the initial LP.

@@ -66,6 +66,7 @@ extend-ignore = [
     "ERA",     # commented code
     "PLR0124", # name compared with itself
     "PLR2004", # magic value in comparison
+    "PYI048",  # functions should only have one statement
 ]
 "tool/*.py" = [
     "EM",
