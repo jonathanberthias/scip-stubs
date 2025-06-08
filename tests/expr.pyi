@@ -2,14 +2,18 @@ from collections.abc import Iterator
 from decimal import Decimal
 from typing import Any, Literal
 
+import numpy as np
 from typing_extensions import Literal as L
-from typing_extensions import assert_type
+from typing_extensions import TypeAlias, assert_type
 
 from pyscipopt import Expr, scip
 from pyscipopt.scip import (
     Constant,
     ExprCons,
     GenExpr,
+    MatrixExpr,
+    MatrixExprCons,
+    MatrixGenExpr,
     Operator,
     PowExpr,
     ProdExpr,
@@ -29,9 +33,12 @@ g: GenExpr[L["+"]]
 d: Decimal
 x: Variable
 y: Variable
+m: MatrixExpr
 
 class ToFloat:
     def __float__(self) -> float: ...
+
+ObjectArray: TypeAlias = np.ndarray[tuple[Any, ...], np.dtype[np.object_]]
 
 # In many cases where floats are expected, a string repr of a float is also valid
 # However, from a typing perspective, a general string is not valid
@@ -51,6 +58,8 @@ assert_type(buildGenExprObj(PowExpr()), GenExpr[L["**"]])
 assert_type(buildGenExprObj(ProdExpr()), GenExpr[L["prod"]])
 assert_type(buildGenExprObj(UnaryExpr(Operator.fabs, g)), GenExpr[L["abs"]])
 assert_type(buildGenExprObj(VarExpr(x)), GenExpr[L["var"]])
+
+assert_type(buildGenExprObj(m), ObjectArray)
 
 buildGenExprObj()  # type: ignore[call-overload] # pyright: ignore[reportCallIssue]
 buildGenExprObj(1j)  # type: ignore[call-overload] # pyright: ignore[reportArgumentType, reportCallIssue]
@@ -108,6 +117,7 @@ assert_type(e + e, Expr)
 assert_type(e + 1, Expr)
 # FIXME: this works at runtime
 e + d  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
+assert_type(e + m, MatrixExpr)
 assert_type(1 + e, Expr)
 
 assert_type(x + x, Expr)
@@ -193,16 +203,19 @@ assert_type(e <= e, ExprCons)
 assert_type(e <= g, ExprCons)
 assert_type(e <= 1, ExprCons)
 assert_type(e <= d, ExprCons)
+assert_type(e <= m, MatrixExprCons)
 
 assert_type(e >= e, ExprCons)
 assert_type(e >= g, ExprCons)
 assert_type(e >= 1, ExprCons)
 assert_type(e >= d, ExprCons)
+assert_type(e >= m, MatrixExprCons)
 
 assert_type(e == e, ExprCons)
 assert_type(e == g, ExprCons)
 assert_type(e == 1, ExprCons)
 assert_type(e == d, ExprCons)
+assert_type(e == m, MatrixExprCons)
 
 e < 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 e > 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
@@ -343,16 +356,19 @@ assert_type(g <= g, ExprCons)
 assert_type(g <= e, ExprCons)
 assert_type(g <= 1, ExprCons)
 assert_type(g <= d, ExprCons)
+assert_type(g <= m, MatrixExprCons)
 
 assert_type(g >= g, ExprCons)
 assert_type(g >= e, ExprCons)
 assert_type(g >= 1, ExprCons)
 assert_type(g >= d, ExprCons)
+assert_type(g >= m, MatrixExprCons)
 
 assert_type(g == g, ExprCons)
 assert_type(g == e, ExprCons)
 assert_type(g == 1, ExprCons)
 assert_type(g == d, ExprCons)
+assert_type(g == m, MatrixExprCons)
 
 g < 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
 g > 1  # type: ignore[operator] # pyright: ignore[reportOperatorIssue]
@@ -453,6 +469,12 @@ assert_type(scip.sin(expr=g), UnaryExpr[L["sin"]])
 assert_type(scip.cos(e), UnaryExpr[L["cos"]])
 assert_type(scip.cos(expr=d), UnaryExpr[L["cos"]])
 assert_type(scip.cos(g), UnaryExpr[L["cos"]])
+
+assert_type(scip.exp(m), MatrixGenExpr)
+assert_type(scip.log(m), MatrixGenExpr)
+assert_type(scip.sqrt(m), MatrixGenExpr)
+assert_type(scip.sin(m), MatrixGenExpr)
+assert_type(scip.cos(m), MatrixGenExpr)
 
 # Misc
 expr_to_nodes(g)

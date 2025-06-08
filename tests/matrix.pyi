@@ -115,8 +115,6 @@ def iadd() -> None:
 
     z: MatrixVariable
     assert_type(z, MatrixVariable)
-    # FIXME: these types are correct and valid, we shouldn't need the ignores
-    z += 1  # type: ignore[misc]
-    assert_type(z, MatrixExpr)  # type: ignore[assert-type]  # pyright: ignore[reportAssertTypeFailure]
+    assert_type(z.__iadd__(1), MatrixExpr)
 
 # FIXME: MatrixExprCons is broken, cannot chain comparisons

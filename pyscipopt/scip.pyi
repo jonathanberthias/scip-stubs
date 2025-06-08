@@ -37,6 +37,13 @@ _VTypes: TypeAlias = L[
 ]  # fmt: skip
 _VTypesLong: TypeAlias = L["CONTINUOUS", "BINARY", "INTEGER", "IMPLINT"]
 
+_Shape: TypeAlias = tuple[Any, ...]
+_ObjectArray: TypeAlias = np.ndarray[_Shape, np.dtype[np.object_]]
+_NumberArray: TypeAlias = (
+    np.ndarray[_Shape, np.dtype[np.integer[Any]]]
+    | np.ndarray[_Shape, np.dtype[np.floating[Any]]]
+)
+
 ##########
 # expr.pxi
 ##########
@@ -111,6 +118,10 @@ def buildGenExprObj(expr: GenExpr[_OpT]) -> GenExpr[_OpT]:
     """helper function to generate an object of type GenExpr"""
 
 @overload
+def buildGenExprObj(expr: MatrixExpr) -> _ObjectArray:  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    """helper function to generate an object of type GenExpr"""
+
+@overload
 def buildGenExprObj(expr: SupportsFloat) -> Constant:
     """helper function to generate an object of type GenExpr"""
 
@@ -164,9 +175,18 @@ class Expr:
     def __radd__(self, other: SupportsFloat, /) -> Expr: ...
     def __rmul__(self, other: SupportsFloat, /) -> Expr: ...
     def __rsub__(self, other: SupportsFloat, /) -> Expr: ...
-    @override
-    def __eq__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...  # type: ignore[override]
+    @override  # type: ignore[override]
+    @overload
+    def __eq__(self, other: MatrixExpr, /) -> MatrixExprCons: ...  # type: ignore[overload-overlap]
+    @overload
+    def __eq__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...  # pyright: ignore[reportOverlappingOverload]
+    @overload
+    def __ge__(self, other: MatrixExpr, /) -> MatrixExprCons: ...  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    @overload
     def __ge__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...
+    @overload
+    def __le__(self, other: MatrixExpr, /) -> MatrixExprCons: ...  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    @overload
     def __le__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...
     def normalize(self, /) -> None:
         """remove terms with coefficient of 0"""
@@ -232,9 +252,18 @@ class GenExpr(Generic[_OpT]):
     def __radd__(self, other: float, /) -> SumExpr: ...
     def __rmul__(self, other: float, /) -> SumExpr: ...
     def __rsub__(self, other: float, /) -> SumExpr: ...
-    @override
-    def __eq__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...  # type: ignore[override]
+    @override  # type: ignore[override]
+    @overload
+    def __eq__(self, other: MatrixExpr, /) -> MatrixExprCons: ...  # type: ignore[overload-overlap]
+    @overload
+    def __eq__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...  # pyright: ignore[reportOverlappingOverload]
+    @overload
+    def __ge__(self, other: MatrixExpr, /) -> MatrixExprCons: ...  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    @overload
     def __ge__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...
+    @overload
+    def __le__(self, other: MatrixExpr, /) -> MatrixExprCons: ...  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    @overload
     def __le__(self, other: Expr | SupportsFloat | GenExpr[Any], /) -> ExprCons: ...
     def degree(self, /) -> float:
         """Note: none of these expressions should be polynomial"""
@@ -268,18 +297,43 @@ class Constant(GenExpr[L["const"]]):
     number: float
     def __init__(self, /, number: float) -> None: ...
 
+@overload
+def exp(expr: MatrixExpr) -> MatrixGenExpr:  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    """returns expression with exp-function"""
+
+@overload
 def exp(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["exp"]]:
     """returns expression with exp-function"""
 
+@overload
+def log(expr: MatrixExpr) -> MatrixGenExpr:  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    """returns expression with log-function"""
+
+@overload
 def log(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["log"]]:
     """returns expression with log-function"""
 
+@overload
+def sqrt(expr: MatrixExpr) -> MatrixGenExpr:  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    """returns expression with sqrt-function"""
+
+@overload
 def sqrt(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["sqrt"]]:
     """returns expression with sqrt-function"""
 
+@overload
+def sin(expr: MatrixExpr) -> MatrixGenExpr:  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    """returns expression with sin-function"""
+
+@overload
 def sin(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["sin"]]:
     """returns expression with sin-function"""
 
+@overload
+def cos(expr: MatrixExpr) -> MatrixGenExpr:  # type: ignore[overload-overlap]  # pyright: ignore[reportOverlappingOverload]
+    """returns expression with cos-function"""
+
+@overload
 def cos(expr: Expr | SupportsFloat | GenExpr[Any]) -> UnaryExpr[L["cos"]]:
     """returns expression with cos-function"""
 
@@ -1238,18 +1292,13 @@ class Nodesel:
 # matrix.pxi
 ############
 
-_Shape: TypeAlias = tuple[Any, ...]
-_NumberArray: TypeAlias = (
-    np.ndarray[_Shape, np.dtype[np.integer[Any]]]
-    | np.ndarray[_Shape, np.dtype[np.floating[Any]]]
-)
 _MatrixCompRhs: TypeAlias = SupportsFloat | Variable | _NumberArray
 _MatrixOpRhs: TypeAlias = (
     SupportsFloat | Expr | GenExpr[Any] | MatrixExpr | _NumberArray
 )
 _MatrixRmulRhs: TypeAlias = float
 
-class MatrixExpr(np.ndarray[_Shape, np.dtype[np.object_]]):
+class MatrixExpr(_ObjectArray):
     # Only the initial argument makes sense, all the other arguments will most likely
     # lead to an error
     @override
@@ -1287,7 +1336,7 @@ class MatrixExpr(np.ndarray[_Shape, np.dtype[np.object_]]):
     def __rsub__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
 
 class MatrixGenExpr(MatrixExpr): ...
-class MatrixExprCons(np.ndarray[_Shape, np.dtype[np.object_]]): ...
+class MatrixExprCons(_ObjectArray): ...
 
 ##########
 # scip.pxi
@@ -2578,7 +2627,7 @@ class Constraint:
 
 # none of the defined methods work in v5.4.1
 # pretend they don't exist
-class MatrixConstraint(np.ndarray[_Shape, np.dtype[np.object_]]):
+class MatrixConstraint(_ObjectArray):
     ...
     # def isInitial(self) -> Incomplete:
     #     """
