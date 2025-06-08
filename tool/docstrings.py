@@ -1,18 +1,3 @@
-# /// script
-# dependencies = [
-#    "libcst",
-#    "scip-stubs[pyscipopt]",
-#    "typing-extensions",
-# ]
-# requires-python = ">=3.9"
-#
-# [tool.uv]
-# reinstall-package = ["scip-stubs"]
-#
-# [tool.uv.sources]
-# scip-stubs = {path = ".."}
-# ///
-
 from __future__ import annotations
 
 import ast

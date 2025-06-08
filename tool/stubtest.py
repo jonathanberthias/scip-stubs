@@ -1,18 +1,3 @@
-# /// script
-# requires-python = ">=3.8"
-# dependencies = [
-#     "scip-stubs",
-#     "pyscipopt==5.4.1",
-#     "mypy[faster-cache]",
-# ]
-#
-# [tool.uv]
-# reinstall-package = ["scip-stubs"]
-#
-# [tool.uv.sources]
-# scip-stubs = {path = ".."}
-# ///
-
 """Usage: `uv run tool/stubtest.py <OPTIONS>`."""
 
 from __future__ import annotations

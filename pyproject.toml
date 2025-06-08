@@ -19,10 +19,11 @@ packages = ["pyscipopt"]
 [dependency-groups]
 dev = [
     "scip-stubs[pyscipopt]",
-    "basedmypy[faster-cache]==2.9.1",
     "basedpyright==1.27.1",
+    "mypy[faster-cache]==1.14.1",
     "numpy>=1.24.4",
     "networkx>=3.1",
+    "libcst>=1.1.0",
 ]
 
 [tool.pyright]
