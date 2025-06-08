@@ -8,7 +8,6 @@ from __future__ import annotations
 import difflib
 import re
 import sys
-from collections import defaultdict
 from pathlib import Path
 
 # Methods that are in the source .pxi files but not in the stubs
@@ -28,13 +27,16 @@ IGNORES = [
 ]
 
 
-def get_methods_by_class(lines: list[str]) -> dict[str, list[str]]:
-    classes: defaultdict[str, list[str]] = defaultdict(list)
+def get_methods_by_class(lines: list[str]) -> dict[str, list[str]]:  # noqa: C901
+    classes: dict[str, list[str]] = {}
     current_class = None
-    for line in lines:
+    for i, line in enumerate(lines):
         m = re.match(r"^(?:cdef )?class (\w+)", line)
         if m:
-            current_class = m.group(1)
+            name = m.group(1)
+            if i > 0 and lines[i - 1] != "@type_check_only":
+                current_class = name
+                classes[current_class] = []
         elif "cdef" in line:
             continue
         elif line and not line.startswith("  ") and not line.startswith("\t"):
