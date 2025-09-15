@@ -14,7 +14,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build]
-packages = ["pyscipopt"]
+packages = ["pyscipopt-stubs"]
 
 [dependency-groups]
 dev = [
