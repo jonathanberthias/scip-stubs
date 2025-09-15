@@ -1,5 +1,3 @@
-from typing_extensions import TypeAlias
-
 from pyscipopt.Multidict import multidict as multidict
 from pyscipopt.scip import LP as LP
 from pyscipopt.scip import (
@@ -42,6 +40,7 @@ from pyscipopt.scip import quicksum as quicksum
 from pyscipopt.scip import readStatistics as readStatistics
 from pyscipopt.scip import sin as sin
 from pyscipopt.scip import sqrt as sqrt
+from typing_extensions import TypeAlias
 
 from . import Multidict as Multidict
 from . import _version as _version
