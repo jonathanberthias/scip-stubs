@@ -1,7 +1,9 @@
 {
-  "[toml]": {
-    "editor.defaultFormatter": "tamasfe.even-better-toml"
+  "[toml][json][yaml][markdown]": {
+    "editor.defaultFormatter": "dprint.dprint"
   },
-  "editor.defaultFormatter": "charliermarsh.ruff",
+  "[python]": {
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  },
   "editor.formatOnSave": true
 }
