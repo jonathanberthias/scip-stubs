@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import argparse
 import ast
 import inspect
 import re
@@ -39,7 +40,7 @@ class DocstringImputer(VisitorBasedCodemodCommand):
     def leave_FunctionDef(
         self, original_node: cst.FunctionDef, updated_node: cst.FunctionDef
     ) -> cst.FunctionDef:
-        docstring = self.docstrings[self.current_context].get(
+        docstring = self.docstrings.get(self.current_context, {}).get(
             updated_node.name.value, ""
         )
 
@@ -173,7 +174,15 @@ def collect_global_functions(file: Path) -> set[str]:
     return set(global_fn_def.findall(file.read_text()))
 
 
-def main() -> NoReturn:
+def find_stub_files() -> list[Path]:
+    folder = Path(__file__).parent.parent.joinpath("pyscipopt-stubs")
+    stubs = list(folder.rglob("*.pyi"))
+    if not stubs:
+        raise FileNotFoundError(f"No stub files found in {folder}")
+    return stubs
+
+
+def sync_docstrings() -> NoReturn:
     exit_code = 0
 
     root = Path(__file__).parent.parent
@@ -182,8 +191,7 @@ def main() -> NoReturn:
     source_classes = set(docstrings) - {GLOBAL_NAMESPACE}
     source_functions = set(docstrings[GLOBAL_NAMESPACE])
 
-    stub_files = Path(__file__).parent.parent.joinpath("pyscipopt").rglob("*.pyi")
-    for stub_file in stub_files:
+    for stub_file in find_stub_files():
         classes = collect_classes(stub_file)
         missing_classes = set(classes) - source_classes
         assert not missing_classes, missing_classes
@@ -206,6 +214,39 @@ def main() -> NoReturn:
             stub_file.write_text(new_source)
             exit_code = 1
     sys.exit(exit_code)
+
+
+def remove_docstrings() -> NoReturn:
+    root = Path(__file__).parent.parent
+    for stub_file in find_stub_files():
+        imputer = DocstringImputer(CodemodContext(), {})
+        new_source = exec_transform_with_prettyprint(
+            imputer,
+            stub_file.read_text(),
+            format_code=True,
+            formatter_args=["ruff", "format", "--stdin-filename", stub_file.name, "-"],
+        )
+        path = stub_file.relative_to(root)
+        if new_source != stub_file.read_text():
+            assert new_source is not None
+            print(f"{path}: Removing docstrings")
+            stub_file.write_text(new_source)
+    sys.exit()
+
+
+def main() -> NoReturn:
+    parser = argparse.ArgumentParser(
+        description="Sync docstrings from Cython source to stub files."
+    )
+    parser.add_argument(
+        "--remove", action="store_true", help="Remove all docstrings from stub files."
+    )
+    args = parser.parse_args()
+
+    if args.remove:
+        remove_docstrings()
+    else:
+        sync_docstrings()
 
 
 if __name__ == "__main__":
