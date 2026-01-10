@@ -2,9 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from typing_extensions import override
+
 from pyscipopt import SCIP_RESULT, Model, Sepa, Variable
 from pyscipopt.scip import Column, Row
-from typing_extensions import override
 
 if TYPE_CHECKING:
     from pyscipopt.scip import SepaExecResultTD

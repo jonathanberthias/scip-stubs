@@ -4,9 +4,10 @@ from typing import TYPE_CHECKING
 
 import networkx  # type: ignore[import-untyped]
 import numpy as np
+from typing_extensions import override
+
 from pyscipopt import SCIP_RESULT, Conshdlr, Constraint, Model, Variable, quicksum
 from pyscipopt.scip import Constraint, Solution
-from typing_extensions import override
 
 if TYPE_CHECKING:
     from pyscipopt.scip import ConshdlrConsCheckRes, ConshdlrEnfoRes

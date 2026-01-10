@@ -1,8 +1,9 @@
 from __future__ import annotations
 
+from typing_extensions import override
+
 from pyscipopt import SCIP_EVENTTYPE, Eventhdlr, Model
 from pyscipopt.scip import Event
-from typing_extensions import override
 
 scip = Model()
 

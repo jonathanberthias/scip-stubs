@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from typing_extensions import override
+
 from pyscipopt import (
     SCIP_HEURTIMING,
     SCIP_LPSOLSTAT,
@@ -11,7 +13,6 @@ from pyscipopt import (
     Variable,
 )
 from pyscipopt.scip import Solution
-from typing_extensions import override
 
 if TYPE_CHECKING:
     from pyscipopt.scip import HeurExecResultTD

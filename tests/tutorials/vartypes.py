@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import numpy as np
+
 from pyscipopt import Constraint, Model, Variable, quicksum
 from pyscipopt.scip import Column, Solution
 
