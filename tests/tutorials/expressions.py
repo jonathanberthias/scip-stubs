@@ -18,8 +18,8 @@ scip.setObjective(z)
 
 
 # TODO: can we make the types exact here?
-lhs = 3 * (x**2) + ((y**3) * (z**2)) + ((2 * x) + (3 * z)) ** 2
-lhs = lhs / (2 * x * z)
+lhs_ = 3 * (x**2) + ((y**3) * (z**2)) + ((2 * x) + (3 * z)) ** 2
+lhs = lhs_ / (2 * x * z)
 cons_4: Constraint = scip.addCons(lhs <= x * y * z, name="poly_cons")
 
 

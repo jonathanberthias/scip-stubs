@@ -179,13 +179,13 @@ class ReorderCommand(VisitorBasedCodemodCommand):
         self.method_order = method_order
         self.current_class: str | None = None
 
-    def visit_ClassDef(self, node: cst.ClassDef) -> None:  # noqa: N802
+    @override
+    def visit_ClassDef(self, node: cst.ClassDef) -> None:
         self.current_class = node.name.value
 
-    def leave_ClassDef(  # noqa: N802
-        self,
-        original_node: cst.ClassDef,  # noqa: ARG002
-        updated_node: cst.ClassDef,
+    @override
+    def leave_ClassDef(
+        self, original_node: cst.ClassDef, updated_node: cst.ClassDef
     ) -> cst.ClassDef:
         assert self.current_class is not None
         if self.current_class not in self.method_order:
@@ -264,13 +264,13 @@ def reorder(classname: str | None, *, runtime: bool) -> None:
         re.DOTALL | re.MULTILINE,
     )
     source_by_name = {fname: func for func, fname in funcs}
-    new_source = []
+    new_source_lines = []
     for meth in scip_methods:
         if meth not in source_by_name:
             print(f"Method {meth} not found in stubs")
             continue
-        new_source.append(source_by_name[meth])
-    new_source = "    " + "\n    ".join(new_source)
+        new_source_lines.append(source_by_name[meth])
+    new_source = "    " + "\n    ".join(new_source_lines)
     print(new_source)
 
 

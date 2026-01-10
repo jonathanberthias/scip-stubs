@@ -35,7 +35,7 @@ time_limit: bool | float | str = scip.getParam("limits/time")
 param_dict = {"limits/time": 20}
 scip.setParams(param_dict)
 
-param_dict: dict[str, bool | float | str] = scip.getParams()
+param_dict: dict[str, bool | float | str] = scip.getParams()  # type: ignore[no-redef]
 
 path_to_file = Path("params.set")
 scip.readParams(path_to_file)
