@@ -18,6 +18,7 @@ from typing import (
 )
 
 import numpy as np
+from _typeshed import Incomplete
 from typing_extensions import (
     CapsuleType,
     Never,
@@ -1390,144 +1391,21 @@ class Variable(Expr):
     def getAvgSol(self) -> float: ...
     def varMayRound(self, direction: L["down", "up"] = "down") -> bool: ...
 
-# none of the defined methods work in v5.4.1
-# pretend they don't exist
 class MatrixVariable(MatrixExpr):
-    ...
-    # def vtype(self) -> Incomplete:
-    #     """
-    #     Retrieve the matrix variables type (BINARY, INTEGER, IMPLINT or CONTINUOUS)
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-    #         A matrix containing "BINARY", "INTEGER", "CONTINUOUS", or "IMPLINT"
-
-    #     """
-    # def isInLP(self) -> Incomplete:
-    #     """
-    #     Retrieve whether the matrix variable is a COLUMN variable that is member of the current LP.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-    #         An array of bools
-
-    #     """
-    # def getIndex(self) -> Incomplete:
-    #     """
-    #     Retrieve the unique index of the matrix variable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-    #         An array of integers. No two should be the same
-    #     """
-    # def getCol(self) -> Incomplete:
-    #     """
-    #     Retrieve matrix of columns of COLUMN variables.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-    #         An array of Column objects
-    #     """
-    # def getLbOriginal(self) -> Incomplete:
-    #     """
-    #     Retrieve original lower bound of matrix variable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getUbOriginal(self) -> Incomplete:
-    #     """
-    #     Retrieve original upper bound of matrixvariable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getLbGlobal(self) -> Incomplete:
-    #     """
-    #     Retrieve global lower bound of matrix variable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getUbGlobal(self) -> Incomplete:
-    #     """
-    #     Retrieve global upper bound of matrix variable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getLbLocal(self) -> Incomplete:
-    #     """
-    #     Retrieve current lower bound of matrix variable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getUbLocal(self) -> Incomplete:
-    #     """
-    #     Retrieve current upper bound of matrix variable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getObj(self) -> Incomplete:
-    #     """
-    #     Retrieve current objective value of matrix variable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getLPSol(self) -> Incomplete:
-    #     """
-    #     Retrieve the current LP solution value of matrix variable.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getAvgSol(self) -> Incomplete:
-    #     """
-    #     Get the weighted average solution of matrix variable in all feasible primal solutions found.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def varMayRound(self, direction: Incomplete = "down") -> Incomplete:
-    #     """
-    #     Checks whether it is possible to round variable up / down and stay feasible for the relaxation.
-
-    #     Parameters
-    #     ----------
-    #     direction : str
-    #         "up" or "down"
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-    #         An array of bools
-
-    #     """
+    def vtype(self) -> Incomplete: ...
+    def isInLP(self) -> Incomplete: ...
+    def getIndex(self) -> Incomplete: ...
+    def getCol(self) -> Incomplete: ...
+    def getLbOriginal(self) -> Incomplete: ...
+    def getUbOriginal(self) -> Incomplete: ...
+    def getLbGlobal(self) -> Incomplete: ...
+    def getUbGlobal(self) -> Incomplete: ...
+    def getLbLocal(self) -> Incomplete: ...
+    def getUbLocal(self) -> Incomplete: ...
+    def getObj(self) -> Incomplete: ...
+    def getLPSol(self) -> Incomplete: ...
+    def getAvgSol(self) -> Incomplete: ...
+    def varMayRound(self, direction: Incomplete = "down") -> Incomplete: ...
 
 # TODO: make Constraint generic over type of `data`
 # This can't be done only in the stubs as the Constraint class
@@ -1555,136 +1433,21 @@ class Constraint:
     @override
     def __hash__(self) -> int: ...
 
-# none of the defined methods work in v5.4.1
-# pretend they don't exist
 class MatrixConstraint(_ObjectArray):
-    ...
-    # def isInitial(self) -> Incomplete:
-    #     """
-    #     Returns True if the relaxation of the constraint should be in the initial LP.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isSeparated(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint should be separated during LP processing.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isEnforced(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint should be enforced during node processing.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isChecked(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint should be checked for feasibility.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isPropagated(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint should be propagated during node processing.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isLocal(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint is only locally valid or not added to any (sub)problem.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isModifiable(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint is modifiable (subject to column generation).
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isDynamic(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint is subject to aging.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isRemovable(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint's relaxation should be removed from the LP due to aging or cleanup.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isStickingAtNode(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint is only locally valid or not added to any (sub)problem.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isActive(self) -> Incomplete:
-    #     """
-    #     Returns True iff constraint is active in the current node.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isLinear(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint is linear
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def isNonlinear(self) -> Incomplete:
-    #     """
-    #     Returns True if constraint is nonlinear.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
-    # def getConshdlrName(self) -> Incomplete:
-    #     """
-    #     Return the constraint handler's name.
-
-    #     Returns
-    #     -------
-    #     np.ndarray
-
-    #     """
+    def isInitial(self) -> Incomplete: ...
+    def isSeparated(self) -> Incomplete: ...
+    def isEnforced(self) -> Incomplete: ...
+    def isChecked(self) -> Incomplete: ...
+    def isPropagated(self) -> Incomplete: ...
+    def isLocal(self) -> Incomplete: ...
+    def isModifiable(self) -> Incomplete: ...
+    def isDynamic(self) -> Incomplete: ...
+    def isRemovable(self) -> Incomplete: ...
+    def isStickingAtNode(self) -> Incomplete: ...
+    def isActive(self) -> Incomplete: ...
+    def isLinear(self) -> Incomplete: ...
+    def isNonlinear(self) -> Incomplete: ...
+    def getConshdlrName(self) -> Incomplete: ...
 
 class Model:
     data: Any
