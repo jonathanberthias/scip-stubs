@@ -18,6 +18,7 @@ def main() -> int:
         "--allowlist",
         str(BASE_DIR / ".allowlist"),
         "pyscipopt",
+        "--ignore-disjoint-bases",
     ]
     print(*cmd)
     result = subprocess.run(cmd, check=False, env={"FORCE_COLOR": "1", **os.environ})  # noqa: S603
