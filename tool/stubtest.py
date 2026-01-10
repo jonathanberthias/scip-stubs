@@ -1,4 +1,4 @@
-"""Usage: `uv run tool/stubtest.py <OPTIONS>`."""
+"""Usage: `uv run tool/stubtest.py`."""
 
 from __future__ import annotations
 
