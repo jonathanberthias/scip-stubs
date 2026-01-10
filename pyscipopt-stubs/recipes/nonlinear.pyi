@@ -8,7 +8,4 @@ def set_nonlinear_objective(
     model: Model,
     expr: Expr | GenExpr[Any],
     sense: L["minimize", "maximize"] = "minimize",
-) -> None:
-    """
-    Takes a nonlinear expression and performs an epigraph reformulation.
-    """
+) -> None: ...
