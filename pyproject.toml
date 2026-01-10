@@ -1,5 +1,5 @@
 [project]
-name = "scip-stubs"
+name = "pyscipopt-stubs"
 version = "5.4.1.0"
 description = "Type annotations for PySCIPOpt"
 readme = "README.md"
@@ -10,15 +10,12 @@ requires-python = ">=3.8"
 pyscipopt = ["pyscipopt>=5.4.1"]
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.hatch.build]
-packages = ["pyscipopt-stubs"]
+requires = ["uv_build"]
+build-backend = "uv_build"
 
 [dependency-groups]
 dev = [
-    "scip-stubs[pyscipopt]",
+    "pyscipopt-stubs[pyscipopt]",
     "pyscipopt==5.4.1",
     "basedpyright==1.27.1",
     "mypy[faster-cache]==1.19.1",

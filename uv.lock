@@ -673,6 +673,44 @@ wheels = [
 ]
 
 [[package]]
+name = "pyscipopt-stubs"
+version = "5.4.1.0"
+source = { editable = "." }
+
+[package.optional-dependencies]
+pyscipopt = [
+    { name = "pyscipopt" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "basedpyright", marker = "python_full_version >= '3.10'" },
+    { name = "libcst", marker = "python_full_version >= '3.10'" },
+    { name = "mypy", extra = ["faster-cache"], marker = "python_full_version >= '3.10'" },
+    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "networkx", version = "3.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
+    { name = "numpy", version = "2.4.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
+    { name = "pyscipopt", marker = "python_full_version >= '3.10'" },
+    { name = "pyscipopt-stubs", extra = ["pyscipopt"], marker = "python_full_version >= '3.10'" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "pyscipopt", marker = "extra == 'pyscipopt'", specifier = ">=5.4.1" }]
+provides-extras = ["pyscipopt"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "basedpyright", marker = "python_full_version >= '3.10'", specifier = "==1.27.1" },
+    { name = "libcst", marker = "python_full_version >= '3.10'", specifier = ">=1.1.0" },
+    { name = "mypy", extras = ["faster-cache"], marker = "python_full_version >= '3.10'", specifier = "==1.19.1" },
+    { name = "networkx", marker = "python_full_version >= '3.10'", specifier = ">=3.1" },
+    { name = "numpy", marker = "python_full_version >= '3.10'", specifier = ">=1.24.4" },
+    { name = "pyscipopt", marker = "python_full_version >= '3.10'", specifier = "==5.4.1" },
+    { name = "pyscipopt-stubs", extras = ["pyscipopt"], marker = "python_full_version >= '3.10'" },
+]
+
+[[package]]
 name = "pyyaml"
 version = "6.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -774,44 +812,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/05/10/f42c48fa5153204f42eaa945e8d1fd7c10d6296841dcb2447bf7da1be5c4/pyyaml_ft-8.0.0-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:052561b89d5b2a8e1289f326d060e794c21fa068aa11255fe71d65baf18a632e", size = 810403, upload-time = "2025-06-10T15:32:11.051Z" },
     { url = "https://files.pythonhosted.org/packages/d5/d2/e369064aa51009eb9245399fd8ad2c562bd0bcd392a00be44b2a824ded7c/pyyaml_ft-8.0.0-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:3bb4b927929b0cb162fb1605392a321e3333e48ce616cdcfa04a839271373255", size = 835581, upload-time = "2025-06-10T15:32:12.897Z" },
     { url = "https://files.pythonhosted.org/packages/c0/28/26534bed77109632a956977f60d8519049f545abc39215d086e33a61f1f2/pyyaml_ft-8.0.0-cp313-cp313t-win_amd64.whl", hash = "sha256:de04cfe9439565e32f178106c51dd6ca61afaa2907d143835d501d84703d3793", size = 171579, upload-time = "2025-06-10T15:32:14.34Z" },
-]
-
-[[package]]
-name = "scip-stubs"
-version = "5.4.1.0"
-source = { editable = "." }
-
-[package.optional-dependencies]
-pyscipopt = [
-    { name = "pyscipopt" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "basedpyright", marker = "python_full_version >= '3.10'" },
-    { name = "libcst", marker = "python_full_version >= '3.10'" },
-    { name = "mypy", extra = ["faster-cache"], marker = "python_full_version >= '3.10'" },
-    { name = "networkx", version = "3.4.2", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
-    { name = "networkx", version = "3.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.10.*'" },
-    { name = "numpy", version = "2.4.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
-    { name = "pyscipopt", marker = "python_full_version >= '3.10'" },
-    { name = "scip-stubs", extra = ["pyscipopt"], marker = "python_full_version >= '3.10'" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "pyscipopt", marker = "extra == 'pyscipopt'", specifier = ">=5.4.1" }]
-provides-extras = ["pyscipopt"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "basedpyright", marker = "python_full_version >= '3.10'", specifier = "==1.27.1" },
-    { name = "libcst", marker = "python_full_version >= '3.10'", specifier = ">=1.1.0" },
-    { name = "mypy", extras = ["faster-cache"], marker = "python_full_version >= '3.10'", specifier = "==1.19.1" },
-    { name = "networkx", marker = "python_full_version >= '3.10'", specifier = ">=3.1" },
-    { name = "numpy", marker = "python_full_version >= '3.10'", specifier = ">=1.24.4" },
-    { name = "pyscipopt", marker = "python_full_version >= '3.10'", specifier = "==5.4.1" },
-    { name = "scip-stubs", extras = ["pyscipopt"], marker = "python_full_version >= '3.10'" },
 ]
 
 [[package]]
