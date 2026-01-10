@@ -2,10 +2,6 @@
 .*.__reduce_cython__
 .*.__setstate_cython__
 
-# Even though runtime allows any arg and kwarg, they don't seem to have any effect
-# so the stubs only reflect the 0-arg call
-pyscipopt.scip.Column.__init__
-
 # This doesn't work at runtime
 pyscipopt(.scip)?.Expr.__next__
 
@@ -24,8 +20,3 @@ pyscipopt(.scip)?.Model.includePresol
 # The Python base method used by stubtest does not have the same parameters
 # as the one called from Cython - let's assume Cython is correct
 pyscipopt(.scip)?.Prop.proppresol
-
-# None of the methods in these classes work at runtime
-# so they are not included in the stubs
-pyscipopt(.scip)?.MatrixVariable.*
-pyscipopt(.scip)?.MatrixConstraint.*
