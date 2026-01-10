@@ -57,7 +57,7 @@ class SEC(Conshdlr):
     # at the given solution; when solution is None, the LP solution is used
     def find_subtours(
         self, cons: Constraint, solution: Solution | None = None
-    ) -> list[list[int]]:
+    ) -> list[set[int]]:
         edges = []
         x: dict[int, dict[int, Variable]] = cons.data["vars"]  # type: ignore[no-any-expr]
 
@@ -68,7 +68,7 @@ class SEC(Conshdlr):
 
         G = networkx.Graph()  # type: ignore[no-any-expr]
         G.add_edges_from(edges)  # type: ignore[no-any-expr]
-        components: list[list[int]] = list(networkx.connected_components(G))  # type: ignore[no-any-expr]
+        components: list[set[int]] = list(networkx.connected_components(G))  # type: ignore[no-any-expr]
 
         if len(components) == 1:
             return []
