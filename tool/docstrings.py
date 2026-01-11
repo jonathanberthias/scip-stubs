@@ -30,11 +30,39 @@ def remove_trailing_spaces(text: str) -> str:
 
 class DocstringImputer(VisitorBasedCodemodCommand):
     def __init__(
-        self, context: CodemodContext, docstrings: dict[str, dict[str, str]]
+        self,
+        context: CodemodContext,
+        docstrings: dict[str, dict[str, str]],
+        *,
+        only_incomplete: bool,
     ) -> None:
         super().__init__(context)
         self.docstrings = docstrings
         self.current_context: str = GLOBAL_NAMESPACE
+        self.only_incomplete = only_incomplete
+
+    def contains_incomplete(self, node: cst.FunctionDef) -> bool:
+        def is_incomplete(annotation: cst.Annotation | None) -> bool:
+            if annotation is None:
+                return False
+            return (
+                isinstance(annotation.annotation, cst.Name)
+                and annotation.annotation.value == "Incomplete"
+            )
+
+        return_annotation = node.returns
+        if is_incomplete(return_annotation):
+            return True
+
+        all_params = chain(
+            node.params.params, node.params.kwonly_params, node.params.posonly_params
+        )
+        for param in all_params:
+            if param.annotation is None and param.name.value != "self":
+                return True
+            if is_incomplete(param.annotation):
+                return True
+        return False
 
     @override
     def leave_FunctionDef(
@@ -51,7 +79,10 @@ class DocstringImputer(VisitorBasedCodemodCommand):
         else:
             raise TypeError(f"Unexpected body type: {type(updated_node.body)}")
 
-        if not docstring:
+        has_incomplete = self.contains_incomplete(updated_node)
+        empty_docstring = not docstring or (self.only_incomplete and not has_incomplete)
+
+        if empty_docstring:
             return updated_node.with_changes(
                 body=cst.SimpleStatementSuite(
                     body=[cst.Expr(cst.Ellipsis())],
@@ -182,7 +213,7 @@ def find_stub_files() -> list[Path]:
     return stubs
 
 
-def sync_docstrings() -> NoReturn:
+def sync_docstrings(*, only_incomplete: bool) -> NoReturn:
     exit_code = 0
 
     root = Path(__file__).parent.parent
@@ -200,7 +231,9 @@ def sync_docstrings() -> NoReturn:
         missing_fns = functions - source_functions - LAMBDA_FUNCTIONS_IN_SOURCE
         assert not missing_fns, missing_fns
 
-        imputer = DocstringImputer(CodemodContext(), docstrings)
+        imputer = DocstringImputer(
+            CodemodContext(), docstrings, only_incomplete=only_incomplete
+        )
         new_source = exec_transform_with_prettyprint(
             imputer,
             stub_file.read_text(),
@@ -219,7 +252,7 @@ def sync_docstrings() -> NoReturn:
 def remove_docstrings() -> NoReturn:
     root = Path(__file__).parent.parent
     for stub_file in find_stub_files():
-        imputer = DocstringImputer(CodemodContext(), {})
+        imputer = DocstringImputer(CodemodContext(), {}, only_incomplete=False)
         new_source = exec_transform_with_prettyprint(
             imputer,
             stub_file.read_text(),
@@ -239,6 +272,11 @@ def main() -> NoReturn:
         description="Sync docstrings from Cython source to stub files."
     )
     parser.add_argument(
+        "--only-incomplete",
+        action="store_true",
+        help="Only add docstrings to incomplete methods.",
+    )
+    parser.add_argument(
         "--remove", action="store_true", help="Remove all docstrings from stub files."
     )
     args = parser.parse_args()
@@ -246,7 +284,7 @@ def main() -> NoReturn:
     if args.remove:
         remove_docstrings()
     else:
-        sync_docstrings()
+        sync_docstrings(only_incomplete=args.only_incomplete)
 
 
 if __name__ == "__main__":
