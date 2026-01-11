@@ -231,7 +231,20 @@ class MissingParameterInStubFixer(StubtestFixer["MissingStubParameter"]):
                 annotation=cst.Annotation(annotation=cst.Name("Incomplete")),
             )
             AddImportsVisitor.add_needed_import(self.context, "_typeshed", "Incomplete")
-            new_params = [*updated_node.params.params, new_param]
+            # Add it right before the parameters with defaults
+            first_defaulted_idx = next(
+                (
+                    i
+                    for i, p in enumerate(updated_node.params.params)
+                    if p.default is not None
+                ),
+                len(updated_node.params.params),
+            )
+            new_params = [
+                *updated_node.params.params[:first_defaulted_idx],
+                new_param,
+                *updated_node.params.params[first_defaulted_idx:],
+            ]
             updated_node = updated_node.with_changes(
                 params=updated_node.params.with_changes(params=new_params)
             )
@@ -312,9 +325,20 @@ class WrongNameFixer(StubtestFixer["WrongNameInStubError"]):
                 desired_parameter_order.append(runtime_name)
 
         param_dict = {param.name.value: param for param in updated_node.params.params}
-        new_params = [
-            param_dict[name] for name in desired_parameter_order if name in param_dict
-        ]
+
+        new_params = []
+        seen_default = False
+        for param_name in desired_parameter_order:
+            param = param_dict[param_name]
+            if param.default is not None:
+                seen_default = True
+            elif seen_default:
+                # Ensure parameters have default if there are parameters with defaults before them
+                param = param.with_changes(
+                    default=cst.Expr(cst.SimpleString('"Wrong default"'))
+                )
+            new_params.append(param)
+
         updated_node = updated_node.with_changes(
             params=updated_node.params.with_changes(params=new_params)
         )
@@ -412,7 +436,7 @@ def fix_stubtest_issues() -> None:  # noqa: C901
             errors_by_type.setdefault(type(error), []).append(error)
         for error_type, errors_of_type in errors_by_type.items():
             print(
-                f"Applying fixer for {len(errors_of_type):2} errors of type {error_type.__name__}"
+                f"Applying fixer for {len(errors_of_type):3} errors of type {error_type.__name__}"
             )
             if len(errors_of_type) < 3:
                 for e in errors_of_type:
