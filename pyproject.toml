@@ -51,19 +51,11 @@ respect-type-ignore-comments = false
 show-fixes = true
 [tool.ruff.lint]
 extend-select = ["ALL"]
-extend-ignore = [
-  "COM812",
-  "D",
-  "FIX",
-  "E501",
-  "N817", # CamelCase name imported as acronym
-  "TD",
-]
+extend-ignore = ["COM812", "D", "FIX", "E501", "N", "PLR2004", "TD"]
 [tool.ruff.lint.per-file-ignores]
 "*.pyi" = [
   "A002", # shadowing builtins
   "ERA001", # comments look like code sometimes
-  "N",
   "PYI011", # "complex" default values
   "PYI021", # let's keep the docstrings so that they show up in tooltips
 ]
@@ -72,7 +64,6 @@ extend-ignore = [
   "B018", # useless expression
   "ERA", # commented code
   "PLR0124", # name compared with itself
-  "PLR2004", # magic value in comparison
   "PYI048", # functions should only have one statement
 ]
 "tool/*.py" = [
