@@ -8,28 +8,6 @@ repos:
     hooks:
       - id: uv-lock
       - id: uv-sync
-  - repo: local
-    hooks:
-      - id: stubtest-allowlist
-        name: Check allowlist is up to date
-        language: system
-        entry: uv run --frozen --offline tool/stubtest.py
-        pass_filenames: false
-      - id: method-order
-        name: Check method order
-        language: system
-        entry: uv run --frozen --offline tool/method_order.py --runtime --fix --inplace
-        pass_filenames: false
-      - id: docstrings
-        name: Check docstrings
-        language: system
-        entry: uv run --frozen --offline tool/docstrings.py --remove
-        pass_filenames: false
-      - id: typecheck
-        name: Check with type checkers
-        language: system
-        entry: just typecheck
-        pass_filenames: false
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
     hooks:
@@ -59,3 +37,25 @@ repos:
     rev: v0.51.1.0
     hooks:
       - id: dprint
+  - repo: local
+    hooks:
+      - id: stubtest-allowlist
+        name: Check allowlist is up to date
+        language: system
+        entry: uv run --frozen --offline tool/stubtest.py
+        pass_filenames: false
+      - id: method-order
+        name: Check method order
+        language: system
+        entry: uv run --frozen --offline tool/method_order.py --runtime --fix --inplace
+        pass_filenames: false
+      - id: docstrings
+        name: Check docstrings
+        language: system
+        entry: uv run --frozen --offline tool/docstrings.py --remove
+        pass_filenames: false
+      - id: typecheck
+        name: Check with type checkers
+        language: system
+        entry: just typecheck
+        pass_filenames: false
