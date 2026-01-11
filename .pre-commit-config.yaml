@@ -3,6 +3,11 @@ repos:
     hooks:
       - id: check-hooks-apply
       - id: check-useless-excludes
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.9.24
+    hooks:
+      - id: uv-lock
+      - id: uv-sync
   - repo: local
     hooks:
       - id: stubtest-allowlist
@@ -19,6 +24,11 @@ repos:
         name: Check docstrings
         language: system
         entry: uv run --frozen --offline tool/docstrings.py --remove
+        pass_filenames: false
+      - id: typecheck
+        name: Check with type checkers
+        language: system
+        entry: just typecheck
         pass_filenames: false
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
@@ -45,8 +55,3 @@ repos:
       - id: ruff
         args: ["--fix", "--show-fixes"]
       - id: ruff-format
-  - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.9.24
-    hooks:
-      - id: uv-lock
-      - id: uv-sync
