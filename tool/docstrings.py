@@ -252,8 +252,8 @@ def sync_docstrings(*, only_incomplete: bool) -> NoReturn:
 
 def remove_docstrings() -> NoReturn:
     root = Path(__file__).parent.parent
+    imputer = DocstringImputer(CodemodContext(), {}, only_incomplete=False)
     for stub_file in find_stub_files():
-        imputer = DocstringImputer(CodemodContext(), {}, only_incomplete=False)
         new_source = exec_transform_with_prettyprint(
             imputer,
             stub_file.read_text(),

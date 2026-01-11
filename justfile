@@ -5,13 +5,20 @@ default: stubtest typecheck
 stubtest:
     uv run tool/stubtest.py
 
-typecheck:
-    uv run mypy .
-    uv run basedpyright
-    uv run pyright
+[parallel]
+typecheck: mypy basedpyright pyright
+[parallel]
+typecheck-all: mypy basedpyright pyright ty pyrefly
 
-typecheck-all: typecheck
+mypy:
+    uv run mypy .
+basedpyright:
+    uv run basedpyright
+pyright:
+    uv run pyright
+ty:
     uv run ty check
+pyrefly:
     uv run pyrefly check
 
 fmt:
