@@ -79,8 +79,9 @@ class DocstringImputer(VisitorBasedCodemodCommand):
         else:
             raise TypeError(f"Unexpected body type: {type(updated_node.body)}")
 
-        has_incomplete = self.contains_incomplete(updated_node)
-        empty_docstring = not docstring or (self.only_incomplete and not has_incomplete)
+        empty_docstring = not docstring or (
+            self.only_incomplete and not self.contains_incomplete(updated_node)
+        )
 
         if empty_docstring:
             return updated_node.with_changes(
