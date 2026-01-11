@@ -175,7 +175,7 @@ def collect_global_functions(file: Path) -> set[str]:
 
 
 def find_stub_files() -> list[Path]:
-    folder = Path(__file__).parent.parent.joinpath("pyscipopt-stubs")
+    folder = Path(__file__).parent.parent.joinpath("src/pyscipopt-stubs")
     stubs = list(folder.rglob("*.pyi"))
     if not stubs:
         raise FileNotFoundError(f"No stub files found in {folder}")

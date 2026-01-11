@@ -1,9 +1,9 @@
 {
-  "[toml][json][yaml][markdown]": {
-    "editor.defaultFormatter": "dprint.dprint"
-  },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff"
+  },
+  "[toml][json][yaml][markdown]": {
+    "editor.defaultFormatter": "dprint.dprint"
   },
   "editor.formatOnSave": true
 }

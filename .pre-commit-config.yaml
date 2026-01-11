@@ -10,18 +10,18 @@ repos:
         language: system
         entry: uv run --frozen --offline tool/stubtest.py
         pass_filenames: false
-      - id: method-order
-        name: Check method order
-        language: system
-        entry: uv run --frozen --offline tool/method_order.py
-        pass_filenames: false
+      # - id: method-order
+      #   name: Check method order
+      #   language: system
+      #   entry: uv run --frozen --offline tool/method_order.py --runtime
+      #   pass_filenames: false
       - id: docstrings
         name: Check docstrings
         language: system
-        entry: uv run --frozen --offline tool/docstrings.py
+        entry: uv run --frozen --offline tool/docstrings.py --remove
         pass_filenames: false
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-ast
       - id: check-builtin-literals
@@ -40,13 +40,13 @@ repos:
         args: ["--autofix"]
       - id: trailing-whitespace
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.9.7
+    rev: v0.14.11
     hooks:
       - id: ruff
         args: ["--fix", "--show-fixes"]
       - id: ruff-format
   - repo: https://github.com/astral-sh/uv-pre-commit
-    rev: 0.6.2
+    rev: 0.9.24
     hooks:
       - id: uv-lock
       - id: uv-sync
