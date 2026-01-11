@@ -10,11 +10,11 @@ repos:
         language: system
         entry: uv run --frozen --offline tool/stubtest.py
         pass_filenames: false
-      # - id: method-order
-      #   name: Check method order
-      #   language: system
-      #   entry: uv run --frozen --offline tool/method_order.py --runtime
-      #   pass_filenames: false
+      - id: method-order
+        name: Check method order
+        language: system
+        entry: uv run --frozen --offline tool/method_order.py --runtime --fix --inplace
+        pass_filenames: false
       - id: docstrings
         name: Check docstrings
         language: system
