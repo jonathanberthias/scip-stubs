@@ -1743,17 +1743,17 @@ class Model:
     def addMatrixCons(
         self,
         cons: MatrixExprCons,
-        name: str | np.ndarray = "",  # type: ignore[type-arg]
-        initial: bool | np.ndarray = True,  # type: ignore[type-arg]
-        separate: bool | np.ndarray = True,  # type: ignore[type-arg]
-        enforce: bool | np.ndarray = True,  # type: ignore[type-arg]
-        check: bool | np.ndarray = True,  # type: ignore[type-arg]
-        propagate: bool | np.ndarray = True,  # type: ignore[type-arg]
-        local: bool | np.ndarray = False,  # type: ignore[type-arg]
-        modifiable: bool | np.ndarray = False,  # type: ignore[type-arg]
-        dynamic: bool | np.ndarray = False,  # type: ignore[type-arg]
-        removable: bool | np.ndarray = False,  # type: ignore[type-arg]
-        stickingatnode: bool | np.ndarray = False,  # type: ignore[type-arg]
+        name: str | np.ndarray = "",
+        initial: bool | np.ndarray = True,
+        separate: bool | np.ndarray = True,
+        enforce: bool | np.ndarray = True,
+        check: bool | np.ndarray = True,
+        propagate: bool | np.ndarray = True,
+        local: bool | np.ndarray = False,
+        modifiable: bool | np.ndarray = False,
+        dynamic: bool | np.ndarray = False,
+        removable: bool | np.ndarray = False,
+        stickingatnode: bool | np.ndarray = False,
     ) -> MatrixConstraint: ...
     def addMatrixConsIndicator(
         self,
@@ -1773,14 +1773,14 @@ class Model:
     ) -> MatrixConstraint: ...
     def addMatrixVar(
         self,
-        shape: int | tuple,  # type: ignore[type-arg]
-        name: str | np.ndarray = "",  # type: ignore[type-arg]
-        vtype: str | np.ndarray = "C",  # type: ignore[type-arg]
-        lb: float | np.ndarray | None = 0.0,  # type: ignore[type-arg]
-        ub: float | np.ndarray | None = None,  # type: ignore[type-arg]
-        obj: float | np.ndarray | None = 0.0,  # type: ignore[type-arg]
-        pricedVar: bool | np.ndarray = False,  # type: ignore[type-arg]
-        pricedVarScore: float | np.ndarray | None = 1.0,  # type: ignore[type-arg]
+        shape: int | tuple[int, ...],
+        name: str | np.ndarray = "",
+        vtype: str | np.ndarray = "C",
+        lb: float | np.ndarray | None = 0.0,
+        ub: float | np.ndarray | None = None,
+        obj: float | np.ndarray | None = 0.0,
+        pricedVar: bool | np.ndarray = False,
+        pricedVarScore: float | np.ndarray | None = 1.0,
     ) -> MatrixVariable: ...
     def addObjoffset(self, offset: float, solutions: bool = False) -> None: ...
     def addPoolCut(self, row: Row) -> None: ...

@@ -41,8 +41,9 @@ reportUnusedExpression = false
 reportImplicitOverride = true
 
 [tool.mypy]
-disallow_any_explicit = false
+strict = true
 disable_error_code = "comparison-overlap"
+enable_error_code = ["explicit-override", "ignore-without-code"]
 
 [tool.ty.analysis]
 respect-type-ignore-comments = false

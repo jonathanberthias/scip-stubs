@@ -180,9 +180,9 @@ class StrongBranchingRule(Branchrule):
             # TODO: can down_child and up_child be None?
             down_bound = down_bounds[best_cand_idx]
             up_bound = up_bounds[best_cand_idx]
-            if down_child is not None and down_bound is not None:  # type: ignore[redundant-expr]
+            if down_child is not None and down_bound is not None:
                 self.scip.updateNodeLowerbound(down_child, down_bound)
-            if up_child is not None and up_bound is not None:  # type: ignore[redundant-expr]
+            if up_child is not None and up_bound is not None:
                 self.scip.updateNodeLowerbound(up_child, up_bound)
 
         return {"result": SCIP_RESULT.BRANCHED}

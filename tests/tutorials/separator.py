@@ -20,7 +20,7 @@ scip = Model()
 
 
 class GMI(Sepa):
-    def __init__(self):
+    def __init__(self) -> None:
         self.ncuts = 0
 
     def getGMIFromRow(
@@ -257,7 +257,7 @@ class GMI(Sepa):
                     rows,
                     binvrow,
                     binvarow,
-                    primsol,  # type: ignore[possibly-undefined]  # pyright: ignore[reportPossiblyUnboundVariable]
+                    primsol,  # pyright: ignore[reportPossiblyUnboundVariable]
                 )
 
                 # add cut

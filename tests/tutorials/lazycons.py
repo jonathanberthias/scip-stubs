@@ -50,7 +50,7 @@ class SEC(Conshdlr):
 
         # data relevant for the constraint; in this case we only need to know which
         # variables cannot form a subtour
-        cons.data = {"vars": variables}  # type: ignore[no-any-expr]
+        cons.data = {"vars": variables}
         return cons
 
     # find subtours in the graph induced by the edges {i,j} for which x[i][j] is positive
@@ -59,16 +59,16 @@ class SEC(Conshdlr):
         self, cons: Constraint, solution: Solution | None = None
     ) -> list[set[int]]:
         edges = []
-        x: dict[int, dict[int, Variable]] = cons.data["vars"]  # type: ignore[no-any-expr]
+        x: dict[int, dict[int, Variable]] = cons.data["vars"]
 
         for i in list(x.keys()):
             for j in list(x[i].keys()):
                 if self.model.getSolVal(solution, x[i][j]) > 0.5:
                     edges.append((i, j))
 
-        G = networkx.Graph()  # type: ignore[no-any-expr]
-        G.add_edges_from(edges)  # type: ignore[no-any-expr]
-        components: list[set[int]] = list(networkx.connected_components(G))  # type: ignore[no-any-expr]
+        G = networkx.Graph()
+        G.add_edges_from(edges)
+        components: list[set[int]] = list(networkx.connected_components(G))
 
         if len(components) == 1:
             return []
@@ -107,7 +107,7 @@ class SEC(Conshdlr):
 
             # if there are subtours
             if subtours:
-                x: dict[int, dict[int, Variable]] = cons.data["vars"]  # type: ignore[no-any-expr]
+                x: dict[int, dict[int, Variable]] = cons.data["vars"]
 
                 # add subtour elimination constraint for each subtour
                 for S in subtours:

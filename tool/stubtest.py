@@ -8,7 +8,7 @@ import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
-from typing import ClassVar, Generic, TypeVar
+from typing import Any, ClassVar, Generic, TypeVar
 
 import libcst as cst
 from libcst.codemod import (
@@ -44,7 +44,7 @@ def run_stubtest() -> tuple[list[str], int]:
 @dataclass
 class StubtestError:
     regex: ClassVar[str]
-    fixer: ClassVar[type[StubtestFixer]]
+    fixer: ClassVar[type[StubtestFixer[Any]]]
 
     target: str
     message: str
