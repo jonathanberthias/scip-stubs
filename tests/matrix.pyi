@@ -14,18 +14,28 @@ arr: np.ndarray[tuple[Any, ...], np.dtype[np.float64]]
 
 # MatrixExpr.sum
 assert_type(x.sum(), Expr)
-assert_type(x.sum(initial=0), Expr)
-assert_type(x.sum(initial=1.5), Expr)
-assert_type(x.sum(initial=d), Expr)
-assert_type(x.sum(initial=None), Expr)
+
+# Check axis argument
+assert_type(x.sum(axis=None), Expr)
+assert_type(x.sum(axis=1), MatrixExpr)
+assert_type(x.sum(axis=(0,)), MatrixExpr)
+assert_type(x.sum(axis=(0, 1)), MatrixExpr)
+
+# Check keepdims argument
+assert_type(x.sum(keepdims=False), Expr)
+assert_type(x.sum(keepdims=True), MatrixExpr)
+assert_type(x.sum(axis=None, keepdims=False), Expr)
+assert_type(x.sum(axis=None, keepdims=True), MatrixExpr)
+assert_type(x.sum(axis=0, keepdims=True), MatrixExpr)
+assert_type(x.sum(axis=(0, 1), keepdims=False), MatrixExpr)
+
+# Positional arguments don't work
+x.sum(0)  # type: ignore[call-overload]  # pyright: ignore[reportCallIssue]
+x.sum(None, keepdims=True)  # type: ignore[call-overload]  # pyright: ignore[reportCallIssue]
+x.sum((0, 1), False)  # type: ignore[call-overload]  # pyright: ignore[reportCallIssue]  # noqa: FBT003
 
 # using other arguments should error
-x.sum(1.0)  # type: ignore[misc]  # pyright: ignore[reportCallIssue]
-# We don't allow the axis argument in the current implementation.
-# This call is actually valid if x is 1-dimensional, but the argument is useless
-# If x is n-dimensional, n > 1, it will error
-x.sum(axis=(0,))  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
-x.sum(dtype=int)  # type: ignore[arg-type]  # pyright: ignore[reportArgumentType]
+x.sum(dtype=int)  # type: ignore[call-overload]  # pyright: ignore[reportArgumentType, reportCallIssue]  # ty: ignore[no-matching-overload]
 
 # MatrixExpr.__le__/__ge__/__eq__
 

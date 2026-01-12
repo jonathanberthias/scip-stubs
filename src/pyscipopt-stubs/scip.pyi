@@ -1015,10 +1015,23 @@ _MatrixRmulRhs: TypeAlias = float
 class MatrixExpr(_ObjectArray):
     # Only the initial argument makes sense, all the other arguments will most likely
     # lead to an error
-    @override
-    def sum(  # type: ignore[override]
-        self, *, initial: SupportsFloat | None = None, **kwargs: Never
+    @override  # type: ignore[override]
+    @overload  # axis=None, keepdims=False -> Expr
+    def sum(
+        self, *, axis: None = None, keepdims: L[False] = False, **kwargs: Never
     ) -> Expr: ...
+    @overload  # axis=not None, keepdims=anything -> MatrixExpr
+    def sum(
+        self, *, axis: int | tuple[int, ...], keepdims: bool = False, **kwargs: Never
+    ) -> MatrixExpr: ...
+    @overload  # axis=anything, keepdims=True -> MatrixExpr
+    def sum(  # pyright: ignore[reportOverlappingOverload]
+        self,
+        *,
+        axis: int | tuple[int, ...] | None = None,
+        keepdims: L[True] = True,
+        **kwargs: Never,
+    ) -> MatrixExpr: ...
     @override
     def __add__(self, other: _MatrixOpRhs) -> MatrixExpr: ...  # type: ignore[override]
     @override
