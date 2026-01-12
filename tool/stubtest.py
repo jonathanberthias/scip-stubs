@@ -400,6 +400,24 @@ class NotAFunctionError(StubtestError):
     fixer = NotAFunctionFixer
 
 
+class RemoveUnknownFixer(StubtestFixer["NotAtRuntimeError"]):
+    @override
+    def leave_FunctionDef(
+        self, original_node: cst.FunctionDef, updated_node: cst.FunctionDef
+    ) -> cst.FunctionDef | cst.RemovalSentinel:
+        for error in self.current_context_errors:
+            if error.method_name() != updated_node.name.value:
+                continue
+            return cst.RemoveFromParent()
+        return updated_node
+
+
+@dataclass
+class NotAtRuntimeError(StubtestError):
+    regex: ClassVar[str] = r"is not present at runtime$"
+    fixer = RemoveUnknownFixer
+
+
 def parse_errors(lines: list[str]) -> list[StubtestError]:
     error_types = StubtestError.__subclasses__()
     errors: list[StubtestError] = []
