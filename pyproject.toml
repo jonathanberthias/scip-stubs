@@ -16,7 +16,7 @@ build-backend = "uv_build"
 [dependency-groups]
 dev = [
   "pyscipopt-stubs[pyscipopt]",
-  "pyscipopt==5.7.1",
+  "pyscipopt==6.0.0",
   "basedpyright==1.27.1",
   "mypy[faster-cache]==1.19.1",
   "pyrefly==0.47.0",
