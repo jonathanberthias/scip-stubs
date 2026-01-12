@@ -58,10 +58,13 @@ class StubtestError:
     def targets_method(self) -> bool:
         return len(self.target.rsplit(".")) == 4
 
+    def _is_class_name(self, name: str) -> bool:
+        name = name.lstrip("_")
+        return bool(name) and name[0].isupper()
+
     def targets_class(self) -> bool:
-        return (
-            len(self.target.rsplit(".")) == 3
-            and self.target.rsplit(".")[2][0].isupper()
+        return len(self.target.rsplit(".")) == 3 and self._is_class_name(
+            self.target.rsplit(".")[2]
         )
 
     def targets_function(self) -> bool:
@@ -73,8 +76,8 @@ class StubtestError:
     def classname(self) -> str | None:
         parts = self.target.rsplit(".")
         global_scoped = parts[2]
-        if global_scoped[0].isupper():
-            return parts[2]
+        if self._is_class_name(global_scoped):
+            return global_scoped
         return None
 
     def method_name(self) -> str | None:
@@ -416,6 +419,36 @@ class RemoveUnknownFixer(StubtestFixer["NotAtRuntimeError"]):
 class NotAtRuntimeError(StubtestError):
     regex: ClassVar[str] = r"is not present at runtime$"
     fixer = RemoveUnknownFixer
+
+
+class MissingDisjointBaseFixer(StubtestFixer["MissingDisjointBaseError"]):
+    @override
+    def leave_ClassDef(
+        self, original_node: cst.ClassDef, updated_node: cst.ClassDef
+    ) -> cst.ClassDef:
+        updated_node = super().leave_ClassDef(original_node, updated_node)
+        for error in self.current_context_errors:
+            if (
+                not error.targets_class()
+                or error.classname() != updated_node.name.value
+            ):
+                continue
+            disjoint_decorator = cst.Decorator(decorator=cst.Name("disjoint_base"))
+            updated_node = updated_node.with_changes(
+                decorators=[*updated_node.decorators, disjoint_decorator]
+            )
+            AddImportsVisitor.add_needed_import(
+                self.context, "typing_extensions", "disjoint_base"
+            )
+        return updated_node
+
+
+@dataclass
+class MissingDisjointBaseError(StubtestError):
+    regex: ClassVar[str] = (
+        r"is a disjoint base at runtime, but isn't marked with @disjoint_base in the stub$"
+    )
+    fixer = MissingDisjointBaseFixer
 
 
 def parse_errors(lines: list[str]) -> list[StubtestError]:
